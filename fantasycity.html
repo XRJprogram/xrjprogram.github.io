@@ -97,7 +97,7 @@
             align-items: center;
         }
         .nav-links a {
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: var(--radius-pill);
             font-family: var(--font-sans);
             font-weight: 600;
@@ -107,7 +107,16 @@
             color: var(--text-secondary);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+        }
+        .nav-links a.icon-only {
+            padding: 8px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            gap: 0;
+            font-size: 1rem;
         }
         .nav-links a:hover,
         .nav-links a.active {
@@ -274,13 +283,13 @@
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="nav-brand">
-                <i class="fas fa-book-open"></i> FantasyCity 幻想城
+                <i class="fas fa-book-open"></i> 幻想城
             </a>
             <div class="nav-links">
                 <a href="index.html"><i class="fas fa-home"></i> 首页</a>
                 <a href="novel.html"><i class="fas fa-feather-alt"></i> 小说</a>
                 <a href="games.html"><i class="fas fa-gamepad"></i> 游戏</a>
-                <a href="fantasycity.html" class="active"><i class="fas fa-compass"></i> 全局视图</a>
+                <a href="fantasycity.html" class="active icon-only" title="全局视图"><i class="fas fa-compass"></i></a>
             </div>
         </div>
     </nav>
@@ -288,14 +297,12 @@
     <!-- ===== 头部区域 ===== -->
     <header class="banner">
         <div class="container">
-            <h1>FantasyCity · 资源枢纽</h1>
-            <p>
-                已将首页 (index.html)、小说连载 (novel.html)、游戏试玩 (games.html) 与 Fantasy City Lost 完整互联互通。
-            </p>
+            <h1>FantasyCity · 全局视图</h1>
+            <p>全站核心模块与资源导航总览</p>
             <div class="link-badge-bar">
-                <a href="index.html" class="badge-link"><i class="fas fa-arrow-left"></i> 前往图文并茂主首页 (index.html)</a>
-                <a href="novel.html" class="badge-link"><i class="fas fa-book"></i> 阅读小说 (含观看统计与评论)</a>
-                <a href="games.html" class="badge-link"><i class="fas fa-gamepad"></i> 体验游戏展示框</a>
+                <a href="index.html" class="badge-link"><i class="fas fa-home"></i> 门户首页</a>
+                <a href="novel.html" class="badge-link"><i class="fas fa-book-open"></i> 小说连载</a>
+                <a href="games.html" class="badge-link"><i class="fas fa-gamepad"></i> 游戏体验</a>
             </div>
         </div>
     </header>
@@ -309,17 +316,12 @@
                     <div class="portal-icon">
                         <i class="fas fa-home"></i>
                     </div>
-                    <h2>主页门户 (index.html)</h2>
+                    <h2>门户首页</h2>
                     <p>
-                        全新打造的图文并茂展示模板，涵盖世界观设定、0.99级顶尖能力者档案、最新连载章节精选卡片与微型试玩视窗。
+                        包含核心世界观架构、60+ 登场异能者图鉴及正篇章节目录精选。
                     </p>
-                    <ul class="portal-features">
-                        <li><i class="fas fa-check"></i> 宏大世界观图文展示</li>
-                        <li><i class="fas fa-check"></i> 芙楠、涵影等角色卡片</li>
-                        <li><i class="fas fa-check"></i> 一键内嵌试玩微缩框</li>
-                    </ul>
                 </div>
-                <a href="index.html" class="card-btn">进入门户首页</a>
+                <a href="index.html" class="card-btn">进入首页</a>
             </div>
 
             <!-- 小说阅读板块 -->
@@ -328,17 +330,12 @@
                     <div class="portal-icon">
                         <i class="fas fa-book-open"></i>
                     </div>
-                    <h2>小说连载 (novel.html)</h2>
+                    <h2>小说连载</h2>
                     <p>
-                        阅读 17 章精彩连载。每一章均配备累计观看人数统计、阅读进度条、字数预估，并通过 Giscus 自动为每个章节动态生成专属独立评论区！
+                        原创长篇小说《幻想城》正篇连载，配备观看人数统计与章节独立讨论区。
                     </p>
-                    <ul class="portal-features">
-                        <li><i class="fas fa-check"></i> 每章独立累计观看人数展示</li>
-                        <li><i class="fas fa-check"></i> 新增/已有章节自动挂载独立 Giscus 评论</li>
-                        <li><i class="fas fa-check"></i> 支持字号调节与快速搜索</li>
-                    </ul>
                 </div>
-                <a href="novel.html" class="card-btn">开始阅读小说</a>
+                <a href="novel.html" class="card-btn">阅读小说</a>
             </div>
 
             <!-- 游戏体验板块 -->
@@ -347,17 +344,12 @@
                     <div class="portal-icon">
                         <i class="fas fa-gamepad"></i>
                     </div>
-                    <h2>游戏体验 (games.html)</h2>
+                    <h2>游戏体验</h2>
                     <p>
-                        与本地《Fantasy City Lost.html》游戏深度联动，配备精致的 Mac/终端风格展示框，支持全屏畅玩、重载与独立新窗口运行。
+                        8-bit 像素风卡牌探索游戏《Fantasy City : Lost》，支持内嵌试玩与全屏畅玩。
                     </p>
-                    <ul class="portal-features">
-                        <li><i class="fas fa-check"></i> 精致展示框与按需启动</li>
-                        <li><i class="fas fa-check"></i> 操作按键指南与设定说明</li>
-                        <li><i class="fas fa-check"></i> 支持 F11 全屏与新标签页</li>
-                    </ul>
                 </div>
-                <a href="games.html" class="card-btn">启动游戏体验</a>
+                <a href="games.html" class="card-btn">启动游戏</a>
             </div>
         </div>
     </main>

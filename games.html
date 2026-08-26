@@ -113,7 +113,7 @@
             align-items: center;
         }
         .nav-links a {
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: var(--radius-pill);
             font-family: var(--font-sans);
             font-weight: 600;
@@ -123,7 +123,16 @@
             color: var(--text-secondary);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+        }
+        .nav-links a.icon-only {
+            padding: 8px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            gap: 0;
+            font-size: 1rem;
         }
         .nav-links a:hover,
         .nav-links a.active {
@@ -261,6 +270,64 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* ---------- 全屏模式专属样式 (消除所有多余黑边与空隙，全方位自适应铺满) ---------- */
+        .game-box-frame:fullscreen,
+        .game-box-frame:-webkit-full-screen,
+        .game-box-frame.is-fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            background: #000000 !important;
+            box-shadow: none !important;
+        }
+
+        .game-box-frame:fullscreen .game-top-bar,
+        .game-box-frame:-webkit-full-screen .game-top-bar,
+        .game-box-frame.is-fullscreen .game-top-bar {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            background: #18110E;
+            border-bottom: 1px solid #2B1F19;
+            z-index: 20;
+        }
+
+        .game-box-frame:fullscreen .game-bottom-bar,
+        .game-box-frame:-webkit-full-screen .game-bottom-bar,
+        .game-box-frame.is-fullscreen .game-bottom-bar {
+            display: none !important;
+        }
+
+        .game-box-frame:fullscreen .game-viewport,
+        .game-box-frame:-webkit-full-screen .game-viewport,
+        .game-box-frame.is-fullscreen .game-viewport {
+            flex: 1 1 0% !important;
+            width: 100vw !important;
+            height: calc(100vh - 44px) !important;
+            max-height: none !important;
+            min-height: 0 !important;
+            aspect-ratio: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #000000 !important;
+        }
+
+        .game-box-frame:fullscreen #gameIframe,
+        .game-box-frame:-webkit-full-screen #gameIframe,
+        .game-box-frame.is-fullscreen #gameIframe {
+            width: 100% !important;
+            height: 100% !important;
+            flex: 1 1 0% !important;
+            display: block !important;
+            border: none !important;
         }
 
         /* 尚未启动时的精致海报封面 */
@@ -574,23 +641,8 @@
         }
         @media (max-width: 600px) {
             .navbar .container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            .nav-brand {
-                justify-content: center;
-            }
-            .nav-brand span.subtitle {
-                display: none;
-            }
-            .nav-links {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            .nav-links a {
-                padding: 6px 12px;
-                font-size: 0.8rem;
+                flex-direction: row;
+                justify-content: space-between;
             }
             .page-hero h1 {
                 font-size: 2rem;
@@ -612,14 +664,13 @@
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="nav-brand">
-                <i class="fas fa-book-open"></i> FantasyCity 幻想城
-                <span class="subtitle">游戏体验</span>
+                <i class="fas fa-book-open"></i> 幻想城
             </a>
             <div class="nav-links">
                 <a href="index.html"><i class="fas fa-home"></i> 首页</a>
                 <a href="novel.html"><i class="fas fa-feather-alt"></i> 小说</a>
-                <a href="games.html" class="active"><i class="fas fa-gamepad"></i> 游戏体验</a>
-                <a href="fantasycity.html"><i class="fas fa-compass"></i> 全局视图</a>
+                <a href="games.html" class="active"><i class="fas fa-gamepad"></i> 游戏</a>
+                <a href="fantasycity.html" class="icon-only" title="全局视图"><i class="fas fa-compass"></i></a>
             </div>
         </div>
     </nav>
@@ -628,7 +679,7 @@
     <header class="page-hero">
         <div class="container">
             <h1>Fantasy City : Lost</h1>
-            <p>一款开放探索的卡牌游戏</p>
+            <p>沉溺于最绮丽的幻想之中……</p>
         </div>
     </header>
 
@@ -660,11 +711,7 @@
                     <div class="cover-art-badge">
                         <i class="fas fa-gamepad"></i>
                     </div>
-                    <h2 class="cover-title">Fantasy City : Lost</h2>
-                    <p class="cover-desc">
-                        一款开放探索的卡牌游戏<br>
-                        亲身步入由异能与迷雾交织的幻想城，开启探索试炼！
-                    </p>
+                    <h2 class="cover-title" style="margin-bottom: 24px;">Fantasy City : Lost</h2>
                     <button class="play-launch-btn" id="startPlayBtn">
                         <i class="fas fa-play"></i> 立即启动体验
                     </button>
@@ -683,7 +730,7 @@
             <div class="game-bottom-bar">
                 <div class="tips">
                     <i class="fas fa-lightbulb"></i>
-                    <span>推荐在电脑端使用键盘与鼠标获得最佳体验；若遇音频无声，点击游戏窗口内任意区域即可激活音频。</span>
+                    <span>推荐在电脑端使用键盘与鼠标获得最佳体验。</span>
                 </div>
                 <div>
                     <span style="color:#D4AF37;">★ 体验版连载中</span>
@@ -755,43 +802,43 @@
                         </a>
                     </li>
                     <li>
-                        <a href="http://gitblock.cn/Projects/1220321" target="_blank" class="external-link-item">
-                            <span><i class="fas fa-cube badge-icon" style="color:#27AE60;"></i> A营在线体验·史诗级精华</span>
-                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://world.xiaomawang.com/community/main/compose/oVgF666J" target="_blank" class="external-link-item">
-                            <span><i class="fas fa-gamepad badge-icon" style="color:#E67E22;"></i> 小码王在线体验</span>
-                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.ccw.site/detail/669e612528d4db0bb6aeea81" target="_blank" class="external-link-item">
-                            <span><i class="fas fa-globe badge-icon" style="color:#2980B9;"></i> 共创世界在线体验</span>
-                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
-                        </a>
-                    </li>
-                    <li>
                         <a href="https://www.taptap.cn/app/723654" target="_blank" class="external-link-item">
                             <span><i class="fas fa-fire badge-icon" style="color:#00CEC9;"></i> TapTap 宣发主页</span>
                             <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
                         </a>
                     </li>
+                    <li>
+                        <a href="http://gitblock.cn/Projects/1220321" target="_blank" class="external-link-item">
+                            <span>A营在线体验·史诗级精华</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://world.xiaomawang.com/community/main/compose/oVgF666J" target="_blank" class="external-link-item">
+                            <span>小码王在线体验</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ccw.site/detail/669e612528d4db0bb6aeea81" target="_blank" class="external-link-item">
+                            <span>共创世界在线体验</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
+                    </li>
                 </ul>
 
-                <!-- 制作组成员致谢 -->
+                <!-- 制作组成员 -->
                 <div class="credits-container">
                     <div class="credits-title">
-                        <i class="fas fa-crown"></i> 制作组成员 (Credits)
+                        制作组成员
                     </div>
                     <div class="members-tags">
-                        <span class="member-tag"><i class="fas fa-user-astronaut"></i> XRJ</span>
-                        <span class="member-tag"><i class="fas fa-paint-brush"></i> littlesl</span>
-                        <span class="member-tag"><i class="fas fa-code"></i> cuidaio</span>
-                        <span class="member-tag"><i class="fas fa-magic"></i> wx-物想</span>
-                        <span class="member-tag"><i class="fas fa-music"></i> Salmontata</span>
-                        <span class="member-tag"><i class="fas fa-network-wired"></i> 整体意识</span>
+                        <span class="member-tag">XRJ</span>
+                        <span class="member-tag">littlesl</span>
+                        <span class="member-tag">cuidaio</span>
+                        <span class="member-tag">wx-物想</span>
+                        <span class="member-tag">Salmontata</span>
+                        <span class="member-tag">整体意识</span>
                     </div>
                 </div>
             </div>
@@ -852,9 +899,15 @@
             }
         });
 
-        // 全屏切换
-        fullscreenBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
+        // 全屏切换函数
+        function toggleFullscreen() {
+            // 如果尚未启动游戏，点击全屏时自动启动游戏
+            if (gameCoverPoster.style.display !== 'none') {
+                launchGame();
+            }
+
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            if (!isFs) {
                 if (gameFrameContainer.requestFullscreen) {
                     gameFrameContainer.requestFullscreen();
                 } else if (gameFrameContainer.webkitRequestFullscreen) {
@@ -863,9 +916,37 @@
             } else {
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
                 }
             }
-        });
+        }
+
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // 绑定绿色窗口控制点
+        const dotGreen = document.querySelector('.dot-green');
+        if (dotGreen) {
+            dotGreen.style.cursor = 'pointer';
+            dotGreen.addEventListener('click', toggleFullscreen);
+        }
+
+        // 监听全屏状态变化，动态更新按钮文案与类名
+        function handleFullscreenChange() {
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            if (isFs) {
+                gameFrameContainer.classList.add('is-fullscreen');
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> 退出全屏';
+                fullscreenBtn.title = '退出全屏 (Esc)';
+            } else {
+                gameFrameContainer.classList.remove('is-fullscreen');
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> 全屏';
+                fullscreenBtn.title = '全屏运行展示框';
+            }
+        }
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     </script>
 </body>
 </html>
