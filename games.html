@@ -44,7 +44,7 @@
             font-family: var(--font-serif);
             background-color: var(--bg-page);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.75;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -134,25 +134,11 @@
 
         /* ---------- 页面头部介绍 ---------- */
         .page-hero {
-            padding: 40px 0 28px;
+            padding: 42px 0 26px;
             text-align: center;
         }
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(192, 57, 43, 0.08);
-            color: var(--accent);
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            border: 1px solid rgba(192, 57, 43, 0.15);
-        }
         .page-hero h1 {
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             font-weight: 900;
             color: var(--text-primary);
             margin-bottom: 10px;
@@ -160,7 +146,8 @@
         }
         .page-hero p {
             color: var(--text-secondary);
-            font-size: 1.05rem;
+            font-size: 1.15rem;
+            font-weight: 600;
             max-width: 650px;
             margin: 0 auto;
         }
@@ -321,7 +308,7 @@
         .cover-desc {
             color: #BDB0A4;
             font-family: var(--font-sans);
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             max-width: 480px;
             margin-bottom: 26px;
             line-height: 1.6;
@@ -391,21 +378,22 @@
         /* ---------- 游戏资讯与设定区域 ---------- */
         .game-info-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1.85fr 1.15fr;
             gap: 30px;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
+            align-items: start;
         }
         .info-card {
             background: var(--bg-card);
             border-radius: var(--radius);
             border: 1px solid var(--border-light);
-            padding: 32px;
+            padding: 32px 30px;
             box-shadow: var(--shadow-soft);
         }
         .info-card h3 {
             font-size: 1.35rem;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             color: var(--text-primary);
             display: flex;
             align-items: center;
@@ -414,45 +402,117 @@
         .info-card h3 i {
             color: var(--accent);
         }
+        .info-card h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 22px 0 10px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .info-card p {
             color: var(--text-secondary);
             font-size: 0.98rem;
-            line-height: 1.8;
+            line-height: 1.88;
             margin-bottom: 16px;
+            text-align: justify;
+        }
+        .story-quote {
+            background: var(--bg-sidebar);
+            border-left: 4px solid var(--accent);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-style: italic;
+            margin: 14px 0;
+            color: var(--text-primary);
         }
 
-        .control-key-list {
+        /* 外部链接引出列表 */
+        .external-links-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .external-link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 16px;
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
             font-family: var(--font-sans);
             font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: var(--transition);
         }
-        .control-key-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: var(--bg-sidebar);
-            border-radius: var(--radius-sm);
-        }
-        .kbd-key {
+        .external-link-item:hover {
             background: #fff;
-            border: 1px solid var(--border-light);
-            padding: 3px 10px;
-            border-radius: 6px;
-            font-weight: 700;
+            border-color: var(--accent);
             color: var(--accent);
-            box-shadow: 0 2px 0 rgba(0,0,0,0.05);
-            font-size: 0.8rem;
+            transform: translateX(4px);
+            box-shadow: 0 4px 14px rgba(192, 57, 43, 0.1);
+        }
+        .external-link-item .badge-icon {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+
+        /* 制作组成员徽章 */
+        .credits-container {
+            background: linear-gradient(135deg, #FBF4EB, #F2E3D5);
+            border: 1px solid #E5D2C2;
+            border-radius: var(--radius-sm);
+            padding: 18px;
+            margin-top: 18px;
+        }
+        .credits-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .credits-title i {
+            color: var(--gold);
+        }
+        .members-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .member-tag {
+            background: #fff;
+            border: 1px solid #DFD0C2;
+            color: var(--text-primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .member-tag i {
+            font-size: 0.75rem;
+            color: var(--accent);
         }
 
         .novel-banner-card {
             background: linear-gradient(135deg, #FAF1E8, #F4E2D2);
             border: 1px solid #E4CEBD;
             border-radius: var(--radius);
-            padding: 28px;
+            padding: 24px;
             margin-top: 24px;
             display: flex;
             justify-content: space-between;
@@ -526,10 +586,11 @@
             }
             .nav-links {
                 justify-content: center;
+                flex-wrap: wrap;
             }
             .nav-links a {
-                padding: 6px 14px;
-                font-size: 0.82rem;
+                padding: 6px 12px;
+                font-size: 0.8rem;
             }
             .page-hero h1 {
                 font-size: 2rem;
@@ -558,6 +619,7 @@
                 <a href="index.html"><i class="fas fa-home"></i> 首页</a>
                 <a href="novel.html"><i class="fas fa-feather-alt"></i> 小说</a>
                 <a href="games.html" class="active"><i class="fas fa-gamepad"></i> 游戏体验</a>
+                <a href="fantasycity.html"><i class="fas fa-compass"></i> 全局视图</a>
             </div>
         </div>
     </nav>
@@ -565,9 +627,8 @@
     <!-- ===== 页面头部 ===== -->
     <header class="page-hero">
         <div class="container">
-            <span class="hero-tag"><i class="fas fa-sparkles"></i> 官方原生 HTML5 独立体验版</span>
             <h1>Fantasy City : Lost</h1>
-            <p>探索被遗忘的异能秘境，在沉浸式的交互试玩中解锁属于你的超能篇章。</p>
+            <p>一款开放探索的卡牌游戏</p>
         </div>
     </header>
 
@@ -601,15 +662,15 @@
                     </div>
                     <h2 class="cover-title">Fantasy City : Lost</h2>
                     <p class="cover-desc">
-                        轻量级 HTML5 架构 · 免下载即点即玩<br>
+                        一款开放探索的卡牌游戏<br>
                         亲身步入由异能与迷雾交织的幻想城，开启探索试炼！
                     </p>
                     <button class="play-launch-btn" id="startPlayBtn">
                         <i class="fas fa-play"></i> 立即启动体验
                     </button>
                     <div class="cover-meta-info">
-                        <span><i class="fas fa-microchip"></i> TurboWarp WebGL</span>
-                        <span><i class="fas fa-bolt"></i> 极速秒开</span>
+                        <span><i class="fas fa-microchip"></i> 纯 8-bit 像素风</span>
+                        <span><i class="fas fa-bolt"></i> 30+ 专属卡牌牌面</span>
                         <span><i class="fas fa-volume-up"></i> 原生音效</span>
                     </div>
                 </div>
@@ -630,49 +691,109 @@
             </div>
         </div>
 
-        <!-- 游戏介绍与操作指南 -->
+        <!-- 游戏介绍与站外链接引出 -->
         <div class="game-info-grid" style="margin-top: 40px;">
+            <!-- 左侧：背景故事与机制设计 -->
             <div class="info-card">
-                <h3><i class="fas fa-scroll"></i> 游戏背景与世界观联动</h3>
+                <h3><i class="fas fa-scroll"></i> 游戏背景</h3>
                 <p>
-                    《Fantasy City : Lost》是基于 FantasyCity 幻想城宏大世界观衍生的互动体验作品。
-                    故事发生在阳光耀眼却暗潮涌动的幻想城，围绕着神秘的 0.99 级异能者、幻想学园的选战试炼以及被深埋在幻想之塔底部的秘密展开。
+                    大地变为废土，生物灰飞烟灭。只有结构的断裂声宣告着这个世界曾经存在过。随着时间流逝，声音越发微弱。有些人消失于此，没人知道他们是慢慢销声匿迹还是被痛苦带走了。那股名为“作者”的力量摧毁了这里，作者橡皮也来晚了一步。少女只用了0.1秒就发送了坐标，但懊悔永远地停留在了那一刻。秒针的震颤，生命在悄然流逝。治疗系的能力最先破灭，能量胶质冲破了头脑，化为虚无的怨灵；没人愿意再为幻想之塔的第二次毁灭送别了，碎片化的信息覆盖在塔的周围，天空和大地上都笼罩着雾。已经不在幻想城的古咒语师也被波及到。痛苦的记忆盘旋在头脑上空，被暴雨裹挟着的一切的记忆流入世界边缘。妹妹们的荷载尽管并没有被信息风暴摧毁，但是也即将湮灭于幻想之中。Christina作为最早的成员，系统已经几近被摧毁，但是整体意识尚能维持她的链接。“是发卡”。未知的生命体将其捡起，仔细地端详了一下。一朵它无法理解的樱花。发卡在它的手心中化为灰烬。
                 </p>
                 <p>
-                    在体验版中，你将扮演拥有特定异能的探索者，面对层层谜题与未知危机，你的每一次抉择都将引向不同的命运结局。
+                    被积压在塔内的灵魂还没有消散，而它们注定无法获取真正的安身之所。无形的力量控制了这里，并将所有人的能量胶质收集起来。没人知道它想干什么。
                 </p>
+                <div class="story-quote">
+                    “未来”是可以改变的吗…… 我想到了这里，拿起手中的卡牌。<br>
+                    他告诉我，一切都毁灭了，毁灭了。但是我不愿相信，更不愿意放下和那些朋友的羁绊。我重整装备，向着真正的“未来”出发。
+                </div>
+                <p>
+                    这个想法来源于我在2022年开始书写的原创长篇连载小说《幻想城》。里面的人物大多都是我曾经的伙伴的火柴人名字投稿给我。他们大多数现在已经逐渐淡出我的生活，但是我用着留有他们痕迹的名字在这三年中创建了一个又一个章节。这个作品，不仅仅是为了我而做的，更是我长久以来给《幻想城》画下的一个愿望。
+                </p>
+
+                <h4><i class="fas fa-layer-group"></i> 游戏机制</h4>
+                <p>
+                    主要的机制来源于《邪恶铭刻》的撕牌，这个玩法在URM隐藏章节也出现过。玩家需要消耗在场的卡牌来放置新生的卡牌。自己的卡牌需要谨慎规划，对手的卡牌生生不息。与此同时，不同卡牌的人物结合《幻想城》原作的背景文字产生的技能丰富多样，玩家同样需要思考如何搭配已有的卡组进行巧妙配合击败对手，也许一张Surprise的卡就成为了扭转时局的关键，这就是这个游戏提升撕牌玩法的创新点。通过合理规划卡牌的使用，使天平偏向自己，从而一步一步解开那个遗失的真相。
+                </p>
+
+                <h4><i class="fas fa-palette"></i> 美术风格</h4>
+                <p>
+                    美术风格采用了纯8-bit像素风，使代入感增强。同时还有画师原创的30+卡牌牌面设计，丰富而有趣。
+                </p>
+
                 <!-- 小说导流横幅 -->
                 <div class="novel-banner-card">
                     <div>
-                        <strong style="color:var(--text-primary);font-size:1.05rem;">想了解更多剧情与人物背景？</strong>
+                        <strong style="color:var(--text-primary);font-size:1.02rem;">深入了解《幻想城》正篇连载</strong>
                         <p style="font-size:0.85rem;color:var(--text-secondary);margin:4px 0 0;">
-                            阅读官方正篇小说，解锁芙楠、涵影、皮尔与飓风小队的完整故事！
+                            阅读官方正篇小说，探索更多异能者羁绊与剧情真相！
                         </p>
                     </div>
                     <a href="novel.html" class="banner-btn"><i class="fas fa-book-reader"></i> 前往小说连载</a>
                 </div>
             </div>
 
+            <!-- 右侧：站外体验/宣发链接与制作组 -->
             <div class="info-card">
-                <h3><i class="fas fa-keyboard"></i> 推荐操作指南</h3>
-                <ul class="control-key-list">
+                <h3><i class="fas fa-external-link-alt"></i> 体验与宣发链接</h3>
+                <ul class="external-links-list">
                     <li>
-                        <span>移动 / 转向</span>
-                        <div><span class="kbd-key">W</span> <span class="kbd-key">A</span> <span class="kbd-key">S</span> <span class="kbd-key">D</span> / <span class="kbd-key">方向键</span></div>
+                        <a href="https://www.ccw.site/post/f22ffafe-0498-4b78-a04e-fc2914411de4" target="_blank" class="external-link-item">
+                            <span><i class="fas fa-book-open badge-icon"></i> 卡牌机制详细介绍</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
                     </li>
                     <li>
-                        <span>交互 / 确认</span>
-                        <div><span class="kbd-key">Space 空格</span> / <span class="kbd-key">鼠标点击</span></div>
+                        <a href="https://www.bilibili.com/video/BV1S2iLeVE8p" target="_blank" class="external-link-item">
+                            <span><i class="fab fa-bilibili badge-icon" style="color:#00A1D6;"></i> 全流程通关实况</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
                     </li>
                     <li>
-                        <span>全屏切换</span>
-                        <div><span class="kbd-key">F11</span> / <span class="kbd-key">右上角全屏</span></div>
+                        <a href="https://www.bilibili.com/video/BV1EtiLe4EhU" target="_blank" class="external-link-item">
+                            <span><i class="fab fa-bilibili badge-icon" style="color:#FB7299;"></i> 幻想城·遗失的能力 宣传视频</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
                     </li>
                     <li>
-                        <span>重新开始</span>
-                        <div><span class="kbd-key">重载按钮</span></div>
+                        <a href="http://gitblock.cn/Projects/1220321" target="_blank" class="external-link-item">
+                            <span><i class="fas fa-cube badge-icon" style="color:#27AE60;"></i> A营在线体验·史诗级精华</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://world.xiaomawang.com/community/main/compose/oVgF666J" target="_blank" class="external-link-item">
+                            <span><i class="fas fa-gamepad badge-icon" style="color:#E67E22;"></i> 小码王在线体验</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ccw.site/detail/669e612528d4db0bb6aeea81" target="_blank" class="external-link-item">
+                            <span><i class="fas fa-globe badge-icon" style="color:#2980B9;"></i> 共创世界在线体验</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.taptap.cn/app/723654" target="_blank" class="external-link-item">
+                            <span><i class="fas fa-fire badge-icon" style="color:#00CEC9;"></i> TapTap 宣发主页</span>
+                            <i class="fas fa-chevron-right" style="font-size:0.75rem;opacity:0.6;"></i>
+                        </a>
                     </li>
                 </ul>
+
+                <!-- 制作组成员致谢 -->
+                <div class="credits-container">
+                    <div class="credits-title">
+                        <i class="fas fa-crown"></i> 制作组成员 (Credits)
+                    </div>
+                    <div class="members-tags">
+                        <span class="member-tag"><i class="fas fa-user-astronaut"></i> XRJ</span>
+                        <span class="member-tag"><i class="fas fa-paint-brush"></i> littlesl</span>
+                        <span class="member-tag"><i class="fas fa-code"></i> cuidaio</span>
+                        <span class="member-tag"><i class="fas fa-magic"></i> wx-物想</span>
+                        <span class="member-tag"><i class="fas fa-music"></i> Salmontata</span>
+                        <span class="member-tag"><i class="fas fa-network-wired"></i> 整体意识</span>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -686,7 +807,9 @@
                 <span>·</span>
                 <a href="novel.html">小说章节</a>
                 <span>·</span>
-                <a href="games.html">试玩体验</a>
+                <a href="games.html">游戏体验</a>
+                <span>·</span>
+                <a href="fantasycity.html">全局视图</a>
                 <span>·</span>
                 <a href="Fantasy City Lost.html" target="_blank">游戏独立源文件</a>
             </div>
