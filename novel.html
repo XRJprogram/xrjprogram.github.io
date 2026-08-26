@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Marked.js (Markdown 渲染) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 本地与线上小说数据源 -->
+    <script src="data/chapters.js"></script>
     <style>
         /* ---------- 全局重置与主题变量 ---------- */
         * {
@@ -837,33 +839,40 @@
         // ============================================================
         async function loadChapters() {
             try {
-                const res = await fetch('data/chapters.json');
-                if (!res.ok) throw new Error('数据文件加载失败 (HTTP ' + res.status + ')');
-                const data = await res.json();
-                chapters = Array.isArray(data) ? data : (data.chapters || []);
-
-                if (chapters.length === 0) {
-                    chapterListEl.innerHTML = `<li class="empty-state" style="padding:20px;">暂无章节数据</li>`;
-                    readingAreaEl.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>暂无章节内容</p></div>`;
-                    return;
+                // 1. 若非本地 file:// 协议，优先尝试 fetch 获取最新的 chapters.json
+                if (window.location.protocol !== 'file:') {
+                    const res = await fetch('data/chapters.json');
+                    if (res.ok) {
+                        const data = await res.json();
+                        chapters = Array.isArray(data) ? data : (data.chapters || []);
+                    }
                 }
-
-                totalChapterBadge.textContent = `共 ${chapters.length} 章`;
-                renderChapterList();
-
-                // 读取 URL 参数 ?chapter=X
-                const urlParams = new URLSearchParams(window.location.search);
-                const queryIndex = parseInt(urlParams.get('chapter'));
-                let startIndex = 0;
-                if (!isNaN(queryIndex) && queryIndex >= 0 && queryIndex < chapters.length) {
-                    startIndex = queryIndex;
-                }
-                renderChapter(startIndex);
             } catch (err) {
-                console.error(err);
-                chapterListEl.innerHTML = `<li class="empty-state" style="padding:20px;color:var(--accent);"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></li>`;
-                readingAreaEl.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>数据加载失败，请检查 data/chapters.json 是否正常</p></div>`;
+                console.warn('Fetch fallback to embedded data:', err);
             }
+
+            // 2. 本地 file:// 协议或 fetch 异常时，自动通过 window.FANTASY_CITY_CHAPTERS 无缝回退
+            if ((!chapters || chapters.length === 0) && typeof window.FANTASY_CITY_CHAPTERS !== 'undefined') {
+                chapters = window.FANTASY_CITY_CHAPTERS;
+            }
+
+            if (!chapters || chapters.length === 0) {
+                chapterListEl.innerHTML = `<li class="empty-state" style="padding:20px;">暂无章节数据</li>`;
+                readingAreaEl.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><p>暂无章节内容</p></div>`;
+                return;
+            }
+
+            totalChapterBadge.textContent = `共 ${chapters.length} 章`;
+            renderChapterList();
+
+            // 读取 URL 参数 ?chapter=X
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryIndex = parseInt(urlParams.get('chapter'));
+            let startIndex = 0;
+            if (!isNaN(queryIndex) && queryIndex >= 0 && queryIndex < chapters.length) {
+                startIndex = queryIndex;
+            }
+            renderChapter(startIndex);
         }
 
         // ============================================================

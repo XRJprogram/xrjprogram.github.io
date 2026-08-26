@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- 本地与线上小说数据源 -->
+    <script src="data/chapters.js"></script>
     <style>
         /* ---------- 全局变量与复古奇幻主题 ---------- */
         * {
@@ -1868,11 +1870,25 @@
 
         // 首页章节列表与数据动态渲染
         async function initHomePage() {
+            let chapters = [];
             try {
-                const res = await fetch('data/chapters.json');
-                if (!res.ok) throw new Error('Fetch failed');
-                const chapters = await res.json();
-                
+                if (window.location.protocol !== 'file:') {
+                    const res = await fetch('data/chapters.json');
+                    if (res.ok) {
+                        chapters = await res.json();
+                    }
+                }
+            } catch (e) {
+                console.warn('Fetch fallback in home:', e);
+            }
+
+            if ((!chapters || chapters.length === 0) && typeof window.FANTASY_CITY_CHAPTERS !== 'undefined') {
+                chapters = window.FANTASY_CITY_CHAPTERS;
+            }
+
+            if (!chapters || chapters.length === 0) return;
+
+            try {
                 // 更新统计数字
                 document.getElementById('homeTotalChapters').textContent = `${chapters.length} 章`;
                 
