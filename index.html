@@ -1941,7 +1941,11 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', initHomePage);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initHomePage);
+        } else {
+            initHomePage();
+        }
     </script>
 </body>
 </html>

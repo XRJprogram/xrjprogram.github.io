@@ -949,6 +949,7 @@
             const currentViews = ChapterViewTracker.recordView(index, title);
 
             // Markdown 格式渲染
+            const rawContent = ch.content || '';
             let contentHtml = rawContent || '（本章暂无正文内容）';
             try {
                 if (typeof marked !== 'undefined') {
@@ -1157,7 +1158,11 @@
         });
 
         // 启动加载
-        document.addEventListener('DOMContentLoaded', loadChapters);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadChapters);
+        } else {
+            loadChapters();
+        }
     </script>
 </body>
 </html>
