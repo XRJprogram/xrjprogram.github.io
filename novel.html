@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FantasyCity小说</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:opsz,wght@14..32,400;14..32,600&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Marked.js (Markdown 渲染) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* ---------- 全局重置 (与 index 风格保持一致) ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-page: #FDF5ED;
+            --bg-card: #FFFFFF;
+            --bg-sidebar: #F8F0E8;
+            --text-primary: #3D2B1F;
+            --text-secondary: #5A4A3A;
+            --text-light: #8A7A6A;
+            --accent: #C0392B;
+            --accent-hover: #A93226;
+            --border-light: #E8DDD2;
+            --shadow-soft: 0 8px 30px rgba(61, 43, 31, 0.08);
+            --shadow-hover: 0 12px 40px rgba(61, 43, 31, 0.15);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: 0.25s ease;
+            --font-serif: 'Noto Serif SC', 'Georgia', serif;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            font-family: var(--font-serif);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* ---------- 导航栏 (与首页共用样式) ---------- */
+        .navbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+        }
+        .nav-brand i {
+            font-size: 1.6rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--accent);
+            color: #fff;
+        }
+        .nav-links a i {
+            margin-right: 6px;
+        }
+
+        /* ---------- 小说页面特有布局 ---------- */
+        .novel-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 32px;
+            padding: 32px 0 60px;
+            min-height: 70vh;
+            flex: 1;
+        }
+
+        /* 侧边栏 —— 章节列表 */
+        .chapter-sidebar {
+            background: var(--bg-sidebar);
+            border-radius: var(--radius);
+            padding: 20px 0;
+            border: 1px solid var(--border-light);
+            height: fit-content;
+            max-height: 75vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 100px;
+        }
+        .chapter-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chapter-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 4px;
+        }
+        .chapter-sidebar h2 {
+            font-size: 1.1rem;
+            padding: 0 20px 16px;
+            border-bottom: 1px solid var(--border-light);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chapter-list {
+            list-style: none;
+            padding: 8px 0;
+        }
+        .chapter-list li {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+            font-size: 0.98rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chapter-list li:hover {
+            background: rgba(192, 57, 43, 0.06);
+            border-left-color: var(--accent);
+        }
+        .chapter-list li.active {
+            background: rgba(192, 57, 43, 0.10);
+            border-left-color: var(--accent);
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .chapter-list .ch-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            white-space: nowrap;
+            margin-left: 12px;
+        }
+        .chapter-list .ch-index {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-right: 10px;
+            opacity: 0.7;
+        }
+
+        /* 阅读区 */
+        .reading-area {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 40px 48px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-light);
+            min-height: 60vh;
+        }
+        .reading-area .chapter-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .reading-area .chapter-meta {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-family: var(--font-sans);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .reading-area .chapter-meta .ch-number {
+            background: var(--bg-sidebar);
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .reading-area .content {
+            font-size: 1.08rem;
+            line-height: 1.9;
+            color: var(--text-primary);
+        }
+        .reading-area .content p {
+            margin-bottom: 1.2em;
+            text-indent: 2em;
+        }
+        .reading-area .content h1,
+        .reading-area .content h2,
+        .reading-area .content h3 {
+            margin: 1.8em 0 0.6em;
+            text-indent: 0;
+        }
+        .reading-area .content blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin: 1.2em 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .reading-area .content img {
+            max-width: 100%;
+            border-radius: var(--radius-sm);
+            margin: 1em 0;
+        }
+
+        /* 章节导航 */
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+            gap: 16px;
+        }
+        .chapter-nav button {
+            background: var(--bg-sidebar);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .chapter-nav button:hover:not(:disabled) {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .chapter-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* 工具类 */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-light);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        .text-center {
+            text-align: center;
+        }
+
+        /* 页脚 */
+        .footer {
+            margin-top: auto;
+            padding: 40px 0 30px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: var(--accent);
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .novel-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .chapter-sidebar {
+                position: relative;
+                top: 0;
+                max-height: 300px;
+            }
+            .reading-area {
+                padding: 28px 24px;
+            }
+        }
+        @media (max-width: 600px) {
+            .navbar .container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .nav-brand {
+                justify-content: center;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+            .nav-links a {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
+            .reading-area {
+                padding: 20px 16px;
+            }
+            .reading-area .chapter-title {
+                font-size: 1.5rem;
+            }
+            .chapter-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .chapter-nav button {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 导航栏 ===== -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-book-open"></i> FantasyCity
+            </a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> 首页</a>
+                <a href="novel.html" class="active"><i class="fas fa-feather-alt"></i> 小说</a>
+                <a href="games.html"><i class="fas fa-gamepad"></i> 游戏</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== 主内容 ===== -->
+    <main class="container">
+        <div class="novel-layout">
+            <!-- 左侧：章节列表 -->
+            <aside class="chapter-sidebar" id="chapterSidebar">
+                <h2><i class="fas fa-list-ul"></i> 章节列表</h2>
+                <ul class="chapter-list" id="chapterList">
+                    <!-- 由 JavaScript 动态渲染 -->
+                    <li class="text-center" style="color: var(--text-light); padding: 20px;">
+                        <i class="fas fa-spinner fa-spin"></i> 加载中...
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- 右侧：阅读区 -->
+            <section class="reading-area" id="readingArea">
+                <!-- 由 JavaScript 动态渲染 -->
+                <div class="empty-state">
+                    <i class="fas fa-book"></i>
+                    <p>请从左侧选择章节开始阅读</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p>FantasyCity &nbsp;|&nbsp; XRJ</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        //  1. 工具函数
+        // ============================================================
+        function getQueryParam(key) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(key);
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+            } catch { return dateStr; }
+        }
+
+        // ============================================================
+        //  2. 数据加载与状态管理
+        // ============================================================
+        let chapters = [];
+        let currentIndex = 0;
+
+        const chapterListEl = document.getElementById('chapterList');
+        const readingAreaEl = document.getElementById('readingArea');
+
+        // 加载 data/chapters.json
+        async function loadChapters() {
+            try {
+                const res = await fetch('data/chapters.json');
+                if (!res.ok) throw new Error('数据文件加载失败 (HTTP ' + res.status + ')');
+                const data = await res.json();
+                // 兼容两种格式：直接数组 或 { chapters: [...] }
+                chapters = Array.isArray(data) ? data : (data.chapters || []);
+                if (chapters.length === 0) {
+                    chapterListEl.innerHTML =
+                        `<li class="text-center" style="color: var(--text-light); padding: 20px;">暂无章节，请添加 data/chapters.json</li>`;
+                    readingAreaEl.innerHTML =
+                        `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>暂无章节内容</p></div>`;
+                    return;
+                }
+                // 按 index 排序（如果有），否则按数组顺序
+                renderChapterList();
+                // 读取 URL 参数 ?chapter=0 或 ?chapter=xxx
+                const queryIndex = parseInt(getQueryParam('chapter'));
+                let startIndex = 0;
+                if (!isNaN(queryIndex) && queryIndex >= 0 && queryIndex < chapters.length) {
+                    startIndex = queryIndex;
+                }
+                renderChapter(startIndex);
+            } catch (err) {
+                console.error(err);
+                chapterListEl.innerHTML =
+                    `<li class="text-center" style="color: var(--text-light); padding: 20px;"><i class="fas fa-exclamation-triangle"></i> 加载失败</li>`;
+                readingAreaEl.innerHTML =
+                    `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>数据加载失败，请检查 data/chapters.json 是否存在</p></div>`;
+            }
+        }
+
+        // ============================================================
+        //  3. 渲染函数
+        // ============================================================
+        function renderChapterList() {
+            let html = '';
+            chapters.forEach((ch, idx) => {
+                const title = ch.title || `第 ${idx+1} 章`;
+                const date = ch.date ? formatDate(ch.date) : '';
+                html += `
+                        <li data-index="${idx}" class="${idx === currentIndex ? 'active' : ''}">
+                            <span>
+                                <span class="ch-index">#${idx+1}</span>
+                                ${title}
+                            </span>
+                            ${date ? `<span class="ch-date">${date}</span>` : ''}
+                        </li>
+                    `;
+            });
+            chapterListEl.innerHTML = html;
+
+            // 绑定点击事件
+            document.querySelectorAll('#chapterList li').forEach(li => {
+                li.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.index);
+                    if (!isNaN(idx)) renderChapter(idx);
+                });
+            });
+        }
+
+        function renderChapter(index) {
+            if (!chapters.length || index < 0 || index >= chapters.length) return;
+            currentIndex = index;
+
+            // 更新侧边栏高亮
+            document.querySelectorAll('#chapterList li').forEach((li, i) => {
+                li.classList.toggle('active', i === index);
+            });
+
+            const ch = chapters[index];
+            const title = ch.title || `第 ${index+1} 章`;
+            const date = ch.date ? formatDate(ch.date) : '';
+            // 内容支持 Markdown
+            let contentHtml = ch.content || '（本章内容待补充）';
+            try {
+                contentHtml = marked.parse(contentHtml);
+            } catch (e) {
+                // 如果 marked 未加载或解析失败，保留原文
+                console.warn('Markdown 解析失败，使用纯文本', e);
+                contentHtml = `<p>${contentHtml.replace(/\n/g, '</p><p>')}</p>`;
+            }
+
+            const metaHtml = `
+                    <div class="chapter-meta">
+                        <span><span class="ch-number">第 ${index+1} 章</span></span>
+                        <span>${date ? '📅 ' + date : ''}</span>
+                    </div>
+                `;
+
+            const navHtml = `
+                    <div class="chapter-nav">
+                        <button id="prevChapter" ${index === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-chevron-left"></i> 上一章
+                        </button>
+                        <button id="nextChapter" ${index === chapters.length - 1 ? 'disabled' : ''}>
+                            下一章 <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                `;
+
+            readingAreaEl.innerHTML = `
+                    <h1 class="chapter-title">${title}</h1>
+                    ${metaHtml}
+                    <div class="content">${contentHtml}</div>
+                    ${navHtml}
+                `;
+
+            // 绑定导航事件
+            const prevBtn = document.getElementById('prevChapter');
+            const nextBtn = document.getElementById('nextChapter');
+            if (prevBtn) prevBtn.addEventListener('click', () => { if (currentIndex > 0) renderChapter(currentIndex - 1); });
+            if (nextBtn) nextBtn.addEventListener('click', () => { if (currentIndex < chapters.length - 1) renderChapter(
+                    currentIndex + 1); });
+
+            // 更新 URL 参数（不刷新页面）
+            const url = new URL(window.location);
+            url.searchParams.set('chapter', index);
+            window.history.replaceState({ chapter: index }, '', url);
+        }
+
+        // ============================================================
+        //  4. 启动
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', loadChapters);
+    </script>
+</body>
+</html>
