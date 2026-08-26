@@ -3,26 +3,19 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FantasyCity幻想城 · 小说与游戏体验</title>
-    <!-- Google Fonts: 优雅衬线字体 -->
+    <title>FantasyCity 幻想城 · 全站导航与世界观总览</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:opsz,wght@14..32,400;14..32,600&display=swap" rel="stylesheet" />
-    <!-- Font Awesome 图标库 (免费) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <!-- Marked.js (Markdown 渲染) -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js">
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* ============================================================
-                   全局样式
-                   ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
             --bg-page: #FDF5ED;
             --bg-card: #FFFFFF;
@@ -32,28 +25,31 @@
             --text-light: #8A7A6A;
             --accent: #C0392B;
             --accent-hover: #A93226;
+            --accent-soft: rgba(192, 57, 43, 0.08);
+            --gold: #D4AF37;
             --border-light: #E8DDD2;
-            --shadow-soft: 0 8px 30px rgba(61, 43, 31, 0.08);
-            --shadow-hover: 0 12px 40px rgba(61, 43, 31, 0.15);
+            --shadow-soft: 0 8px 30px rgba(61, 43, 31, 0.06);
+            --shadow-hover: 0 14px 40px rgba(61, 43, 31, 0.12);
             --radius: 16px;
             --radius-sm: 8px;
-            --transition: 0.25s ease;
-            --font-serif: 'Noto Serif SC', 'Georgia', serif;
+            --radius-pill: 40px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-serif: 'Noto Serif SC', 'Songti SC', 'Georgia', serif;
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
             font-family: var(--font-serif);
             background-color: var(--bg-page);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.75;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(240, 220, 205, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(245, 230, 215, 0.4) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
         a {
@@ -61,7 +57,6 @@
             text-decoration: none;
         }
 
-        /* ---- 容器 ---- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -69,18 +64,17 @@
             width: 100%;
         }
 
-        /* ---- 导航栏 ---- */
+        /* ---------- 导航栏 ---------- */
         .navbar {
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.92);
             border-bottom: 1px solid var(--border-light);
             padding: 14px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(8px);
-            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 16px rgba(61, 43, 31, 0.03);
         }
-
         .navbar .container {
             display: flex;
             align-items: center;
@@ -88,758 +82,303 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-
         .nav-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 0.02em;
+            font-size: 1.45rem;
+            font-weight: 900;
             display: flex;
             align-items: center;
             gap: 10px;
             color: var(--accent);
+            letter-spacing: -0.01em;
         }
-
-        .nav-brand i {
-            font-size: 1.6rem;
-        }
-
         .nav-links {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap;
+            align-items: center;
         }
-
         .nav-links a {
-            padding: 8px 20px;
-            border-radius: 40px;
+            padding: 8px 18px;
+            border-radius: var(--radius-pill);
             font-family: var(--font-sans);
             font-weight: 600;
             font-size: 0.9rem;
             transition: var(--transition);
             background: transparent;
             color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-
         .nav-links a:hover,
         .nav-links a.active {
             background: var(--accent);
             color: #fff;
+            box-shadow: 0 4px 12px rgba(192, 57, 43, 0.25);
         }
 
-        .nav-links a i {
-            margin-right: 6px;
-        }
-
-        /* ---- 按钮 ---- */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            font-size: 0.95rem;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            background: var(--accent);
-            color: #fff;
-        }
-
-        .btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
-        }
-
-        .btn-outline:hover {
-            background: var(--accent);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .btn-sm {
-            padding: 8px 18px;
-            font-size: 0.85rem;
-        }
-
-        /* ---- 页脚 ---- */
-        .footer {
-            margin-top: auto;
-            padding: 40px 0 30px;
-            border-top: 1px solid var(--border-light);
-            text-align: center;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .footer a {
-            color: var(--accent);
-        }
-
-        /* ============================================================
-                   主页 (index.html)
-                   ============================================================ */
-        .hero {
-            padding: 60px 0 40px;
+        /* ---------- 头部横幅 ---------- */
+        .banner {
+            padding: 50px 0 30px;
             text-align: center;
         }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            color: var(--text-primary);
-        }
-
-        .hero h1 span {
-            color: var(--accent);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 16px auto 32px;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            padding: 40px 0 60px;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 32px 28px;
-            box-shadow: var(--shadow-soft);
-            transition: var(--transition);
-            text-align: center;
-            border: 1px solid var(--border-light);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .feature-card .icon {
+        .banner h1 {
             font-size: 2.8rem;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 0.98rem;
-        }
-
-        /* ============================================================
-                   小说页 (novel.html)
-                   ============================================================ */
-        .novel-layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 32px;
-            padding: 32px 0 60px;
-            min-height: 70vh;
-        }
-
-        /* 侧边栏 —— 章节列表 */
-        .chapter-sidebar {
-            background: var(--bg-sidebar);
-            border-radius: var(--radius);
-            padding: 20px 0;
-            border: 1px solid var(--border-light);
-            height: fit-content;
-            max-height: 75vh;
-            overflow-y: auto;
-            position: sticky;
-            top: 100px;
-        }
-
-        .chapter-sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .chapter-sidebar::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border-radius: 4px;
-        }
-
-        .chapter-sidebar h2 {
-            font-size: 1.1rem;
-            padding: 0 20px 16px;
-            border-bottom: 1px solid var(--border-light);
-            font-family: var(--font-sans);
-            font-weight: 600;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .chapter-list {
-            list-style: none;
-            padding: 8px 0;
-        }
-
-        .chapter-list li {
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
-            font-size: 0.98rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chapter-list li:hover {
-            background: rgba(192, 57, 43, 0.06);
-            border-left-color: var(--accent);
-        }
-
-        .chapter-list li.active {
-            background: rgba(192, 57, 43, 0.10);
-            border-left-color: var(--accent);
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .chapter-list .ch-date {
-            font-size: 0.75rem;
-            color: var(--text-light);
-            font-family: var(--font-sans);
-            font-weight: 400;
-            white-space: nowrap;
-            margin-left: 12px;
-        }
-
-        .chapter-list .ch-index {
-            font-family: var(--font-sans);
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: var(--text-light);
-            margin-right: 10px;
-            opacity: 0.7;
-        }
-
-        /* 阅读区 */
-        .reading-area {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 40px 48px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-light);
-            min-height: 60vh;
-        }
-
-        .reading-area .chapter-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .reading-area .chapter-meta {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-family: var(--font-sans);
-            border-bottom: 1px solid var(--border-light);
-            padding-bottom: 16px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .reading-area .chapter-meta .ch-number {
-            background: var(--bg-sidebar);
-            padding: 2px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .reading-area .content {
-            font-size: 1.08rem;
-            line-height: 1.9;
+            font-weight: 900;
             color: var(--text-primary);
-        }
-
-        .reading-area .content p {
-            margin-bottom: 1.2em;
-            text-indent: 2em;
-        }
-
-        .reading-area .content h1,
-        .reading-area .content h2,
-        .reading-area .content h3 {
-            margin: 1.8em 0 0.6em;
-            text-indent: 0;
-            font-weight: 700;
-        }
-
-        .reading-area .content blockquote {
-            border-left: 4px solid var(--accent);
-            padding-left: 20px;
-            margin: 1.2em 0;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
-
-        .reading-area .content img {
-            max-width: 100%;
-            border-radius: var(--radius-sm);
-            margin: 1em 0;
-        }
-
-        .reading-area .content code {
-            background: var(--bg-sidebar);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-
-        /* 章节导航 (上一篇/下一篇) */
-        .chapter-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-light);
-            gap: 16px;
-        }
-
-        .chapter-nav button {
-            background: var(--bg-sidebar);
-            border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .chapter-nav button:hover:not(:disabled) {
-            background: var(--accent);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .chapter-nav button:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        /* ============================================================
-                   游戏列表页 (games.html)
-                   ============================================================ */
-        .games-header {
-            padding: 32px 0 16px;
-            text-align: center;
-        }
-
-        .games-header h1 {
-            font-size: 2.4rem;
-            font-weight: 700;
-        }
-
-        .games-header p {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 28px;
-            padding: 20px 0 60px;
-        }
-
-        .game-card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-light);
-            transition: var(--transition);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .game-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .game-card .thumb {
-            height: 180px;
-            background: var(--bg-sidebar);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.6rem;
-            color: var(--text-light);
-            background: linear-gradient(135deg, #f0e8e0, #e8ddd2);
-            position: relative;
-        }
-
-        .game-card .thumb .play-badge {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            background: var(--accent);
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        .game-card .info {
-            padding: 20px 24px 24px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .game-card .info h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .game-card .info p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            flex: 1;
             margin-bottom: 12px;
         }
-
-        .game-card .info .game-meta {
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            color: var(--text-light);
+        .banner p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 680px;
+            margin: 0 auto 24px;
+        }
+        .link-badge-bar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-
-        .game-card .info .game-meta .tag {
-            background: var(--bg-sidebar);
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        /* ============================================================
-                   游戏播放页 (game.html)
-                   ============================================================ */
-        .game-player {
-            padding: 24px 0 40px;
-        }
-
-        .game-player .back-link {
+        .badge-link {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 8px 18px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            transition: var(--transition);
         }
-
-        .game-player .back-link:hover {
+        .badge-link:hover {
+            border-color: var(--accent);
             color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
         }
 
-        .game-player .game-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 4px;
+        /* ---------- 模块网格卡片 ---------- */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin: 30px 0 60px;
         }
-
-        .game-player .game-desc {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .game-frame-wrapper {
+        .portal-card {
             background: var(--bg-card);
             border-radius: var(--radius);
             border: 1px solid var(--border-light);
-            overflow: hidden;
+            padding: 34px 28px;
             box-shadow: var(--shadow-soft);
-            aspect-ratio: 16 / 10;
-            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-
-        .game-frame-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
+        .portal-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: #DBCDBF;
         }
-
-        .game-frame-wrapper .loading-placeholder {
-            position: absolute;
-            inset: 0;
+        .portal-card-top {
+            margin-bottom: 20px;
+        }
+        .portal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: var(--accent-soft);
+            color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg-sidebar);
+            font-size: 1.8rem;
+            margin-bottom: 18px;
+        }
+        .portal-card h2 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        .portal-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .portal-features {
+            list-style: none;
+            margin: 16px 0;
             font-family: var(--font-sans);
-            color: var(--text-light);
-            gap: 12px;
-            font-size: 1.1rem;
-            z-index: 1;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-
-        .game-frame-wrapper.loaded .loading-placeholder {
-            opacity: 0;
+        .portal-features li i {
+            color: var(--accent);
+            margin-right: 6px;
         }
-
-        /* ============================================================
-                   响应式
-                   ============================================================ */
-        @media (max-width: 900px) {
-            .novel-layout {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .chapter-sidebar {
-                position: relative;
-                top: 0;
-                max-height: 300px;
-            }
-
-            .reading-area {
-                padding: 28px 24px;
-            }
-
-            .hero h1 {
-                font-size: 2.4rem;
-            }
-
-            .game-frame-wrapper {
-                aspect-ratio: 16 / 12;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .navbar .container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-            }
-
-            .nav-brand {
-                justify-content: center;
-            }
-
-            .nav-links {
-                justify-content: center;
-            }
-
-            .nav-links a {
-                padding: 6px 14px;
-                font-size: 0.8rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .reading-area {
-                padding: 20px 16px;
-            }
-
-            .reading-area .chapter-title {
-                font-size: 1.5rem;
-            }
-
-            .chapter-nav {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .chapter-nav button {
-                justify-content: center;
-            }
-
-            .games-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .game-frame-wrapper {
-                aspect-ratio: 4 / 3;
-            }
-        }
-
-        /* ============================================================
-                   工具类
-                   ============================================================ */
-        .text-center {
+        .card-btn {
+            background: var(--accent);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.92rem;
             text-align: center;
+            display: block;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(192, 57, 43, 0.2);
+        }
+        .card-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(192, 57, 43, 0.3);
         }
 
-        .mt-8 {
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: auto;
+            padding: 36px 0 28px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .footer .footer-links {
             margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
         }
-        .mt-16 {
-            margin-top: 16px;
+        .footer .footer-links a {
+            color: var(--text-secondary);
         }
-        .mt-24 {
-            margin-top: 24px;
-        }
-
-        .empty-state {
-            padding: 60px 20px;
-            text-align: center;
-            color: var(--text-light);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
+        .footer .footer-links a:hover {
+            color: var(--accent);
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================
-    导航栏
-    ============================================================ -->
-    <nav class="navbar" id="mainNav">
+    <!-- ===== 导航栏 ===== -->
+    <nav class="navbar">
         <div class="container">
             <a href="index.html" class="nav-brand">
-                <i class="fas fa-book-open"></i> FantasyCity幻想城
+                <i class="fas fa-book-open"></i> FantasyCity 幻想城
             </a>
             <div class="nav-links">
-                <a href="index.html" id="navHome"><i class="fas fa-home"></i> 首页</a>
-                <a href="novel.html" id="navNovel"><i class="fas fa-feather-alt"></i> 小说</a>
-                <a href="games.html" id="navGames"><i class="fas fa-gamepad"></i> 游戏</a>
+                <a href="index.html"><i class="fas fa-home"></i> 首页</a>
+                <a href="novel.html"><i class="fas fa-feather-alt"></i> 小说</a>
+                <a href="games.html"><i class="fas fa-gamepad"></i> 游戏</a>
+                <a href="fantasycity.html" class="active"><i class="fas fa-compass"></i> 全局视图</a>
             </div>
         </div>
     </nav>
 
-    <!-- ============================================================
-    主内容区 (由页面具体渲染)
-    ============================================================ -->
-    <main id="app">
-        <!-- 各个页面通过 innerHTML 动态渲染，或直接写在 HTML 中 -->
-        <!-- 为了保持简洁，我们使用多页面方案，每个页面独立 HTML -->
-        <!-- 但此处作为基础模板，实际内容由各页面替换 -->
+    <!-- ===== 头部区域 ===== -->
+    <header class="banner">
+        <div class="container">
+            <h1>FantasyCity · 资源枢纽</h1>
+            <p>
+                已将首页 (index.html)、小说连载 (novel.html)、游戏试玩 (games.html) 与 Fantasy City Lost 完整互联互通。
+            </p>
+            <div class="link-badge-bar">
+                <a href="index.html" class="badge-link"><i class="fas fa-arrow-left"></i> 前往图文并茂主首页 (index.html)</a>
+                <a href="novel.html" class="badge-link"><i class="fas fa-book"></i> 阅读小说 (含观看统计与评论)</a>
+                <a href="games.html" class="badge-link"><i class="fas fa-gamepad"></i> 体验游戏展示框</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== 核心板块导览 ===== -->
+    <main class="container">
+        <div class="portal-grid">
+            <!-- 首页板块 -->
+            <div class="portal-card">
+                <div class="portal-card-top">
+                    <div class="portal-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h2>主页门户 (index.html)</h2>
+                    <p>
+                        全新打造的图文并茂展示模板，涵盖世界观设定、0.99级顶尖能力者档案、最新连载章节精选卡片与微型试玩视窗。
+                    </p>
+                    <ul class="portal-features">
+                        <li><i class="fas fa-check"></i> 宏大世界观图文展示</li>
+                        <li><i class="fas fa-check"></i> 芙楠、涵影等角色卡片</li>
+                        <li><i class="fas fa-check"></i> 一键内嵌试玩微缩框</li>
+                    </ul>
+                </div>
+                <a href="index.html" class="card-btn">进入门户首页</a>
+            </div>
+
+            <!-- 小说阅读板块 -->
+            <div class="portal-card">
+                <div class="portal-card-top">
+                    <div class="portal-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h2>小说连载 (novel.html)</h2>
+                    <p>
+                        阅读 17 章精彩连载。每一章均配备累计观看人数统计、阅读进度条、字数预估，并通过 Giscus 自动为每个章节动态生成专属独立评论区！
+                    </p>
+                    <ul class="portal-features">
+                        <li><i class="fas fa-check"></i> 每章独立累计观看人数展示</li>
+                        <li><i class="fas fa-check"></i> 新增/已有章节自动挂载独立 Giscus 评论</li>
+                        <li><i class="fas fa-check"></i> 支持字号调节与快速搜索</li>
+                    </ul>
+                </div>
+                <a href="novel.html" class="card-btn">开始阅读小说</a>
+            </div>
+
+            <!-- 游戏体验板块 -->
+            <div class="portal-card">
+                <div class="portal-card-top">
+                    <div class="portal-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h2>游戏体验 (games.html)</h2>
+                    <p>
+                        与本地《Fantasy City Lost.html》游戏深度联动，配备精致的 Mac/终端风格展示框，支持全屏畅玩、重载与独立新窗口运行。
+                    </p>
+                    <ul class="portal-features">
+                        <li><i class="fas fa-check"></i> 精致展示框与按需启动</li>
+                        <li><i class="fas fa-check"></i> 操作按键指南与设定说明</li>
+                        <li><i class="fas fa-check"></i> 支持 F11 全屏与新标签页</li>
+                    </ul>
+                </div>
+                <a href="games.html" class="card-btn">启动游戏体验</a>
+            </div>
+        </div>
     </main>
 
-    <!-- ============================================================
-    页脚
-    ============================================================ -->
+    <!-- ===== 页脚 ===== -->
     <footer class="footer">
         <div class="container">
-            <p>FantasyCity幻想城 · 小说与游戏体验 &nbsp;|&nbsp; 用 <i class="fas fa-heart" style="color:var(--accent);"></i> 制作</p>
-            <p style="font-size:0.8rem;margin-top:4px;">
-                <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                &nbsp;·&nbsp; 小说数据 <code>data/chapters.json</code> &nbsp;·&nbsp; 游戏数据 <code>data/games.json</code>
+            <p><strong>FantasyCity 幻想城</strong> · 小说与游戏体验门户</p>
+            <div class="footer-links">
+                <a href="index.html">返回主页</a>
+                <span>·</span>
+                <a href="novel.html">小说章节</a>
+                <span>·</span>
+                <a href="games.html">游戏体验</a>
+                <span>·</span>
+                <a href="https://github.com/XRJprogram/xrjprogram.github.io" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+            <p style="font-size:0.75rem; color:#A89888; margin-top:8px;">
+                © 2026 FantasyCity. 保留所有权利.
             </p>
         </div>
     </footer>
-
-    <!-- ============================================================
-    JavaScript
-    ============================================================ -->
-    <script>
-        // ---- 导航高亮 ----
-        (function highlightNav() {
-            const path = window.location.pathname.split('/').pop() || 'index.html';
-            const map = {
-                'index.html': 'navHome',
-                'novel.html': 'navNovel',
-                'games.html': 'navGames',
-                'game.html': 'navGames',
-            };
-            const id = map[path] || 'navHome';
-            const el = document.getElementById(id);
-            if (el) el.classList.add('active');
-        })();
-
-        // ---- 通用工具 ----
-        function getQueryParam(key) {
-            const url = new URL(window.location.href);
-            return url.searchParams.get(key);
-        }
-
-        // ---- 加载状态 ----
-        function showLoading(container, msg = '加载中...') {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>${msg}</p></div>`;
-        }
-
-        function showError(container, msg = '加载失败，请稍后重试') {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>${msg}</p></div>`;
-        }
-
-        // ---- 日期格式化 ----
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            try {
-                const d = new Date(dateStr);
-                return d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
-            } catch { return dateStr; }
-        }
-    </script>
-
-    <!--
-    ============================================================
-    页面独有脚本 (按需加载)
-    由于使用多页面，每个页面有自己的 script 块，
-    但这里为了演示，我们直接在相应页面中内联。
-    下面的脚本是给 novel.html 和 games.html 用的，
-    但为了模板完整，我们保留一个占位。
-    ============================================================
-    -->
 </body>
 </html>

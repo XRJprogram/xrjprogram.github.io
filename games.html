@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FantasyCity 幻想城 · 游戏体验版</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-page: #FDF5ED;
+            --bg-card: #FFFFFF;
+            --bg-sidebar: #F8F0E8;
+            --bg-dark: #1A1412;
+            --text-primary: #3D2B1F;
+            --text-secondary: #5A4A3A;
+            --text-light: #8A7A6A;
+            --accent: #C0392B;
+            --accent-hover: #A93226;
+            --accent-glow: rgba(192, 57, 43, 0.35);
+            --gold: #D4AF37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --border-light: #E8DDD2;
+            --shadow-soft: 0 8px 30px rgba(61, 43, 31, 0.08);
+            --shadow-hover: 0 16px 48px rgba(61, 43, 31, 0.16);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --radius-pill: 40px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-serif: 'Noto Serif SC', 'Songti SC', 'Georgia', serif;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(240, 220, 205, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(245, 230, 215, 0.5) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* ---------- 导航栏 ---------- */
+        .navbar {
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid var(--border-light);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 16px rgba(61, 43, 31, 0.03);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .nav-brand {
+            font-size: 1.45rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            letter-spacing: -0.01em;
+            transition: var(--transition);
+        }
+        .nav-brand:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .nav-brand span.subtitle {
+            font-size: 0.82rem;
+            font-family: var(--font-sans);
+            color: var(--text-light);
+            font-weight: 500;
+            margin-left: 4px;
+            padding-left: 10px;
+            border-left: 1px solid var(--border-light);
+        }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .nav-links a {
+            padding: 8px 18px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            background: transparent;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(192, 57, 43, 0.25);
+        }
+
+        /* ---------- 页面头部介绍 ---------- */
+        .page-hero {
+            padding: 40px 0 28px;
+            text-align: center;
+        }
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(192, 57, 43, 0.08);
+            color: var(--accent);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            border: 1px solid rgba(192, 57, 43, 0.15);
+        }
+        .page-hero h1 {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+        .page-hero p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* ---------- 精致游戏展示框 ---------- */
+        .game-showcase-container {
+            margin: 10px auto 50px;
+            max-width: 1050px;
+        }
+
+        .game-box-frame {
+            background: #141110;
+            border-radius: 20px;
+            border: 1px solid #332822;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px rgba(26, 20, 18, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        .game-box-frame:hover {
+            box-shadow: 
+                0 24px 70px rgba(192, 57, 43, 0.2),
+                0 0 0 1px rgba(212, 175, 55, 0.2);
+        }
+
+        /* 顶部精致控制栏 (模拟极简复古终端/Mac风格) */
+        .game-top-bar {
+            background: #201916;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #362923;
+            color: #E2D7CE;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+        }
+        .window-dots {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot-red { background: #FF5F56; }
+        .dot-yellow { background: #FFBD2E; }
+        .dot-green { background: #27C93F; }
+
+        .game-status-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: #F0E6DD;
+        }
+        .game-status-label .live-badge {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #2ecc71;
+            animation: pulseDot 2s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .game-controls-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ctrl-btn {
+            background: #2C221D;
+            border: 1px solid #44342C;
+            color: #EAE1D9;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+        .ctrl-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        /* 游戏视口与嵌入区域 */
+        .game-viewport {
+            width: 100%;
+            position: relative;
+            background: #000000;
+            aspect-ratio: 16 / 10;
+            max-height: 640px;
+            min-height: 460px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 尚未启动时的精致海报封面 */
+        .game-cover-poster {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, #261618 0%, #0F0A0B 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            padding: 30px;
+            text-align: center;
+            color: #fff;
+            transition: opacity 0.5s ease;
+        }
+        .cover-art-badge {
+            width: 90px;
+            height: 90px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--accent), #e67e22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            animation: floatBadge 3s ease-in-out infinite alternate;
+        }
+        @keyframes floatBadge {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-8px); }
+        }
+        .cover-title {
+            font-size: 2.1rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+            background: linear-gradient(90deg, #FFFFFF, #EAD7C5, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cover-desc {
+            color: #BDB0A4;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            max-width: 480px;
+            margin-bottom: 26px;
+            line-height: 1.6;
+        }
+        .play-launch-btn {
+            background: linear-gradient(135deg, var(--accent), #D35400);
+            border: none;
+            color: #fff;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 14px 38px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px var(--accent-glow);
+            transition: var(--transition);
+        }
+        .play-launch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(211, 84, 0, 0.5);
+            background: linear-gradient(135deg, var(--accent-hover), #E67E22);
+        }
+        .cover-meta-info {
+            margin-top: 18px;
+            font-family: var(--font-sans);
+            font-size: 0.78rem;
+            color: #7D7065;
+            display: flex;
+            gap: 16px;
+        }
+
+        /* 游戏 iframe */
+        #gameIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+            background: #000;
+        }
+
+        /* 底部信息条 */
+        .game-bottom-bar {
+            background: #1B1411;
+            padding: 12px 20px;
+            border-top: 1px solid #332720;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: #A39385;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .game-bottom-bar .tips {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .game-bottom-bar .tips i {
+            color: var(--gold);
+        }
+
+        /* ---------- 游戏资讯与设定区域 ---------- */
+        .game-info-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .info-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+            padding: 32px;
+            box-shadow: var(--shadow-soft);
+        }
+        .info-card h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .info-card h3 i {
+            color: var(--accent);
+        }
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .control-key-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+        }
+        .control-key-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--bg-sidebar);
+            border-radius: var(--radius-sm);
+        }
+        .kbd-key {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            color: var(--accent);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+            font-size: 0.8rem;
+        }
+
+        .novel-banner-card {
+            background: linear-gradient(135deg, #FAF1E8, #F4E2D2);
+            border: 1px solid #E4CEBD;
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .banner-btn {
+            background: var(--accent);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .banner-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(192, 57, 43, 0.25);
+        }
+
+        /* ---------- 页脚 ---------- */
+        .footer {
+            margin-top: auto;
+            padding: 36px 0 28px;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .footer .footer-links {
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+        }
+        .footer .footer-links a {
+            color: var(--text-secondary);
+        }
+        .footer .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            .game-info-grid {
+                grid-template-columns: 1fr;
+            }
+            .game-viewport {
+                min-height: 380px;
+            }
+            .cover-title {
+                font-size: 1.7rem;
+            }
+        }
+        @media (max-width: 600px) {
+            .navbar .container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .nav-brand {
+                justify-content: center;
+            }
+            .nav-brand span.subtitle {
+                display: none;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+            .nav-links a {
+                padding: 6px 14px;
+                font-size: 0.82rem;
+            }
+            .page-hero h1 {
+                font-size: 2rem;
+            }
+            .game-top-bar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            .game-viewport {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 导航栏 ===== -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-book-open"></i> FantasyCity 幻想城
+                <span class="subtitle">游戏体验</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> 首页</a>
+                <a href="novel.html"><i class="fas fa-feather-alt"></i> 小说</a>
+                <a href="games.html" class="active"><i class="fas fa-gamepad"></i> 游戏体验</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== 页面头部 ===== -->
+    <header class="page-hero">
+        <div class="container">
+            <span class="hero-tag"><i class="fas fa-sparkles"></i> 官方原生 HTML5 独立体验版</span>
+            <h1>Fantasy City : Lost</h1>
+            <p>探索被遗忘的异能秘境，在沉浸式的交互试玩中解锁属于你的超能篇章。</p>
+        </div>
+    </header>
+
+    <!-- ===== 游戏核心精致展示框 ===== -->
+    <main class="container game-showcase-container">
+        <div class="game-box-frame" id="gameFrameContainer">
+            <!-- 顶部控制条 -->
+            <div class="game-top-bar">
+                <div class="window-dots">
+                    <span class="dot dot-red" title="关闭"></span>
+                    <span class="dot dot-yellow" title="最小化"></span>
+                    <span class="dot dot-green" title="全屏"></span>
+                </div>
+                <div class="game-status-label">
+                    <span class="live-badge"></span>
+                    <span>Fantasy City : Lost · 互动体验版</span>
+                </div>
+                <div class="game-controls-actions">
+                    <button class="ctrl-btn" id="reloadGameBtn" title="重新启动游戏"><i class="fas fa-redo-alt"></i> 重载</button>
+                    <a href="Fantasy City Lost.html" target="_blank" class="ctrl-btn" title="在新标签页独立全屏运行"><i class="fas fa-external-link-alt"></i> 新窗口</a>
+                    <button class="ctrl-btn" id="fullscreenBtn" title="全屏运行展示框"><i class="fas fa-expand"></i> 全屏</button>
+                </div>
+            </div>
+
+            <!-- 游戏主视口 (内嵌 Fantasy City Lost.html) -->
+            <div class="game-viewport" id="gameViewport">
+                <!-- 初始海报遮罩：节省初始带宽与内存，点击后平滑加载 -->
+                <div class="game-cover-poster" id="gameCoverPoster">
+                    <div class="cover-art-badge">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h2 class="cover-title">Fantasy City : Lost</h2>
+                    <p class="cover-desc">
+                        轻量级 HTML5 架构 · 免下载即点即玩<br>
+                        亲身步入由异能与迷雾交织的幻想城，开启探索试炼！
+                    </p>
+                    <button class="play-launch-btn" id="startPlayBtn">
+                        <i class="fas fa-play"></i> 立即启动体验
+                    </button>
+                    <div class="cover-meta-info">
+                        <span><i class="fas fa-microchip"></i> TurboWarp WebGL</span>
+                        <span><i class="fas fa-bolt"></i> 极速秒开</span>
+                        <span><i class="fas fa-volume-up"></i> 原生音效</span>
+                    </div>
+                </div>
+
+                <!-- 游戏 iframe -->
+                <iframe id="gameIframe" title="Fantasy City Lost Game Frame" allow="fullscreen; autoplay; gamepad"></iframe>
+            </div>
+
+            <!-- 底部状态与提示条 -->
+            <div class="game-bottom-bar">
+                <div class="tips">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>推荐在电脑端使用键盘与鼠标获得最佳体验；若遇音频无声，点击游戏窗口内任意区域即可激活音频。</span>
+                </div>
+                <div>
+                    <span style="color:#D4AF37;">★ 体验版连载中</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏介绍与操作指南 -->
+        <div class="game-info-grid" style="margin-top: 40px;">
+            <div class="info-card">
+                <h3><i class="fas fa-scroll"></i> 游戏背景与世界观联动</h3>
+                <p>
+                    《Fantasy City : Lost》是基于 FantasyCity 幻想城宏大世界观衍生的互动体验作品。
+                    故事发生在阳光耀眼却暗潮涌动的幻想城，围绕着神秘的 0.99 级异能者、幻想学园的选战试炼以及被深埋在幻想之塔底部的秘密展开。
+                </p>
+                <p>
+                    在体验版中，你将扮演拥有特定异能的探索者，面对层层谜题与未知危机，你的每一次抉择都将引向不同的命运结局。
+                </p>
+                <!-- 小说导流横幅 -->
+                <div class="novel-banner-card">
+                    <div>
+                        <strong style="color:var(--text-primary);font-size:1.05rem;">想了解更多剧情与人物背景？</strong>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);margin:4px 0 0;">
+                            阅读官方正篇小说，解锁芙楠、涵影、皮尔与飓风小队的完整故事！
+                        </p>
+                    </div>
+                    <a href="novel.html" class="banner-btn"><i class="fas fa-book-reader"></i> 前往小说连载</a>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-keyboard"></i> 推荐操作指南</h3>
+                <ul class="control-key-list">
+                    <li>
+                        <span>移动 / 转向</span>
+                        <div><span class="kbd-key">W</span> <span class="kbd-key">A</span> <span class="kbd-key">S</span> <span class="kbd-key">D</span> / <span class="kbd-key">方向键</span></div>
+                    </li>
+                    <li>
+                        <span>交互 / 确认</span>
+                        <div><span class="kbd-key">Space 空格</span> / <span class="kbd-key">鼠标点击</span></div>
+                    </li>
+                    <li>
+                        <span>全屏切换</span>
+                        <div><span class="kbd-key">F11</span> / <span class="kbd-key">右上角全屏</span></div>
+                    </li>
+                    <li>
+                        <span>重新开始</span>
+                        <div><span class="kbd-key">重载按钮</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>FantasyCity 幻想城</strong> · 原创小说与异能奇幻世界</p>
+            <div class="footer-links">
+                <a href="index.html">返回首页</a>
+                <span>·</span>
+                <a href="novel.html">小说章节</a>
+                <span>·</span>
+                <a href="games.html">试玩体验</a>
+                <span>·</span>
+                <a href="Fantasy City Lost.html" target="_blank">游戏独立源文件</a>
+            </div>
+            <p style="font-size:0.75rem; color:#A89888; margin-top:8px;">
+                © 2026 FantasyCity. 保留所有权利.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const startPlayBtn = document.getElementById('startPlayBtn');
+        const gameCoverPoster = document.getElementById('gameCoverPoster');
+        const gameIframe = document.getElementById('gameIframe');
+        const reloadGameBtn = document.getElementById('reloadGameBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const gameFrameContainer = document.getElementById('gameFrameContainer');
+
+        const GAME_SOURCE_URL = 'Fantasy City Lost.html';
+
+        // 启动游戏
+        function launchGame() {
+            if (!gameIframe.src || gameIframe.src === 'about:blank') {
+                gameIframe.src = GAME_SOURCE_URL;
+            }
+            gameCoverPoster.style.opacity = '0';
+            setTimeout(() => {
+                gameCoverPoster.style.display = 'none';
+                gameIframe.style.display = 'block';
+            }, 400);
+        }
+
+        startPlayBtn.addEventListener('click', launchGame);
+
+        // 重载游戏
+        reloadGameBtn.addEventListener('click', () => {
+            if (gameIframe.style.display === 'block') {
+                gameIframe.src = GAME_SOURCE_URL;
+            } else {
+                launchGame();
+            }
+        });
+
+        // 全屏切换
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                if (gameFrameContainer.requestFullscreen) {
+                    gameFrameContainer.requestFullscreen();
+                } else if (gameFrameContainer.webkitRequestFullscreen) {
+                    gameFrameContainer.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
