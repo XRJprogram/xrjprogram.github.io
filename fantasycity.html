@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FantasyCity 幻想城 · 全站导航与世界观总览</title>
+    <title>幻想城 · 全站导航览</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- 统一页眉页脚样式与脚本 -->
+    <link rel="stylesheet" href="resources/layout.css" />
+    <script src="resources/layout.js"></script>
     <style>
         * {
             margin: 0;
@@ -58,7 +61,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             padding: 0 24px;
             width: 100%;
@@ -66,14 +69,16 @@
 
         /* ---------- 导航栏 ---------- */
         .navbar {
-            background: rgba(255, 255, 255, 0.92);
-            border-bottom: 1px solid var(--border-light);
+            background: rgba(253, 245, 237, 0.55);
+            border-bottom: 1px solid rgba(232, 221, 210, 0.48);
             padding: 14px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 2px 16px rgba(61, 43, 31, 0.03);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            box-shadow: 0 4px 20px rgba(61, 43, 31, 0.04);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .navbar .container {
             display: flex;
@@ -169,18 +174,18 @@
             box-shadow: var(--shadow-soft);
         }
 
-        /* ---------- 模块网格卡片 ---------- */
+        /* ---------- 模块网格卡片 (4列排版) ---------- */
         .portal-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
             margin: 30px 0 60px;
         }
         .portal-card {
             background: var(--bg-card);
             border-radius: var(--radius);
             border: 1px solid var(--border-light);
-            padding: 34px 28px;
+            padding: 26px 20px;
             box-shadow: var(--shadow-soft);
             transition: var(--transition);
             display: flex;
@@ -193,30 +198,47 @@
             border-color: #DBCDBF;
         }
         .portal-card-top {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .portal-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             background: var(--accent-soft);
             color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 18px;
+            font-size: 1.5rem;
+            margin-bottom: 14px;
+            transition: var(--transition);
+        }
+        .portal-card:hover .portal-icon {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.05);
         }
         .portal-card h2 {
-            font-size: 1.45rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--text-primary);
         }
         .portal-card p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        @media (max-width: 1024px) {
+            .portal-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+            }
+        }
+        @media (max-width: 580px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
         }
         .portal-features {
             list-style: none;
@@ -279,31 +301,14 @@
 </head>
 <body>
 
-    <!-- ===== 导航栏 ===== -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-brand">
-                <i class="fas fa-book-open"></i> 幻想城
-            </a>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> 首页</a>
-                <a href="novel.html"><i class="fas fa-feather-alt"></i> 小说</a>
-                <a href="games.html"><i class="fas fa-gamepad"></i> 游戏</a>
-                <a href="fantasycity.html" class="active icon-only" title="全局视图"><i class="fas fa-compass"></i></a>
-            </div>
-        </div>
-    </nav>
+    <!-- ===== 页眉 (由 resources/layout.js 统一从 resources/header.html 载入) ===== -->
+    <div id="site-header"></div>
 
     <!-- ===== 头部区域 ===== -->
     <header class="banner">
         <div class="container">
-            <h1>FantasyCity · 全局视图</h1>
+            <h1>全局视图</h1>
             <p>全站核心模块与资源导航总览</p>
-            <div class="link-badge-bar">
-                <a href="index.html" class="badge-link"><i class="fas fa-home"></i> 门户首页</a>
-                <a href="novel.html" class="badge-link"><i class="fas fa-book-open"></i> 小说连载</a>
-                <a href="games.html" class="badge-link"><i class="fas fa-gamepad"></i> 游戏体验</a>
-            </div>
         </div>
     </header>
 
@@ -316,9 +321,9 @@
                     <div class="portal-icon">
                         <i class="fas fa-home"></i>
                     </div>
-                    <h2>门户首页</h2>
+                    <h2>社区首页</h2>
                     <p>
-                        包含核心世界观架构、60+ 登场异能者图鉴及正篇章节目录精选。
+                        核心世界观架构、登场人物图鉴。
                     </p>
                 </div>
                 <a href="index.html" class="card-btn">进入首页</a>
@@ -332,7 +337,7 @@
                     </div>
                     <h2>小说连载</h2>
                     <p>
-                        原创长篇小说《幻想城》正篇连载，配备观看人数统计与章节独立讨论区。
+                        原创长篇小说《幻想城》重制版正篇连载。
                     </p>
                 </div>
                 <a href="novel.html" class="card-btn">阅读小说</a>
@@ -346,31 +351,29 @@
                     </div>
                     <h2>游戏体验</h2>
                     <p>
-                        8-bit 像素风卡牌探索游戏《Fantasy City : Lost》，支持内嵌试玩与全屏畅玩。
+                        像素风卡牌探索游戏《幻想城·遗失的能力》，支持在线游玩。
                     </p>
                 </div>
                 <a href="games.html" class="card-btn">启动游戏</a>
             </div>
+
+            <!-- 世界设定与角色图鉴板块 -->
+            <div class="portal-card">
+                <div class="portal-card-top">
+                    <div class="portal-icon">
+                        <i class="fas fa-scroll"></i>
+                    </div>
+                    <h2>设定档案</h2>
+                    <p>
+                        核心世界观、能力法则体系与全体能力者系别图鉴。
+                    </p>
+                </div>
+                <a href="lore.html" class="card-btn">浏览设定</a>
+            </div>
         </div>
     </main>
 
-    <!-- ===== 页脚 ===== -->
-    <footer class="footer">
-        <div class="container">
-            <p><strong>FantasyCity 幻想城</strong> · 小说与游戏体验门户</p>
-            <div class="footer-links">
-                <a href="index.html">返回主页</a>
-                <span>·</span>
-                <a href="novel.html">小说章节</a>
-                <span>·</span>
-                <a href="games.html">游戏体验</a>
-                <span>·</span>
-                <a href="https://github.com/XRJprogram/xrjprogram.github.io" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-            </div>
-            <p style="font-size:0.75rem; color:#A89888; margin-top:8px;">
-                © 2026 FantasyCity. 保留所有权利.
-            </p>
-        </div>
-    </footer>
+    <!-- ===== 页脚 (由 resources/layout.js 统一从 resources/footer.html 载入) ===== -->
+    <div id="site-footer"></div>
 </body>
 </html>

@@ -14,6 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- 本地与线上小说数据源 -->
     <script src="data/chapters.js"></script>
+    <!-- 统一页眉页脚样式与脚本 -->
+    <link rel="stylesheet" href="resources/layout.css" />
+    <script src="resources/layout.js"></script>
     <style>
         /* ---------- 全局重置与主题变量 ---------- */
         * {
@@ -87,15 +90,16 @@
 
         /* ---------- 导航栏 ---------- */
         .navbar {
-            background: rgba(255, 255, 255, 0.92);
-            border-bottom: 1px solid var(--border-light);
+            background: rgba(253, 245, 237, 0.55);
+            border-bottom: 1px solid rgba(232, 221, 210, 0.48);
             padding: 14px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 2px 16px rgba(61, 43, 31, 0.03);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            box-shadow: 0 4px 20px rgba(61, 43, 31, 0.04);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .navbar .container {
             display: flex;
@@ -717,20 +721,8 @@
     <!-- 顶部阅读进度条 -->
     <div id="readingProgress"></div>
 
-    <!-- ===== 导航栏 ===== -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-brand">
-                <i class="fas fa-book-open"></i> 幻想城
-            </a>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> 首页</a>
-                <a href="novel.html" class="active"><i class="fas fa-feather-alt"></i> 小说</a>
-                <a href="games.html"><i class="fas fa-gamepad"></i> 游戏</a>
-                <a href="fantasycity.html" class="icon-only" title="全局视图"><i class="fas fa-compass"></i></a>
-            </div>
-        </div>
-    </nav>
+    <!-- ===== 页眉 (由 resources/layout.js 统一从 resources/header.html 载入) ===== -->
+    <div id="site-header"></div>
 
     <!-- ===== 小说主体 ===== -->
     <main class="container">
@@ -762,24 +754,8 @@
         </div>
     </main>
 
-    <!-- ===== 页脚 ===== -->
-    <footer class="footer">
-        <div class="container">
-            <p><strong>FantasyCity 幻想城</strong> · 原创小说与异能奇幻世界</p>
-            <div class="footer-links">
-                <a href="index.html">返回首页</a>
-                <span>·</span>
-                <a href="novel.html">目录总览</a>
-                <span>·</span>
-                <a href="games.html">试玩体验</a>
-                <span>·</span>
-                <a href="https://github.com/XRJprogram/xrjprogram.github.io" target="_blank"><i class="fab fa-github"></i> GitHub 仓库</a>
-            </div>
-            <p style="font-size:0.75rem; color:#A89888; margin-top:8px;">
-                © <span id="currentYear">2026</span> FantasyCity. 保留所有权利.
-            </p>
-        </div>
-    </footer>
+    <!-- ===== 页脚 (由 resources/layout.js 统一从 resources/footer.html 载入) ===== -->
+    <div id="site-footer"></div>
 
     <script>
         // ============================================================
@@ -793,43 +769,28 @@
         const readingAreaEl = document.getElementById('readingArea');
         const totalChapterBadge = document.getElementById('totalChapterBadge');
         const chapterSearchInput = document.getElementById('chapterSearchInput');
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const currentYearEl = document.getElementById('currentYear');
+        if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
-        // 累计观看人数统计管理器 (基于每章独立标识，真实持久化与平滑递增)
+        // 累计观看人数统计管理器 (初始化从 0 开始，每次访问无防刷直接 +1)
         const ChapterViewTracker = {
             getKey(index, title) {
                 return `fc_views_ch_${index}_${encodeURIComponent(title || '')}`;
             },
-            getBaseViews(index) {
-                // 基于章节次序与时间提供合理的初始观看热度基数，之后真实递增
-                const baseTable = [
-                    3840, 3120, 2690, 2410, 2180, 
-                    1970, 1850, 1720, 1610, 1490, 
-                    1380, 1260, 1150, 1080, 960, 
-                    890, 830
-                ];
-                return baseTable[index] !== undefined ? baseTable[index] : Math.max(500, 800 - index * 20);
-            },
             getViews(index, title) {
                 const key = this.getKey(index, title);
                 let views = localStorage.getItem(key);
-                if (!views) {
-                    views = this.getBaseViews(index);
+                if (views === null) {
+                    views = 0;
                     localStorage.setItem(key, views);
                 }
-                return parseInt(views, 10);
+                return parseInt(views, 10) || 0;
             },
             recordView(index, title) {
                 const key = this.getKey(index, title);
                 let views = this.getViews(index, title);
-                
-                // 本次会话去重检查（避免连续快速刷新多次计数）
-                const sessionKey = `fc_seen_session_ch_${index}`;
-                if (!sessionStorage.getItem(sessionKey)) {
-                    views += 1;
-                    localStorage.setItem(key, views);
-                    sessionStorage.setItem(sessionKey, '1');
-                }
+                views += 1;
+                localStorage.setItem(key, views);
                 return views;
             }
         };
@@ -947,6 +908,10 @@
 
             // 累计观看人数统计 (递增并获取最新值)
             const currentViews = ChapterViewTracker.recordView(index, title);
+            const sideItemViewEl = document.querySelector(`#chapterList li[data-index="${index}"] .ch-meta-mini span`);
+            if (sideItemViewEl) {
+                sideItemViewEl.innerHTML = `<i class="far fa-eye"></i> ${currentViews.toLocaleString()}`;
+            }
 
             // Markdown 格式渲染
             const rawContent = ch.content || '';
