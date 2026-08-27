@@ -772,26 +772,106 @@
         const currentYearEl = document.getElementById('currentYear');
         if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
-        // 累计观看人数统计管理器 (初始化从 0 开始，每次访问无防刷直接 +1)
+        // ============================================================
+        //  Supabase 全网云端实时观看数统计管理器
+        // ============================================================
         const ChapterViewTracker = {
+            SUPABASE_URL: 'https://jbhypcrlfvmioynsnglt.supabase.co',
+            SUPABASE_KEY: 'sb_publishable_8ztqBpUNQ5Lb6NoZxNRyDw_Zk-u9MNi',
+            cache: {},
+
             getKey(index, title) {
                 return `fc_views_ch_${index}_${encodeURIComponent(title || '')}`;
             },
-            getViews(index, title) {
-                const key = this.getKey(index, title);
-                let views = localStorage.getItem(key);
-                if (views === null) {
-                    views = 0;
-                    localStorage.setItem(key, views);
+
+            // 批量从云端拉取所有章节当前最新观看数
+            async fetchAllCloudViews() {
+                try {
+                    const res = await fetch(`${this.SUPABASE_URL}/rest/v1/chapter_views?select=chapter_id,views`, {
+                        headers: {
+                            apikey: this.SUPABASE_KEY,
+                            Authorization: `Bearer ${this.SUPABASE_KEY}`
+                        }
+                    });
+                    if (res.ok) {
+                        const rows = await res.json();
+                        if (Array.isArray(rows)) {
+                            rows.forEach(row => {
+                                const chId = parseInt(row.chapter_id, 10);
+                                const count = parseInt(row.views, 10) || 0;
+                                this.cache[chId] = count;
+                            });
+                            // 实时同步刷新侧边栏已渲染的阅读数徽标
+                            document.querySelectorAll('#chapterList li[data-index]').forEach(li => {
+                                const idx = parseInt(li.dataset.index, 10);
+                                if (this.cache[idx] !== undefined) {
+                                    const span = li.querySelector('.ch-meta-mini span');
+                                    if (span) {
+                                        span.innerHTML = `<i class="far fa-eye"></i> ${this.cache[idx].toLocaleString()}`;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.warn('[Supabase] Fetch all views error:', e);
                 }
-                return parseInt(views, 10) || 0;
             },
-            recordView(index, title) {
+
+            // 获取当前数值（优先内存缓存，其次 localStorage，默认 0）
+            getViews(index, title) {
+                if (this.cache[index] !== undefined) {
+                    return this.cache[index];
+                }
                 const key = this.getKey(index, title);
-                let views = this.getViews(index, title);
-                views += 1;
-                localStorage.setItem(key, views);
-                return views;
+                const local = localStorage.getItem(key);
+                return local !== null ? (parseInt(local, 10) || 0) : 0;
+            },
+
+            // 记录阅读并触发云端原子累加（乐观即时刷新 + 异步服务器校验）
+            recordView(index, title, onUpdated) {
+                const key = this.getKey(index, title);
+                let current = this.getViews(index, title) + 1;
+                
+                // 1. 本地乐观立即更新
+                this.cache[index] = current;
+                localStorage.setItem(key, current);
+                if (typeof onUpdated === 'function') {
+                    onUpdated(current);
+                }
+
+                // 2. 异步向 Supabase 云端提交原子累加
+                (async () => {
+                    try {
+                        const res = await fetch(`${this.SUPABASE_URL}/rest/v1/rpc/increment_chapter_view`, {
+                            method: 'POST',
+                            headers: {
+                                apikey: this.SUPABASE_KEY,
+                                Authorization: `Bearer ${this.SUPABASE_KEY}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                target_chapter_id: index,
+                                chapter_title: title || `第 ${index + 1} 章`
+                            })
+                        });
+
+                        if (res.ok) {
+                            const serverCount = parseInt(await res.text(), 10);
+                            if (!isNaN(serverCount)) {
+                                this.cache[index] = serverCount;
+                                localStorage.setItem(key, serverCount);
+                                if (typeof onUpdated === 'function') {
+                                    onUpdated(serverCount);
+                                }
+                            }
+                        }
+                    } catch (err) {
+                        console.warn('[Supabase] Increment view error:', err);
+                    }
+                })();
+
+                return current;
             }
         };
 
@@ -800,19 +880,24 @@
         // ============================================================
         async function loadChapters() {
             try {
-                // 1. 若非本地 file:// 协议，优先尝试 fetch 获取最新的 chapters.json
-                if (window.location.protocol !== 'file:') {
-                    const res = await fetch('data/chapters.json');
-                    if (res.ok) {
-                        const data = await res.json();
-                        chapters = Array.isArray(data) ? data : (data.chapters || []);
-                    }
-                }
+                // 并行拉取章节数据与云端统计
+                await Promise.allSettled([
+                    (async () => {
+                        if (window.location.protocol !== 'file:') {
+                            const res = await fetch('data/chapters.json');
+                            if (res.ok) {
+                                const data = await res.json();
+                                chapters = Array.isArray(data) ? data : (data.chapters || []);
+                            }
+                        }
+                    })(),
+                    ChapterViewTracker.fetchAllCloudViews()
+                ]);
             } catch (err) {
                 console.warn('Fetch fallback to embedded data:', err);
             }
 
-            // 2. 本地 file:// 协议或 fetch 异常时，自动通过 window.FANTASY_CITY_CHAPTERS 无缝回退
+            // 本地 file:// 协议或 fetch 异常时，自动通过 window.FANTASY_CITY_CHAPTERS 无缝回退
             if ((!chapters || chapters.length === 0) && typeof window.FANTASY_CITY_CHAPTERS !== 'undefined') {
                 chapters = window.FANTASY_CITY_CHAPTERS;
             }
@@ -906,12 +991,17 @@
             const title = ch.title || `第 ${index + 1} 章`;
             const date = ch.date || '连载中';
 
-            // 累计观看人数统计 (递增并获取最新值)
-            const currentViews = ChapterViewTracker.recordView(index, title);
-            const sideItemViewEl = document.querySelector(`#chapterList li[data-index="${index}"] .ch-meta-mini span`);
-            if (sideItemViewEl) {
-                sideItemViewEl.innerHTML = `<i class="far fa-eye"></i> ${currentViews.toLocaleString()}`;
-            }
+            // 累计观看人数统计 (先即时返回乐观值，云端响应后自动同步 DOM)
+            const currentViews = ChapterViewTracker.recordView(index, title, (latestCount) => {
+                const viewsBadge = document.getElementById('chapterViewsDisplay');
+                if (viewsBadge) {
+                    viewsBadge.innerHTML = `<i class="far fa-eye"></i> ${latestCount.toLocaleString()}`;
+                }
+                const sideItemViewEl = document.querySelector(`#chapterList li[data-index="${index}"] .ch-meta-mini span`);
+                if (sideItemViewEl) {
+                    sideItemViewEl.innerHTML = `<i class="far fa-eye"></i> ${latestCount.toLocaleString()}`;
+                }
+            });
 
             // Markdown 格式渲染
             const rawContent = ch.content || '';
