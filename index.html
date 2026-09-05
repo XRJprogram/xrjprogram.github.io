@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -204,8 +204,8 @@
         /* 项目展示网格 */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
             margin: 40px 0 70px;
         }
 
@@ -213,7 +213,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: var(--radius-lg);
-            padding: 36px 32px;
+            padding: 32px 26px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             display: flex;
@@ -235,6 +235,10 @@
             border-color: var(--border-card-hover);
             box-shadow: 0 16px 40px -10px var(--primary-chem-glow);
         }
+        .project-card.chemiation-card:hover {
+            border-color: rgba(168, 85, 247, 0.45);
+            box-shadow: 0 16px 40px -10px rgba(168, 85, 247, 0.35);
+        }
 
         /* 顶部装饰条 */
         .card-glow-bar {
@@ -249,6 +253,9 @@
         }
         .chem-card .card-glow-bar {
             background: linear-gradient(90deg, #0284c7, #38bdf8);
+        }
+        .chemiation-card .card-glow-bar {
+            background: linear-gradient(90deg, #9333ea, #c084fc);
         }
 
         .card-header {
@@ -276,6 +283,11 @@
             color: #38bdf8;
             border: 1px solid rgba(56, 189, 248, 0.25);
         }
+        .chemiation-card .card-icon {
+            background: rgba(168, 85, 247, 0.12);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.25);
+        }
 
         .category-tag {
             font-size: 0.78rem;
@@ -294,6 +306,11 @@
             background: rgba(56, 189, 248, 0.12);
             color: #7dd3fc;
             border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        .chemiation-card .category-tag {
+            background: rgba(168, 85, 247, 0.12);
+            color: #d8b4fe;
+            border: 1px solid rgba(168, 85, 247, 0.2);
         }
 
         .project-card h2 {
@@ -363,6 +380,14 @@
             box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
             transform: translateY(-2px);
         }
+        .chemiation-card .primary-btn {
+            background: linear-gradient(135deg, #7e22ce, #9333ea);
+        }
+        .chemiation-card .primary-btn:hover {
+            background: linear-gradient(135deg, #9333ea, #a855f7);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+            transform: translateY(-2px);
+        }
 
         /* 子功能导航链接组 */
         .sublinks-panel {
@@ -413,9 +438,24 @@
             border-color: #fb7185;
             color: #fff1f2;
         }
+        .chemiation-card .sublink-btn.highlight-link {
+            color: #d8b4fe;
+            border-color: rgba(168, 85, 247, 0.25);
+            background: rgba(168, 85, 247, 0.06);
+        }
+        .chemiation-card .sublink-btn.highlight-link:hover {
+            background: rgba(168, 85, 247, 0.14);
+            border-color: #c084fc;
+            color: #f3e8ff;
+        }
 
         /* 响应式调整 */
-        @media (max-width: 900px) {
+        @media (max-width: 1120px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
             .projects-grid {
                 grid-template-columns: 1fr;
             }
@@ -577,6 +617,47 @@
                     </div>
                 </div>
             </article>
+
+            <!-- 卡片 3: Chemiation -->
+            <article class="project-card chemiation-card">
+                <div class="card-glow-bar"></div>
+                <div>
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <span class="category-tag">微观物理 · 量子仿真</span>
+                    </div>
+                    <h2>Chemiation 电子视界</h2>
+                    <p>
+                        单元素 3D 动力学原子与电子流光模拟视界。集成 IUPAC 118 全元素周期表，支持天体陀螺、玻尔平面与量子几率云三维观测与交互音效。
+                    </p>
+                    <div class="tags-list">
+                        <span class="tag-item"><i class="fas fa-cube"></i> 3D 电子流光轨道</span>
+                        <span class="tag-item"><i class="fas fa-table-cells"></i> 118 周期表全能级</span>
+                        <span class="tag-item"><i class="fas fa-cloud"></i> 量子几率云模拟</span>
+                        <span class="tag-item"><i class="fas fa-wave-square"></i> 原生 Web Audio</span>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="Chemiation/index.html" class="primary-btn smart-link" data-path="Chemiation/index.html">
+                        <span>探索 3D 电子视界</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="sublinks-panel">
+                        <a href="Chemiation/index.html" class="sublink-btn highlight-link smart-link" data-path="Chemiation/index.html" title="进入微观原子视界">
+                            <i class="fas fa-atom"></i> 3D 模拟主页
+                        </a>
+                        <a href="https://github.com/XRJprogram/Chemiation/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="sublink-btn">
+                            <i class="fas fa-file-lines"></i> 项目说明
+                        </a>
+                        <a href="https://github.com/XRJprogram/Chemiation" target="_blank" rel="noopener noreferrer" class="sublink-btn">
+                            <i class="fab fa-github"></i> 仓库源码
+                        </a>
+                    </div>
+                </div>
+            </article>
         </main>
     </div>
 
@@ -592,6 +673,8 @@
                 <a href="FantasyCity/view.html" class="smart-link" data-path="FantasyCity/view.html">全站导览 view.html</a>
                 <span>·</span>
                 <a href="Anychem-pro/dist/index.html" class="smart-link" data-path="Anychem-pro/dist/index.html">AnyChem 3D</a>
+                <span>·</span>
+                <a href="Chemiation/index.html" class="smart-link" data-path="Chemiation/index.html">Chemiation 电子视界</a>
             </div>
         </div>
     </footer>
