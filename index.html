@@ -3,31 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XRJprogram · Projects Hub | 个人开源项目导航</title>
+    <title>XRJprogram · Projects Hub</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m10 15 5-3-5-3v6Z'/></svg>">
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-body: #070913;
-            --bg-card: rgba(16, 22, 38, 0.75);
-            --bg-card-hover: rgba(22, 30, 52, 0.9);
+            --bg-body: #090d16;
+            --bg-card: rgba(17, 24, 39, 0.65);
+            --bg-card-hover: rgba(22, 32, 51, 0.85);
             --border-card: rgba(255, 255, 255, 0.08);
-            --border-card-hover: rgba(56, 189, 248, 0.35);
-            --text-main: #F1F5F9;
-            --text-muted: #94A3B8;
-            --text-dim: #64748B;
-            --primary-chem: #0284c7;
-            --primary-chem-glow: rgba(56, 189, 248, 0.25);
-            --primary-fantasy: #C0392B;
-            --primary-fantasy-glow: rgba(225, 29, 72, 0.25);
-            --radius-lg: 20px;
-            --radius-md: 12px;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --radius-card: 14px;
             --radius-pill: 9999px;
-            --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
         }
 
         * {
@@ -37,7 +32,7 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: var(--font-stack);
             background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
@@ -46,115 +41,83 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 背景氛围动态渐变光斑 */
+        /* 极简背景氛围光斑 */
         .ambient-glow {
             position: fixed;
             border-radius: 50%;
-            filter: blur(130px);
+            filter: blur(140px);
             pointer-events: none;
             z-index: 0;
-            opacity: 0.45;
+            opacity: 0.25;
         }
         .glow-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #be123c 0%, transparent 70%);
-            top: -100px;
+            width: 460px;
+            height: 460px;
+            background: radial-gradient(circle, #e11d48 0%, transparent 70%);
+            top: -120px;
             left: -100px;
         }
         .glow-2 {
-            width: 560px;
-            height: 560px;
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, #0284c7 0%, transparent 70%);
             bottom: -100px;
             right: -80px;
         }
-        .glow-3 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #6366f1 0%, transparent 70%);
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.25;
-        }
 
         .container {
-            max-width: 1200px;
+            max-width: 860px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 20px;
             width: 100%;
             position: relative;
             z-index: 1;
         }
 
-        /* 顶部导航栏 */
+        /* 顶部导航 */
         .header-bar {
-            padding: 24px 0;
+            padding: 24px 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 28px;
         }
         .brand-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
             color: #fff;
         }
         .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
             background: linear-gradient(135deg, #0ea5e9, #6366f1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1rem;
             color: #fff;
-            box-shadow: 0 4px 18px rgba(14, 165, 233, 0.35);
         }
         .brand-text {
-            font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.02em;
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: -0.01em;
         }
-        .brand-status {
-            font-size: 0.76rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 2px 10px;
-            border-radius: var(--radius-pill);
-            margin-left: 8px;
-        }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #38bdf8;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #38bdf8;
-            animation: pulseDot 2s infinite ease-in-out;
-        }
-        @keyframes pulseDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.8); }
-        }
-
         .header-links a {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.92rem;
+            font-size: 0.88rem;
             font-weight: 500;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: var(--radius-pill);
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -162,140 +125,120 @@
         }
         .header-links a:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.18);
         }
 
-        /* Hero 区域 */
-        .hero {
-            padding: 48px 0 36px;
-            text-align: center;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.84rem;
-            color: #cbd5e1;
-            margin-bottom: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            line-height: 1.2;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #FFFFFF 30%, #94A3B8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.15rem;
-            max-width: 680px;
-            margin: 0 auto;
+        /* 纵向列表式卡片容器 */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 48px;
         }
 
-        /* 项目展示网格 */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin: 40px 0 70px;
-        }
-
+        /* 单个项目卡片 - 整体可点击进入，横向紧凑布局 */
         .project-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
-            border-radius: var(--radius-lg);
-            padding: 32px 26px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-card);
+            padding: 22px 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
             position: relative;
+            text-decoration: none;
+            color: inherit;
             overflow: hidden;
             transition: var(--transition);
         }
         .project-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-2px);
             background: var(--bg-card-hover);
         }
         .project-card.fantasy-card:hover {
-            border-color: rgba(244, 63, 94, 0.45);
-            box-shadow: 0 16px 40px -10px var(--primary-fantasy-glow);
+            border-color: rgba(244, 63, 94, 0.35);
+            box-shadow: 0 10px 30px -10px rgba(225, 29, 72, 0.18);
         }
         .project-card.chem-card:hover {
-            border-color: var(--border-card-hover);
-            box-shadow: 0 16px 40px -10px var(--primary-chem-glow);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.18);
         }
         .project-card.chemiation-card:hover {
-            border-color: rgba(168, 85, 247, 0.45);
-            box-shadow: 0 16px 40px -10px rgba(168, 85, 247, 0.35);
+            border-color: rgba(168, 85, 247, 0.35);
+            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.18);
         }
 
-        /* 顶部装饰条 */
-        .card-glow-bar {
+        /* 左侧彩色指示条 */
+        .card-accent-bar {
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            height: 4px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
         }
-        .fantasy-card .card-glow-bar {
-            background: linear-gradient(90deg, #e11d48, #fb7185);
+        .fantasy-card .card-accent-bar {
+            background: #f43f5e;
         }
-        .chem-card .card-glow-bar {
-            background: linear-gradient(90deg, #0284c7, #38bdf8);
+        .chem-card .card-accent-bar {
+            background: #38bdf8;
         }
-        .chemiation-card .card-glow-bar {
-            background: linear-gradient(90deg, #9333ea, #c084fc);
+        .chemiation-card .card-accent-bar {
+            background: #a855f7;
         }
 
-        .card-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+        /* 项目图标 */
         .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
+            font-size: 1.35rem;
         }
         .fantasy-card .card-icon {
             background: rgba(225, 29, 72, 0.12);
             color: #fb7185;
-            border: 1px solid rgba(225, 29, 72, 0.25);
+            border: 1px solid rgba(225, 29, 72, 0.2);
         }
         .chem-card .card-icon {
             background: rgba(56, 189, 248, 0.12);
             color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
         .chemiation-card .card-icon {
             background: rgba(168, 85, 247, 0.12);
             color: #c084fc;
-            border: 1px solid rgba(168, 85, 247, 0.25);
+            border: 1px solid rgba(168, 85, 247, 0.2);
         }
 
+        /* 内容区 */
+        .card-body {
+            flex: 1;
+            min-width: 0;
+        }
+        .card-title-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .card-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
         .category-tag {
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            padding: 4px 12px;
+            padding: 2px 8px;
             border-radius: var(--radius-pill);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
         .fantasy-card .category-tag {
             background: rgba(225, 29, 72, 0.12);
@@ -313,369 +256,185 @@
             border: 1px solid rgba(168, 85, 247, 0.2);
         }
 
-        .project-card h2 {
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 12px;
-            letter-spacing: -0.01em;
-        }
-        .fantasy-card h2 {
-            font-family: 'Noto Serif SC', serif;
-        }
-
-        .project-card p {
+        .card-desc {
             color: var(--text-muted);
-            font-size: 0.98rem;
-            margin-bottom: 24px;
-            line-height: 1.7;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 10px;
         }
 
-        /* 标签列表 */
-        .tags-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 28px;
-        }
-        .tag-item {
-            font-size: 0.8rem;
-            font-weight: 500;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: #94a3b8;
-        }
-
-        /* 主入口按钮 */
-        .primary-btn {
+        /* 快捷轻量文本链接（非大按钮） */
+        .card-sublinks {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: var(--radius-md);
-            font-size: 1.02rem;
-            font-weight: 700;
-            text-decoration: none;
-            color: #fff;
-            transition: var(--transition);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-        .fantasy-card .primary-btn {
-            background: linear-gradient(135deg, #be123c, #e11d48);
-        }
-        .fantasy-card .primary-btn:hover {
-            background: linear-gradient(135deg, #e11d48, #f43f5e);
-            box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
-            transform: translateY(-2px);
-        }
-        .chem-card .primary-btn {
-            background: linear-gradient(135deg, #0369a1, #0284c7);
-        }
-        .chem-card .primary-btn:hover {
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
-            transform: translateY(-2px);
-        }
-        .chemiation-card .primary-btn {
-            background: linear-gradient(135deg, #7e22ce, #9333ea);
-        }
-        .chemiation-card .primary-btn:hover {
-            background: linear-gradient(135deg, #9333ea, #a855f7);
-            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
-            transform: translateY(-2px);
-        }
-
-        /* 子功能导航链接组 */
-        .sublinks-panel {
-            margin-top: 18px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            display: flex;
+            gap: 14px;
             flex-wrap: wrap;
-            gap: 8px;
+            font-size: 0.82rem;
         }
-        .sublink-btn {
+        .card-sublinks a {
+            color: var(--text-dim);
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 7px 12px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 0.84rem;
-            font-weight: 500;
+            gap: 4px;
             transition: var(--transition);
         }
-        .sublink-btn:hover {
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(255, 255, 255, 0.18);
+        .card-sublinks a:hover {
             color: #fff;
-            transform: translateY(-1px);
         }
-        .sublink-btn.highlight-link {
-            color: #38bdf8;
-            border-color: rgba(56, 189, 248, 0.25);
-            background: rgba(56, 189, 248, 0.06);
+        .card-sublinks .sep {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 0.75rem;
         }
-        .sublink-btn.highlight-link:hover {
-            background: rgba(56, 189, 248, 0.14);
-            border-color: #38bdf8;
-            color: #e0f2fe;
+
+        /* 卡片右侧进入小箭头指示 */
+        .card-arrow {
+            flex-shrink: 0;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            padding-left: 8px;
         }
-        .fantasy-card .sublink-btn.highlight-link {
-            color: #fda4af;
-            border-color: rgba(244, 63, 94, 0.25);
-            background: rgba(244, 63, 94, 0.06);
-        }
-        .fantasy-card .sublink-btn.highlight-link:hover {
-            background: rgba(244, 63, 94, 0.14);
-            border-color: #fb7185;
-            color: #fff1f2;
-        }
-        .chemiation-card .sublink-btn.highlight-link {
-            color: #d8b4fe;
-            border-color: rgba(168, 85, 247, 0.25);
-            background: rgba(168, 85, 247, 0.06);
-        }
-        .chemiation-card .sublink-btn.highlight-link:hover {
-            background: rgba(168, 85, 247, 0.14);
-            border-color: #c084fc;
-            color: #f3e8ff;
+        .project-card:hover .card-arrow {
+            color: #fff;
+            transform: translateX(3px);
         }
 
         /* 响应式调整 */
-        @media (max-width: 1120px) {
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 640px) {
+            .project-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+                padding: 18px 18px;
             }
-        }
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
+            .card-arrow {
+                display: none;
             }
-            .hero h1 {
-                font-size: 2.2rem;
+            .card-sublinks {
+                gap: 10px;
             }
         }
 
-        /* 页脚 */
+        /* 极简页脚 */
         .site-footer {
             margin-top: auto;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 32px 0;
+            padding: 24px 0;
             text-align: center;
             color: var(--text-dim);
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             position: relative;
             z-index: 1;
-        }
-        .footer-nav {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .footer-nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        .footer-nav a:hover {
-            color: #fff;
         }
     </style>
 </head>
 <body>
     <div class="ambient-glow glow-1"></div>
     <div class="ambient-glow glow-2"></div>
-    <div class="ambient-glow glow-3"></div>
 
     <div class="container">
-        <!-- 头部栏 -->
+        <!-- 头部简洁栏 -->
         <header class="header-bar">
             <a href="index.html" class="brand-logo">
-                <div class="brand-icon">
-                    <i class="fas fa-cubes-stacked"></i>
-                </div>
-                <div>
-                    <span class="brand-text">XRJprogram</span>
-                    <span class="brand-status"><span class="status-dot"></span> Hub</span>
-                </div>
+                <span class="brand-text">XRJprogram</span>
             </a>
             <div class="header-links">
                 <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-github"></i> GitHub 主页
+                    <i class="fab fa-github"></i> GitHub
                 </a>
             </div>
         </header>
 
-        <!-- 标语区 -->
-        <section class="hero">
-            <div class="hero-badge">
-                <i class="fas fa-compass"></i> 项目统一入口与全站导览
+        <!-- 纵向排布项目列表 -->
+        <main class="projects-list">
+            <!-- 1. FantasyCity -->
+            <div class="project-card fantasy-card">
+                <div class="card-accent-bar"></div>
+                <div class="card-icon">
+                    <i class="fas fa-feather-pointed"></i>
+                </div>
+                <div class="card-body">
+                    <div class="card-title-row">
+                        <a href="FantasyCity/index.html" class="card-title smart-link" data-path="FantasyCity/index.html">FantasyCity 幻想城</a>
+                        <span class="category-tag">奇幻世界 小说与同人游戏</span>
+                    </div>
+                    <p class="card-desc">巨大能量场笼罩下的异能世界观体系。包含原创长篇小说连载、法则设定图鉴与像素风卡牌探索游戏。</p>
+                    <div class="card-sublinks">
+                        <a href="FantasyCity/index.html" class="smart-link" data-path="FantasyCity/index.html"><i class="fas fa-arrow-up-right-from-square"></i> 进入门户</a>
+                        <span class="sep">/</span>
+                        <a href="FantasyCity/novel.html" class="smart-link" data-path="FantasyCity/novel.html">小说</a>
+                        <span class="sep">/</span>
+                        <a href="FantasyCity/games.html" class="smart-link" data-path="FantasyCity/games.html">游戏</a>
+                        <span class="sep">/</span>
+                        <a href="FantasyCity/lore.html" class="smart-link" data-path="FantasyCity/lore.html">设定</a>
+                        <span class="sep">/</span>
+                        <a href="https://github.com/XRJprogram/FantasyCity" target="_blank" rel="noopener noreferrer">源码</a>
+                    </div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
             </div>
-            <h1>探索想象与科学的交互视界</h1>
-            <p>基于 GitHub Pages 搭建的精选项目集，涵盖奇幻世界观互动体验门户与实时 3D 分子力学模拟系统。</p>
-        </section>
 
-        <!-- 双卡片展示区 -->
-        <main class="projects-grid">
-            <!-- 卡片 1: FantasyCity -->
-            <article class="project-card fantasy-card">
-                <div class="card-glow-bar"></div>
-                <div>
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-feather-pointed"></i>
-                        </div>
-                        <span class="category-tag">奇幻宇宙 · 互动门户</span>
+            <!-- 2. AnyChem -->
+            <div class="project-card chem-card">
+                <div class="card-accent-bar"></div>
+                <div class="card-icon">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div class="card-body">
+                    <div class="card-title-row">
+                        <a href="Anychem-pro/dist/index.html" class="card-title smart-link" data-path="Anychem-pro/dist/index.html">AnyChem Pro</a>
+                        <span class="category-tag">化学建模</span>
                     </div>
-                    <h2>FantasyCity 幻想城</h2>
-                    <p>
-                        在巨大能量场笼罩的奇幻城市下，异能者们各执宿命。包含原创长篇小说连载、世界观法则设定百科、全人物图鉴与像素风卡牌 RPG 在线探索游戏。
-                    </p>
-                    <div class="tags-list">
-                        <span class="tag-item"><i class="fas fa-book-open"></i> 原创长篇连载</span>
-                        <span class="tag-item"><i class="fas fa-gamepad"></i> 像素卡牌 RPG</span>
-                        <span class="tag-item"><i class="fas fa-scroll"></i> 能力体系图鉴</span>
-                        <span class="tag-item"><i class="fas fa-compass"></i> 全局视图导航</span>
+                    <p class="card-desc">基于弹簧质点物理力学的 3D 分子空间构型交互建模系统，支持键位推演、官能团替换与反应推演脚本。</p>
+                    <div class="card-sublinks">
+                        <a href="Anychem-pro/dist/index.html" class="smart-link" data-path="Anychem-pro/dist/index.html"><i class="fas fa-arrow-up-right-from-square"></i> 启动建模</a>
+                        <span class="sep">/</span>
+                        <a href="Anychem-pro/index.html" class="smart-link" data-path="Anychem-pro/index.html">主页</a>
+                        <span class="sep">/</span>
+                        <a href="https://github.com/XRJprogram/Anychem-pro/blob/main/README-cn.md" target="_blank" rel="noopener noreferrer">中文文档</a>
+                        <span class="sep">/</span>
+                        <a href="https://github.com/XRJprogram/Anychem-pro" target="_blank" rel="noopener noreferrer">源码</a>
                     </div>
                 </div>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
 
-                <div>
-                    <a href="FantasyCity/index.html" class="primary-btn smart-link" data-path="FantasyCity/index.html">
-                        <span>进入幻想城门户</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <div class="sublinks-panel">
-                        <a href="FantasyCity/view.html" class="sublink-btn highlight-link smart-link" data-path="FantasyCity/view.html" title="全局视图导航览">
-                            <i class="fas fa-compass"></i> 全局视图
-                        </a>
-                        <a href="FantasyCity/novel.html" class="sublink-btn smart-link" data-path="FantasyCity/novel.html">
-                            <i class="fas fa-book"></i> 小说连载
-                        </a>
-                        <a href="FantasyCity/games.html" class="sublink-btn smart-link" data-path="FantasyCity/games.html">
-                            <i class="fas fa-gamepad"></i> 游戏体验
-                        </a>
-                        <a href="FantasyCity/lore.html" class="sublink-btn smart-link" data-path="FantasyCity/lore.html">
-                            <i class="fas fa-scroll"></i> 设定档案
-                        </a>
-                        <a href="https://github.com/XRJprogram/FantasyCity" target="_blank" rel="noopener noreferrer" class="sublink-btn">
-                            <i class="fab fa-github"></i> 仓库源码
-                        </a>
+            <!-- 3. Chemiation -->
+            <div class="project-card chemiation-card">
+                <div class="card-accent-bar"></div>
+                <div class="card-icon">
+                    <i class="fas fa-flask-vial"></i>
+                </div>
+                <div class="card-body">
+                    <div class="card-title-row">
+                        <a href="Chemiation/index.html" class="card-title smart-link" data-path="Chemiation/index.html">Chemiation</a>
+                        <span class="category-tag">化学反应原理</span>
+                    </div>
+                    <p class="card-desc"> 3D纵深的化学反应微观机理推演工坊</p>
+                    <div class="card-sublinks">
+                        <a href="Chemiation/index.html" class="smart-link" data-path="Chemiation/index.html"><i class="fas fa-arrow-up-right-from-square"></i> 启动推演</a>
+                        <span class="sep">/</span>
+                        <a href="Chemiation/docs.html" class="smart-link" data-path="Chemiation/docs.html">语法手册</a>
+                        <span class="sep">/</span>
+                        <a href="https://github.com/XRJprogram/Chemiation" target="_blank" rel="noopener noreferrer">源码</a>
                     </div>
                 </div>
-            </article>
-
-            <!-- 卡片 2: AnyChem -->
-            <article class="project-card chem-card">
-                <div class="card-glow-bar"></div>
-                <div>
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-atom"></i>
-                        </div>
-                        <span class="category-tag">科学建模 · WebGL</span>
-                    </div>
-                    <h2>AnyChem 3D 分子力学工作室</h2>
-                    <p>
-                        基于物理弹簧质点力学的 3D 分子空间构型交互建模系统。支持智能共价键推演、官能团替换、实时碰撞仿真与独创的 ACPL 反应推演标记脚本引擎。
-                    </p>
-                    <div class="tags-list">
-                        <span class="tag-item"><i class="fab fa-vuejs"></i> Vue 3 & TS</span>
-                        <span class="tag-item"><i class="fas fa-cube"></i> Three.js 3D 渲染</span>
-                        <span class="tag-item"><i class="fas fa-bolt"></i> 弹簧力学平衡</span>
-                        <span class="tag-item"><i class="fas fa-code"></i> ACPL 反应推演</span>
-                    </div>
+                <div class="card-arrow">
+                    <i class="fas fa-chevron-right"></i>
                 </div>
-
-                <div>
-                    <a href="Anychem-pro/dist/index.html" class="primary-btn smart-link" data-path="Anychem-pro/dist/index.html">
-                        <span>启动 3D 建模工作室</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <div class="sublinks-panel">
-                        <a href="Anychem-pro/index.html" class="sublink-btn highlight-link smart-link" data-path="Anychem-pro/index.html" title="工作室首页">
-                            <i class="fas fa-flask"></i> 工作室主页
-                        </a>
-                        <a href="https://github.com/XRJprogram/Anychem-pro/blob/main/README-cn.md" target="_blank" rel="noopener noreferrer" class="sublink-btn">
-                            <i class="fas fa-file-lines"></i> 中文文档
-                        </a>
-                        <a href="https://github.com/XRJprogram/Anychem-pro/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="sublink-btn">
-                            <i class="fas fa-globe"></i> English Doc
-                        </a>
-                        <a href="https://github.com/XRJprogram/Anychem-pro" target="_blank" rel="noopener noreferrer" class="sublink-btn">
-                            <i class="fab fa-github"></i> 仓库源码
-                        </a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- 卡片 3: Chemiation -->
-            <article class="project-card chemiation-card">
-                <div class="card-glow-bar"></div>
-                <div>
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-flask-vial"></i>
-                        </div>
-                        <span class="category-tag">化学反应机理 · 空间推演</span>
-                    </div>
-                    <h2>Chemiation 反应机理推演工坊</h2>
-                    <p>
-                        专注于化学反应原理与微观机理推演：基于纯 2D Canvas 拟态空间伪 3D 纵深色阶、宣纸极简风格、Century Gothic 纯字母排印（无实体球）、全程氢原子严格质量守恒及聚合物大括号规范。
-                    </p>
-                    <div class="tags-list">
-                        <span class="tag-item"><i class="fas fa-diagram-project"></i> 空间伪3D机理推演</span>
-                        <span class="tag-item"><i class="fas fa-font"></i> 纯字母宣纸排印</span>
-                        <span class="tag-item"><i class="fas fa-shield-halved"></i> 全程氢原子严格守恒</span>
-                        <span class="tag-item"><i class="fas fa-cubes-stacked"></i> 聚合物智能就近延伸</span>
-                    </div>
-                </div>
-
-                <div>
-                    <a href="Chemiation/index.html" class="primary-btn smart-link" data-path="Chemiation/index.html">
-                        <span>启动反应机理推演</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <div class="sublinks-panel">
-                        <a href="Chemiation/index.html" class="sublink-btn highlight-link smart-link" data-path="Chemiation/index.html" title="启动反应机理空间伪3D推演">
-                            <i class="fas fa-flask-vial"></i> 机理推演 (伪3D)
-                        </a>
-                        <a href="https://github.com/XRJprogram/Chemiation/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="sublink-btn">
-                            <i class="fas fa-file-lines"></i> 项目说明
-                        </a>
-                        <a href="https://github.com/XRJprogram/Chemiation" target="_blank" rel="noopener noreferrer" class="sublink-btn">
-                            <i class="fab fa-github"></i> 仓库源码
-                        </a>
-                    </div>
-                </div>
-            </article>
+            </div>
         </main>
     </div>
 
-    <!-- 页脚 -->
+    <!-- 极简页脚 -->
     <footer class="site-footer">
         <div class="container">
-            <p>© 2026 XRJprogram · 个人项目导航页 · 托管于 GitHub Pages</p>
-            <div class="footer-nav">
-                <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> XRJprogram</a>
-                <span>·</span>
-                <a href="FantasyCity/index.html" class="smart-link" data-path="FantasyCity/index.html">FantasyCity 幻想城</a>
-                <span>·</span>
-                <a href="FantasyCity/view.html" class="smart-link" data-path="FantasyCity/view.html">全站导览 view.html</a>
-                <span>·</span>
-                <a href="Anychem-pro/dist/index.html" class="smart-link" data-path="Anychem-pro/dist/index.html">AnyChem 3D</a>
-                <span>·</span>
-                <a href="Chemiation/index.html" class="smart-link" data-path="Chemiation/index.html">Chemiation 反应推演</a>
-            </div>
+            <p>© 2026 XRJprogram · GitHub Pages</p>
         </div>
     </footer>
 
@@ -683,7 +442,6 @@
     <script>
         (function adaptLinks() {
             if (window.location.protocol === 'file:') {
-                // 本地双击直接通过相对路径进入上一层同级目录
                 document.querySelectorAll('.smart-link').forEach(link => {
                     const targetPath = link.getAttribute('data-path');
                     if (targetPath) {
