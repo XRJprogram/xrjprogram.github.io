@@ -26,7 +26,7 @@
    - **特性**: 基于弹簧力学模型求解三维分子运动：支持原子实时拖拽交互、化学键张力解算与动态构型平衡，并内置 IUPAC 标准命名推导。
    - **源码**: [XRJprogram/Anychem-pro](https://github.com/XRJprogram/Anychem-pro)
 
-2. **[BitPulse · NES 2A03 纯前端芯片音乐工作站](https://xrjprogram.github.io/BitPulse/dist/index.html)**
+2. **[BitPulse · NES 2A03 纯前端芯片音乐工作站](https://xrjprogram.github.io/BitPulse/bit-pulse.html)**
    - **技术栈**: `Web Audio API` · `NES 2A03 仿真` · `TypeScript` · `React`
    - **特性**: 高保真模拟红白机 2A03 声音芯片：基于 Web Audio 纯前端实现双脉冲、三角波与噪声通道编曲，在浏览器中创作纯正 8-Bit 复古音效。
    - **源码**: [XRJprogram/BitPulse](https://github.com/XRJprogram/BitPulse)
@@ -36,10 +36,10 @@
    - **特性**: 在 2D 画布中构建多层视差景深：沿微观时间轴推演分子碰撞、旧键断裂与新键重组全过程，直观呈现化学反应机理。
    - **源码**: [XRJprogram/Chemiation](https://github.com/XRJprogram/Chemiation)
 
-4. **[PixelMe · 32×32 像素角色与纸娃娃工坊](https://xrjprogram.github.io/PixelMe/index.html)**
+4. **[PixelMe · 32×32 像素角色与纸娃娃工坊](https://xrjprogram.github.io/pixelme/index.html)**
    - **技术栈**: `原生 JavaScript` · `Canvas 2D` · `三阶动态调色板`
    - **特性**: 面向 32×32 经典点阵的角色创作者：自由组合发型、五官与服饰图层，配合高光与阴影自动分层渲染，一键导出高清像素立绘。
-   - **源码**: [XRJprogram/PixelMe](https://github.com/XRJprogram/PixelMe)
+   - **源码**: [XRJprogram/pixelme](https://github.com/XRJprogram/pixelme)
 
 5. **[littlesc · 自然语言转 Scratch 积木编译器](https://github.com/XRJprogram/littlesc)**
    - **技术栈**: `TurboWarp 内核` · `goboscript 转译` · `AST 差异比对` · `Scratch VM`
