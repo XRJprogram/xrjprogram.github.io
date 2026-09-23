@@ -5,12 +5,12 @@
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-success?style=for-the-badge&logo=github)
 ![Architecture](https://img.shields.io/badge/CSS%203D-Deconstructed-blue?style=for-the-badge)
 ![Style](https://img.shields.io/badge/Cyber--Ink-Watermark-red?style=for-the-badge)
-![Status](https://img.shields.io/badge/6%20Projects-Showcased-purple?style=for-the-badge)
+![Status](https://img.shields.io/badge/7%20Projects-Showcased-purple?style=for-the-badge)
 
 <br/>
 
 欢迎访问 **[XRJprogram 3D 项目展台](https://xrjprogram.github.io/)**！  
-纯静态部署在 GitHub Pages。首屏通过 3D 立体卡牌展示 5 个技术项目，向下滑动平滑切入水墨风格的《FantasyCity 幻想城》。
+纯静态部署在 GitHub Pages。首屏通过 3D 立体卡牌展示 6 个技术项目，向下滑动平滑切入水墨风格的《FantasyCity 幻想城》。
 
 </div>
 
@@ -45,6 +45,11 @@
    - **技术栈**: `TurboWarp 内核` · `goboscript 转译` · `AST 差异比对` · `Scratch VM`
    - **特性**: 将自然语言指令实时转译为 Scratch 积木源码，支持 AST 代码比对与行级 Diff，点击差异即可在舞台中快速定位对应积木。
    - **源码**: [XRJprogram/littlesc](https://github.com/XRJprogram/littlesc)
+
+6. **[QQ GIF Editor · QQ 表情动图衍生工坊](https://xrjprogram.github.io/gifeditor/)**
+   - **技术栈**: `Vanilla JS` · `Canvas 2D` · `DAG 拓扑引擎` · `三次贝塞尔连线` · `APNG/GIF 编解码`
+   - **特性**: 专为 QQ 表情包二次创作设计的可视化节点蓝图编辑器：内置 247 款精选动态表情，纯前端零依赖实现双对称/四对称镜像、阴阳脸缝合、凸凹透镜扭曲、双端范围时序裁剪与 1:1 无损 GIF 导出。
+   - **源码**: [XRJprogram/gifeditor](https://github.com/XRJprogram/gifeditor)
 
 ---
 

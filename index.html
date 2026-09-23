@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XRJprogram · 个人项目矩阵与作品展</title>
-    <meta name="description" content="XRJprogram 个人主页与技术作品展：AnyChem Pro 分子动力学模拟、BitPulse 8-Bit 音乐发生器、Chemiation 化学反应演示、PixelMe 像素角色捏脸、littlesc Scratch 积木代码生成，以及 FantasyCity 幻想城。">
+    <meta name="description" content="XRJprogram 个人主页与技术作品展：AnyChem Pro 分子动力学模拟、BitPulse 8-Bit 音乐发生器、Chemiation 化学反应演示、PixelMe 像素角色捏脸、littlesc Scratch 积木代码生成、Gif Editor QQ 表情衍生工坊，以及 FantasyCity 幻想城。">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>">
     
     <!-- Google Fonts & FontAwesome 6 -->
@@ -49,6 +49,12 @@
             --littlesc-blue: #4c97ff;
             --littlesc-diff: #0fbd8c;
             --littlesc-dark: #16161a;
+
+            /* GifEditor 真实源码色相：UE5 Slate 蓝图青、节点金、暗夜 Slate */
+            --gifeditor-cyan: #38bdf8;
+            --gifeditor-amber: #f59e0b;
+            --gifeditor-glow: rgba(56, 189, 248, 0.4);
+            --gifeditor-dark: #070d18;
 
             /* 东方宣纸淡黄色底蕴与朱砂印泥 */
             --paper-pale-yellow: #faf6e9;
@@ -301,7 +307,7 @@
         }
 
         /* -------------------------------------------------------------
-           五大项目各自独特的个性化字体与装置视觉设计（汉字字体全面适配）
+           核心项目各自独特的个性化字体与装置视觉设计（汉字字体全面适配）
            ------------------------------------------------------------- */
 
         /* 01. ANYCHEM PRO: 鼠尾草绿与玄武岩分子力学天体仪 (#9fb48d / #10161a) */
@@ -614,6 +620,107 @@
         @keyframes diffBadgeGlow {
             0% { opacity: 0.8; text-shadow: 0 0 6px var(--littlesc-diff); }
             100% { opacity: 1; text-shadow: 0 0 16px var(--littlesc-diff); }
+        }
+
+        /* 06. GIFEDITOR: UE5 蓝图 Slate 深青与 DAG 拓扑连线 (#38bdf8 / #f59e0b / #070d18) */
+        .card-gifeditor {
+            background: radial-gradient(circle at 80% 20%, #0d1b2e 0%, #07101c 50%, #03060a 100%);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            box-shadow: 0 0 45px rgba(56, 189, 248, 0.16);
+        }
+        .card-gifeditor .blueprint-grid-mesh {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 24px 24px;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+            pointer-events: none;
+        }
+        .card-gifeditor .blueprint-wire-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .card-gifeditor .blueprint-wire-svg path {
+            stroke-dasharray: 8 6;
+            animation: wireDash 16s linear infinite;
+        }
+        @keyframes wireDash {
+            to { stroke-dashoffset: -100; }
+        }
+        .card-gifeditor:hover .blueprint-wire-svg path {
+            stroke: rgba(56, 189, 248, 0.45);
+            animation-duration: 6s;
+        }
+        .title-gif {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.55);
+        }
+        .title-gif span {
+            color: var(--gifeditor-cyan);
+        }
+        .sub-gif {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.06rem;
+            color: var(--gifeditor-cyan);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-gif {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 520px;
+            color: #e0f2fe;
+        }
+        .gif-dag-metric {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dag-pin-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .dag-pin-dot.pin-blue {
+            background: var(--gifeditor-cyan);
+            box-shadow: 0 0 6px var(--gifeditor-cyan);
+        }
+        .dag-pin-dot.pin-amber {
+            background: var(--gifeditor-amber);
+            box-shadow: 0 0 6px var(--gifeditor-amber);
+        }
+        .dag-wire-pulse {
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gifeditor-cyan), var(--gifeditor-amber));
+            border-radius: 1px;
+            opacity: 0.75;
+        }
+        .card-gifeditor:hover .dag-wire-pulse {
+            box-shadow: 0 0 8px var(--gifeditor-cyan);
+        }
+        .dag-time-code {
+            font-family: var(--font-mono);
+            color: var(--gifeditor-cyan);
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            animation: dagCodePulse 2.4s ease-in-out infinite alternate;
+        }
+        @keyframes dagCodePulse {
+            0% { opacity: 0.75; text-shadow: 0 0 4px var(--gifeditor-cyan); }
+            100% { opacity: 1; text-shadow: 0 0 12px var(--gifeditor-cyan); }
         }
 
         /* 空间滑轨极简指示器 (极简长圆柱胶囊) */
@@ -1122,12 +1229,12 @@
          ============================================================ -->
     <main class="first-screen-hero">
         <div class="spatial-deck-stage" id="deckStage">
-            <!-- 5 张 16:9 电影画幅海报由物理引擎在空间中解算坐标 -->
+            <!-- 16:9 电影画幅海报由物理引擎在空间中解算坐标 -->
         </div>
 
         <!-- 极简长圆柱指示器 -->
         <div class="stage-indicator-bar" id="indicatorBar">
-            <!-- 5 个极简长圆柱胶囊条 -->
+            <!-- 极简长圆柱胶囊条 -->
         </div>
 
         <!-- 极简向下滚动水墨画卷导引 -->
@@ -1212,7 +1319,7 @@
         </p>
     </section>
 
-    <!-- 五大项目数据：去除 010203 编号，汉字字体全面适配，专属个性排版 -->
+    <!-- 核心项目数据：去除 010203 编号，汉字字体全面适配，专属个性排版 -->
     <script>
         const ARTIFACT_ITEMS = [
             {
@@ -1333,6 +1440,40 @@
                     <div class="poster-bottom-row">
                         <span style="color:#ea580c;">AST BIPARTITE · LCS DIFF</span>
                         <span class="littlesc-diff-badge" style="color:var(--littlesc-diff); font-family:var(--font-mono);">+12 / -4 DIFF</span>
+                    </div>
+                `
+            },
+            {
+                id: 'gifeditor',
+                customClass: 'card-gifeditor',
+                launchUrl: 'gifeditor/index.html',
+                innerMarkup: `
+                    <div class="blueprint-grid-mesh"></div>
+                    <svg class="blueprint-wire-svg" viewBox="0 0 660 372" preserveAspectRatio="none">
+                        <path d="M 440,70 C 560,90 500,260 620,310" fill="none" stroke="rgba(56, 189, 248, 0.25)" stroke-width="2" />
+                        <path d="M 420,130 C 510,140 480,210 590,220" fill="none" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1.5" />
+                        <circle cx="440" cy="70" r="5" fill="#38bdf8" opacity="0.9" />
+                        <circle cx="620" cy="310" r="5" fill="#f59e0b" opacity="0.9" />
+                        <circle cx="420" cy="130" r="4" fill="#38bdf8" opacity="0.7" />
+                        <circle cx="590" cy="220" r="4" fill="#f59e0b" opacity="0.7" />
+                    </svg>
+                    <div class="poster-top-row">
+                        <span style="color:var(--gifeditor-cyan); font-family:var(--font-mono);">BLUEPRINT DAG ENGINE</span>
+                        <span style="color:var(--gifeditor-amber); font-family:var(--font-mono);">[ 247 Q-FACE · UE5 STYLE ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <h2 class="title-gif">GIF<span>EDITOR</span></h2>
+                        <div class="sub-gif">QQ 表情动图衍生工坊</div>
+                        <p class="desc-gif">基于节点蓝图与有向无环图（DAG）的表情二创工坊：精选 247 款 QQ 经典动态表情，自由连线进行对称镜像、阴阳脸缝合、像素扭曲与微观时序裁剪。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#64748b; font-family:var(--font-mono);">VANILLA JS · 1:1 RASTER</span>
+                        <div class="gif-dag-metric">
+                            <span class="dag-pin-dot pin-blue"></span>
+                            <span class="dag-wire-pulse"></span>
+                            <span class="dag-pin-dot pin-amber"></span>
+                            <span class="dag-time-code">DAG: 4.2ms</span>
+                        </div>
                     </div>
                 `
             }
