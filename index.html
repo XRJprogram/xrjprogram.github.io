@@ -322,6 +322,16 @@
             background: radial-gradient(circle at 75% 25%, #152219 0%, #0c1410 50%, #060a08 100%);
             border: 1px solid rgba(159, 180, 141, 0.45);
         }
+        .card-bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            border-radius: inherit;
+        }
         .card-anychem .chem-grid-wireframe {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -330,40 +340,15 @@
                 linear-gradient(to right, rgba(159, 180, 141, 0.06) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(159, 180, 141, 0.06) 1px, transparent 1px);
             pointer-events: none;
+            z-index: 0;
         }
-        .card-anychem .chem-orbit-cage {
-            position: absolute;
-            top: -40px; right: -40px;
-            width: 360px; height: 360px;
-            border: 1px dashed rgba(159, 180, 141, 0.35);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: rotateCage 45s linear infinite;
+        .card-anychem .card-bg-canvas {
+            opacity: 0.95;
+            z-index: 1;
         }
-        .card-anychem .chem-orbit-inner {
-            position: absolute;
-            top: 40px; left: 40px; right: 40px; bottom: 40px;
-            border: 1px solid rgba(159, 180, 141, 0.2);
-            border-radius: 50%;
-            transform: rotateX(65deg);
-        }
-        .card-anychem .chem-atom-core {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 14px; height: 14px;
-            margin-top: -7px; margin-left: -7px;
-            background: var(--anychem-accent);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--anychem-accent);
-            animation: atomCorePulse 3s ease-in-out infinite alternate;
-        }
-        @keyframes atomCorePulse {
-            0% { transform: scale(0.85); opacity: 0.6; box-shadow: 0 0 12px var(--anychem-accent); }
-            100% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 28px var(--anychem-accent); }
-        }
-        @keyframes rotateCage {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .card-chemiation .card-bg-canvas {
+            opacity: 0.95;
+            z-index: 1;
         }
         .title-chem {
             font-family: var(--font-cinema);
@@ -891,10 +876,17 @@
             filter: drop-shadow(3px 3px 0 #059669) drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
         }
         .bit-cursor-blink {
-            animation: cursorBlink 0.8s steps(2, start) infinite;
+            animation: bitCursorSmooth 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
-        @keyframes cursorBlink {
-            to { opacity: 0; }
+        @keyframes bitCursorSmooth {
+            0%, 100% {
+                opacity: 0.95;
+                filter: drop-shadow(0 0 6px var(--bitpulse-mint));
+            }
+            50% {
+                opacity: 0.15;
+                filter: drop-shadow(0 0 1px transparent);
+            }
         }
 
         /* 03. Chemiation SVG */
@@ -940,23 +932,16 @@
             font-family: var(--font-display);
             font-weight: 900;
             font-size: 28px;
-            letter-spacing: 0.08em;
-            fill: #ffffff;
-            filter: drop-shadow(0 0 20px rgba(255, 171, 25, 0.5));
-        }
-        .sc-block-text {
-            font-family: var(--font-display);
-            font-weight: 900;
-            font-size: 18px;
             letter-spacing: 0.05em;
-            fill: #120901;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 20px rgba(255, 171, 25, 0.45));
         }
 
         /* 06. Gif Editor SVG */
         .gif-svg-main {
             font-family: var(--font-display);
             font-weight: 900;
-            font-size: 28px;
+            font-size: 27px;
             letter-spacing: 0.08em;
             fill: #ffffff;
             filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6));
@@ -1591,24 +1576,21 @@
                 launchUrl: 'Anychem-pro/dist/index.html',
                 innerMarkup: `
                     <div class="chem-grid-wireframe"></div>
-                    <div class="chem-orbit-cage">
-                        <div class="chem-orbit-inner"></div>
-                        <div class="chem-atom-core"></div>
-                    </div>
+                    <canvas id="anychem-mol-canvas" class="card-bg-canvas" width="660" height="372"></canvas>
                     <div class="poster-top-row">
                         <span style="color:var(--anychem-accent);">3D MOLECULAR DYNAMICS</span>
                         <span style="color:#d1dcce; font-family:var(--font-mono);">[ C₆H₆ · BENZENE ]</span>
                     </div>
                     <div class="poster-center-body">
                         <div class="title-chem-wrap">
-                            <svg class="title-chem-svg" viewBox="0 0 380 44" fill="none">
-                                <line x1="8" y1="22" x2="32" y2="22" stroke="var(--anychem-accent)" stroke-width="2" opacity="0.6" />
-                                <circle cx="8" cy="22" r="3.5" fill="var(--anychem-accent)" />
-                                <circle cx="32" cy="22" r="3.5" fill="#ffffff" />
-                                <text x="44" y="32" class="chem-svg-text">ANYCHEM</text>
-                                <g transform="translate(242, 10)">
-                                    <rect x="0" y="0" width="56" height="24" rx="4" fill="rgba(159, 180, 141, 0.15)" stroke="var(--anychem-accent)" stroke-width="1.5" />
-                                    <text x="28" y="17" class="chem-pro-text" text-anchor="middle">PRO</text>
+                            <svg class="title-chem-svg" viewBox="0 0 340 44" fill="none">
+                                <line x1="6" y1="22" x2="26" y2="22" stroke="var(--anychem-accent)" stroke-width="2" opacity="0.6" />
+                                <circle cx="6" cy="22" r="3.5" fill="var(--anychem-accent)" />
+                                <circle cx="26" cy="22" r="3.5" fill="#ffffff" />
+                                <text x="36" y="32" class="chem-svg-text">ANYCHEM</text>
+                                <g transform="translate(186, 12)">
+                                    <rect x="0" y="0" width="46" height="21" rx="4" fill="rgba(159, 180, 141, 0.15)" stroke="var(--anychem-accent)" stroke-width="1.5" />
+                                    <text x="23" y="15" class="chem-pro-text" text-anchor="middle">PRO</text>
                                 </g>
                             </svg>
                         </div>
@@ -1637,7 +1619,7 @@
                             <svg class="title-bit-svg" viewBox="0 0 340 44" fill="none">
                                 <path d="M 0,22 L 18,22 L 22,12 L 28,32 L 34,14 L 38,26 L 42,22 L 52,22" stroke="var(--bitpulse-green)" stroke-width="2" fill="none" />
                                 <text x="60" y="32" class="bit-svg-text">BITPULSE</text>
-                                <rect x="290" y="14" width="8" height="18" fill="var(--bitpulse-mint)" class="bit-cursor-blink" />
+                                <rect x="244" y="15" width="8" height="17" rx="1" fill="var(--bitpulse-mint)" class="bit-cursor-blink" />
                             </svg>
                         </div>
                         <div class="sub-bit">NES 2A03 芯片音乐工作站</div>
@@ -1662,6 +1644,7 @@
                 launchUrl: 'Chemiation/index.html',
                 innerMarkup: `
                     <div class="chem-parchment-glow"></div>
+                    <canvas id="chemiation-struct-canvas" class="card-bg-canvas" width="660" height="372"></canvas>
                     <div class="poster-top-row">
                         <span style="color:var(--chemiation-gold);">CCPL MECHANISM STUDIO</span>
                         <span style="color:#d9cbbe; font-family:var(--font-mono);">[ CH₃COOH + C₂H₅OH ]</span>
@@ -1733,12 +1716,9 @@
                     </div>
                     <div class="poster-center-body">
                         <div class="title-sc-wrap">
-                            <svg class="title-sc-svg" viewBox="0 0 360 48" fill="none">
-                                <text x="0" y="34" class="sc-svg-text">LITTLE</text>
-                                <g transform="translate(185, 4)">
-                                    <path d="M 6,0 L 58,0 C 62,0 66,4 66,8 L 66,16 C 72,16 76,20 76,24 C 76,28 72,32 66,32 L 66,38 C 66,42 62,46 58,46 L 6,46 C 2,46 0,42 0,38 L 0,8 C 0,4 2,0 6,0 Z" fill="var(--littlesc-orange)" />
-                                    <text x="33" y="30" class="sc-block-text" text-anchor="middle">SC</text>
-                                </g>
+                            <svg class="title-sc-svg" viewBox="0 0 320 44" fill="none">
+                                <text x="2" y="32" class="sc-svg-text">LITTLE<tspan fill="var(--littlesc-orange)">SC</tspan></text>
+                                <path d="M 124,10 L 134,10 C 136,10 137,8 139,8 L 149,8 C 151,8 152,10 154,10 L 164,10" stroke="var(--littlesc-orange)" stroke-width="2.5" stroke-linecap="round" />
                             </svg>
                         </div>
                         <div class="sub-sc">自然语言转 Scratch 积木编译器</div>
@@ -1770,15 +1750,11 @@
                     </div>
                     <div class="poster-center-body">
                         <div class="title-gif-wrap">
-                            <svg class="title-gif-svg" viewBox="0 0 380 46" fill="none">
-                                <polygon points="4,16 16,23 4,30" fill="var(--gifeditor-cyan)" />
-                                <text x="26" y="33" class="gif-svg-main">GIF</text>
-                                <g transform="translate(126, 7)">
-                                    <rect x="0" y="0" width="135" height="30" rx="5" fill="#0f172a" stroke="var(--gifeditor-cyan)" stroke-width="1.5" />
-                                    <line x1="0" y1="0" x2="135" y2="0" stroke="var(--gifeditor-amber)" stroke-width="3" />
-                                    <text x="67" y="21" class="gif-svg-badge" text-anchor="middle">EDITOR</text>
-                                    <polygon points="135,10 144,15 135,20" fill="var(--gifeditor-amber)" />
-                                </g>
+                            <svg class="title-gif-svg" viewBox="0 0 340 44" fill="none">
+                                <polygon points="2,14 14,22 2,30" fill="#ffffff" />
+                                <text x="22" y="32" class="gif-svg-main">GIF <tspan fill="var(--gifeditor-cyan)">EDITOR</tspan></text>
+                                <circle cx="236" cy="22" r="4.5" fill="var(--gifeditor-amber)" />
+                                <line x1="240.5" y1="22" x2="258" y2="22" stroke="var(--gifeditor-amber)" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </div>
                         <div class="sub-gif">QQ 表情动图衍生工坊</div>
@@ -1905,6 +1881,8 @@
             let curTiltY = 0;
 
             const cardElements = [];
+            let renderAnychemMol = null;
+            let renderChemiationStruct = null;
 
             function init() {
                 stage.innerHTML = '';
@@ -1945,6 +1923,8 @@
                 });
 
                 bindEvents();
+                renderAnychemMol = initAnychemMoleculeSimulation();
+                renderChemiationStruct = initChemiationStructureSimulation();
                 requestAnimationFrame(renderLoop);
             }
 
@@ -2051,6 +2031,356 @@
                 });
             }
 
+            // 01. AnyChem: 旋转 3D 分子模型投影 (单色高科技质感，严格与卡牌主题色 #9fb48d 保持一致)
+            function initAnychemMoleculeSimulation() {
+                const canvas = document.getElementById('anychem-mol-canvas');
+                if (!canvas) return null;
+                const ctx = canvas.getContext('2d');
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = 660 * dpr;
+                canvas.height = 372 * dpr;
+                ctx.scale(dpr, dpr);
+
+                // 3D 苯环与共振结构模型 (Benzene C₆H₆: 6 个碳原子 + 6 个氢原子 + 离域大Π键环)
+                const rc = 64;  // 碳环半径
+                const rh = 106; // 氢原子半径
+                const carbons = [];
+                const hydrogens = [];
+                for (let i = 0; i < 6; i++) {
+                    const ang = (i * Math.PI) / 3;
+                    carbons.push({ x: rc * Math.cos(ang), y: rc * Math.sin(ang), z: 0 });
+                    hydrogens.push({ x: rh * Math.cos(ang), y: rh * Math.sin(ang), z: 0 });
+                }
+
+                return function render(time) {
+                    ctx.clearRect(0, 0, 660, 372);
+                    const cx = 465;
+                    const cy = 186;
+
+                    // 空间 3D 自转 (Yaw / Pitch / Roll)
+                    const rotY = time * 0.00075;
+                    const rotX = 0.42 + Math.sin(time * 0.0005) * 0.22;
+                    const rotZ = time * 0.00035;
+
+                    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+                    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+                    const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
+
+                    function project(p) {
+                        const x1 = p.x * cosZ - p.y * sinZ;
+                        const y1 = p.x * sinZ + p.y * cosZ;
+                        const z1 = p.z;
+
+                        const x2 = x1 * cosY + z1 * sinY;
+                        const z2 = -x1 * sinY + z1 * cosY;
+
+                        const y3 = y1 * cosX - z2 * sinX;
+                        const z3 = y1 * sinX + z2 * cosX;
+
+                        const fov = 380;
+                        const scale = fov / (fov - z3);
+                        return {
+                            sx: cx + x2 * scale,
+                            sy: cy + y3 * scale,
+                            sz: z3,
+                            scale
+                        };
+                    }
+
+                    const projC = carbons.map(project);
+                    const projH = hydrogens.map(project);
+
+                    // 绘制上下离域电子云环 (大Π键共振虚线投影)
+                    [-20, 20].forEach(offsetZ => {
+                        ctx.save();
+                        ctx.beginPath();
+                        const segments = 24;
+                        for (let j = 0; j <= segments; j++) {
+                            const a = (j * Math.PI * 2) / segments;
+                            const pt = project({ x: rc * Math.cos(a), y: rc * Math.sin(a), z: offsetZ });
+                            if (j === 0) ctx.moveTo(pt.sx, pt.sy);
+                            else ctx.lineTo(pt.sx, pt.sy);
+                        }
+                        ctx.setLineDash([4, 4]);
+                        ctx.strokeStyle = 'rgba(159, 180, 141, 0.16)';
+                        ctx.lineWidth = 1.2;
+                        ctx.stroke();
+                        ctx.restore();
+                    });
+
+                    // 收集共价键并按深度排序绘制
+                    const edges = [];
+                    for (let i = 0; i < 6; i++) {
+                        const next = (i + 1) % 6;
+                        edges.push({
+                            type: 'cc',
+                            order: (i % 2 === 0) ? 2 : 1,
+                            p1: projC[i],
+                            p2: projC[next],
+                            avgZ: (projC[i].sz + projC[next].sz) * 0.5
+                        });
+                    }
+                    for (let i = 0; i < 6; i++) {
+                        edges.push({
+                            type: 'ch',
+                            order: 1,
+                            p1: projC[i],
+                            p2: projH[i],
+                            avgZ: (projC[i].sz + projH[i].sz) * 0.5
+                        });
+                    }
+
+                    edges.sort((a, b) => a.avgZ - b.avgZ);
+
+                    edges.forEach(edge => {
+                        const { p1, p2, order, type, avgZ } = edge;
+                        const alpha = Math.max(0.12, Math.min(0.55, 0.28 + (avgZ / 120) * 0.25));
+                        ctx.save();
+                        ctx.lineCap = 'round';
+
+                        if (type === 'cc') {
+                            if (order === 2) {
+                                const dx = p2.sx - p1.sx;
+                                const dy = p2.sy - p1.sy;
+                                const len = Math.hypot(dx, dy) || 1;
+                                const nx = (-dy / len) * 3.2;
+                                const ny = (dx / len) * 3.2;
+
+                                ctx.strokeStyle = `rgba(159, 180, 141, ${alpha})`;
+                                ctx.lineWidth = 1.6;
+                                ctx.beginPath();
+                                ctx.moveTo(p1.sx + nx, p1.sy + ny);
+                                ctx.lineTo(p2.sx + nx, p2.sy + ny);
+                                ctx.moveTo(p1.sx - nx, p1.sy - ny);
+                                ctx.lineTo(p2.sx - nx, p2.sy - ny);
+                                ctx.stroke();
+                            } else {
+                                ctx.strokeStyle = `rgba(159, 180, 141, ${alpha})`;
+                                ctx.lineWidth = 1.6;
+                                ctx.beginPath();
+                                ctx.moveTo(p1.sx, p1.sy);
+                                ctx.lineTo(p2.sx, p2.sy);
+                                ctx.stroke();
+                            }
+                        } else {
+                            ctx.strokeStyle = `rgba(159, 180, 141, ${alpha * 0.75})`;
+                            ctx.lineWidth = 1.2;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.sx, p1.sy);
+                            ctx.lineTo(p2.sx, p2.sy);
+                            ctx.stroke();
+                        }
+                        ctx.restore();
+                    });
+
+                    // 收集原子并按深度绘制 (颜色单一和卡牌一致: #9fb48d)
+                    const atoms = [];
+                    projC.forEach(p => atoms.push({ type: 'C', p }));
+                    projH.forEach(p => atoms.push({ type: 'H', p }));
+                    atoms.sort((a, b) => a.p.sz - b.p.sz);
+
+                    atoms.forEach(atom => {
+                        const { type, p } = atom;
+                        const alpha = Math.max(0.2, Math.min(0.9, 0.5 + (p.sz / 120) * 0.35));
+                        const r = (type === 'C' ? 4.8 : 2.8) * p.scale;
+
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(159, 180, 141, ${alpha})`;
+                        if (type === 'C') {
+                            ctx.shadowColor = 'rgba(159, 180, 141, 0.45)';
+                            ctx.shadowBlur = 8 * p.scale;
+                        }
+                        ctx.fill();
+                        ctx.restore();
+                    });
+                };
+            }
+
+            // 03. Chemiation: 3D 反应机理结构式仿真 (经典伪 3D 字母排印与化学键模型)
+            function initChemiationStructureSimulation() {
+                const canvas = document.getElementById('chemiation-struct-canvas');
+                if (!canvas) return null;
+                const ctx = canvas.getContext('2d');
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = 660 * dpr;
+                canvas.height = 372 * dpr;
+                ctx.scale(dpr, dpr);
+
+                // Chemiation 经典乙酸/反应活性中间体拓扑坐标
+                const rawAtoms = [
+                    { id: 'C1', el: 'C', x: -68, y: -18, z: 12 },
+                    { id: 'H1', el: 'H', x: -108, y: -10, z: 32 },
+                    { id: 'H2', el: 'H', x: -62, y: -68, z: 14 },
+                    { id: 'H3', el: 'H', x: -75, y: -12, z: -32 },
+                    { id: 'C2', el: 'C', x: 2, y: 14, z: 0 },
+                    { id: 'O1', el: 'O', x: 12, y: 72, z: -16, isCarbonyl: true },
+                    { id: 'O2', el: 'O', x: 58, y: -26, z: 14 },
+                    { id: 'H4', el: 'H', x: 96, y: -18, z: 10 },
+                    { id: 'C3', el: 'C', x: 76, y: 36, z: -10 },
+                    { id: 'H5', el: 'H', x: 74, y: 80, z: -26 },
+                    { id: 'C4', el: 'C', x: 128, y: 16, z: 16 },
+                    { id: 'H6', el: 'H', x: 166, y: 34, z: 12 },
+                    { id: 'H7', el: 'H', x: 124, y: -30, z: 34 }
+                ];
+
+                const rawBonds = [
+                    { a1: 0, a2: 1, order: 1 },
+                    { a1: 0, a2: 2, order: 1 },
+                    { a1: 0, a2: 3, order: 1 },
+                    { a1: 0, a2: 4, order: 1 },
+                    { a1: 4, a2: 5, order: 2 },
+                    { a1: 4, a2: 6, order: 1 },
+                    { a1: 6, a2: 7, order: 1 },
+                    { a1: 4, a2: 8, order: 1 },
+                    { a1: 8, a2: 9, order: 1 },
+                    { a1: 8, a2: 10, order: 1 },
+                    { a1: 10, a2: 11, order: 1 },
+                    { a1: 10, a2: 12, order: 1 }
+                ];
+
+                return function render(time) {
+                    ctx.clearRect(0, 0, 660, 372);
+                    const cx = 475;
+                    const cy = 186;
+
+                    // 空间伪 3D 慢速平滑自转
+                    const rotY = time * 0.00065;
+                    const rotX = 0.35 + Math.sin(time * 0.00045) * 0.18;
+                    const rotZ = -0.12 + Math.cos(time * 0.00035) * 0.08;
+
+                    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+                    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+                    const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
+
+                    let minZ = Infinity, maxZ = -Infinity;
+                    const projectedAtoms = rawAtoms.map(atom => {
+                        const x1 = atom.x * cosZ - atom.y * sinZ;
+                        const y1 = atom.x * sinZ + atom.y * cosZ;
+                        const z1 = atom.z;
+
+                        const x2 = x1 * cosY + z1 * sinY;
+                        const z2 = -x1 * sinY + z1 * cosY;
+
+                        const y3 = y1 * cosX - z2 * sinX;
+                        const z3 = y1 * sinX + z2 * cosX;
+
+                        if (z3 < minZ) minZ = z3;
+                        if (z3 > maxZ) maxZ = z3;
+
+                        const fov = 380;
+                        const scale = fov / (fov - z3);
+                        return {
+                            ...atom,
+                            sx: cx + x2 * scale,
+                            sy: cy + y3 * scale,
+                            sz: z3,
+                            scale
+                        };
+                    });
+
+                    const zRange = Math.max(1, maxZ - minZ);
+                    projectedAtoms.forEach(atom => {
+                        atom.depth = (atom.sz - minZ) / zRange;
+                        atom.fontSize = Math.round(15 + atom.depth * 13);
+                        atom.clipRadius = atom.fontSize * 0.46;
+                    });
+
+                    const renderBonds = rawBonds.map(b => {
+                        const a1 = projectedAtoms[b.a1];
+                        const a2 = projectedAtoms[b.a2];
+                        return {
+                            ...b,
+                            a1,
+                            a2,
+                            avgZ: (a1.sz + a2.sz) * 0.5,
+                            avgDepth: (a1.depth + a2.depth) * 0.5
+                        };
+                    });
+
+                    const queue = [];
+                    renderBonds.forEach(b => queue.push({ type: 'bond', z: b.avgZ, data: b }));
+                    projectedAtoms.forEach(a => queue.push({ type: 'atom', z: a.sz, data: a }));
+                    queue.sort((a, b) => a.z - b.z);
+
+                    queue.forEach(item => {
+                        if (item.type === 'bond') {
+                            const b = item.data;
+                            const { a1, a2, order, avgDepth } = b;
+                            const dx = a2.sx - a1.sx;
+                            const dy = a2.sy - a1.sy;
+                            const dist = Math.hypot(dx, dy) || 1;
+                            const ux = dx / dist;
+                            const uy = dy / dist;
+
+                            // 严格自字母边缘出线，绝不侵入字形
+                            const startX = a1.sx + ux * a1.clipRadius;
+                            const startY = a1.sy + uy * a1.clipRadius;
+                            const endX = a2.sx - ux * a2.clipRadius;
+                            const endY = a2.sy - uy * a2.clipRadius;
+
+                            if (Math.hypot(endX - startX, endY - startY) < 2) return;
+
+                            const nx = -uy;
+                            const ny = ux;
+                            const alpha = 0.22 + avgDepth * 0.55;
+                            const lineWidth = 1.3 + avgDepth * 1.5;
+
+                            ctx.save();
+                            ctx.lineCap = 'round';
+                            ctx.strokeStyle = `rgba(192, 138, 62, ${alpha})`;
+                            ctx.lineWidth = lineWidth;
+
+                            if (order === 2) {
+                                const offset = 3.2;
+                                ctx.beginPath();
+                                ctx.moveTo(startX + nx * offset, startY + ny * offset);
+                                ctx.lineTo(endX + nx * offset, endY + ny * offset);
+                                ctx.moveTo(startX - nx * offset, startY - ny * offset);
+                                ctx.lineTo(endX - nx * offset, endY - ny * offset);
+                                ctx.stroke();
+                            } else {
+                                ctx.beginPath();
+                                ctx.moveTo(startX, startY);
+                                ctx.lineTo(endX, endY);
+                                ctx.stroke();
+                            }
+                            ctx.restore();
+                        } else {
+                            const a = item.data;
+                            const { el, sx, sy, fontSize, depth, isCarbonyl } = a;
+
+                            ctx.save();
+                            ctx.font = `bold ${fontSize}px "Century Gothic", "Cinzel", "Times New Roman", serif`;
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+
+                            // 底色外描边：清除身后化学键交叉干扰
+                            ctx.lineWidth = fontSize * 0.32;
+                            ctx.lineJoin = 'round';
+                            ctx.strokeStyle = '#1c0d06';
+                            ctx.strokeText(el, sx, sy);
+
+                            if (isCarbonyl) {
+                                ctx.fillStyle = `rgba(184, 74, 40, ${0.45 + depth * 0.55})`;
+                                ctx.shadowColor = 'rgba(184, 74, 40, 0.6)';
+                                ctx.shadowBlur = 10 * depth;
+                            } else {
+                                const r = Math.round(168 + (245 - 168) * depth);
+                                const g = Math.round(142 + (235 - 142) * depth);
+                                const b = Math.round(122 + (215 - 122) * depth);
+                                const alpha = 0.35 + depth * 0.6;
+                                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                            }
+
+                            ctx.fillText(el, sx, sy);
+                            ctx.restore();
+                        }
+                    });
+                };
+            }
+
             function renderLoop() {
                 // 丝滑逼近目标位置
                 currentPos += (targetPos - currentPos) * 0.12;
@@ -2096,6 +2426,11 @@
                     card.style.zIndex = Math.round(20 - absOffset * 4);
                     card.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
                 });
+
+                // 渲染 AnyChem 与 Chemiation 卡片 3D 分子动态模型与结构式
+                const animTime = performance.now();
+                if (renderAnychemMol) renderAnychemMol(animTime);
+                if (renderChemiationStruct) renderChemiationStruct(animTime);
 
                 requestAnimationFrame(renderLoop);
             }
