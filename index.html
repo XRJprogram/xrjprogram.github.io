@@ -765,6 +765,9 @@
         @keyframes trompBridgeDash {
             to { stroke-dashoffset: -18; }
         }
+        .card-lambdadiagrams .poster-center-body {
+            max-width: 360px;
+        }
         .title-lambda {
             font-family: var(--font-display);
             font-size: 2.7rem;
@@ -781,17 +784,17 @@
         .sub-lambda {
             font-family: var(--font-sans-cn);
             font-weight: 700;
-            font-size: 1.06rem;
+            font-size: 1.02rem;
             color: #ffffff;
-            letter-spacing: 0.08em;
-            margin-bottom: 12px;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
         }
         .desc-lambda {
             font-family: var(--font-sans-cn);
             font-weight: 400;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            max-width: 480px;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            max-width: 360px;
             color: #d4d4d4;
         }
         .lambda-metric {
@@ -831,6 +834,156 @@
             font-size: 13px;
             font-weight: 700;
             fill: #ffffff;
+        }
+
+        /* ============================================================
+           定制化个性字体与 SVG Wordmark 艺术字排版系统
+           ============================================================ */
+        .title-chem-wrap,
+        .title-bit-wrap,
+        .title-chemia-wrap,
+        .title-pix-wrap,
+        .title-sc-wrap,
+        .title-gif-wrap,
+        .title-lambda-wrap {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .title-chem-svg,
+        .title-bit-svg,
+        .title-chemia-svg,
+        .title-pix-svg,
+        .title-sc-svg,
+        .title-gif-svg,
+        .title-lambda-svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            max-height: 48px;
+            overflow: visible;
+        }
+
+        /* 01. AnyChem SVG */
+        .chem-svg-text {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 0.1em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 16px rgba(159, 180, 141, 0.5));
+        }
+        .chem-pro-text {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            fill: var(--anychem-accent);
+        }
+
+        /* 02. BitPulse SVG */
+        .bit-svg-text {
+            font-family: var(--font-pixel);
+            font-size: 20px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(3px 3px 0 #059669) drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
+        }
+        .bit-cursor-blink {
+            animation: cursorBlink 0.8s steps(2, start) infinite;
+        }
+        @keyframes cursorBlink {
+            to { opacity: 0; }
+        }
+
+        /* 03. Chemiation SVG */
+        .chemia-svg-text {
+            font-family: var(--font-cinema);
+            font-weight: 900;
+            font-size: 27px;
+            letter-spacing: 0.22em;
+            fill: #faf6e9;
+            filter: drop-shadow(0 0 25px rgba(184, 74, 40, 0.8));
+        }
+        .chemia-dagger-text {
+            font-family: var(--font-cinema);
+            font-size: 20px;
+            font-weight: 700;
+            fill: var(--chemiation-gold);
+            filter: drop-shadow(0 0 10px rgba(192, 138, 62, 0.8));
+        }
+
+        /* 04. PixelMe SVG */
+        .pix-svg-text {
+            font-family: var(--font-pixel);
+            font-size: 21px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+        }
+        .pix-svg-shadow-cyan {
+            font-family: var(--font-pixel);
+            font-size: 21px;
+            letter-spacing: 0.08em;
+            fill: var(--pixelme-cyan);
+        }
+        .pix-svg-shadow-pink {
+            font-family: var(--font-pixel);
+            font-size: 21px;
+            letter-spacing: 0.08em;
+            fill: var(--pixelme-pink);
+            filter: drop-shadow(0 0 16px rgba(253, 121, 168, 0.7));
+        }
+
+        /* 05. LittleSC SVG */
+        .sc-svg-text {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 20px rgba(255, 171, 25, 0.5));
+        }
+        .sc-block-text {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: 0.05em;
+            fill: #120901;
+        }
+
+        /* 06. Gif Editor SVG */
+        .gif-svg-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6));
+        }
+        .gif-svg-badge {
+            font-family: var(--font-mono);
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: 0.16em;
+            fill: var(--gifeditor-cyan);
+        }
+
+        /* 07. Lambda Diagrams SVG */
+        .lambda-svg-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 26px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.5));
+        }
+        .lambda-svg-sub {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.14em;
+            fill: #a3a3a3;
         }
 
         /* 空间滑轨极简指示器 (极简长圆柱胶囊) */
@@ -1423,9 +1576,9 @@
             <span class="fc-flow-sep" style="--ci:9">·</span>
             <span class="fc-flow-char" style="--ci:10">百</span><span class="fc-flow-char" style="--ci:11">万</span><span class="fc-flow-char" style="--ci:12">字</span><span class="fc-flow-char" style="--ci:13">史</span><span class="fc-flow-char" style="--ci:14">诗</span><span class="fc-flow-char" style="--ci:15">连</span><span class="fc-flow-char" style="--ci:16">载</span>
             <span class="fc-flow-sep" style="--ci:17">·</span>
-            <span class="fc-flow-char" style="--ci:18">纯</span><span class="fc-flow-char" style="--ci:19">前</span><span class="fc-flow-char" style="--ci:20">端</span><span class="fc-flow-char" style="--ci:21">像</span><span class="fc-flow-char" style="--ci:22">素</span><span class="fc-flow-char" style="--ci:23">卡</span><span class="fc-flow-char" style="--ci:24">牌</span><span class="fc-flow-char" style="--ci:25">对</span><span class="fc-flow-char" style="--ci:26">弈</span>
-            <span class="fc-flow-sep" style="--ci:27">·</span>
-            <span class="fc-flow-char" style="--ci:28">异</span><span class="fc-flow-char" style="--ci:29">能</span><span class="fc-flow-char" style="--ci:30">全</span><span class="fc-flow-char" style="--ci:31">景</span><span class="fc-flow-char" style="--ci:32">百</span><span class="fc-flow-char" style="--ci:33">科</span><span class="fc-flow-char" style="--ci:34">图</span><span class="fc-flow-char" style="--ci:35">鉴</span>
+            <span class="fc-flow-char" style="--ci:18">像</span><span class="fc-flow-char" style="--ci:19">素</span><span class="fc-flow-char" style="--ci:20">卡</span><span class="fc-flow-char" style="--ci:21">牌</span><span class="fc-flow-char" style="--ci:22">对</span><span class="fc-flow-char" style="--ci:23">弈</span>
+            <span class="fc-flow-sep" style="--ci:24">·</span>
+            <span class="fc-flow-char" style="--ci:25">异</span><span class="fc-flow-char" style="--ci:26">能</span><span class="fc-flow-char" style="--ci:27">全</span><span class="fc-flow-char" style="--ci:28">景</span><span class="fc-flow-char" style="--ci:29">百</span><span class="fc-flow-char" style="--ci:30">科</span><span class="fc-flow-char" style="--ci:31">图</span><span class="fc-flow-char" style="--ci:32">鉴</span>
         </p>
     </section>
 
@@ -1447,7 +1600,18 @@
                         <span style="color:#d1dcce; font-family:var(--font-mono);">[ C₆H₆ · BENZENE ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-chem">ANYCHEM PRO</h2>
+                        <div class="title-chem-wrap">
+                            <svg class="title-chem-svg" viewBox="0 0 380 44" fill="none">
+                                <line x1="8" y1="22" x2="32" y2="22" stroke="var(--anychem-accent)" stroke-width="2" opacity="0.6" />
+                                <circle cx="8" cy="22" r="3.5" fill="var(--anychem-accent)" />
+                                <circle cx="32" cy="22" r="3.5" fill="#ffffff" />
+                                <text x="44" y="32" class="chem-svg-text">ANYCHEM</text>
+                                <g transform="translate(242, 10)">
+                                    <rect x="0" y="0" width="56" height="24" rx="4" fill="rgba(159, 180, 141, 0.15)" stroke="var(--anychem-accent)" stroke-width="1.5" />
+                                    <text x="28" y="17" class="chem-pro-text" text-anchor="middle">PRO</text>
+                                </g>
+                            </svg>
+                        </div>
                         <div class="sub-chem">3D 分子动力学与结构仿真</div>
                         <p class="desc-chem">基于弹簧力学模型求解三维分子运动：支持原子实时拖拽交互、化学键张力解算与动态构型平衡，并内置 IUPAC 标准命名推导。</p>
                     </div>
@@ -1469,8 +1633,14 @@
                         <span style="color:var(--bitpulse-green); font-family:var(--font-pixel); font-size:0.56rem;">[ 2×PULSE · TRI · NOISE ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-bit">BITPULSE</h2>
-                        <div class="sub-bit">NES 2A03 纯前端芯片音乐工作站</div>
+                        <div class="title-bit-wrap">
+                            <svg class="title-bit-svg" viewBox="0 0 340 44" fill="none">
+                                <path d="M 0,22 L 18,22 L 22,12 L 28,32 L 34,14 L 38,26 L 42,22 L 52,22" stroke="var(--bitpulse-green)" stroke-width="2" fill="none" />
+                                <text x="60" y="32" class="bit-svg-text">BITPULSE</text>
+                                <rect x="290" y="14" width="8" height="18" fill="var(--bitpulse-mint)" class="bit-cursor-blink" />
+                            </svg>
+                        </div>
+                        <div class="sub-bit">NES 2A03 芯片音乐工作站</div>
                         <p class="desc-bit">高保真模拟红白机 2A03 声音芯片：基于 Web Audio 纯前端实现双脉冲、三角波与噪声通道编曲，在浏览器中创作纯正 8-Bit 复古音效。</p>
                     </div>
                     <div class="poster-bottom-row">
@@ -1497,7 +1667,20 @@
                         <span style="color:#d9cbbe; font-family:var(--font-mono);">[ CH₃COOH + C₂H₅OH ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-chemia">CHEMIATION</h2>
+                        <div class="title-chemia-wrap">
+                            <svg class="title-chemia-svg" viewBox="0 0 380 46" fill="none">
+                                <text x="0" y="34" class="chemia-svg-text">CHEMIATION</text>
+                                <text x="325" y="20" class="chemia-dagger-text">‡</text>
+                                <line x1="0" y1="42" x2="340" y2="42" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.6" />
+                                <defs>
+                                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#b84a28" />
+                                        <stop offset="50%" stop-color="#c08a3e" />
+                                        <stop offset="100%" stop-color="#faf6e9" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
                         <div class="sub-chemia">化学反应机理与动态势能面演示</div>
                         <p class="desc-chemia">在 2D 画布中构建多层视差景深：沿微观时间轴推演分子碰撞、旧键断裂与新键重组全过程，直观呈现化学反应机理。</p>
                     </div>
@@ -1518,7 +1701,13 @@
                         <span style="color:var(--pixelme-pink); font-family:var(--font-pixel); font-size:0.56rem;">[ 32×32 PIXEL GRID ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-pix">PIXELME</h2>
+                        <div class="title-pix-wrap">
+                            <svg class="title-pix-svg" viewBox="0 0 340 44" fill="none">
+                                <text x="4" y="34" class="pix-svg-shadow-pink">PIXELME</text>
+                                <text x="2" y="32" class="pix-svg-shadow-cyan">PIXELME</text>
+                                <text x="0" y="30" class="pix-svg-text">PIXELME</text>
+                            </svg>
+                        </div>
                         <div class="sub-pix">32×32 像素角色与纸娃娃工坊</div>
                         <p class="desc-pix">面向 32×32 经典点阵的角色创作者：自由组合发型、五官与服饰图层，配合高光与阴影自动分层渲染，一键导出高清像素立绘。</p>
                     </div>
@@ -1543,7 +1732,15 @@
                         <span style="color:var(--littlesc-blue); font-family:var(--font-mono);">[ GOBOSCRIPT ↔ SB3 ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-sc">LITTLE<span>SC</span></h2>
+                        <div class="title-sc-wrap">
+                            <svg class="title-sc-svg" viewBox="0 0 360 48" fill="none">
+                                <text x="0" y="34" class="sc-svg-text">LITTLE</text>
+                                <g transform="translate(185, 4)">
+                                    <path d="M 6,0 L 58,0 C 62,0 66,4 66,8 L 66,16 C 72,16 76,20 76,24 C 76,28 72,32 66,32 L 66,38 C 66,42 62,46 58,46 L 6,46 C 2,46 0,42 0,38 L 0,8 C 0,4 2,0 6,0 Z" fill="var(--littlesc-orange)" />
+                                    <text x="33" y="30" class="sc-block-text" text-anchor="middle">SC</text>
+                                </g>
+                            </svg>
+                        </div>
                         <div class="sub-sc">自然语言转 Scratch 积木编译器</div>
                         <p class="desc-sc">将自然语言指令实时转译为 Scratch 积木源码，支持 AST 代码比对与行级 Diff，点击差异即可在舞台中快速定位对应积木。</p>
                     </div>
@@ -1572,7 +1769,18 @@
                         <span style="color:var(--gifeditor-amber); font-family:var(--font-mono);">[ 247 Q-FACE · UE5 STYLE ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-gif">GIF<span>EDITOR</span></h2>
+                        <div class="title-gif-wrap">
+                            <svg class="title-gif-svg" viewBox="0 0 380 46" fill="none">
+                                <polygon points="4,16 16,23 4,30" fill="var(--gifeditor-cyan)" />
+                                <text x="26" y="33" class="gif-svg-main">GIF</text>
+                                <g transform="translate(126, 7)">
+                                    <rect x="0" y="0" width="135" height="30" rx="5" fill="#0f172a" stroke="var(--gifeditor-cyan)" stroke-width="1.5" />
+                                    <line x1="0" y1="0" x2="135" y2="0" stroke="var(--gifeditor-amber)" stroke-width="3" />
+                                    <text x="67" y="21" class="gif-svg-badge" text-anchor="middle">EDITOR</text>
+                                    <polygon points="135,10 144,15 135,20" fill="var(--gifeditor-amber)" />
+                                </g>
+                            </svg>
+                        </div>
                         <div class="sub-gif">QQ 表情动图衍生工坊</div>
                         <p class="desc-gif">基于节点蓝图与有向无环图（DAG）的表情二创工坊：精选 247 款 QQ 经典动态表情，自由连线进行对称镜像、阴阳脸缝合、像素扭曲与微观时序裁剪。</p>
                     </div>
@@ -1595,37 +1803,45 @@
                     <div class="lambda-grid-mesh"></div>
                     <svg class="tromp-diagram-svg" viewBox="0 0 660 372" preserveAspectRatio="none">
                         <!-- John Tromp's S Combinator: S = \\x. \\y. \\z. (x z) (y z) -->
-                        <path d="M 432,60 L 432,70 M 432,65 L 608,65 M 608,60 L 608,70" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
-                        <text x="424" y="69" class="tromp-lbl" text-anchor="end">λx</text>
-                        <path d="M 432,95 L 432,105 M 432,100 L 608,100 M 608,95 L 608,105" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
-                        <text x="424" y="104" class="tromp-lbl" text-anchor="end">λy</text>
-                        <path d="M 432,130 L 432,140 M 432,135 L 608,135 M 608,130 L 608,140" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
-                        <text x="424" y="139" class="tromp-lbl" text-anchor="end">λz</text>
-                        <line x1="455" y1="65" x2="455" y2="295" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
-                        <line x1="495" y1="135" x2="495" y2="215" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
-                        <line x1="545" y1="100" x2="545" y2="295" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
-                        <line x1="585" y1="135" x2="585" y2="255" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
-                        <line x1="455" y1="215" x2="495" y2="215" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
-                        <line x1="545" y1="255" x2="585" y2="255" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
-                        <line x1="455" y1="295" x2="545" y2="295" stroke="#ffffff" stroke-width="3" stroke-linecap="square" class="tromp-redex-bridge" />
-                        <text x="600" y="299" class="tromp-lbl-sym" text-anchor="middle">S</text>
-                        <circle cx="455" cy="65" r="3.5" fill="#ffffff" />
-                        <circle cx="545" cy="100" r="3.5" fill="#ffffff" />
-                        <circle cx="495" cy="135" r="3.5" fill="#ffffff" />
-                        <circle cx="585" cy="135" r="3.5" fill="#ffffff" />
-                        <circle cx="455" cy="215" r="3" fill="#ffffff" />
-                        <circle cx="495" cy="215" r="3" fill="#ffffff" />
-                        <circle cx="545" cy="255" r="3" fill="#ffffff" />
-                        <circle cx="585" cy="255" r="3" fill="#ffffff" />
-                        <circle cx="455" cy="295" r="4" fill="#ffffff" />
-                        <circle cx="545" cy="295" r="4" fill="#ffffff" />
+                        <path d="M 452,60 L 452,70 M 452,65 L 618,65 M 618,60 L 618,70" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
+                        <text x="444" y="69" class="tromp-lbl" text-anchor="end">λx</text>
+                        <path d="M 452,95 L 452,105 M 452,100 L 618,100 M 618,95 L 618,105" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
+                        <text x="444" y="104" class="tromp-lbl" text-anchor="end">λy</text>
+                        <path d="M 452,130 L 452,140 M 452,135 L 618,135 M 618,130 L 618,140" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
+                        <text x="444" y="139" class="tromp-lbl" text-anchor="end">λz</text>
+                        <line x1="472" y1="65" x2="472" y2="295" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="510" y1="135" x2="510" y2="215" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="555" y1="100" x2="555" y2="295" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="595" y1="135" x2="595" y2="255" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="472" y1="215" x2="510" y2="215" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="555" y1="255" x2="595" y2="255" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="472" y1="295" x2="555" y2="295" stroke="#ffffff" stroke-width="3" stroke-linecap="square" class="tromp-redex-bridge" />
+                        <text x="610" y="299" class="tromp-lbl-sym" text-anchor="middle">S</text>
+                        <circle cx="472" cy="65" r="3.5" fill="#ffffff" />
+                        <circle cx="555" cy="100" r="3.5" fill="#ffffff" />
+                        <circle cx="510" cy="135" r="3.5" fill="#ffffff" />
+                        <circle cx="595" cy="135" r="3.5" fill="#ffffff" />
+                        <circle cx="472" cy="215" r="3" fill="#ffffff" />
+                        <circle cx="510" cy="215" r="3" fill="#ffffff" />
+                        <circle cx="555" cy="255" r="3" fill="#ffffff" />
+                        <circle cx="595" cy="255" r="3" fill="#ffffff" />
+                        <circle cx="472" cy="295" r="4" fill="#ffffff" />
+                        <circle cx="555" cy="295" r="4" fill="#ffffff" />
                     </svg>
                     <div class="poster-top-row">
                         <span style="color:#ffffff; font-family:var(--font-mono); font-weight:700;">JOHN TROMP TOPOLOGY</span>
                         <span style="color:#a3a3a3; font-family:var(--font-mono);">[ MONOCHROME · β-REDUCTION ]</span>
                     </div>
                     <div class="poster-center-body">
-                        <h2 class="title-lambda">LAMBDA<span>DIAGRAMS</span></h2>
+                        <div class="title-lambda-wrap">
+                            <svg class="title-lambda-svg" viewBox="0 0 350 48" fill="none">
+                                <path d="M 4,8 L 4,14 M 4,11 L 30,11 M 30,8 L 30,14" stroke="#ffffff" stroke-width="2" />
+                                <path d="M 21,11 L 10,38 M 17,24 L 27,38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                                <circle cx="21" cy="11" r="2.5" fill="#ffffff" />
+                                <text x="38" y="34" class="lambda-svg-title">LAMBDA</text>
+                                <text x="200" y="34" class="lambda-svg-sub">DIAGRAMS</text>
+                            </svg>
+                        </div>
                         <div class="sub-lambda">John Tromp Lambda 图动态演算工作台</div>
                         <p class="desc-lambda">基于 John Tromp 几何规范的纯黑白极简电路式拓扑工作台：支持经典与德布鲁因双记法、五阶段 β-规约动态演示、双风格图样与无级回溯。</p>
                     </div>
@@ -1732,18 +1948,30 @@
                 requestAnimationFrame(renderLoop);
             }
 
+            function getShortestDistance(fromIdx, toIdx) {
+                let diff = (toIdx - fromIdx) % total;
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
+                return diff;
+            }
+
             function goTo(idx) {
-                targetPos = Math.max(0, Math.min(total - 1, idx));
-                activeIdx = targetPos;
+                const diff = getShortestDistance(activeIdx, idx);
+                targetPos += diff;
+                activeIdx = idx;
                 updateIndicators();
             }
 
             function next() {
-                goTo(targetPos < total - 1 ? Math.round(targetPos + 1) : 0);
+                targetPos = Math.round(targetPos) + 1;
+                activeIdx = ((Math.round(targetPos) % total) + total) % total;
+                updateIndicators();
             }
 
             function prev() {
-                goTo(targetPos > 0 ? Math.round(targetPos - 1) : total - 1);
+                targetPos = Math.round(targetPos) - 1;
+                activeIdx = ((Math.round(targetPos) % total) + total) % total;
+                updateIndicators();
             }
 
             function updateIndicators() {
@@ -1793,10 +2021,10 @@
                     if (!isPointerDown) return;
                     isPointerDown = false;
 
-                    // 惯性对齐
+                    // 惯性对齐 (环形无锁，自由循环)
                     targetPos -= dragVelocity * 0.35;
-                    targetPos = Math.max(0, Math.min(total - 1, Math.round(targetPos)));
-                    activeIdx = targetPos;
+                    targetPos = Math.round(targetPos);
+                    activeIdx = ((targetPos % total) + total) % total;
                     updateIndicators();
                 };
 
@@ -1812,7 +2040,7 @@
                         wheelLock = true;
                         if (e.deltaY > 0 || e.deltaX > 0) next();
                         else prev();
-                        setTimeout(() => { wheelLock = false; }, 300);
+                        setTimeout(() => { wheelLock = false; }, 260);
                     }
                 }, { passive: false });
 
@@ -1833,8 +2061,19 @@
                 const spacing = isMobile ? 240 : 390;
                 const depthZ = isMobile ? 160 : 250;
 
+                // 防止整数偏移量无上限累加，静止且偏移极大时平滑移位
+                if (!isPointerDown && Math.abs(targetPos) > 100 && Math.abs(targetPos - currentPos) < 0.01) {
+                    const shifts = Math.floor(targetPos / total) * total;
+                    targetPos -= shifts;
+                    currentPos -= shifts;
+                }
+
                 cardElements.forEach((card, i) => {
-                    const offset = i - currentPos;
+                    // 环形最短拓扑距离计算：把当前卡片投影至 [-total/2, total/2] 扇区
+                    let offset = ((i - currentPos) % total + total) % total;
+                    if (offset > total / 2) {
+                        offset -= total;
+                    }
                     const absOffset = Math.abs(offset);
 
                     // 空间 3D 几何变换
@@ -1843,13 +2082,19 @@
                     const ry = -offset * (isMobile ? 18 : 28) + (absOffset < 0.5 ? curTiltY : 0);
                     const rx = absOffset < 0.5 ? curTiltX : 0;
                     const scale = 1 - Math.min(absOffset * 0.14, 0.45);
-                    const opacity = Math.max(0.12, 1 - absOffset * 0.45);
+                    
+                    // 当卡片转至侧后方时渐隐，杜绝在背面翻折时产生穿帮跳动
+                    let opacity = 0;
+                    if (absOffset < 2.6) {
+                        opacity = Math.max(0, 1 - absOffset * 0.38);
+                    }
                     const blur = Math.max(0, (absOffset - 0.25) * 3);
 
-                    card.style.transform = `translate3d(${tx}px, 0, ${tz}px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${scale})`;
-                    card.style.opacity = opacity;
-                    card.style.filter = blur > 0.1 ? `blur(${blur}px)` : 'none';
-                    card.style.zIndex = Math.round(10 - absOffset * 3);
+                    card.style.transform = `translate3d(${tx.toFixed(1)}px, 0, ${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) rotateX(${rx.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                    card.style.opacity = opacity.toFixed(3);
+                    card.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    card.style.zIndex = Math.round(20 - absOffset * 4);
+                    card.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
                 });
 
                 requestAnimationFrame(renderLoop);
