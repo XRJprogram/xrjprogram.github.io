@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRJ · 动效原理 (Principles of Motion)</title>
+    <meta name="description" content="15秒首尾无缝闭环动态图形大片：苹果宣传片级一镜到底。全片几何拓扑连续演变，4200颗粒子丝滑聚变XRJ，无任何切屏卡顿，10子帧电影快门运动模糊。">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>">
+    
+    <!-- 苹果与高级设计字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Space+Grotesk:wght@500;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-void: #030611;
+            --brand-blue: #0071e3;
+            --brand-glow: #38bdf8;
+            --brand-white: #ffffff;
+            --brand-subtle: #86868b;
+            --brand-cinnabar: #c0392b;
+            --font-display: 'Space Grotesk', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
+            --font-serif: 'Cinzel', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            background-color: #000;
+            color: #fff;
+            font-family: var(--font-sans);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #stage-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #gl-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 140px rgba(0, 0, 0, 0.98);
+        }
+
+        .letterbox {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4.5%;
+            background: #000;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .letterbox.top { top: 0; }
+        .letterbox.bottom { bottom: 0; }
+
+        #sound-prompt {
+            position: absolute;
+            bottom: 24px;
+            right: 28px;
+            z-index: 30;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            color: rgba(255, 255, 255, 0.45);
+            background: rgba(3, 6, 17, 0.75);
+            backdrop-filter: blur(12px);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.8s ease;
+        }
+        #sound-prompt.is-hidden {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="stage-wrapper">
+        <div class="letterbox top"></div>
+        <div class="letterbox bottom"></div>
+        <canvas id="gl-canvas"></canvas>
+        <div id="sound-prompt">CLICK ANYWHERE FOR AUDIO</div>
+    </div>
+
+    <script>
+    /**
+     * =========================================================================
+     * XRJ · 15S APPLE KEYNOTE MASTERPIECE (ONE CONTINUOUS SHOT)
+     * 架构全面革新：
+     * 1. 彻底根除 PPT 幻灯片感：
+     *    - 4,200 颗粒子贯穿全片 7 个阶段，每颗粒子具有平滑的连续空间轨迹。
+     *    - 阶段之间采用 Hermite $C^1$ 阶平滑插值过渡，彻底消灭瞬间突变与切屏。
+     *    - 分子晶胞 ──展开──> 示波声波 ──隆起──> 反应势能面 ──分叉──> 拓扑节点 ──升维──> 3D天体仪 ──聚变──> 4200立体XRJ ──印化──> 朱砂印水墨 ──归一──> 起源奇点。
+     * 2. 核心聚变：4,200 颗粒子在 11.50s 鼓点处以磁吸阻尼极速聚变为雕塑级 "XRJ"。
+     * 3. 彻底根除“最后会卡”问题：
+     *    - 纯平坦 TypedArrays (Float32Array) 预分配，渲染主循环 0 GC 垃圾回收。
+     *    - 消除 10 次全屏离屏 Canvas 创建与像素 blit 损耗，改用单画板无拷贝高速光子累积。
+     *    - 14s~15s 奇点坍缩纯解析数学运算，彻底消除对象与渐变分配开销。
+     * 4. 彻底去除震屏抖动，采用平滑摄影机推拉与 Leica 光学微色散。
+     * =========================================================================
+     */
+
+    const TOTAL_DURATION = 15.0; // 精确 15.000 秒闭环
+    const PARTICLE_COUNT = 4200; // 严格 4,200 颗粒子
+    const CANVAS_WIDTH = 1920;   // 渲染基准宽度 (16:9)
+    const CANVAS_HEIGHT = 1080;  // 渲染基准高度
+
+    // 连续镜头 7 段动效节点定义
+    const CHAPTERS = [
+        { id: 0, t: 0.00,  num: '01', title: '起源 · 分子力场', project: 'ANYCHEM PRO', sub: '奇点能量展开为 3D 分子晶胞与共价轨道' },
+        { id: 1, t: 2.14,  num: '02', title: '字体 · 芯片声波', project: 'BITPULSE 2A03', sub: '共价键振动展开为双轨 NES 示波波形' },
+        { id: 2, t: 4.28,  num: '03', title: '缓动 · 反应势能', project: 'CHEMIATION', sub: '声波导轨隆起为化学反应活化能势垒面' },
+        { id: 3, t: 6.42,  num: '04', title: '系统 · 节点拓扑', project: 'DAG & LITTLESC', sub: '势能曲线分叉裂变为蓝图计算节点流' },
+        { id: 4, t: 8.57,  num: '05', title: '维度 · 空间天体仪', project: 'PIXELME & 3D GYRO', sub: '二维架构升维折叠，天体仪环抱点阵像素' },
+        { id: 5, t: 10.71, num: '06', title: '节奏 · 4200 聚变 XRJ', project: 'XRJ CORE', sub: '4200 粒子星芒聚变，凝结雕塑级 XRJ' },
+        { id: 6, t: 12.85, num: '07', title: '签名 · 朱砂水墨闭环', project: 'FANTASYCITY', sub: 'XRJ 融为朱砂墨印，奇点归一无缝闭环' }
+    ];
+
+    function smoothstep(e0, e1, x) {
+        const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0)));
+        return t * t * (3 - 2 * t);
+    }
+
+    // =========================================================================
+    // 优雅卡点时间表 (TIMETABLE): 零震屏，只保留微量纯净光学色差
+    // =========================================================================
+    const TIMETABLE = [
+        { t: 0.00, type: 'sub_warm',     chrom: 0.030 },
+        { t: 0.50, type: 'chime',        chrom: 0.008 },
+        { t: 1.00, type: 'pulse_clean',  chrom: 0.012 },
+        { t: 1.50, type: 'flow_rise',    chrom: 0.018 },
+        { t: 2.14, type: 'keynote_beat', chrom: 0.035 },
+        { t: 2.50, type: 'soft_click',   chrom: 0.012 },
+        { t: 3.00, type: 'pulse_clean',  chrom: 0.020 },
+        { t: 3.50, type: 'soft_click',   chrom: 0.015 },
+        { t: 4.05, type: 'flow_rise',    chrom: 0.022 },
+        { t: 4.28, type: 'sub_drop_warm',chrom: 0.038 },
+        { t: 4.82, type: 'physics_ping', chrom: 0.015 },
+        { t: 5.25, type: 'physics_ping', chrom: 0.012 },
+        { t: 5.80, type: 'chime',        chrom: 0.014 },
+        { t: 6.05, type: 'pulse_clean',  chrom: 0.020 },
+        { t: 6.42, type: 'keynote_beat', chrom: 0.038 },
+        { t: 6.75, type: 'arp_glass',    chrom: 0.010 },
+        { t: 7.25, type: 'arp_glass',    chrom: 0.010 },
+        { t: 7.50, type: 'soft_click',   chrom: 0.016 },
+        { t: 8.00, type: 'pulse_clean',  chrom: 0.022 },
+        { t: 8.57, type: 'spatial_swell',chrom: 0.040 },
+        { t: 9.00, type: 'chime',        chrom: 0.012 },
+        { t: 9.35, type: 'pulse_clean',  chrom: 0.020 },
+        { t: 10.00, type: 'sub_warm',    chrom: 0.030 },
+        { t: 10.55, type: 'cinema_riser',chrom: 0.028 },
+        { t: 10.71, type: 'keynote_beat',chrom: 0.042 },
+        // 核心高潮节点：11.50s 粒子丝滑凝结为 "XRJ"
+        { t: 11.50, type: 'xrj_crystallize', chrom: 0.048 },
+        { t: 12.00, type: 'pulse_clean', chrom: 0.025 },
+        { t: 12.50, type: 'soft_click',  chrom: 0.018 },
+        { t: 12.85, type: 'seal_warm',   chrom: 0.045 },
+        { t: 13.50, type: 'chime',       chrom: 0.014 },
+        { t: 14.15, type: 'gravity_draw',chrom: 0.022 },
+        { t: 14.70, type: 'zero_quiet',  chrom: 0.010 }
+    ];
+
+    function getTelemetry(currentTime) {
+        let chrom = 0.0;
+        for (let i = 0; i < TIMETABLE.length; i++) {
+            const ev = TIMETABLE[i];
+            let dt = currentTime - ev.t;
+            if (dt < 0) dt += TOTAL_DURATION;
+            if (dt >= 0 && dt < 0.4) {
+                const env = Math.exp(-dt * 12.0);
+                chrom += ev.chrom * env;
+            }
+        }
+        return { chrom: Math.min(chrom, 0.050) };
+    }
+
+    // =========================================================================
+    // 2. 苹果宣传片级通透 Web Audio 合成器 (空灵和弦、暖调 Sub 与精密卡扣)
+    // =========================================================================
+    class KeynoteAudio {
+        constructor() {
+            this.ctx = null;
+            this.master = null;
+            this.compressor = null;
+        }
+
+        init() {
+            if (this.ctx) return;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioContext();
+
+            this.compressor = this.ctx.createDynamicsCompressor();
+            this.compressor.threshold.value = -18;
+            this.compressor.knee.value = 8;
+            this.compressor.ratio.value = 6;
+            this.compressor.attack.value = 0.008;
+            this.compressor.release.value = 0.2;
+
+            this.master = this.ctx.createGain();
+            this.master.gain.value = 0.75;
+
+            this.master.connect(this.compressor);
+            this.compressor.connect(this.ctx.destination);
+        }
+
+        resume() {
+            if (this.ctx && this.ctx.state === 'suspended') {
+                this.ctx.resume();
+            }
+        }
+
+        trigger(type, t) {
+            if (!this.ctx || this.ctx.state === 'suspended') return;
+
+            // 温暖深邃的低音
+            if (type.includes('sub_') || type.includes('keynote_beat') || type.includes('spatial_swell')) {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                const f0 = (type === 'sub_drop_warm') ? 150 : 110;
+                osc.frequency.setValueAtTime(f0, t);
+                osc.frequency.exponentialRampToValueAtTime(32, t + 0.12);
+
+                gain.gain.setValueAtTime(0.8, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+
+                osc.connect(gain);
+                gain.connect(this.master);
+                osc.start(t);
+                osc.stop(t + 0.38);
+            }
+
+            // 晶体风铃与玻璃琶音
+            if (type.includes('chime') || type.includes('arp_glass') || type.includes('crystallize')) {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                const freqs = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                const f = freqs[Math.floor(Math.random() * freqs.length)];
+                osc.frequency.setValueAtTime(f, t);
+
+                gain.gain.setValueAtTime(0.2, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+
+                osc.connect(gain);
+                gain.connect(this.master);
+                osc.start(t);
+                osc.stop(t + 0.28);
+            }
+
+            // 极简精密卡扣音
+            if (type.includes('soft_click') || type.includes('physics_ping')) {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(750, t);
+                osc.frequency.exponentialRampToValueAtTime(110, t + 0.03);
+
+                gain.gain.setValueAtTime(0.3, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+
+                osc.connect(gain);
+                gain.connect(this.master);
+                osc.start(t);
+                osc.stop(t + 0.045);
+            }
+
+            // 朱砂印空气冲击
+            if (type.includes('seal_warm')) {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(65, t);
+                osc.frequency.exponentialRampToValueAtTime(26, t + 0.25);
+
+                gain.gain.setValueAtTime(0.95, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+
+                osc.connect(gain);
+                gain.connect(this.master);
+                osc.start(t);
+                osc.stop(t + 0.65);
+            }
+        }
+    }
+
+    // =========================================================================
+    // 3. 极速平坦内存 4,200 粒子连续流变引擎 (Zero PPT Cut, 0 GC)
+    // 4,200 颗粒子拥有 7 个阶段的高维解析目标，全片在 7 种形态间丝滑过渡！
+    // 彻底根除“最后会卡”问题，在 13~15s 间无任何内存申请，60 FPS 满帧流转！
+    // =========================================================================
+    class ContinuousParticleEngine {
+        constructor(count) {
+            this.count = count;
+            
+            // 实时物理坐标
+            this.curX = new Float32Array(count);
+            this.curY = new Float32Array(count);
+            this.curZ = new Float32Array(count);
+
+            // 固有属性
+            this.size = new Float32Array(count);
+            this.colorType = new Uint8Array(count); // 0: 银白, 1: 冰蓝, 2: 品牌深蓝
+            this.phase = new Float32Array(count);
+            this.speed = new Float32Array(count);
+
+            // 7 阶段目标坐标平坦缓冲区 (Target Coordinate Banks)
+            this.tgt0X = new Float32Array(count); this.tgt0Y = new Float32Array(count); this.tgt0Z = new Float32Array(count);
+            this.tgt1X = new Float32Array(count); this.tgt1Y = new Float32Array(count); this.tgt1Z = new Float32Array(count);
+            this.tgt2X = new Float32Array(count); this.tgt2Y = new Float32Array(count); this.tgt2Z = new Float32Array(count);
+            this.tgt3X = new Float32Array(count); this.tgt3Y = new Float32Array(count); this.tgt3Z = new Float32Array(count);
+            this.tgt4X = new Float32Array(count); this.tgt4Y = new Float32Array(count); this.tgt4Z = new Float32Array(count);
+            this.tgt5X = new Float32Array(count); this.tgt5Y = new Float32Array(count); this.tgt5Z = new Float32Array(count);
+            this.tgt6X = new Float32Array(count); this.tgt6Y = new Float32Array(count); this.tgt6Z = new Float32Array(count);
+
+            this.initParticleConstants();
+            this.buildAllStageTargets();
+        }
+
+        initParticleConstants() {
+            for (let i = 0; i < this.count; i++) {
+                this.size[i] = 1.3 + (i % 5) * 0.35;
+                this.colorType[i] = i % 3;
+                this.phase[i] = (i / this.count) * Math.PI * 2;
+                this.speed[i] = 0.5 + ((i % 11) / 10.0) * 0.8;
+            }
+        }
+
+        buildAllStageTargets() {
+            const N = this.count;
+
+            // Target 0: AnyChem Pro (3D 分子晶胞与四面体共价共振云)
+            const nuclei = [
+                { x: 0, y: -110, z: 0 },
+                { x: -140, y: 70, z: 80 },
+                { x: 140, y: 70, z: 80 },
+                { x: 0, y: 70, z: -140 }
+            ];
+            for (let i = 0; i < N; i++) {
+                const nIdx = i % 4;
+                const center = nuclei[nIdx];
+                const r = 25 + ((i * 17) % 75);
+                const theta = (i * 2.39996) % (Math.PI * 2);
+                const phi = ((i * 3.14159) / N) * Math.PI;
+                this.tgt0X[i] = center.x + Math.sin(phi) * Math.cos(theta) * r;
+                this.tgt0Y[i] = center.y + Math.sin(phi) * Math.sin(theta) * r;
+                this.tgt0Z[i] = center.z + Math.cos(phi) * r;
+            }
+
+            // Target 1: BitPulse 2A03 (双轨 8-Bit NES 示波波形)
+            for (let i = 0; i < N; i++) {
+                const u = (i / N) * 2.0 - 1.0;
+                this.tgt1X[i] = u * 680;
+                if (i % 2 === 0) {
+                    // 方波通道 (Pulse 12.5% ~ 50%)
+                    const sq = Math.sin(u * 14.0) > 0.3 ? 45 : -45;
+                    this.tgt1Y[i] = sq - 60 + ((i % 7) - 3) * 2;
+                    this.tgt1Z[i] = Math.sin(u * 8.0) * 15;
+                } else {
+                    // 三角波通道 (Triangle)
+                    const tri = (Math.asin(Math.sin(u * 18.0)) / 1.57) * 45;
+                    this.tgt1Y[i] = tri + 70 + ((i % 7) - 3) * 2;
+                    this.tgt1Z[i] = Math.cos(u * 8.0) * 15;
+                }
+            }
+
+            // Target 2: Chemiation (化学反应活化能势垒面与分子碰撞态)
+            for (let i = 0; i < N; i++) {
+                const u = (i / N) * 2.0 - 1.0;
+                this.tgt2X[i] = u * 720;
+                // 非对称势能曲线 (反应物 -> 过渡态峰值 -> 产物深谷)
+                const peak = -Math.exp(-Math.pow((u + 0.1) * 3.5, 2)) * 260;
+                const slope = u * 95;
+                this.tgt2Y[i] = peak + slope + ((i % 13) - 6) * 3.5;
+                this.tgt2Z[i] = ((i % 9) - 4) * 5;
+            }
+
+            // Target 3: DAG & littlesc (6 个计算拓扑节点与有向流束)
+            const dagNodes = [
+                { x: -420, y: -70 }, { x: -420, y: 70 },
+                { x: -140, y: 0 },
+                { x: 140, y: -70 }, { x: 140, y: 70 },
+                { x: 420, y: 0 }
+            ];
+            for (let i = 0; i < N; i++) {
+                if (i < 2400) {
+                    // 节点外轮廓粒子群
+                    const n = dagNodes[i % 6];
+                    const ang = ((i * 13) % 360) * (Math.PI / 180);
+                    const rad = 35 + (i % 15) * 2.2;
+                    this.tgt3X[i] = n.x + Math.cos(ang) * rad;
+                    this.tgt3Y[i] = n.y + Math.sin(ang) * rad;
+                    this.tgt3Z[i] = Math.sin(ang * 2) * 12;
+                } else {
+                    // 边流束粒子 (有向线段)
+                    const edgeIdx = (i - 2400) % 5;
+                    const tEdge = ((i * 7) % 100) / 100.0;
+                    let nA, nB;
+                    if (edgeIdx === 0) { nA = dagNodes[0]; nB = dagNodes[2]; }
+                    else if (edgeIdx === 1) { nA = dagNodes[1]; nB = dagNodes[2]; }
+                    else if (edgeIdx === 2) { nA = dagNodes[2]; nB = dagNodes[3]; }
+                    else if (edgeIdx === 3) { nA = dagNodes[2]; nB = dagNodes[4]; }
+                    else { nA = dagNodes[3]; nB = dagNodes[5]; }
+
+                    this.tgt3X[i] = nA.x + (nB.x - nA.x) * tEdge + ((i % 5) - 2) * 3;
+                    this.tgt3Y[i] = nA.y + (nB.y - nA.y) * tEdge + ((i % 5) - 2) * 3;
+                    this.tgt3Z[i] = 0;
+                }
+            }
+
+            // Target 4: PixelMe & 3D Gyroscope (三同心 3D 天体仪环与像素核心)
+            for (let i = 0; i < N; i++) {
+                const ring = i % 3;
+                const r = ring === 0 ? 320 : (ring === 1 ? 240 : 160);
+                const theta = ((i * 17) % 360) * (Math.PI / 180);
+                if (ring === 0) {
+                    this.tgt4X[i] = Math.cos(theta) * r;
+                    this.tgt4Y[i] = Math.sin(theta) * r;
+                    this.tgt4Z[i] = ((i % 7) - 3) * 6;
+                } else if (ring === 1) {
+                    this.tgt4X[i] = Math.cos(theta) * r;
+                    this.tgt4Y[i] = ((i % 7) - 3) * 6;
+                    this.tgt4Z[i] = Math.sin(theta) * r;
+                } else {
+                    this.tgt4X[i] = ((i % 7) - 3) * 6;
+                    this.tgt4Y[i] = Math.cos(theta) * r;
+                    this.tgt4Z[i] = Math.sin(theta) * r;
+                }
+            }
+
+            // Target 5: XRJ CORE (4,200 粒子精准凝结为雕塑级 "XRJ")
+            const ptsPerChar = Math.floor(N / 3); // 1400 每字
+
+            // 'X' (0 ~ 1399)
+            for (let i = 0; i < ptsPerChar; i++) {
+                const t = i / ptsPerChar;
+                const branch = (i % 2 === 0) ? 1 : -1;
+                const jitter = ((i * 13) % 17 - 8);
+                const zDepth = ((i * 29) % 35 - 17);
+                this.tgt5X[i] = -270 + (t - 0.5) * 230 + jitter;
+                this.tgt5Y[i] = (branch === 1 ? (t - 0.5) * 250 : (0.5 - t) * 250);
+                this.tgt5Z[i] = zDepth;
+            }
+
+            // 'R' (1400 ~ 2799)
+            for (let i = ptsPerChar; i < ptsPerChar * 2; i++) {
+                const rel = (i - ptsPerChar) / ptsPerChar;
+                const zDepth = ((i * 31) % 35 - 17);
+                if (rel < 0.35) {
+                    // 主竖干
+                    const vT = rel / 0.35;
+                    this.tgt5X[i] = -95 + ((i * 7) % 19 - 9);
+                    this.tgt5Y[i] = -125 + vT * 250;
+                } else if (rel < 0.72) {
+                    // 右上半圆环
+                    const rT = (rel - 0.35) / 0.37;
+                    const ang = -Math.PI * 0.5 + rT * Math.PI;
+                    const rad = 65 + ((i * 5) % 17 - 8);
+                    this.tgt5X[i] = -95 + Math.cos(ang) * rad;
+                    this.tgt5Y[i] = -62 + Math.sin(ang) * rad;
+                } else {
+                    // 右下斜腿
+                    const lT = (rel - 0.72) / 0.28;
+                    this.tgt5X[i] = -75 + lT * 145 + ((i * 11) % 17 - 8);
+                    this.tgt5Y[i] = 0 + lT * 125 + ((i * 7) % 17 - 8);
+                }
+                this.tgt5Z[i] = zDepth;
+            }
+
+            // 'J' (2800 ~ 4199)
+            for (let i = ptsPerChar * 2; i < N; i++) {
+                const rel = (i - ptsPerChar * 2) / (N - ptsPerChar * 2);
+                const zDepth = ((i * 37) % 35 - 17);
+                if (rel < 0.20) {
+                    // 顶端横梁
+                    const hT = rel / 0.20;
+                    this.tgt5X[i] = 230 + (hT - 0.5) * 150;
+                    this.tgt5Y[i] = -125 + ((i * 7) % 15 - 7);
+                } else if (rel < 0.65) {
+                    // 右侧竖干
+                    const vT = (rel - 0.20) / 0.45;
+                    this.tgt5X[i] = 280 + ((i * 11) % 17 - 8);
+                    this.tgt5Y[i] = -125 + vT * 185;
+                } else {
+                    // 底部左勾
+                    const jT = (rel - 0.65) / 0.35;
+                    const ang = jT * Math.PI * 0.85;
+                    const rad = 68 + ((i * 5) % 17 - 8);
+                    this.tgt5X[i] = 212 - Math.cos(ang) * rad;
+                    this.tgt5Y[i] = 58 + Math.sin(ang) * rad;
+                }
+                this.tgt5Z[i] = zDepth;
+            }
+
+            // Target 6: FantasyCity (朱砂印框 + 水墨流涡漩)
+            for (let i = 0; i < N; i++) {
+                if (i < 1800) {
+                    // 规整正方朱砂印章边框
+                    const side = i % 4;
+                    const pos = ((i % 450) / 450.0 - 0.5) * 160;
+                    if (side === 0) { this.tgt6X[i] = pos; this.tgt6Y[i] = -80; }
+                    else if (side === 1) { this.tgt6X[i] = 80; this.tgt6Y[i] = pos; }
+                    else if (side === 2) { this.tgt6X[i] = pos; this.tgt6Y[i] = 80; }
+                    else { this.tgt6X[i] = -80; this.tgt6Y[i] = pos; }
+                    this.tgt6Z[i] = 0;
+                } else {
+                    // 墨韵对数外扩漩涡
+                    const theta = ((i - 1800) / 2400.0) * Math.PI * 14.0;
+                    const r = 90 + Math.pow((i - 1800) / 2400.0, 1.4) * 360;
+                    this.tgt6X[i] = Math.cos(theta) * r;
+                    this.tgt6Y[i] = Math.sin(theta) * r * 0.65;
+                    this.tgt6Z[i] = Math.sin(theta * 2.0) * 20;
+                }
+            }
+        }
+
+        // 高度优化的即时空间解算：阶段之间 Hermite 连续流变，彻底消灭瞬间突变与掉帧
+        update(t) {
+            const N = this.count;
+            const cx = this.curX;
+            const cy = this.curY;
+            const cz = this.curZ;
+
+            const tSegment = TOTAL_DURATION / 7.0; // 2.142857 秒 / 阶段
+            const segIdx = Math.min(6, Math.floor(t / tSegment));
+            const segT = (t - segIdx * tSegment) / tSegment; // 0.0 ~ 1.0
+
+            // 获取当前与下一阶段的缓冲引用
+            let srcX, srcY, srcZ, dstX, dstY, dstZ;
+            if (segIdx === 0) { srcX = this.tgt0X; srcY = this.tgt0Y; srcZ = this.tgt0Z; dstX = this.tgt1X; dstY = this.tgt1Y; dstZ = this.tgt1Z; }
+            else if (segIdx === 1) { srcX = this.tgt1X; srcY = this.tgt1Y; srcZ = this.tgt1Z; dstX = this.tgt2X; dstY = this.tgt2Y; dstZ = this.tgt2Z; }
+            else if (segIdx === 2) { srcX = this.tgt2X; srcY = this.tgt2Y; srcZ = this.tgt2Z; dstX = this.tgt3X; dstY = this.tgt3Y; dstZ = this.tgt3Z; }
+            else if (segIdx === 3) { srcX = this.tgt3X; srcY = this.tgt3Y; srcZ = this.tgt3Z; dstX = this.tgt4X; dstY = this.tgt4Y; dstZ = this.tgt4Z; }
+            else if (segIdx === 4) { srcX = this.tgt4X; srcY = this.tgt4Y; srcZ = this.tgt4Z; dstX = this.tgt5X; dstY = this.tgt5Y; dstZ = this.tgt5Z; }
+            else if (segIdx === 5) { srcX = this.tgt5X; srcY = this.tgt5Y; srcZ = this.tgt5Z; dstX = this.tgt6X; dstY = this.tgt6Y; dstZ = this.tgt6Z; }
+            else { srcX = this.tgt6X; srcY = this.tgt6Y; srcZ = this.tgt6Z; dstX = this.tgt0X; dstY = this.tgt0Y; dstZ = this.tgt0Z; }
+
+            // 过渡区：后 30% 时间用于向下一阶段丝滑形变
+            const transStart = 0.70;
+            let morph = 0.0;
+            if (segT > transStart) {
+                const p = (segT - transStart) / (1.0 - transStart);
+                morph = p * p * (3.0 - 2.0 * p); // Smoothstep Hermite
+            }
+            const invMorph = 1.0 - morph;
+
+            // 特殊高潮处理：11.50s XRJ 磁吸卡点聚变
+            const isXRJDrop = (segIdx === 5 && t >= 11.50);
+            const dropAge = isXRJDrop ? (t - 11.50) : 0.0;
+            const dropDamp = isXRJDrop ? Math.exp(-dropAge * 6.0) * Math.sin(dropAge * 20.0) * 8.0 : 0.0;
+
+            // 特殊闭环处理：14.2s ~ 15.0s 奇点向心极速收拢（零卡顿解析收束）
+            const isCollapse = (segIdx === 6 && segT > 0.65);
+            let collapseScale = 1.0;
+            if (isCollapse) {
+                const cP = (segT - 0.65) / 0.35;
+                collapseScale = Math.pow(Math.max(0, 1.0 - cP), 2.2);
+            }
+
+            // 特殊开篇处理：0.0s ~ 0.4s 奇点能量向外绽放展开 (无缝闭环接壤)
+            const isBloom = (segIdx === 0 && segT < 0.18);
+            let bloomScale = 1.0;
+            if (isBloom) {
+                bloomScale = Math.sin((segT / 0.18) * Math.PI * 0.5);
+            }
+
+            // 3D 摄影机空间自旋角度
+            const rotX = t * 0.15;
+            const rotY = t * 0.28;
+            const cosRx = Math.cos(rotX), sinRx = Math.sin(rotX);
+            const cosRy = Math.cos(rotY), sinRy = Math.sin(rotY);
+
+            for (let i = 0; i < N; i++) {
+                // 两阶段位置 Hermite 插值
+                let x = srcX[i] * invMorph + dstX[i] * morph;
+                let y = srcY[i] * invMorph + dstY[i] * morph;
+                let z = srcZ[i] * invMorph + dstZ[i] * morph;
+
+                // 注入轻微物理布朗共鸣与声学微幅动势
+                if (segIdx === 1) {
+                    // 音频波峰谐振
+                    y += Math.sin(x * 0.04 + t * 16.0) * 4.0;
+                } else if (segIdx === 4) {
+                    // 天体仪旋转
+                    const y1 = y * cosRx - z * sinRx;
+                    const z1 = y * sinRx + z * cosRx;
+                    x = x * cosRy + z1 * sinRy;
+                    y = y1;
+                    z = -x * sinRy + z1 * cosRy;
+                } else if (isXRJDrop) {
+                    // XRJ 雕塑级磁吸震颤回弹
+                    x += ((i % 5) - 2) * dropDamp;
+                    y += ((i % 7) - 3) * dropDamp;
+                }
+
+                // 奇点坍缩与绽放
+                if (isCollapse) {
+                    x *= collapseScale;
+                    y *= collapseScale;
+                    z *= collapseScale;
+                } else if (isBloom) {
+                    x *= bloomScale;
+                    y *= bloomScale;
+                    z *= bloomScale;
+                }
+
+                cx[i] = x;
+                cy[i] = y;
+                cz[i] = z;
+            }
+        }
+
+        // 极速批量三色渲染：仅需 3 次上下文状态切换，消除 42,000 次 DOM 开销
+        draw(ctx) {
+            const N = this.count;
+            const cx = this.curX;
+            const cy = this.curY;
+            const cz = this.curZ;
+            const sz = this.size;
+            const ct = this.colorType;
+            const fov = 850;
+
+            const colors = ['#ffffff', '#38bdf8', '#0071e3'];
+
+            for (let c = 0; c < 3; c++) {
+                ctx.fillStyle = colors[c];
+                ctx.beginPath();
+                for (let i = 0; i < N; i++) {
+                    if (ct[i] !== c) continue;
+                    const factor = fov / (fov + cz[i]);
+                    const sx = cx[i] * factor;
+                    const sy = cy[i] * factor;
+                    const s = sz[i] * factor;
+                    ctx.rect(sx - s * 0.5, sy - s * 0.5, s, s);
+                }
+                ctx.fill();
+            }
+        }
+    }
+
+    // =========================================================================
+    // 4. 一镜到底流体母体渲染器 (Zero Cut, Continuous Keynote Motion)
+    // =========================================================================
+    class MasterContinuousRenderer {
+        constructor() {
+            this.canvas = document.createElement('canvas');
+            this.canvas.width = CANVAS_WIDTH;
+            this.canvas.height = CANVAS_HEIGHT;
+            this.ctx = this.canvas.getContext('2d');
+
+            this.particles = new ContinuousParticleEngine(PARTICLE_COUNT);
+
+            // 预分配平坦样条缓冲区 (64 点母体能量脊柱)
+            this.splineX = new Float32Array(65);
+            this.splineY = new Float32Array(65);
+        }
+
+        render(currentTime) {
+            const ctx = this.ctx;
+            const W = CANVAS_WIDTH;
+            const H = CANVAS_HEIGHT;
+
+            // 1. 底层深空背景单次清除
+            ctx.fillStyle = '#030611';
+            ctx.fillRect(0, 0, W, H);
+
+            // 2. 10 子帧快门运动模糊积分 (直接在主缓冲以 0.10 alpha 累积，消灭 10 次离屏画布拷贝！)
+            const subframeCount = 10;
+            const shutterDur = (1.0 / 60.0) * 0.5;
+            const weight = 1.0 / subframeCount;
+
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.globalAlpha = weight;
+
+            for (let k = 0; k < subframeCount; k++) {
+                const subTime = (currentTime + (k / subframeCount) * shutterDur) % TOTAL_DURATION;
+                this.renderContinuousSubframe(ctx, subTime, W, H);
+            }
+            ctx.restore();
+
+            // 3. 顶层超清 HUD (不受快门模糊影响，保持苹果级精密清晰度)
+            this.drawCinematicHUD(ctx, currentTime, W, H);
+
+            return this.canvas;
+        }
+
+        renderContinuousSubframe(ctx, t, W, H) {
+            const cx = W / 2;
+            const cy = H / 2;
+
+            // 平滑连续摄影机推拉轨迹 (零生硬切断，平缓正弦 Crane & Dolly)
+            const camZoom = 1.0 + 0.05 * Math.sin((t / TOTAL_DURATION) * Math.PI * 2);
+            const camPanX = Math.sin((t / TOTAL_DURATION) * Math.PI * 4) * 12;
+            const camPanY = Math.cos((t / TOTAL_DURATION) * Math.PI * 2) * 8;
+
+            ctx.save();
+            ctx.translate(cx + camPanX, cy + camPanY);
+            ctx.scale(camZoom, camZoom);
+
+            // 1. 绘制母体能量导轨 (Spline)
+            this.drawContinuousSpline(ctx, t);
+
+            // 2. 绘制 4,200 粒子连续体 (包括 11.50s 震撼聚变 "XRJ")
+            this.particles.update(t);
+            this.particles.draw(ctx);
+
+            ctx.restore();
+        }
+
+        // 64 控制点母体能量导轨：全片始终存在并随 7 阶段平滑拓扑流变
+        drawContinuousSpline(ctx, t) {
+            const numPts = 64;
+            const sx = this.splineX;
+            const sy = this.splineY;
+
+            const tSegment = TOTAL_DURATION / 7.0;
+            const segIdx = Math.min(6, Math.floor(t / tSegment));
+            const segT = (t - segIdx * tSegment) / tSegment;
+
+            // 过渡 Hermite 权重
+            const transStart = 0.70;
+            let morph = 0.0;
+            if (segT > transStart) {
+                const p = (segT - transStart) / (1.0 - transStart);
+                morph = p * p * (3.0 - 2.0 * p);
+            }
+            const invMorph = 1.0 - morph;
+
+            for (let i = 0; i <= numPts; i++) {
+                const u = (i / numPts) * 2.0 - 1.0;
+                const theta = (i / numPts) * Math.PI * 2.0;
+
+                // 源形态与目标形态数学方程
+                let x0, y0, x1, y1;
+
+                if (segIdx === 0) {
+                    // 圆环 -> 方波
+                    x0 = Math.cos(theta) * 160; y0 = Math.sin(theta) * 160;
+                    x1 = u * 450; y1 = (Math.sin(u * 12.0) > 0.3 ? 35 : -35) - 20;
+                } else if (segIdx === 1) {
+                    // 方波 -> 势能面
+                    x0 = u * 450; y0 = (Math.sin(u * 12.0) > 0.3 ? 35 : -35) - 20;
+                    x1 = u * 480; y1 = -Math.exp(-Math.pow(u * 2.8, 2)) * 180 + u * 45;
+                } else if (segIdx === 2) {
+                    // 势能面 -> 拓扑网络连线
+                    x0 = u * 480; y0 = -Math.exp(-Math.pow(u * 2.8, 2)) * 180 + u * 45;
+                    x1 = u * 460; y1 = Math.sin(u * Math.PI * 2.0) * 55;
+                } else if (segIdx === 3) {
+                    // 拓扑线 -> 3D 旋转椭圆
+                    x0 = u * 460; y0 = Math.sin(u * Math.PI * 2.0) * 55;
+                    x1 = Math.cos(theta + t * 0.8) * 260; y1 = Math.sin(theta + t * 0.8) * 260 * 0.35;
+                } else if (segIdx === 4) {
+                    // 椭圆 -> XRJ 外框包络
+                    x0 = Math.cos(theta + t * 0.8) * 260; y0 = Math.sin(theta + t * 0.8) * 260 * 0.35;
+                    x1 = Math.cos(theta) * 310; y1 = Math.sin(theta) * 310;
+                } else if (segIdx === 5) {
+                    // XRJ 外框 -> 朱砂印圆印
+                    x0 = Math.cos(theta) * 310; y0 = Math.sin(theta) * 310;
+                    x1 = Math.cos(theta) * 150; y1 = Math.sin(theta) * 150;
+                } else {
+                    // 朱砂印 -> 奇点归一
+                    const cP = Math.max(0, (segT - 0.65) / 0.35);
+                    const shrink = Math.pow(Math.max(0, 1.0 - cP), 2.2);
+                    x0 = Math.cos(theta + cP * 8.0) * (150 * shrink);
+                    y0 = Math.sin(theta + cP * 8.0) * (150 * shrink);
+                    x1 = Math.cos(theta) * (160 * (1.0 - shrink));
+                    y1 = Math.sin(theta) * (160 * (1.0 - shrink));
+                }
+
+                sx[i] = x0 * invMorph + x1 * morph;
+                sy[i] = y0 * invMorph + y1 * morph;
+            }
+
+            // 绘制平滑母体光轨
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2.0;
+            ctx.beginPath();
+            ctx.moveTo(sx[0], sy[0]);
+            for (let i = 1; i <= numPts; i++) {
+                ctx.lineTo(sx[i], sy[i]);
+            }
+            ctx.stroke();
+
+            // 轨道导行光子
+            const beadT = ((t * 0.6) % 1.0);
+            const bIdx = Math.floor(beadT * numPts);
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(sx[bIdx], sy[bIdx], 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // 精密清晰 HUD (高品质苹果风格排版)
+        drawCinematicHUD(ctx, t, W, H) {
+            const tSegment = TOTAL_DURATION / 7.0;
+            const segIdx = Math.min(6, Math.floor(t / tSegment));
+            const active = CHAPTERS[segIdx];
+
+            ctx.save();
+            ctx.globalAlpha = 1.0;
+            ctx.globalCompositeOperation = 'source-over';
+
+            // 1. 左上角：阶段与项目指示
+            ctx.font = '700 11px "JetBrains Mono", monospace';
+            ctx.fillStyle = '#38bdf8';
+            ctx.letterSpacing = '2px';
+            ctx.fillText(`${active.num} // ${active.project}`, 54, 58);
+
+            ctx.font = '800 18px "Noto Sans SC", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(active.title, 54, 84);
+
+            ctx.font = '400 12px "Inter", "Noto Sans SC", sans-serif';
+            ctx.fillStyle = '#86868b';
+            ctx.fillText(active.sub, 54, 106);
+
+            // 2. 右上角：时间码与闭环标识
+            const mm = '00';
+            const ss = Math.floor(t).toString().padStart(2, '0');
+            const ff = Math.floor((t % 1) * 60).toString().padStart(2, '0');
+            ctx.font = '600 12px "JetBrains Mono", monospace';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+            ctx.textAlign = 'right';
+            ctx.fillText(`TC ${mm}:${ss}:${ff} / 00:15:00`, W - 54, 58);
+            ctx.fillText(`INFINITE SEAMLESS LOOP`, W - 54, 78);
+
+            // 3. 左下角：极简品牌核心标
+            ctx.textAlign = 'left';
+            ctx.font = '800 13px "Space Grotesk", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillText(`XRJ · PRINCIPLES OF MOTION`, 54, H - 48);
+
+            // 4. 右下角：规格指示
+            ctx.textAlign = 'right';
+            ctx.font = '500 11px "JetBrains Mono", monospace';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+            ctx.fillText(`4,200 NODES · 10 SUBFRAMES · ACES COLOR`, W - 54, H - 48);
+
+            ctx.restore();
+        }
+    }
+
+    // =========================================================================
+    // 5. WebGL2 电影后期渲染管线 (零振动，柔和光学微色散与 ACES 曲线)
+    // =========================================================================
+    class WebGL2Pipeline {
+        constructor(canvas) {
+            this.canvas = canvas;
+            this.gl = this.canvas.getContext('webgl2', { alpha: false, antialias: true });
+            if (!this.gl) return;
+
+            this.initShaders();
+            this.initBuffers();
+            this.initTexture();
+        }
+
+        initShaders() {
+            const gl = this.gl;
+            const vs = `#version 300 es
+            in vec2 a_pos;
+            out vec2 v_uv;
+            void main() {
+                v_uv = (a_pos + 1.0) * 0.5;
+                v_uv.y = 1.0 - v_uv.y;
+                gl_Position = vec4(a_pos, 0.0, 1.0);
+            }`;
+
+            const fs = `#version 300 es
+            precision highp float;
+            in vec2 v_uv;
+            out vec4 fragColor;
+
+            uniform sampler2D u_tex;
+            uniform float u_chrom;
+
+            void main() {
+                vec2 uv = v_uv;
+                vec2 center = vec2(0.5);
+                vec2 toCenter = uv - center;
+                float dist = length(toCenter);
+
+                vec2 dir = normalize(toCenter + vec2(0.0001));
+                float spread = u_chrom * (0.006 + 0.018 * dist);
+
+                float r = texture(u_tex, uv + dir * spread).r;
+                float g = texture(u_tex, uv).g;
+                float b = texture(u_tex, uv - dir * spread).b;
+                vec3 col = vec3(r, g, b);
+
+                // 柔和暗角
+                float vig = smoothstep(0.95, 0.35, dist);
+                col *= mix(0.78, 1.0, vig);
+
+                // ACES 电影级色调映射曲线
+                col = max(vec3(0.0), col);
+                col = (col * (2.51 * col + 0.03)) / (col * (2.43 * col + 0.59) + 0.14);
+
+                fragColor = vec4(col, 1.0);
+            }`;
+
+            const create = (type, src) => {
+                const s = gl.createShader(type);
+                gl.shaderSource(s, src);
+                gl.compileShader(s);
+                return s;
+            };
+
+            this.program = gl.createProgram();
+            gl.attachShader(this.program, create(gl.VERTEX_SHADER, vs));
+            gl.attachShader(this.program, create(gl.FRAGMENT_SHADER, fs));
+            gl.linkProgram(this.program);
+
+            this.uTexLoc = gl.getUniformLocation(this.program, 'u_tex');
+            this.uChromLoc = gl.getUniformLocation(this.program, 'u_chrom');
+        }
+
+        initBuffers() {
+            const gl = this.gl;
+            this.vao = gl.createVertexArray();
+            gl.bindVertexArray(this.vao);
+
+            const buf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+                -1, -1,  1, -1, -1,  1,
+                -1,  1,  1, -1,  1,  1
+            ]), gl.STATIC_DRAW);
+
+            const posLoc = gl.getAttribLocation(this.program, 'a_pos');
+            gl.enableVertexAttribArray(posLoc);
+            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+        }
+
+        initTexture() {
+            const gl = this.gl;
+            this.tex = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, this.tex);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        }
+
+        render(sourceCanvas, telemetry) {
+            const gl = this.gl;
+            if (!gl) return;
+
+            gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+
+            gl.bindTexture(gl.TEXTURE_2D, this.tex);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sourceCanvas);
+
+            gl.useProgram(this.program);
+            gl.bindVertexArray(this.vao);
+
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, this.tex);
+            gl.uniform1i(this.uTexLoc, 0);
+            gl.uniform1f(this.uChromLoc, telemetry.chrom);
+
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+        }
+
+        resize(w, h) {
+            this.canvas.width = w;
+            this.canvas.height = h;
+        }
+    }
+
+    // =========================================================================
+    // 6. 主导演调度中心：点开即自动播放、满帧零卡顿无缝循环
+    // =========================================================================
+    class KeynoteDirector {
+        constructor() {
+            this.glCanvas = document.getElementById('gl-canvas');
+            this.soundPrompt = document.getElementById('sound-prompt');
+
+            this.pipeline = new WebGL2Pipeline(this.glCanvas);
+            this.renderer = new MasterContinuousRenderer();
+            this.audio = new KeynoteAudio();
+
+            this.currentTime = 0.0;
+            this.lastTimestamp = performance.now();
+            this.scheduledBeats = new Set();
+
+            this.handleResize();
+            window.addEventListener('resize', () => this.handleResize());
+
+            this.setupAudioUnlock();
+
+            requestAnimationFrame((t) => this.loop(t));
+        }
+
+        handleResize() {
+            this.pipeline.resize(window.innerWidth, window.innerHeight);
+        }
+
+        setupAudioUnlock() {
+            this.audio.init();
+
+            const unlock = () => {
+                this.audio.init();
+                this.audio.resume();
+                if (this.soundPrompt) {
+                    this.soundPrompt.classList.add('is-hidden');
+                }
+                window.removeEventListener('pointerdown', unlock);
+                window.removeEventListener('keydown', unlock);
+            };
+
+            window.addEventListener('pointerdown', unlock);
+            window.addEventListener('keydown', unlock);
+        }
+
+        loop(timestamp) {
+            const dt = (timestamp - this.lastTimestamp) / 1000.0;
+            this.lastTimestamp = timestamp;
+
+            // 限制单帧最大 dt，防止切后台恢复时巨大跃迁
+            const safeDt = Math.min(dt, 0.1);
+            this.currentTime = (this.currentTime + safeDt) % TOTAL_DURATION;
+
+            if (this.currentTime < safeDt) {
+                this.scheduledBeats.clear();
+            }
+
+            this.syncAudio();
+
+            const telemetry = getTelemetry(this.currentTime);
+
+            // 1. Canvas 2D 连续流体母体样条与 10 子帧快门运动模糊积分
+            const canvas2D = this.renderer.render(this.currentTime);
+
+            // 2. WebGL2 电影级后期呈现 (零震屏，通透微色散)
+            this.pipeline.render(canvas2D, telemetry);
+
+            requestAnimationFrame((t) => this.loop(t));
+        }
+
+        syncAudio() {
+            if (!this.audio.ctx) return;
+            const now = this.currentTime;
+            for (let i = 0; i < TIMETABLE.length; i++) {
+                const ev = TIMETABLE[i];
+                if (now >= ev.t && (now - ev.t) < 0.08) {
+                    if (!this.scheduledBeats.has(i)) {
+                        this.scheduledBeats.add(i);
+                        this.audio.trigger(ev.type, this.audio.ctx.currentTime);
+                    }
+                } else if (now < ev.t) {
+                    this.scheduledBeats.delete(i);
+                }
+            }
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        new KeynoteDirector();
+    });
+    </script>
+</body>
+</html>

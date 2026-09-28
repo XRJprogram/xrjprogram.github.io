@@ -5,12 +5,15 @@
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-success?style=for-the-badge&logo=github)
 ![Architecture](https://img.shields.io/badge/CSS%203D-Deconstructed-blue?style=for-the-badge)
 ![Style](https://img.shields.io/badge/Cyber--Ink-Watermark-red?style=for-the-badge)
-![Status](https://img.shields.io/badge/7%20Projects-Showcased-purple?style=for-the-badge)
+![Status](https://img.shields.io/badge/8%20Projects-Showcased-purple?style=for-the-badge)
 
 <br/>
 
 欢迎访问 **[XRJprogram 3D 项目展台](https://xrjprogram.github.io/)**！  
-纯静态部署在 GitHub Pages。首屏通过 3D 立体卡牌展示 6 个技术项目，向下滑动平滑切入水墨风格的《FantasyCity 幻想城》。
+纯静态部署在 GitHub Pages。首屏通过 3D 立体卡牌展示 7 个技术项目，向下滑动平滑切入水墨风格的《FantasyCity 幻想城》。
+
+🎬 **全新视效大作**：**[15 秒动态图形大片 · 动效原理 (Principles of Motion)](https://xrjprogram.github.io/motion.html)**  
+全片按“动效原理”分为 7 段（起源、字体、缓动曲线、系统、维度、节奏、签名），首尾 0 缝无缝衔接。Canvas 2D 矢量绘制，WebGL2 后期色差，4200 颗粒子聚变“XRJ”，每帧 10 个子帧电影快门式运动模糊，程序化 Web Audio 合成音画卡点配乐，点开即自动沉浸循环。
 
 </div>
 
@@ -50,6 +53,11 @@
    - **技术栈**: `Vanilla JS` · `Canvas 2D` · `DAG 拓扑引擎` · `三次贝塞尔连线` · `APNG/GIF 编解码`
    - **特性**: 专为 QQ 表情包二次创作设计的可视化节点蓝图编辑器：内置 247 款精选动态表情，纯前端零依赖实现双对称/四对称镜像、阴阳脸缝合、凸凹透镜扭曲、双端范围时序裁剪与 1:1 无损 GIF 导出。
    - **源码**: [XRJprogram/gifeditor](https://github.com/XRJprogram/gifeditor)
+
+7. **[John Tromp's Lambda Diagrams · 纯黑白极简动态演算工作台](https://xrjprogram.github.io/lambdaDiagram/)**
+   - **技术栈**: `原生 JavaScript` · `纯 SVG 渲染` · `Tromp 拓扑几何` · `德布鲁因索引` · `β-归约动画`
+   - **特性**: 严格遵循 John Tromp 几何规范的纯黑白极简主义演算工作台：支持经典与德布鲁因双记法、五阶段 β-归约动态演示、双风格图样排版、23 种预设经典组合子库与一键导出。
+   - **源码**: [XRJprogram/lambdaDiagram](https://github.com/XRJprogram/lambdaDiagram)
 
 ---
 
