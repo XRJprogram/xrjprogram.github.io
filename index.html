@@ -271,7 +271,6 @@
             text-decoration: none;
             color: inherit;
             overflow: hidden;
-            transform-style: preserve-3d;
             will-change: transform, opacity, filter;
             box-shadow: 0 40px 95px -25px rgba(0, 0, 0, 0.95);
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
@@ -280,6 +279,8 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 36px 42px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .poster-top-row {
@@ -575,6 +576,24 @@
             background: linear-gradient(135deg, #241403 0%, #120901 60%, #060300 100%);
             border: 1px solid rgba(255, 171, 25, 0.5);
             box-shadow: 0 0 45px rgba(255, 171, 25, 0.2);
+        }
+        .card-littlesc .sc-bg-blocks-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .card-littlesc .sc-bg-blocks-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
+            animation: scBlocksFloat 6s ease-in-out infinite alternate;
+        }
+        @keyframes scBlocksFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-7px) rotate(-0.8deg); }
         }
         .title-sc {
             font-family: var(--font-display);
@@ -1677,7 +1696,6 @@
                         <div class="title-chemia-wrap">
                             <svg class="title-chemia-svg" viewBox="0 0 380 46" fill="none">
                                 <text x="0" y="34" class="chemia-svg-text">CHEMIATION</text>
-                                <text x="325" y="20" class="chemia-dagger-text">‡</text>
                                 <line x1="0" y1="42" x2="340" y2="42" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.6" />
                                 <defs>
                                     <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1693,7 +1711,7 @@
                     </div>
                     <div class="poster-bottom-row">
                         <span style="color:#9e8570;">PSEUDO-3D · CONSERVATION</span>
-                        <span class="pes-barrier-tag" style="color:var(--chemiation-gold); font-family:var(--font-mono);">[RC] → [TS]‡ → [P]</span>
+                        <span class="pes-barrier-tag" style="color:var(--chemiation-gold); font-family:var(--font-mono);">[RC] → [TS] → [P]</span>
                     </div>
                 `
             },
@@ -1734,9 +1752,47 @@
                 customClass: 'card-littlesc',
                 launchUrl: 'https://github.com/XRJprogram/littlesc',
                 innerMarkup: `
+                    <div class="sc-bg-blocks-overlay">
+                        <svg class="sc-bg-blocks-svg" viewBox="0 0 660 372" fill="none">
+                            <!-- Block 1: Events (Gold) -->
+                            <rect x="430" y="42" width="180" height="34" rx="8" fill="#FFBF00" fill-opacity="0.16" stroke="#FFBF00" stroke-opacity="0.4" stroke-width="1.5" />
+                            <circle cx="448" cy="59" r="6" fill="#FFBF00" fill-opacity="0.5" />
+                            <rect x="462" y="54" width="70" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="540" y="54" width="52" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 2: Motion (Blue) -->
+                            <rect x="450" y="86" width="190" height="34" rx="8" fill="#4C97FF" fill-opacity="0.16" stroke="#4C97FF" stroke-opacity="0.4" stroke-width="1.5" />
+                            <rect x="468" y="98" width="64" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="540" y="95" width="36" height="16" rx="8" fill="#ffffff" fill-opacity="0.4" />
+                            <rect x="584" y="98" width="40" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 3: Control (Orange) -->
+                            <rect x="438" y="130" width="176" height="34" rx="8" fill="#FFAB19" fill-opacity="0.16" stroke="#FFAB19" stroke-opacity="0.4" stroke-width="1.5" />
+                            <rect x="456" y="142" width="56" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="520" y="139" width="38" height="16" rx="8" fill="#ffffff" fill-opacity="0.35" />
+                            <rect x="566" y="142" width="34" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 4: Operators (Green) -->
+                            <rect x="464" y="174" width="164" height="34" rx="8" fill="#59C059" fill-opacity="0.16" stroke="#59C059" stroke-opacity="0.4" stroke-width="1.5" />
+                            <rect x="482" y="186" width="46" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="536" y="183" width="32" height="16" rx="8" fill="#ffffff" fill-opacity="0.35" />
+                            <rect x="576" y="186" width="36" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 5: Variables / Data (Deep Orange) -->
+                            <rect x="418" y="218" width="158" height="32" rx="8" fill="#FF8C1A" fill-opacity="0.14" stroke="#FF8C1A" stroke-opacity="0.35" stroke-width="1.5" />
+                            <rect x="434" y="229" width="58" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="500" y="226" width="42" height="16" rx="8" fill="#ffffff" fill-opacity="0.3" />
+
+                            <!-- Block 6: Sensing (Cyan, floating left bottom) -->
+                            <rect x="52" y="296" width="168" height="30" rx="8" fill="#5CB1D6" fill-opacity="0.12" stroke="#5CB1D6" stroke-opacity="0.3" stroke-width="1.2" />
+                            <rect x="68" y="306" width="60" height="10" rx="5" fill="#ffffff" fill-opacity="0.25" />
+                            <rect x="136" y="303" width="36" height="16" rx="8" fill="#ffffff" fill-opacity="0.28" />
+                            <rect x="180" y="306" width="28" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+                        </svg>
+                    </div>
                     <div class="poster-top-row">
-                        <span style="color:var(--littlesc-orange); font-family:var(--font-mono);">TURBOWARP AI COPILOT</span>
-                        <span style="color:var(--littlesc-blue); font-family:var(--font-mono);">[ GOBOSCRIPT ↔ SB3 ]</span>
+                        <span style="color:var(--littlesc-orange); font-family:var(--font-mono);">AI + SCRATCH VIBE CODING</span>
+                        <span style="color:var(--littlesc-blue); font-family:var(--font-mono);">[ PROMPT ↔ SB3 BLOCKS ]</span>
                     </div>
                     <div class="poster-center-body">
                         <div class="title-sc-wrap">
@@ -1744,11 +1800,11 @@
                                 <text x="2" y="32" class="sc-svg-text">LITTLE<tspan fill="var(--littlesc-orange)">SC</tspan></text>
                             </svg>
                         </div>
-                        <div class="sub-sc">自然语言转 Scratch 积木编译器</div>
-                        <p class="desc-sc">将自然语言指令实时转译为 Scratch 积木源码，支持 AST 代码比对与行级 Diff，点击差异即可在舞台中快速定位对应积木。</p>
+                        <div class="sub-sc">AI + Scratch 积木语言 Vibe Coding 编译器</div>
+                        <p class="desc-sc">面向少儿与创客的 AI + Scratch 积木 Vibe Coding 体验：通过自然语言提示词直接生成可执行的 Scratch 积木与 Goboscript 源码，支持 AST 代码比对与行级 Diff 快速定位。</p>
                     </div>
                     <div class="poster-bottom-row">
-                        <span style="color:#ea580c;">AST BIPARTITE · LCS DIFF</span>
+                        <span style="color:#ea580c;">VIBE CODING · AST DIFF</span>
                         <span class="littlesc-diff-badge" style="color:var(--littlesc-diff); font-family:var(--font-mono);">+12 / -4 DIFF</span>
                     </div>
                 `
@@ -2005,7 +2061,7 @@
                         hasMovedSignificantly = true;
                     }
 
-                    const cardWidth = window.innerWidth < 768 ? 260 : 380;
+                    const cardWidth = window.innerWidth < 768 ? 250 : 420;
                     targetPos = startPos - (deltaX / cardWidth);
 
                     const now = performance.now();
@@ -2393,8 +2449,8 @@
                 curTiltY += (mouseTiltY - curTiltY) * 0.08;
 
                 const isMobile = window.innerWidth < 768;
-                const spacing = isMobile ? 240 : 390;
-                const depthZ = isMobile ? 160 : 250;
+                const spacing = isMobile ? 250 : 420;
+                const depthZ = isMobile ? 150 : 250;
 
                 // 防止整数偏移量无上限累加，静止且偏移极大时平滑移位
                 if (!isPointerDown && Math.abs(targetPos) > 100 && Math.abs(targetPos - currentPos) < 0.01) {
@@ -2402,6 +2458,9 @@
                     targetPos -= shifts;
                     currentPos -= shifts;
                 }
+
+                // 运动趋势与方向感知（用于无缝层叠防穿插）
+                const delta = targetPos - currentPos;
 
                 cardElements.forEach((card, i) => {
                     // 环形最短拓扑距离计算：把当前卡片投影至 [-total/2, total/2] 扇区
@@ -2411,12 +2470,16 @@
                     }
                     const absOffset = Math.abs(offset);
 
-                    // 空间 3D 几何变换
+                    // 空间 3D 几何变换：采用幂函数加深远离中心的深度衰减，消除邻近卡牌边缘空间干涉
                     const tx = offset * spacing;
-                    const tz = -absOffset * depthZ;
-                    const ry = -offset * (isMobile ? 18 : 28) + (absOffset < 0.5 ? curTiltY : 0);
+                    const tz = -Math.pow(Math.min(absOffset, 2.5), 1.15) * depthZ;
+                    
+                    // 旋转角度适度收敛（桌面端 20deg，移动端 14deg），杜绝宽卡片大幅旋转时前边缘侵入主卡片
+                    const maxRot = isMobile ? 14 : 20;
+                    const clampedOffset = Math.max(-1.5, Math.min(1.5, offset));
+                    const ry = -clampedOffset * maxRot + (absOffset < 0.5 ? curTiltY : 0);
                     const rx = absOffset < 0.5 ? curTiltX : 0;
-                    const scale = 1 - Math.min(absOffset * 0.14, 0.45);
+                    const scale = 1 - Math.min(absOffset * 0.12, 0.42);
                     
                     // 当卡片转至侧后方时渐隐，杜绝在背面翻折时产生穿帮跳动
                     let opacity = 0;
@@ -2425,10 +2488,19 @@
                     }
                     const blur = Math.max(0, (absOffset - 0.25) * 3);
 
+                    // 高精度连续 z-index 计算与运动方向动态偏置（彻底解决相同 zIndex 导致的层级跳变与突兀穿插）
+                    let dirBias = 0;
+                    if (Math.abs(delta) > 0.01) {
+                        if ((delta > 0 && offset > 0) || (delta < 0 && offset < 0)) {
+                            dirBias = 3;
+                        }
+                    }
+                    const zIndex = Math.round(1000 - absOffset * 100) + dirBias;
+
                     card.style.transform = `translate3d(${tx.toFixed(1)}px, 0, ${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) rotateX(${rx.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
                     card.style.opacity = opacity.toFixed(3);
                     card.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-                    card.style.zIndex = Math.round(20 - absOffset * 4);
+                    card.style.zIndex = zIndex;
                     card.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
                 });
 
