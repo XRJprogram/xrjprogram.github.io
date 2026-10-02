@@ -1482,6 +1482,461 @@
                 letter-spacing: 0.18em;
             }
         }
+
+        /* ============================================================
+           08. 2022-2025 程序作品展回廊（质子工作室 12 部核心作品）
+           优雅融入东方宣纸 (#FAF6E9) 境地，典藏卡牌与交互畅玩浮层
+           ============================================================ */
+        
+        /* 幻想城向作品展过渡按钮 */
+        .fc-scroll-to-exhibition {
+            margin-top: 48px;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+        }
+        .fc-to-exhibition-btn {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 14px 34px;
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(36, 20, 11, 0.14);
+            border-radius: 9999px;
+            text-decoration: none;
+            color: #1a110b;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 8px 24px -6px rgba(36, 20, 11, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fc-to-exhibition-btn:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(192, 57, 43, 0.4);
+            box-shadow: 0 16px 36px -8px rgba(192, 57, 43, 0.18);
+        }
+        .fc-btn-ink-text {
+            font-family: var(--font-song);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: #1a110b;
+        }
+        .fc-btn-ink-sub {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            color: #785c49;
+            margin-top: 3px;
+        }
+        .fc-btn-arrow-down {
+            margin-top: 6px;
+            color: #c0392b;
+            animation: bounceArrow 2s infinite ease-in-out;
+        }
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* 作品展主区域容器 */
+        .gallery-exhibition-realm {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            padding: 90px 24px 140px;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+        .exhibition-inner-container {
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+        .exhibition-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .exhibition-title-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 18px;
+            border-radius: 9999px;
+            background: rgba(36, 20, 11, 0.06);
+            border: 1px solid rgba(36, 20, 11, 0.12);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            letter-spacing: 0.1em;
+            color: #24140b;
+            margin-bottom: 18px;
+        }
+        .exhibition-year-badge {
+            font-weight: 700;
+            color: #c0392b;
+        }
+        .exhibition-pill-sep {
+            color: rgba(36, 20, 11, 0.3);
+        }
+        .exhibition-pill-tag {
+            font-weight: 600;
+        }
+        .exhibition-main-title {
+            font-family: var(--font-song);
+            font-size: 2.6rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            color: #1a110b;
+            margin-bottom: 16px;
+        }
+        .exhibition-desc {
+            max-width: 760px;
+            margin: 0 auto 36px;
+            font-family: var(--font-sans-cn);
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: #554439;
+        }
+
+        /* 年份过滤胶囊条 */
+        .exhibition-filter-bar {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 6px;
+            background: rgba(36, 20, 11, 0.05);
+            border-radius: 9999px;
+            border: 1px solid rgba(36, 20, 11, 0.08);
+        }
+        .ex-filter-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 22px;
+            border-radius: 9999px;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #5a473c;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .ex-filter-btn:hover {
+            color: #1a110b;
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .ex-filter-btn.active {
+            background: #1a110b;
+            color: #faf6e9;
+            box-shadow: 0 4px 12px rgba(26, 17, 11, 0.18);
+        }
+
+        /* 作品展卡片网格 */
+        .exhibition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 28px;
+            width: 100%;
+        }
+
+        /* 典藏展品卡牌 */
+        .ex-card {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(36, 20, 11, 0.1);
+            border-radius: 18px;
+            padding: 26px 28px;
+            box-shadow: 0 12px 30px -8px rgba(36, 20, 11, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+        .ex-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: var(--card-accent, #c0392b);
+            opacity: 0.85;
+            transition: height 0.3s ease;
+        }
+        .ex-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(192, 57, 43, 0.35);
+            box-shadow: 0 24px 50px -12px rgba(36, 20, 11, 0.16);
+        }
+        .ex-card:hover::before {
+            height: 6px;
+        }
+
+        .ex-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .ex-year-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(36, 20, 11, 0.07);
+            color: #24140b;
+        }
+        .ex-cat-tag {
+            font-family: var(--font-sans-cn);
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--card-accent, #785c49);
+            letter-spacing: 0.05em;
+        }
+
+        .ex-card-body {
+            margin-bottom: 22px;
+        }
+        .ex-card-title-cn {
+            font-family: var(--font-song);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1a110b;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        .ex-card-title-en {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            color: #8c7355;
+            margin-bottom: 12px;
+        }
+        .ex-card-desc {
+            font-family: var(--font-sans-cn);
+            font-size: 0.86rem;
+            line-height: 1.65;
+            color: #4a3b32;
+        }
+
+        .ex-card-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(36, 20, 11, 0.12);
+        }
+        .ex-badge-tech {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #7b6656;
+            letter-spacing: 0.06em;
+        }
+        .ex-launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            background: var(--card-accent, #c0392b);
+            color: #ffffff;
+            font-family: var(--font-sans-cn);
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+        .ex-card:hover .ex-launch-btn {
+            transform: scale(1.06);
+            filter: brightness(1.08);
+        }
+
+        /* 模态浮层系统 (Works Modal Overlay) */
+        .works-modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(10, 8, 7, 0.84);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .works-modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .works-modal-dialog {
+            width: 100%;
+            max-width: 1080px;
+            height: 86vh;
+            max-height: 740px;
+            background: #0d0c0c;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .works-modal-backdrop.active .works-modal-dialog {
+            transform: scale(1);
+        }
+        .works-modal-topbar {
+            height: 54px;
+            padding: 0 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .works-modal-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+        }
+        .works-modal-year {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #38bdf8;
+        }
+        .works-modal-title {
+            font-family: var(--font-sans-cn);
+            font-size: 0.96rem;
+            font-weight: 700;
+            color: #f8fafc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .works-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .works-modal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            color: #cbd5e1;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .works-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        .works-modal-close {
+            padding: 6px 10px;
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+        .works-modal-close:hover {
+            background: #ef4444;
+            color: #ffffff;
+            border-color: #ef4444;
+        }
+        .works-modal-body {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #000000;
+        }
+        .works-modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* 页脚 */
+        .exhibition-footer {
+            width: 100%;
+            padding: 48px 24px 60px;
+            text-align: center;
+            border-top: 1px solid rgba(36, 20, 11, 0.08);
+            margin-top: 60px;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #7d6b5e;
+            letter-spacing: 0.06em;
+        }
+        .footer-brand {
+            font-weight: 700;
+            color: #24140b;
+        }
+        .footer-dot {
+            opacity: 0.4;
+        }
+        .footer-link {
+            color: #c0392b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 移动端响应式微调 */
+        @media (max-width: 768px) {
+            .gallery-exhibition-realm {
+                padding: 60px 16px 100px;
+            }
+            .exhibition-main-title {
+                font-size: 1.85rem;
+            }
+            .exhibition-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .works-modal-dialog {
+                width: 100%;
+                height: 94vh;
+                border-radius: 12px;
+            }
+            .works-modal-topbar {
+                padding: 0 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1597,7 +2052,90 @@
             <span class="fc-flow-sep" style="--ci:24">·</span>
             <span class="fc-flow-char" style="--ci:25">异</span><span class="fc-flow-char" style="--ci:26">能</span><span class="fc-flow-char" style="--ci:27">全</span><span class="fc-flow-char" style="--ci:28">景</span><span class="fc-flow-char" style="--ci:29">百</span><span class="fc-flow-char" style="--ci:30">科</span><span class="fc-flow-char" style="--ci:31">图</span><span class="fc-flow-char" style="--ci:32">鉴</span>
         </p>
+
+        <!-- 向下滚动过渡引导至作品展回廊 -->
+        <div class="fc-scroll-to-exhibition">
+            <a href="#exhibitionSection" class="fc-to-exhibition-btn" id="fcToExhibitionBtn">
+                <span class="fc-btn-ink-text">步入 2022–2025 程序作品展</span>
+                <span class="fc-btn-ink-sub">12 部核心作品 · 原生 Scratch 编译在线畅玩</span>
+                <div class="fc-btn-arrow-down">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                </div>
+            </a>
+        </div>
     </section>
+
+    <!-- ============================================================
+         2022-2025 程序作品展：质子工作室核心程序作品回廊
+         ============================================================ -->
+    <section class="gallery-exhibition-realm" id="exhibitionSection">
+        <div class="exhibition-inner-container">
+            <div class="exhibition-header">
+                <div class="exhibition-title-pill">
+                    <span class="exhibition-year-badge">2022 – 2025</span>
+                    <span class="exhibition-pill-sep">/</span>
+                    <span class="exhibition-pill-tag">RETROSPECTIVE</span>
+                </div>
+                <h2 class="exhibition-main-title">质子工作室 · 核心程序作品展</h2>
+                <p class="exhibition-desc">
+                    四载独立编程沉淀，十二部原生 Scratch / TurboWarp 架构作品：从微观数值扩散、核反应堆控制机理，到自动化汇编逻辑机与程序化生成地铁调度器。点击任意展品即可在线畅玩完整编译版本。
+                </p>
+                <div class="exhibition-filter-bar" id="exhibitionFilterBar">
+                    <button class="ex-filter-btn active" data-filter="all">全部 (12)</button>
+                    <button class="ex-filter-btn" data-filter="2022">2022</button>
+                    <button class="ex-filter-btn" data-filter="2023">2023</button>
+                    <button class="ex-filter-btn" data-filter="2024">2024</button>
+                    <button class="ex-filter-btn" data-filter="2025">2025</button>
+                </div>
+            </div>
+
+            <div class="exhibition-grid" id="exhibitionGrid">
+                <!-- 12 张由 JS / 模板驱动的高阶展品典藏卡片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 极简页脚 -->
+    <footer class="exhibition-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">XRJPROGRAM · 质子工作室</span>
+            <span class="footer-dot">·</span>
+            <span class="footer-copy">2022–2026 ARCHIVE · POWERED BY TURBOWARP</span>
+            <span class="footer-dot">·</span>
+            <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="footer-link">GITHUB</a>
+        </div>
+    </footer>
+
+    <!-- 在线沉浸式作品运行浮层 (Works Modal) -->
+    <div class="works-modal-backdrop" id="worksModal" aria-hidden="true">
+        <div class="works-modal-dialog">
+            <div class="works-modal-topbar">
+                <div class="works-modal-info">
+                    <span class="works-modal-year" id="worksModalYear">2022</span>
+                    <h3 class="works-modal-title" id="worksModalTitle">作品标题</h3>
+                </div>
+                <div class="works-modal-actions">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="works-modal-btn" id="worksModalNewTab" title="在新标签页全屏打开">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        <span>新窗口打开</span>
+                    </a>
+                    <button class="works-modal-btn" id="worksModalFs" title="全屏">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                        <span>全屏</span>
+                    </button>
+                    <button class="works-modal-btn works-modal-close" id="worksModalClose" title="关闭 (Esc)">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="works-modal-body">
+                <iframe id="worksModalIframe" class="works-modal-iframe" src="about:blank" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
     <!-- 核心项目数据：去除 010203 编号，汉字字体全面适配，专属个性排版 -->
     <script>
@@ -1915,6 +2453,9 @@
         function resolveUrl(url) {
             if (!url) return '';
             if (url.startsWith('http://') || url.startsWith('https://')) return url;
+            if (url.startsWith('works/') || url.startsWith('./works/')) {
+                return url;
+            }
             if (window.location.protocol === 'file:') {
                 return '../' + url;
             }
@@ -2967,6 +3508,268 @@
                     behavior: 'smooth'
                 });
             });
+        })();
+
+        /* 8. 2022-2025 程序作品展回廊引擎与在线体验交互系统 */
+        const EXHIBITION_WORKS = [
+            {
+                id: 'number-diffusion',
+                year: '2022',
+                yearsTag: '2022',
+                titleCn: '数字扩散',
+                titleEn: 'Number Diffusion',
+                category: '数值动力学 · 解谜算法',
+                desc: '基于离散数值网格与能量守恒的扩散求解算法。在二维矩阵中推演数值梯度的流动与耗散，构建极富思维深度的链式扩散与策略解谜关卡。',
+                highlight: 'GRID DIFFUSION · CONSERVATION',
+                url: 'works/number-diffusion.html',
+                accent: '#0284c7'
+            },
+            {
+                id: 'reactor-1',
+                year: '2022',
+                yearsTag: '2022',
+                titleCn: 'REACTOR I',
+                titleEn: 'Fission Core BTS',
+                category: '反应堆工程 · 机理模拟',
+                desc: '核裂变链式反应堆初期工程机理仿真：实时解算中子通量、控制棒位移与热力学循环，还原复杂工业面板在临界状态下的控制逻辑。',
+                highlight: 'NEUTRON FLUX · CORE DYNAMICS',
+                url: 'works/reactor-1.html',
+                accent: '#059669'
+            },
+            {
+                id: 'reactor-2',
+                year: '2022',
+                yearsTag: '2022',
+                titleCn: 'REACTOR II',
+                titleEn: 'Advanced Core Automation',
+                category: '复杂控制 · 反应堆仿真',
+                desc: 'REACTOR 架构重大升级版：全面重构堆芯热工水力模型与蒸汽发生器环路，支持多通道故障应急处置、余热排出与全自动化调谐系统。',
+                highlight: 'THERMOHYDRAULICS · SCRAM SYSTEM',
+                url: 'works/reactor-2.html',
+                accent: '#0891b2'
+            },
+            {
+                id: 'human-resource-machine',
+                year: '2023',
+                yearsTag: '2022-2023',
+                titleCn: 'Human Resource Machine',
+                titleEn: 'Assembly Logic Sandbox',
+                category: '汇编语言 · 指令解谜',
+                desc: '致敬经典逻辑编程神作的完全重构实现：基于自主设计的轻量级微指令集（INBOX、OUTBOX、COPYTO、JUMPZ等），推演基础数据结构与算力编排。',
+                highlight: 'ASSEMBLY INSTRUCTIONS · PIPELINE',
+                url: 'works/human-resource-machine.html',
+                accent: '#d97706'
+            },
+            {
+                id: 'earth-resource-machine',
+                year: '2023',
+                yearsTag: '2023',
+                titleCn: 'Earth Resource Machine',
+                titleEn: 'Planetary Industrial Loop',
+                category: '自动化管线 · 工业生产',
+                desc: '宏观行星工业资源开采与流水线调度模拟：构建多层级传送带网络、精炼窑炉与能源中继系统，实现从原始矿物到复杂构件的全自动产线自循环。',
+                highlight: 'CONVEYOR DAG · RESOURCE CYCLING',
+                url: 'works/earth-resource-machine.html',
+                accent: '#65a30d'
+            },
+            {
+                id: 'unknown-resource-machine',
+                year: '2023',
+                yearsTag: '2023',
+                titleCn: 'Unknown Resource Machine',
+                titleEn: 'Cyber Concurrency Matrix',
+                category: '异构计算 · 黑客控制台',
+                desc: '高阶指令驱动的赛博异构资源矩阵：突破传统流水线范式，融合动态内存分配、并发线程锁机制与未知数据协议逆向工程。',
+                highlight: 'CONCURRENCY · PROTOCOL REVERSE',
+                url: 'works/unknown-resource-machine.html',
+                accent: '#7c3aed'
+            },
+            {
+                id: 'nuclear-factory-2',
+                year: '2024',
+                yearsTag: '2024',
+                titleCn: 'Nuclear Factory II',
+                titleEn: 'Isotope Refining Facility',
+                category: '工业流体 · 核素精炼',
+                desc: '核燃料循环与同位素分离流水线仿真：精准建模重水减速剂、气体离心机级联浓缩与裂变产物衰变热，呈现极简硬核的工业控制美学。',
+                highlight: 'ISOTOPE CASCADE · DECAY MODEL',
+                url: 'works/nuclear-factory-2.html',
+                accent: '#ea580c'
+            },
+            {
+                id: 'reactic',
+                year: '2023',
+                yearsTag: '2023',
+                titleCn: 'Reactic',
+                titleEn: 'Chemical Kinetics Engine',
+                category: '化学机理 · 粒子动力学',
+                desc: '微观化学反应动力学演示机：通过硬球碰撞模型与活化能势垒判定，动态推演旧键断裂与基团重组，直观呈现阿伦尼乌斯速率方程规律。',
+                highlight: 'ARRHENIUS DYNAMICS · POTENTIAL WELL',
+                url: 'works/reactic.html',
+                accent: '#db2777'
+            },
+            {
+                id: 'escape-and-combat-2',
+                year: '2024',
+                yearsTag: '2024-2026',
+                titleCn: '逃亡与战斗II',
+                titleEn: 'Escape & Combat II Final',
+                category: '动作冒险 · 开放对决',
+                desc: '历经多轮大版本迭代的高帧率对决系统：独创动作帧判定、弹幕时空延时机制与多段招式衔接，在复杂机制下带来极其爽快的手感反馈。',
+                highlight: 'FRAME HITBOX · TIME DILATION',
+                url: 'works/escape-and-combat-2.html',
+                accent: '#dc2626'
+            },
+            {
+                id: 'anychem-scratch',
+                year: '2024',
+                yearsTag: '2024-2025',
+                titleCn: 'Anychem (Scratch)',
+                titleEn: '3D Molecule Projection',
+                category: '分子力学 · 伪3D渲染',
+                desc: 'AnyChem Pro 的原生 Scratch 原型系统：纯积木自主实现三维透视投影矩阵、分子空间旋转与简谐振动势能面，开启 3D 化学力学仿真的序幕。',
+                highlight: 'SCRATCH 3D PROJECTION · FORCE FIELD',
+                url: 'works/anychem-scratch.html',
+                accent: '#0d9488'
+            },
+            {
+                id: 'dream-big',
+                year: '2025',
+                yearsTag: '2025',
+                titleCn: '幻想成为大人物',
+                titleEn: 'Life Simulation Sandbox',
+                category: '叙事生涯 · 奇幻冒险',
+                desc: '充满幽默与哲思的叙事微世界：在动态分支事件中扮演各色小人物，通过技能树抉择、资源权衡与突发奇遇，经历跌宕起伏的人生轨迹。',
+                highlight: 'STORY TREE · PROCEDURAL EVENTS',
+                url: 'works/dream-big.html',
+                accent: '#ca8a04'
+            },
+            {
+                id: 'subway-displayer',
+                year: '2025',
+                yearsTag: '2025',
+                titleCn: 'Subway Displayer',
+                titleEn: 'Transit Block Signal Board',
+                category: '路网拓扑 · 动态看板',
+                desc: '城市轨道交通运行图与列车实时追踪系统：精准绘制闭塞区间、信号灯联锁逻辑与发车时序，完美还原地铁大屏的高清动态调度看板。',
+                highlight: 'TOPOLOGICAL GRAPH · BLOCK SIGNAL',
+                url: 'works/subway-displayer.html',
+                accent: '#4f46e5'
+            }
+        ];
+
+        (function initExhibitionGallery() {
+            const grid = document.getElementById('exhibitionGrid');
+            const filterBar = document.getElementById('exhibitionFilterBar');
+            const modal = document.getElementById('worksModal');
+            const modalTitle = document.getElementById('worksModalTitle');
+            const modalYear = document.getElementById('worksModalYear');
+            const modalIframe = document.getElementById('worksModalIframe');
+            const modalClose = document.getElementById('worksModalClose');
+            const modalNewTab = document.getElementById('worksModalNewTab');
+            const modalFs = document.getElementById('worksModalFs');
+
+            if (!grid) return;
+
+            function renderCards(filterYear = 'all') {
+                grid.innerHTML = '';
+                const filtered = EXHIBITION_WORKS.filter(w => {
+                    if (filterYear === 'all') return true;
+                    return w.year === filterYear || w.yearsTag.includes(filterYear);
+                });
+
+                filtered.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'ex-card';
+                    card.style.setProperty('--card-accent', item.accent);
+                    card.innerHTML = `
+                        <div class="ex-card-top">
+                            <span class="ex-year-tag">${item.yearsTag}</span>
+                            <span class="ex-cat-tag">${item.category}</span>
+                        </div>
+                        <div class="ex-card-body">
+                            <h3 class="ex-card-title-cn">${item.titleCn}</h3>
+                            <div class="ex-card-title-en">${item.titleEn}</div>
+                            <p class="ex-card-desc">${item.desc}</p>
+                        </div>
+                        <div class="ex-card-foot">
+                            <span class="ex-badge-tech">${item.highlight}</span>
+                            <button class="ex-launch-btn" type="button" aria-label="启动 ${item.titleCn}">
+                                <span>启动作品</span>
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><polygon points="6,4 20,12 6,20"></polygon></svg>
+                            </button>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', () => {
+                        openModal(item);
+                    });
+
+                    grid.appendChild(card);
+                });
+
+                // 重新刷新全局自定义滚动条的高度指标
+                window.dispatchEvent(new Event('resize'));
+            }
+
+            function openModal(item) {
+                if (!modal) return;
+                const targetUrl = resolveUrl(item.url);
+                modalTitle.textContent = `${item.titleCn} · ${item.titleEn}`;
+                modalYear.textContent = item.yearsTag;
+                modalYear.style.backgroundColor = item.accent;
+                modalYear.style.color = '#ffffff';
+                modalNewTab.href = targetUrl;
+                modalIframe.src = targetUrl;
+
+                modal.classList.add('active');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+                modalIframe.src = 'about:blank';
+                document.body.style.overflow = '';
+            }
+
+            if (modalClose) {
+                modalClose.addEventListener('click', closeModal);
+            }
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            }
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            if (modalFs && modalIframe) {
+                modalFs.addEventListener('click', () => {
+                    if (modalIframe.requestFullscreen) {
+                        modalIframe.requestFullscreen();
+                    } else if (modalIframe.webkitRequestFullscreen) {
+                        modalIframe.webkitRequestFullscreen();
+                    }
+                });
+            }
+
+            if (filterBar) {
+                filterBar.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.ex-filter-btn');
+                    if (!btn) return;
+                    filterBar.querySelectorAll('.ex-filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderCards(btn.dataset.filter);
+                });
+            }
+
+            renderCards('all');
         })();
     </script>
 </body>
