@@ -271,7 +271,7 @@
             text-decoration: none;
             color: inherit;
             overflow: hidden;
-            will-change: transform, opacity, filter;
+            will-change: transform, opacity;
             box-shadow: 0 40px 95px -25px rgba(0, 0, 0, 0.95);
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
             cursor: pointer;
@@ -466,14 +466,13 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: 
-                radial-gradient(circle at 80% 20%, rgba(192, 138, 62, 0.22) 0%, transparent 55%);
+                radial-gradient(circle at 80% 20%, rgba(192, 138, 62, 0.26) 0%, rgba(184, 74, 40, 0.12) 35%, transparent 65%);
             pointer-events: none;
-            filter: blur(20px);
             animation: chemGlowPulse 5s ease-in-out infinite alternate;
         }
         @keyframes chemGlowPulse {
-            0% { opacity: 0.55; transform: scale(0.96); }
-            100% { opacity: 0.95; transform: scale(1.06); }
+            0% { opacity: 0.55; }
+            100% { opacity: 0.95; }
         }
         .pes-barrier-tag {
             display: inline-block;
@@ -1098,11 +1097,10 @@
         /* 水墨气韵光环 */
         .ink-ambient-aura {
             position: absolute;
-            width: 680px;
-            height: 320px;
+            width: 720px;
+            height: 360px;
             border-radius: 50%;
-            background: radial-gradient(ellipse at center, rgba(192, 57, 43, 0.1) 0%, rgba(36, 20, 11, 0.05) 45%, transparent 72%);
-            filter: blur(45px);
+            background: radial-gradient(ellipse at center, rgba(192, 57, 43, 0.12) 0%, rgba(36, 20, 11, 0.06) 38%, rgba(36, 20, 11, 0.02) 60%, transparent 75%);
             pointer-events: none;
             z-index: 0;
             opacity: 0;
@@ -2361,6 +2359,14 @@
             const cardElements = [];
             let renderAnychemMol = null;
             let renderChemiationStruct = null;
+            let isDeckVisible = true;
+            let deckRAF = null;
+
+            function requestDeckLoop() {
+                if (!deckRAF && isDeckVisible) {
+                    deckRAF = requestAnimationFrame(renderLoop);
+                }
+            }
 
             function init() {
                 stage.innerHTML = '';
@@ -2403,7 +2409,20 @@
                 bindEvents();
                 renderAnychemMol = initAnychemMoleculeSimulation();
                 renderChemiationStruct = initChemiationStructureSimulation();
-                requestAnimationFrame(renderLoop);
+
+                // 视口感知：仅当 3D 展台在可视范围内时才调度 rAF，离屏时彻底暂停
+                const deckObserver = new IntersectionObserver((entries) => {
+                    isDeckVisible = entries[0].isIntersecting;
+                    if (isDeckVisible) {
+                        requestDeckLoop();
+                    } else if (deckRAF) {
+                        cancelAnimationFrame(deckRAF);
+                        deckRAF = null;
+                    }
+                }, { threshold: 0.04 });
+                deckObserver.observe(stage);
+
+                requestDeckLoop();
             }
 
             function getShortestDistance(fromIdx, toIdx) {
@@ -2418,18 +2437,21 @@
                 targetPos += diff;
                 activeIdx = idx;
                 updateIndicators();
+                requestDeckLoop();
             }
 
             function next() {
                 targetPos = Math.round(targetPos) + 1;
                 activeIdx = ((Math.round(targetPos) % total) + total) % total;
                 updateIndicators();
+                requestDeckLoop();
             }
 
             function prev() {
                 targetPos = Math.round(targetPos) - 1;
                 activeIdx = ((Math.round(targetPos) % total) + total) % total;
                 updateIndicators();
+                requestDeckLoop();
             }
 
             function updateIndicators() {
@@ -2447,6 +2469,7 @@
                     lastPointerX = e.clientX;
                     lastMoveTime = performance.now();
                     dragVelocity = 0;
+                    requestDeckLoop();
                 });
 
                 window.addEventListener('pointermove', (e) => {
@@ -2455,6 +2478,7 @@
                     if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
                         mouseTiltX = ((e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)) * -8;
                         mouseTiltY = ((e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2)) * 8;
+                        requestDeckLoop();
                     }
 
                     if (!isPointerDown) return;
@@ -2473,6 +2497,7 @@
                         lastPointerX = e.clientX;
                         lastMoveTime = now;
                     }
+                    requestDeckLoop();
                 });
 
                 const onPointerUp = () => {
@@ -2484,6 +2509,7 @@
                     targetPos = Math.round(targetPos);
                     activeIdx = ((targetPos % total) + total) % total;
                     updateIndicators();
+                    requestDeckLoop();
                 };
 
                 window.addEventListener('pointerup', onPointerUp);
@@ -2514,7 +2540,7 @@
                 const canvas = document.getElementById('anychem-mol-canvas');
                 if (!canvas) return null;
                 const ctx = canvas.getContext('2d');
-                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
                 canvas.width = 660 * dpr;
                 canvas.height = 372 * dpr;
                 ctx.scale(dpr, dpr);
@@ -2681,7 +2707,7 @@
                 const canvas = document.getElementById('chemiation-struct-canvas');
                 if (!canvas) return null;
                 const ctx = canvas.getContext('2d');
-                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
                 canvas.width = 660 * dpr;
                 canvas.height = 372 * dpr;
                 ctx.scale(dpr, dpr);
@@ -2864,6 +2890,9 @@
                 // 运动趋势与方向感知（用于无缝层叠防穿插）
                 const delta = targetPos - currentPos;
 
+                let isAnychemVisible = false;
+                let isChemiationVisible = false;
+
                 cardElements.forEach((card, i) => {
                     // 环形最短拓扑距离计算：把当前卡片投影至 [-total/2, total/2] 扇区
                     let offset = ((i - currentPos) % total + total) % total;
@@ -2888,7 +2917,13 @@
                     if (absOffset < 2.6) {
                         opacity = Math.max(0, 1 - absOffset * 0.38);
                     }
-                    const blur = Math.max(0, (absOffset - 0.25) * 3);
+
+                    // 前排主要卡片保持绝对清晰，不执行高开销的动态高斯模糊；仅深度后撤卡片附加微量景深
+                    const blur = absOffset < 0.8 ? 0 : Math.max(0, (absOffset - 0.7) * 2.5);
+
+                    // 精准识别带有独立 3D 模型的卡片是否面向用户（若在背侧或不可见则停止模型计算）
+                    if (i === 0 && absOffset < 1.6 && opacity > 0.05) isAnychemVisible = true;
+                    if (i === 2 && absOffset < 1.6 && opacity > 0.05) isChemiationVisible = true;
 
                     // 高精度连续 z-index 计算与运动方向动态偏置（彻底解决相同 zIndex 导致的层级跳变与突兀穿插）
                     let dirBias = 0;
@@ -2899,19 +2934,28 @@
                     }
                     const zIndex = Math.round(1000 - absOffset * 100) + dirBias;
 
-                    card.style.transform = `translate3d(${tx.toFixed(1)}px, 0, ${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) rotateX(${rx.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-                    card.style.opacity = opacity.toFixed(3);
-                    card.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
-                    card.style.zIndex = zIndex;
-                    card.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible';
+                    const transStr = `translate3d(${tx.toFixed(1)}px, 0, ${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) rotateX(${rx.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                    const opStr = opacity.toFixed(3);
+                    const filterStr = blur > 0.5 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    const visStr = opacity <= 0.01 ? 'hidden' : 'visible';
+
+                    if (card._lastTrans !== transStr) { card.style.transform = transStr; card._lastTrans = transStr; }
+                    if (card._lastOp !== opStr) { card.style.opacity = opStr; card._lastOp = opStr; }
+                    if (card._lastFilter !== filterStr) { card.style.filter = filterStr; card._lastFilter = filterStr; }
+                    if (card._lastZ !== zIndex) { card.style.zIndex = zIndex; card._lastZ = zIndex; }
+                    if (card._lastVis !== visStr) { card.style.visibility = visStr; card._lastVis = visStr; }
                 });
 
-                // 渲染 AnyChem 与 Chemiation 卡片 3D 分子动态模型与结构式
+                // 仅当 AnyChem 与 Chemiation 卡片处于正面可视范围时才计算与绘制 3D 分子动态模型
                 const animTime = performance.now();
-                if (renderAnychemMol) renderAnychemMol(animTime);
-                if (renderChemiationStruct) renderChemiationStruct(animTime);
+                if (isAnychemVisible && renderAnychemMol) renderAnychemMol(animTime);
+                if (isChemiationVisible && renderChemiationStruct) renderChemiationStruct(animTime);
 
-                requestAnimationFrame(renderLoop);
+                if (isDeckVisible) {
+                    deckRAF = requestAnimationFrame(renderLoop);
+                } else {
+                    deckRAF = null;
+                }
             }
 
             return {
@@ -2926,7 +2970,114 @@
             DeckEngine.init();
         }
 
-        /* 3. 散落狂草笔画随滚动吸附重新汇聚算法 + 往下滑平滑无级过渡至淡黄色宣纸 (#FAF6E9) */
+        /* 3. 星空粒子 Canvas (90 颗星点，按透明度分桶批量绘制，减少 95% Canvas API 调度) */
+        const CosmosEngine = (function() {
+            const canvas = document.getElementById('cosmos-canvas');
+            if (!canvas) return null;
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            const stars = [];
+            const count = 90;
+            let isVisible = true;
+            let rAFId = null;
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    size: Math.random() * 1.5 + 0.4,
+                    alpha: Math.random() * 0.75 + 0.25,
+                    speed: Math.random() * 0.22 + 0.05,
+                    pulse: Math.random() * Math.PI * 2
+                });
+            }
+
+            let mouseX = 0, mouseY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - w / 2) * 0.03;
+                mouseY = (e.clientY - h / 2) * 0.03;
+            }, { passive: true });
+
+            function render(time) {
+                if (!isVisible) {
+                    rAFId = null;
+                    return;
+                }
+
+                ctx.clearRect(0, 0, w, h);
+                const t = time * 0.0018;
+
+                // 按亮度分桶，仅执行 3 次 beginPath / fill，彻底消除逐点描画的性能瓶颈
+                const binLow = [];
+                const binMid = [];
+                const binHigh = [];
+
+                for (let i = 0; i < stars.length; i++) {
+                    const s = stars[i];
+                    s.y -= s.speed;
+                    if (s.y < 0) s.y = h;
+
+                    const drawX = s.x - mouseX * (s.size * 0.4);
+                    const drawY = s.y - mouseY * (s.size * 0.4);
+                    const twinkle = Math.sin(t + s.pulse) * 0.35 + 0.65;
+                    const finalAlpha = s.alpha * twinkle;
+
+                    if (finalAlpha < 0.4) {
+                        binLow.push(drawX, drawY, s.size);
+                    } else if (finalAlpha < 0.7) {
+                        binMid.push(drawX, drawY, s.size);
+                    } else {
+                        binHigh.push(drawX, drawY, s.size);
+                    }
+                }
+
+                function drawBin(bin, color) {
+                    if (bin.length === 0) return;
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    for (let i = 0; i < bin.length; i += 3) {
+                        ctx.moveTo(bin[i] + bin[i + 2], bin[i + 1]);
+                        ctx.arc(bin[i], bin[i + 1], bin[i + 2], 0, Math.PI * 2);
+                    }
+                    ctx.fill();
+                }
+
+                drawBin(binLow, 'rgba(219, 234, 254, 0.3)');
+                drawBin(binMid, 'rgba(219, 234, 254, 0.6)');
+                drawBin(binHigh, 'rgba(219, 234, 254, 0.95)');
+
+                rAFId = requestAnimationFrame(render);
+            }
+
+            function setVisible(val) {
+                if (isVisible === val) return;
+                isVisible = val;
+                if (isVisible) {
+                    if (!rAFId) rAFId = requestAnimationFrame(render);
+                } else {
+                    if (rAFId) {
+                        cancelAnimationFrame(rAFId);
+                        rAFId = null;
+                    }
+                    ctx.clearRect(0, 0, w, h);
+                }
+            }
+
+            rAFId = requestAnimationFrame(render);
+
+            return {
+                setVisible
+            };
+        })();
+
+        /* 4. 散落狂草笔画随滚动吸附重新汇聚算法 + 往下滑平滑无级过渡至淡黄色宣纸 (#FAF6E9) */
         (function initScrollConvergenceAndColorMorph() {
             const section = document.getElementById('fantasycitySection');
             const chars = document.querySelectorAll('.ink-char-piece');
@@ -2939,7 +3090,17 @@
             const scrollHint = document.getElementById('scrollHint');
             if (!section) return;
 
+            let isScrollTicking = false;
+
             function onScroll() {
+                if (!isScrollTicking) {
+                    requestAnimationFrame(updateScrollPhysics);
+                    isScrollTicking = true;
+                }
+            }
+
+            function updateScrollPhysics() {
+                isScrollTicking = false;
                 const vh = window.innerHeight;
                 const scrollY = window.scrollY;
 
@@ -2968,7 +3129,6 @@
                 let exitPaper = 0;
                 if (exSection) {
                     const exRect = exSection.getBoundingClientRect();
-                    // 当作品展顶部从视口下方 (exRect.top <= vh * 0.95) 滚动至接近视口偏上 (exRect.top <= vh * 0.25)
                     const exitStart = vh * 0.95;
                     const exitEnd = vh * 0.25;
                     if (exRect.top < exitStart) {
@@ -2997,9 +3157,12 @@
                     navGithub.style.color = textColor;
                 }
 
-                // 星空淡出与水墨流体淡入
+                // 星空淡出与水墨流体淡入（纸质高时暂停星空画布渲染，节约大量 GPU 开销）
                 if (cosmosCanvas) {
                     cosmosCanvas.style.opacity = (0.92 * (1 - easeMorph * 0.95)).toFixed(3);
+                }
+                if (CosmosEngine?.setVisible) {
+                    CosmosEngine.setVisible(paperWeight < 0.85);
                 }
                 if (inkFluidCanvas) {
                     inkFluidCanvas.style.opacity = (0.35 * easeMorph).toFixed(3);
@@ -3013,7 +3176,7 @@
                     summaryLine.style.color = `rgb(${smR}, ${smG}, ${smB})`;
                 }
 
-                // 右侧专属长圆柱胶囊主题自适应：星空下为冷灰透明蓝胶囊，滑动到宣纸时自适应为古风松烟焦墨胶囊与朱砂光晕
+                // 右侧专属长圆柱胶囊主题自适应
                 const scrollbarThumbColor = easeMorph > 0.38
                     ? `rgba(36, 20, 11, ${(0.44 + 0.28 * easeMorph).toFixed(2)})`
                     : `rgba(148, 163, 184, ${(0.50 - 0.12 * easeMorph).toFixed(2)})`;
@@ -3035,7 +3198,6 @@
                 const rawProgress = (startY - rect.top) / (startY - endY);
                 const progress = Math.max(0, Math.min(1, rawProgress));
 
-                // 纯净单向连贯触发：滑入幻想城后保持激活，滑回首屏顶端才复位，彻底根除反复触发与动画断层
                 if (scrollY < vh * 0.18) {
                     section.classList.remove('fc-entered');
                 } else if (progress > 0.32 || (gRect && gRect.top <= vh * 0.78)) {
@@ -3047,7 +3209,7 @@
                 const ease = 1 - Math.pow(1 - progress, 2.6);
                 const unEase = 1 - ease;
 
-                // 中文大字三维散开 -> 聚拢汇聚 (聚拢时颜色从浅白色转为苍劲焦墨黑 rgb(22, 17, 14))
+                // 中文大字三维散开 -> 聚拢汇聚
                 const charR = Math.round(255 + (22 - 255) * ease);
                 const charG = Math.round(255 + (17 - 255) * ease);
                 const charB = Math.round(255 + (14 - 255) * ease);
@@ -3061,9 +3223,9 @@
                     const blur = unEase * 12;
                     const opacity = 0.2 + 0.8 * ease;
 
-                    char.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotate(${rot}deg)`;
-                    char.style.filter = blur > 0.2 ? `blur(${blur}px)` : 'none';
-                    char.style.opacity = opacity;
+                    char.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`;
+                    char.style.filter = blur > 0.5 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    char.style.opacity = opacity.toFixed(2);
                     char.style.color = charColor;
                 });
 
@@ -3077,9 +3239,9 @@
                     const x = parseFloat(en.getAttribute('data-x')) * unEase;
                     const y = parseFloat(en.getAttribute('data-y')) * unEase;
                     const blur = unEase * 8;
-                    en.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-                    en.style.filter = blur > 0.2 ? `blur(${blur}px)` : 'none';
-                    en.style.opacity = 0.2 + 0.8 * ease;
+                    en.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+                    en.style.filter = blur > 0.5 ? `blur(${blur.toFixed(1)}px)` : 'none';
+                    en.style.opacity = (0.2 + 0.8 * ease).toFixed(2);
                     en.style.color = enColor;
                 });
             }
@@ -3088,86 +3250,30 @@
             onScroll();
         })();
 
-        /* 4. 星空粒子 Canvas */
-        const CosmosEngine = (function() {
-            const canvas = document.getElementById('cosmos-canvas');
-            if (!canvas) return null;
-            const ctx = canvas.getContext('2d');
-            let w, h;
-            const stars = [];
-            const count = 180;
-
-            function resize() {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            for (let i = 0; i < count; i++) {
-                stars.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    size: Math.random() * 1.6 + 0.3,
-                    alpha: Math.random() * 0.8 + 0.2,
-                    speed: Math.random() * 0.25 + 0.05,
-                    pulse: Math.random() * Math.PI * 2
-                });
-            }
-
-            let mouseX = 0, mouseY = 0;
-            window.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX - w / 2) * 0.04;
-                mouseY = (e.clientY - h / 2) * 0.04;
-            });
-
-            function render(time) {
-                ctx.clearRect(0, 0, w, h);
-                const t = time * 0.002;
-
-                for (let i = 0; i < stars.length; i++) {
-                    const s = stars[i];
-                    s.y -= s.speed;
-                    if (s.y < 0) s.y = h;
-
-                    const drawX = s.x - mouseX * (s.size * 0.4);
-                    const drawY = s.y - mouseY * (s.size * 0.4);
-                    const twinkle = Math.sin(t + s.pulse) * 0.35 + 0.65;
-                    const finalAlpha = s.alpha * twinkle;
-
-                    ctx.fillStyle = `rgba(219, 234, 254, ${finalAlpha})`;
-
-                    ctx.beginPath();
-                    ctx.arc(drawX, drawY, s.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                requestAnimationFrame(render);
-            }
-            requestAnimationFrame(render);
-        })();
-
-        /* 5. 幻想城水墨流体 Canvas (在淡黄色宣纸上晕染深黑墨云) */
+        /* 5. 幻想城水墨流体 Canvas (在淡黄色宣纸上晕染深黑墨云) - 视口懒加载与离屏休眠 */
         (function initInkFluid() {
             const canvas = document.getElementById('ink-fluid-canvas');
-            if (!canvas) return;
+            const section = document.getElementById('fantasycitySection');
+            if (!canvas || !section) return;
             const ctx = canvas.getContext('2d');
             let w, h;
             const puffs = [];
-            const count = 35;
+            const count = 22; // 优化至 22 团柔和水墨烟云，减负 40% 渐变开销
+            let isRunning = false;
+            let inkRAF = null;
 
             function resize() {
                 w = canvas.width = canvas.parentElement.clientWidth;
                 h = canvas.height = canvas.parentElement.clientHeight;
             }
-            window.addEventListener('resize', resize);
+            window.addEventListener('resize', resize, { passive: true });
             resize();
 
             for (let i = 0; i < count; i++) {
                 puffs.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    r: Math.random() * 90 + 50,
+                    r: Math.random() * 105 + 65,
                     vx: (Math.random() - 0.5) * 0.3,
                     vy: (Math.random() - 0.5) * 0.2,
                     alpha: Math.random() * 0.28 + 0.08
@@ -3175,6 +3281,10 @@
             }
 
             function drawInk() {
+                if (!isRunning) {
+                    inkRAF = null;
+                    return;
+                }
                 ctx.clearRect(0, 0, w, h);
                 for (let i = 0; i < puffs.length; i++) {
                     const p = puffs[i];
@@ -3195,26 +3305,85 @@
                     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
                     ctx.fill();
                 }
-                requestAnimationFrame(drawInk);
+                inkRAF = requestAnimationFrame(drawInk);
             }
-            drawInk();
+
+            // 视口感知调度：进入幻想城区域才开始渲染，在首屏或作品展时完全暂停
+            const observer = new IntersectionObserver((entries) => {
+                const inView = entries[0].isIntersecting;
+                if (inView) {
+                    if (!isRunning) {
+                        isRunning = true;
+                        drawInk();
+                    }
+                } else {
+                    isRunning = false;
+                    if (inkRAF) {
+                        cancelAnimationFrame(inkRAF);
+                        inkRAF = null;
+                    }
+                }
+            }, { threshold: 0.02 });
+            observer.observe(section);
         })();
 
-        /* 6. 幻想城樱花漫舞落瓣 Canvas (柔美粉白微红花瓣在宣纸水墨间翩跹飘落) */
+        /* 6. 幻想城樱花漫舞落瓣 Canvas - 离屏预渲染 Sprite + 视口懒加载 */
         (function initSakuraFalling() {
             const canvas = document.getElementById('sakura-canvas');
-            if (!canvas) return;
+            const section = document.getElementById('fantasycitySection');
+            if (!canvas || !section) return;
             const ctx = canvas.getContext('2d');
             let w, h;
             const petals = [];
-            const count = 46;
+            const count = 36;
+            let isRunning = false;
+            let sakuraRAF = null;
 
             function resize() {
                 w = canvas.width = canvas.parentElement.clientWidth;
                 h = canvas.height = canvas.parentElement.clientHeight;
             }
-            window.addEventListener('resize', resize);
+            window.addEventListener('resize', resize, { passive: true });
             resize();
+
+            // 预渲染 3 种不同规格的真实樱花花瓣 Sprite，彻底消除每帧 46 次 createLinearGradient 与复杂贝塞尔路径重建！
+            const spriteSizes = [10, 13, 16];
+            const petalSprites = spriteSizes.map(size => {
+                const off = document.createElement('canvas');
+                const pad = 4;
+                off.width = (size * 2 + pad * 2);
+                off.height = (size * 2 + pad * 2);
+                const octx = off.getContext('2d');
+                const ocx = off.width / 2;
+                const ocy = off.height / 2;
+
+                octx.save();
+                octx.translate(ocx, ocy);
+
+                octx.beginPath();
+                octx.moveTo(0, -size);
+                octx.bezierCurveTo(size * 0.75, -size * 0.5, size * 0.85, size * 0.45, 0, size);
+                octx.bezierCurveTo(-size * 0.85, size * 0.45, -size * 0.75, -size * 0.5, 0, -size);
+                octx.closePath();
+
+                const grad = octx.createLinearGradient(0, -size, 0, size);
+                grad.addColorStop(0, 'rgba(255, 215, 225, 0.95)');
+                grad.addColorStop(0.55, 'rgba(251, 113, 133, 0.88)');
+                grad.addColorStop(1, 'rgba(225, 29, 72, 0.78)');
+                octx.fillStyle = grad;
+                octx.fill();
+
+                // 花瓣中心细微粉晶花脉
+                octx.beginPath();
+                octx.moveTo(0, -size * 0.7);
+                octx.lineTo(0, size * 0.4);
+                octx.strokeStyle = 'rgba(190, 24, 93, 0.35)';
+                octx.lineWidth = 0.8;
+                octx.stroke();
+
+                octx.restore();
+                return { canvas: off, radius: size, halfW: off.width / 2, halfH: off.height / 2 };
+            });
 
             let mouseX = 0;
             window.addEventListener('mousemove', (e) => {
@@ -3222,13 +3391,14 @@
                 if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
                     mouseX = (e.clientX - rect.left - w / 2) * 0.04;
                 }
-            });
+            }, { passive: true });
 
             for (let i = 0; i < count; i++) {
+                const sp = petalSprites[i % petalSprites.length];
                 petals.push({
+                    sprite: sp,
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    size: Math.random() * 7 + 8, // 8px ~ 15px
                     speedY: Math.random() * 0.85 + 0.6,
                     speedX: (Math.random() - 0.5) * 0.5 + 0.35,
                     rotation: Math.random() * Math.PI * 2,
@@ -3242,39 +3412,12 @@
                 });
             }
 
-            function drawPetal(p) {
-                const flipScale = Math.cos(p.flip);
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rotation);
-                ctx.scale(1, flipScale);
-
-                ctx.beginPath();
-                // 真实心形微凹微翘樱花瓣曲线
-                ctx.moveTo(0, -p.size);
-                ctx.bezierCurveTo(p.size * 0.75, -p.size * 0.5, p.size * 0.85, p.size * 0.45, 0, p.size);
-                ctx.bezierCurveTo(-p.size * 0.85, p.size * 0.45, -p.size * 0.75, -p.size * 0.5, 0, -p.size);
-                ctx.closePath();
-
-                const grad = ctx.createLinearGradient(0, -p.size, 0, p.size);
-                grad.addColorStop(0, `rgba(255, 215, 225, ${p.alpha * 0.95})`);
-                grad.addColorStop(0.55, `rgba(251, 113, 133, ${p.alpha * 0.85})`);
-                grad.addColorStop(1, `rgba(225, 29, 72, ${p.alpha * 0.75})`);
-                ctx.fillStyle = grad;
-                ctx.fill();
-
-                // 花瓣中心细微粉晶花脉
-                ctx.beginPath();
-                ctx.moveTo(0, -p.size * 0.7);
-                ctx.lineTo(0, p.size * 0.4);
-                ctx.strokeStyle = `rgba(190, 24, 93, ${p.alpha * 0.35})`;
-                ctx.lineWidth = 0.7;
-                ctx.stroke();
-
-                ctx.restore();
-            }
-
             function render() {
+                if (!isRunning) {
+                    sakuraRAF = null;
+                    return;
+                }
+
                 ctx.clearRect(0, 0, w, h);
 
                 for (let i = 0; i < petals.length; i++) {
@@ -3287,22 +3430,47 @@
                     p.y += p.speedY;
                     p.x += p.speedX + windSway + mouseX * 0.15;
 
-                    if (p.y > h + p.size) {
-                        p.y = -p.size;
+                    const r = p.sprite.radius;
+                    if (p.y > h + r) {
+                        p.y = -r;
                         p.x = Math.random() * w;
                     }
-                    if (p.x > w + p.size) {
-                        p.x = -p.size;
-                    } else if (p.x < -p.size) {
-                        p.x = w + p.size;
+                    if (p.x > w + r) {
+                        p.x = -r;
+                    } else if (p.x < -r) {
+                        p.x = w + r;
                     }
 
-                    drawPetal(p);
+                    const flipScale = Math.cos(p.flip);
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation);
+                    ctx.scale(1, flipScale);
+                    ctx.drawImage(p.sprite.canvas, -p.sprite.halfW, -p.sprite.halfH);
+                    ctx.restore();
                 }
 
-                requestAnimationFrame(render);
+                sakuraRAF = requestAnimationFrame(render);
             }
-            requestAnimationFrame(render);
+
+            // 视口感知调度：进入幻想城区域才开始飘落樱花
+            const observer = new IntersectionObserver((entries) => {
+                const inView = entries[0].isIntersecting;
+                if (inView) {
+                    if (!isRunning) {
+                        isRunning = true;
+                        render();
+                    }
+                } else {
+                    isRunning = false;
+                    if (sakuraRAF) {
+                        cancelAnimationFrame(sakuraRAF);
+                        sakuraRAF = null;
+                    }
+                }
+            }, { threshold: 0.02 });
+            observer.observe(section);
         })();
         /* 7. 专属长圆柱胶囊滚动条系统 & 鼠标滚轮平滑阻尼优化引擎 */
         (function initScrollbarAndWheelOptimization() {
@@ -3341,7 +3509,17 @@
                 updateMetrics();
                 updateThumbPosition();
             });
-            window.addEventListener('scroll', updateThumbPosition, { passive: true });
+            let thumbTicking = false;
+            function onScrollThumb() {
+                if (!thumbTicking) {
+                    requestAnimationFrame(() => {
+                        thumbTicking = false;
+                        updateThumbPosition();
+                    });
+                    thumbTicking = true;
+                }
+            }
+            window.addEventListener('scroll', onScrollThumb, { passive: true });
 
             updateMetrics();
             updateThumbPosition();
