@@ -224,9 +224,11 @@
             <nav class="footer-nav">
                 <a href="projects.html" class="footer-link">Projects</a>
                 <span class="footer-sep">/</span>
-                <a href="projects.html#fantasycitySection" class="footer-link">Fantasy City</a>
+                <a href="FantasyCity/index.html" class="footer-link smart-link" data-path="FantasyCity/index.html">Fantasy City</a>
                 <span class="footer-sep">/</span>
                 <a href="works/index.html" class="footer-link">Scratch Works</a>
+                <span class="footer-sep">/</span>
+                <a href="motion.html" class="footer-link">Motion</a>
             </nav>
             <span>CONTINUOUS 3D MORPH // AUTONOMOUS</span>
         </footer>
@@ -236,6 +238,16 @@
        不断变幻的三维参数化线条组渲染引擎 (原生 Canvas 2D，自主演进，零重排)
        ============================================================ -->
     <script>
+        // 智能路径适配 (兼容本地 file: 与 GitHub Pages 线上多仓库结构)
+        if (window.location.protocol === 'file:') {
+            document.querySelectorAll('.smart-link').forEach(link => {
+                const targetPath = link.getAttribute('data-path');
+                if (targetPath) {
+                    link.setAttribute('href', '../' + targetPath);
+                }
+            });
+        }
+
         (function() {
             const canvas = document.getElementById('generative-canvas');
             if (!canvas) return;
