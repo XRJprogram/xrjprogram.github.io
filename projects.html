@@ -1,0 +1,3632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRJprogram · 个人项目矩阵与作品展</title>
+    <meta name="description" content="XRJprogram 个人主页与技术作品展：AnyChem Pro 分子动力学模拟、BitPulse 8-Bit 音乐发生器、Chemiation 化学反应演示、PixelMe 像素角色捏脸、littlesc Scratch 积木代码生成、Gif Editor QQ 表情衍生工坊、Lambda Diagrams 极简图示工作台，以及 FantasyCity 幻想城。">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>">
+    
+    <!-- Asynchronous Google Fonts (non-render-blocking) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;600;800&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Press+Start+2P&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;600;800&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Press+Start+2P&display=swap"></noscript>
+
+    <style>
+        /* ============================================================
+           设计规范：专属色彩体系与完备中文字体回退矩阵 (兼顾在线与离线环境)
+           ============================================================ */
+        :root {
+            --bg-cosmos: #030611;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.45);
+
+            /* Anychem-pro 真实源码色相：鼠尾草绿、深灰玄武岩 */
+            --anychem-accent: #9fb48d;
+            --anychem-bg: #090c0e;
+            --anychem-surface: #10161a;
+
+            /* BitPulse 真实源码色相：NES 2A03 示波器荧光绿、碳晶黑 */
+            --bitpulse-green: #10b981;
+            --bitpulse-mint: #34d399;
+            --bitpulse-dark: #09090b;
+
+            /* Chemiation 真实源码色相：深棕学术质感、反应活性赭红、能量跃迁金 */
+            --chemiation-ochre: #b84a28;
+            --chemiation-gold: #c08a3e;
+            --chemiation-dark: #140b06;
+
+            /* PixelMe 真实源码色相：鸢尾花紫、赛博青、高光粉、复古明黄 */
+            --pixelme-iris: #6c5ce7;
+            --pixelme-cyan: #00cec9;
+            --pixelme-pink: #fd79a8;
+            --pixelme-yellow: #ffeaa7;
+            --pixelme-dark: #120e24;
+
+            /* littlesc 真实源码色相：Scratch 3.0 事件橙、引擎蓝、Diff 翠绿 */
+            --littlesc-orange: #ffab19;
+            --littlesc-blue: #4c97ff;
+            --littlesc-diff: #0fbd8c;
+            --littlesc-dark: #16161a;
+
+            /* GifEditor 真实源码色相：UE5 Slate 蓝图青、节点金、暗夜 Slate */
+            --gifeditor-cyan: #38bdf8;
+            --gifeditor-amber: #f59e0b;
+            --gifeditor-glow: rgba(56, 189, 248, 0.4);
+            --gifeditor-dark: #070d18;
+
+            /* LambdaDiagrams 真实源码色相：纯黑白极简主义、高对比度电路拓扑 */
+            --lambda-bg: #000000;
+            --lambda-white: #ffffff;
+            --lambda-muted: #888888;
+            --lambda-border: rgba(255, 255, 255, 0.4);
+            --lambda-glow: rgba(255, 255, 255, 0.18);
+
+            /* 东方宣纸淡黄色底蕴与朱砂印泥 */
+            --paper-pale-yellow: #faf6e9;
+            --fc-seal: #c0392b;
+            --fc-gold: #a67c1e;
+            --fc-dark-ink: #1a110b;
+
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-cinema: 'Cinzel', 'Noto Serif SC', 'Songti SC', 'STSong', '华文宋体', 'SimSun', '宋体', serif;
+            --font-display: 'Space Grotesk', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+            --font-calligraphy: 'Ma Shan Zheng', 'STXingkai', '华文行楷', 'FZXingKai-S04S', 'STKaiti', '华文楷体', 'KaiTi', '楷体', 'SimSun', '宋体', cursive, serif;
+            --font-song: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', '华文宋体', 'SimSun', '宋体', serif;
+            --font-sans-cn: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'SimHei', '黑体', sans-serif;
+            --font-pixel: 'Press Start 2P', monospace;
+
+            --radius-pill: 9999px;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ============================================================
+           全浏览器原生滚动条消除 (隐藏默认三角箭头、生硬滑块，全平台统一样式)
+           ============================================================ */
+        html {
+            scrollbar-width: none !important; /* Firefox 隐藏原生滚动条 */
+            -ms-overflow-style: none !important; /* IE / 旧版 Edge 隐藏原生滚动条 */
+            scroll-behavior: auto; /* 由平滑阻尼滚轮引擎精准接管，避免原声碰撞冲突 */
+        }
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        *::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        /* ============================================================
+           专属右侧长圆柱胶囊滚动条 (纯长圆柱、无任何上下箭头、全浏览器统一响应)
+           ============================================================ */
+        .custom-scrollbar {
+            position: fixed;
+            top: 0;
+            right: 4px;
+            width: 14px;
+            height: 100vh;
+            z-index: 99999;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+        .custom-scroll-track {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 24px);
+            margin-top: 12px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+        /* 纯正现代单一长圆柱胶囊滑块：单一圆柱、彻底无嵌套内芯、无上下箭头 */
+        .custom-scroll-thumb {
+            position: absolute;
+            top: 0;
+            right: 3px;
+            width: 7px;
+            min-height: 64px; /* 唯一一个长圆柱胶囊形态 */
+            border-radius: 9999px; /* 极简现代单一长圆柱 */
+            background: var(--custom-scroll-color, rgba(148, 163, 184, 0.5));
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+            cursor: grab;
+            transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.25s ease;
+            will-change: transform;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+        .custom-scroll-thumb:hover,
+        .custom-scroll-thumb.is-dragging {
+            width: 10px;
+            cursor: grabbing;
+            background: var(--custom-scroll-hover, #38bdf8);
+            box-shadow: 0 0 14px var(--custom-scroll-glow, rgba(56, 189, 248, 0.55));
+        }
+        @media (max-width: 768px) {
+            .custom-scrollbar {
+                display: none !important;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans-cn);
+            background-color: var(--bg-cosmos);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 星空背景 Canvas */
+        #cosmos-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.92;
+        }
+
+        /* ============================================================
+           页眉：固定悬浮顶栏（左侧 XRJPROGRAM，右侧 GitHub）
+           纯 fixed 悬浮，不占垂直文档流空间，绝不挤压卡片！
+           向下滑动时文字颜色平滑过渡为墨色，确保在淡黄色宣纸上清晰醒目
+           ============================================================ */
+        .floating-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .nav-brand {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 0.18em;
+            text-decoration: none;
+            color: #ffffff;
+            pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+        .nav-brand:hover {
+            transform: scale(1.03);
+        }
+        .nav-github {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            text-decoration: none;
+            pointer-events: auto;
+            transition: transform 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .nav-github:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* ============================================================
+           首屏：完全消除卡片上方的一切标题与占位！
+           整屏 100vh 垂直居中铺满视口，打开网页第一眼直接沉浸进入 3D 卡牌空间
+           ============================================================ */
+        .first-screen-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 0 24px;
+        }
+
+        .spatial-deck-stage {
+            position: relative;
+            width: 100%;
+            height: 460px;
+            margin-bottom: 30px;
+            perspective: 1600px;
+            perspective-origin: 50% 50%;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: pan-y;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+        }
+        .spatial-deck-stage:active {
+            cursor: grabbing;
+        }
+
+        /* 16:9 电影海报卡牌基础容器 (660px × 372px) */
+        .poster-artifact-card {
+            position: absolute;
+            width: 660px;
+            height: 372px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            will-change: transform, opacity;
+            box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.75);
+            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 36px 42px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .poster-top-row {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+        }
+
+        .poster-center-body {
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .poster-bottom-row {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+        }
+
+        /* -------------------------------------------------------------
+           核心项目各自独特的个性化字体与装置视觉设计（汉字字体全面适配）
+           ------------------------------------------------------------- */
+
+        /* 01. ANYCHEM PRO: 鼠尾草绿与玄武岩分子力学天体仪 (#9fb48d / #10161a) */
+        .card-anychem {
+            background: radial-gradient(circle at 75% 25%, #152219 0%, #0c1410 50%, #060a08 100%);
+            border: 1px solid rgba(159, 180, 141, 0.45);
+        }
+        .card-bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            border-radius: inherit;
+        }
+        .card-anychem .chem-grid-wireframe {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 28px 28px;
+            background-image: 
+                linear-gradient(to right, rgba(159, 180, 141, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(159, 180, 141, 0.06) 1px, transparent 1px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .card-anychem .card-bg-canvas {
+            opacity: 0.95;
+            z-index: 1;
+        }
+        .card-chemiation .card-bg-canvas {
+            opacity: 0.95;
+            z-index: 1;
+        }
+        .title-chem {
+            font-family: var(--font-cinema);
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 35px rgba(159, 180, 141, 0.55);
+        }
+        .sub-chem {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.08rem;
+            color: var(--anychem-accent);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-chem {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 520px;
+            color: #d1dcce;
+        }
+
+        /* 02. BITPULSE: NES 2A03 荧光绿与碳晶黑复古芯片工作站 (#10b981 / #09090b) */
+        .card-bitpulse {
+            background: linear-gradient(135deg, #021a11 0%, #010f0a 60%, #000705 100%);
+            border: 2px solid var(--bitpulse-green);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.22);
+        }
+        .card-bitpulse .crt-lines-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.45) 0px, rgba(0, 0, 0, 0.45) 2px, transparent 2px, transparent 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .card-bitpulse .cartridge-gold-pins {
+            position: absolute;
+            top: 24px; bottom: 24px; right: 0;
+            width: 14px;
+            background: repeating-linear-gradient(180deg, #f59e0b 0px, #f59e0b 8px, #78350f 8px, #78350f 14px);
+            border-left: 2px solid #000;
+            opacity: 0.75;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .card-bitpulse .cartridge-gold-pins::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 40%;
+            transform: translateY(-100%);
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+            animation: goldPinShine 3.5s ease-in-out infinite;
+        }
+        @keyframes goldPinShine {
+            0%, 30% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            80%, 100% { transform: translateY(350%); opacity: 0; }
+        }
+        .title-bit {
+            font-family: var(--font-pixel);
+            font-size: 2.1rem;
+            color: var(--bitpulse-green);
+            text-shadow: 0 0 25px rgba(16, 185, 129, 0.85);
+            letter-spacing: 0.06em;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .sub-bit {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--bitpulse-mint);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-bit {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 500px;
+            color: #a7f3d0;
+        }
+        .bit-equalizer-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 24px;
+        }
+        .bit-bar-pip {
+            width: 6px;
+            height: 100%;
+            transform-origin: bottom;
+            background: var(--bitpulse-green);
+            border-radius: 1px;
+            box-shadow: 0 0 6px var(--bitpulse-green);
+            animation: liveWave 1.1s ease-in-out infinite alternate;
+        }
+        @keyframes liveWave {
+            0% { transform: scaleY(0.2); opacity: 0.35; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+
+        /* 03. CHEMIATION: 反应活性赭红与古朴深棕学术机理室 (#b84a28 / #c08a3e / #140b06) */
+        .card-chemiation {
+            background: radial-gradient(circle at 75% 25%, #34180d 0%, #1c0d06 50%, #0a0402 100%);
+            border: 1px solid rgba(184, 74, 40, 0.55);
+            box-shadow: 0 0 45px rgba(184, 74, 40, 0.22);
+        }
+        .card-chemiation .chem-parchment-glow {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(192, 138, 62, 0.26) 0%, rgba(184, 74, 40, 0.12) 35%, transparent 65%);
+            pointer-events: none;
+            animation: chemGlowPulse 5s ease-in-out infinite alternate;
+        }
+        @keyframes chemGlowPulse {
+            0% { opacity: 0.55; }
+            100% { opacity: 0.95; }
+        }
+        .pes-barrier-tag {
+            display: inline-block;
+            animation: pesPulse 2.4s ease-in-out infinite alternate;
+        }
+        @keyframes pesPulse {
+            0% { text-shadow: 0 0 6px rgba(192, 138, 62, 0.4); }
+            100% { text-shadow: 0 0 16px rgba(192, 138, 62, 0.95), 0 0 28px rgba(184, 74, 40, 0.6); }
+        }
+        .title-chemia {
+            font-family: var(--font-cinema);
+            font-size: 2.7rem;
+            font-weight: 900;
+            letter-spacing: 0.22em;
+            color: #faf6e9;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 35px rgba(184, 74, 40, 0.8);
+        }
+        .sub-chemia {
+            font-family: var(--font-song);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--chemiation-gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+        .desc-chemia {
+            font-family: var(--font-song);
+            font-weight: 600;
+            font-size: 0.9rem;
+            line-height: 1.75;
+            max-width: 520px;
+            color: #ecdccb;
+        }
+
+        /* 04. PIXELME: 鸢尾花紫与街机点阵纸娃娃工坊 (#6c5ce7 / #00cec9 / #fd79a8) */
+        .card-pixelme {
+            background: linear-gradient(135deg, #1b1333 0%, #0e091c 60%, #06040c 100%);
+            border: 2px solid var(--pixelme-iris);
+            box-shadow: 0 0 45px rgba(108, 92, 231, 0.25);
+        }
+        .card-pixelme .arcade-grid-mesh {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 18px 18px;
+            background-image: 
+                linear-gradient(to right, rgba(108, 92, 231, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(108, 92, 231, 0.1) 1px, transparent 1px);
+            pointer-events: none;
+        }
+        .title-pix {
+            font-family: var(--font-pixel);
+            font-size: 2.1rem;
+            color: #fff;
+            letter-spacing: 0.06em;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            text-shadow: 4px 4px 0 var(--pixelme-iris), 0 0 25px rgba(108, 92, 231, 0.7);
+        }
+        .sub-pix {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--pixelme-pink);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-pix {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 520px;
+            color: #e9e5ff;
+        }
+        .pix-swatches-strip {
+            display: flex;
+            gap: 8px;
+        }
+        .pix-dot {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #000;
+            box-shadow: 1px 1px 0 rgba(108, 92, 231, 0.6);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-pixelme:hover .pix-dot:nth-child(1) { transform: translateY(-5px); transition-delay: 0.04s; }
+        .card-pixelme:hover .pix-dot:nth-child(2) { transform: translateY(-5px); transition-delay: 0.08s; }
+        .card-pixelme:hover .pix-dot:nth-child(3) { transform: translateY(-5px); transition-delay: 0.12s; }
+        .card-pixelme:hover .pix-dot:nth-child(4) { transform: translateY(-5px); transition-delay: 0.16s; }
+
+        /* 05. LITTLESC: TurboWarp 积木事件橙与 AST 编译器 (#ffab19 / #4c97ff / #0fbd8c) */
+        .card-littlesc {
+            background: linear-gradient(135deg, #241403 0%, #120901 60%, #060300 100%);
+            border: 1px solid rgba(255, 171, 25, 0.5);
+            box-shadow: 0 0 45px rgba(255, 171, 25, 0.2);
+        }
+        .card-littlesc .sc-bg-blocks-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .card-littlesc .sc-bg-blocks-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
+            animation: scBlocksFloat 6s ease-in-out infinite alternate;
+        }
+        @keyframes scBlocksFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-7px) rotate(-0.8deg); }
+        }
+        .title-sc {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 30px rgba(255, 171, 25, 0.6);
+        }
+        .title-sc span {
+            color: var(--littlesc-orange);
+        }
+        .sub-sc {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.06rem;
+            color: var(--littlesc-orange);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-sc {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 520px;
+            color: #ffedd5;
+        }
+        .littlesc-diff-badge {
+            display: inline-block;
+            animation: diffBadgeGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes diffBadgeGlow {
+            0% { opacity: 0.8; text-shadow: 0 0 6px var(--littlesc-diff); }
+            100% { opacity: 1; text-shadow: 0 0 16px var(--littlesc-diff); }
+        }
+
+        /* 06. GIFEDITOR: UE5 蓝图 Slate 深青与 DAG 拓扑连线 (#38bdf8 / #f59e0b / #070d18) */
+        .card-gifeditor {
+            background: radial-gradient(circle at 80% 20%, #0d1b2e 0%, #07101c 50%, #03060a 100%);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            box-shadow: 0 0 45px rgba(56, 189, 248, 0.16);
+        }
+        .card-gifeditor .blueprint-grid-mesh {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 24px 24px;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+            pointer-events: none;
+        }
+        .card-gifeditor .blueprint-wire-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .card-gifeditor .blueprint-wire-svg path {
+            stroke-dasharray: 8 6;
+            animation: wireDash 16s linear infinite;
+        }
+        @keyframes wireDash {
+            to { stroke-dashoffset: -100; }
+        }
+        .card-gifeditor:hover .blueprint-wire-svg path {
+            stroke: rgba(56, 189, 248, 0.45);
+            animation-duration: 6s;
+        }
+        .title-gif {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 30px rgba(56, 189, 248, 0.55);
+        }
+        .title-gif span {
+            color: var(--gifeditor-cyan);
+        }
+        .sub-gif {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.06rem;
+            color: var(--gifeditor-cyan);
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-gif {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 520px;
+            color: #e0f2fe;
+        }
+        .gif-dag-metric {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dag-pin-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .dag-pin-dot.pin-blue {
+            background: var(--gifeditor-cyan);
+            box-shadow: 0 0 6px var(--gifeditor-cyan);
+        }
+        .dag-pin-dot.pin-amber {
+            background: var(--gifeditor-amber);
+            box-shadow: 0 0 6px var(--gifeditor-amber);
+        }
+        .dag-wire-pulse {
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gifeditor-cyan), var(--gifeditor-amber));
+            border-radius: 1px;
+            opacity: 0.75;
+        }
+        .card-gifeditor:hover .dag-wire-pulse {
+            box-shadow: 0 0 8px var(--gifeditor-cyan);
+        }
+        .dag-time-code {
+            font-family: var(--font-mono);
+            color: var(--gifeditor-cyan);
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            animation: dagCodePulse 2.4s ease-in-out infinite alternate;
+        }
+        @keyframes dagCodePulse {
+            0% { opacity: 0.75; text-shadow: 0 0 4px var(--gifeditor-cyan); }
+            100% { opacity: 1; text-shadow: 0 0 12px var(--gifeditor-cyan); }
+        }
+
+        /* 07. LAMBDADIAGRAMS: John Tromp 纯黑白极简主义与电路拓扑 (#ffffff / #000000) */
+        .card-lambdadiagrams {
+            background: radial-gradient(circle at 75% 25%, #181818 0%, #0a0a0a 55%, #000000 100%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 45px rgba(255, 255, 255, 0.1);
+        }
+        .card-lambdadiagrams:hover {
+            border-color: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.22);
+        }
+        .card-lambdadiagrams .lambda-grid-mesh {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 24px 24px;
+            background-image: 
+                radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            pointer-events: none;
+        }
+        .card-lambdadiagrams .tromp-diagram-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.85;
+            transition: opacity 0.3s ease;
+        }
+        .card-lambdadiagrams:hover .tromp-diagram-svg {
+            opacity: 1;
+        }
+        .card-lambdadiagrams .tromp-redex-bridge {
+            stroke-dasharray: 6 3;
+            animation: trompBridgeDash 1.2s linear infinite;
+        }
+        @keyframes trompBridgeDash {
+            to { stroke-dashoffset: -18; }
+        }
+        .card-lambdadiagrams .poster-center-body {
+            max-width: 360px;
+        }
+        .title-lambda {
+            font-family: var(--font-display);
+            font-size: 2.7rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+        }
+        .title-lambda span {
+            color: #a3a3a3;
+        }
+        .sub-lambda {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: #ffffff;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+        }
+        .desc-lambda {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            max-width: 360px;
+            color: #d4d4d4;
+        }
+        .lambda-metric {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lambda-badge-tag {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2px 7px;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+        .lambda-beacon-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 8px #ffffff;
+            animation: lambdaBeaconPulse 1.8s ease-in-out infinite alternate;
+        }
+        @keyframes lambdaBeaconPulse {
+            0% { opacity: 0.4; transform: scale(0.85); box-shadow: 0 0 4px #ffffff; }
+            100% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 12px #ffffff; }
+        }
+        .tromp-lbl {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            fill: #888888;
+        }
+        .tromp-lbl-sym {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 700;
+            fill: #ffffff;
+        }
+
+        /* ============================================================
+           定制化个性字体与 SVG Wordmark 艺术字排版系统
+           ============================================================ */
+        .title-chem-wrap,
+        .title-bit-wrap,
+        .title-chemia-wrap,
+        .title-pix-wrap,
+        .title-sc-wrap,
+        .title-gif-wrap,
+        .title-lambda-wrap {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .title-chem-svg,
+        .title-bit-svg,
+        .title-chemia-svg,
+        .title-pix-svg,
+        .title-sc-svg,
+        .title-gif-svg,
+        .title-lambda-svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            max-height: 48px;
+            overflow: visible;
+        }
+
+        /* 01. AnyChem SVG */
+        .chem-svg-text {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 0.1em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 16px rgba(159, 180, 141, 0.5));
+        }
+        .chem-pro-text {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            fill: var(--anychem-accent);
+        }
+
+        /* 02. BitPulse SVG */
+        .bit-svg-text {
+            font-family: var(--font-pixel);
+            font-size: 20px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(3px 3px 0 #059669) drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
+        }
+        .bit-cursor-blink {
+            animation: bitCursorSmooth 1.25s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+        @keyframes bitCursorSmooth {
+            0%, 100% {
+                opacity: 0.95;
+                filter: drop-shadow(0 0 6px var(--bitpulse-mint));
+            }
+            50% {
+                opacity: 0.15;
+                filter: drop-shadow(0 0 1px transparent);
+            }
+        }
+        .bit-ecg-trace {
+            animation: ecgGlowPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes ecgGlowPulse {
+            0%, 54%, 100% {
+                stroke: var(--bitpulse-green);
+                filter: drop-shadow(0 0 3px rgba(16, 185, 129, 0.4));
+            }
+            26% {
+                stroke: var(--bitpulse-mint);
+                filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.95)) drop-shadow(0 0 20px rgba(16, 185, 129, 0.8));
+            }
+        }
+
+        /* 03. Chemiation SVG */
+        .chemia-svg-text {
+            font-family: var(--font-cinema);
+            font-weight: 900;
+            font-size: 27px;
+            letter-spacing: 0.22em;
+            fill: #faf6e9;
+            filter: drop-shadow(0 0 25px rgba(184, 74, 40, 0.8));
+        }
+        .chemia-dagger-text {
+            font-family: var(--font-cinema);
+            font-size: 20px;
+            font-weight: 700;
+            fill: var(--chemiation-gold);
+            filter: drop-shadow(0 0 10px rgba(192, 138, 62, 0.8));
+        }
+
+        /* 04. PixelMe SVG */
+        .pix-svg-text {
+            font-family: var(--font-pixel);
+            font-size: 21px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+        }
+        .pix-svg-shadow-cyan {
+            font-family: var(--font-pixel);
+            font-size: 21px;
+            letter-spacing: 0.08em;
+            fill: var(--pixelme-cyan);
+        }
+        .pix-svg-shadow-pink {
+            font-family: var(--font-pixel);
+            font-size: 21px;
+            letter-spacing: 0.08em;
+            fill: var(--pixelme-pink);
+            filter: drop-shadow(0 0 16px rgba(253, 121, 168, 0.7));
+        }
+
+        /* 05. LittleSC SVG */
+        .sc-svg-text {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 0.05em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 20px rgba(255, 171, 25, 0.45));
+        }
+
+        /* 06. Gif Editor SVG */
+        .gif-svg-main {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 27px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.6));
+        }
+        .gif-svg-badge {
+            font-family: var(--font-mono);
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: 0.16em;
+            fill: var(--gifeditor-cyan);
+        }
+
+        /* 07. Lambda Diagrams SVG */
+        .lambda-svg-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 26px;
+            letter-spacing: 0.08em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.5));
+        }
+        .lambda-svg-sub {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.14em;
+            fill: #a3a3a3;
+        }
+
+        /* 空间滑轨极简指示器 (极简长圆柱胶囊) */
+        .stage-indicator-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        .deck-indicator-pill {
+            height: 4px;
+            width: 32px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.16);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .deck-indicator-pill.active {
+            width: 68px;
+            background: var(--primary);
+            box-shadow: 0 0 16px var(--primary-glow);
+            animation: pillGlowPulse 2.2s ease-in-out infinite alternate;
+        }
+        @keyframes pillGlowPulse {
+            0% { box-shadow: 0 0 10px var(--primary-glow); }
+            100% { box-shadow: 0 0 24px var(--primary-glow), 0 0 38px rgba(56, 189, 248, 0.45); }
+        }
+
+        /* 首屏向下探索水墨画卷极简引导 */
+        .scroll-down-hint {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.4s ease;
+        }
+        .scroll-hint-label {
+            font-family: var(--font-song);
+            font-size: 0.74rem;
+            letter-spacing: 0.22em;
+            color: rgba(255, 255, 255, 0.42);
+            animation: hintTextBreath 3s ease-in-out infinite alternate;
+        }
+        @keyframes hintTextBreath {
+            0% { opacity: 0.35; transform: translateY(0); }
+            100% { opacity: 0.85; transform: translateY(-2px); }
+        }
+        .scroll-hint-track {
+            width: 2px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        .scroll-hint-drop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(180deg, transparent, var(--primary));
+            border-radius: 2px;
+            animation: scrollDropFlow 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+        }
+        @keyframes scrollDropFlow {
+            0% { transform: translateY(-100%); opacity: 0; }
+            30% { opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(300%); opacity: 0; }
+        }
+
+        /* ============================================================
+           东方水墨玄境：《FantasyCity 幻想城》
+           向下滚动过程中，全局平滑无级过渡至淡黄色宣纸 (#FAF6E9)
+           狂草笔画自三维吸附重聚为墨黑苍劲大字，朱砂古印盖落
+           ============================================================ */
+        .fantasycity-ink-realm {
+            min-height: 100vh;
+            padding: 130px 24px 120px;
+            position: relative;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 水墨气韵光环 */
+        .ink-ambient-aura {
+            position: absolute;
+            width: 720px;
+            height: 360px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, rgba(192, 57, 43, 0.12) 0%, rgba(36, 20, 11, 0.06) 38%, rgba(36, 20, 11, 0.02) 60%, transparent 75%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .fantasycity-ink-realm.fc-entered .ink-ambient-aura {
+            opacity: 1;
+            animation: auraPulse 9s ease-in-out infinite alternate;
+        }
+        @keyframes auraPulse {
+            0% { transform: scale(0.92) rotate(0deg); }
+            100% { transform: scale(1.12) rotate(6deg); }
+        }
+
+        /* 宣纸金箔洒金浮光 (带顶部边缘羽化) */
+        .gold-flakes-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 80px, rgba(0,0,0,1) calc(100% - 40px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 80px, rgba(0,0,0,1) calc(100% - 40px), transparent 100%);
+        }
+        .gold-leaf-flake {
+            position: absolute;
+            left: var(--l);
+            top: var(--t);
+            width: var(--s);
+            height: var(--s);
+            background: linear-gradient(135deg, #f59e0b, #d97706, #fbbf24);
+            border-radius: 1px;
+            opacity: 0.6;
+            box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+            animation: goldSway var(--dur) ease-in-out infinite alternate var(--delay);
+        }
+        @keyframes goldSway {
+            0% { transform: translateY(0) rotate(0deg) scale(0.9); opacity: 0.3; }
+            50% { transform: translateY(-16px) translateX(8px) rotate(45deg) scale(1.2); opacity: 0.75; }
+            100% { transform: translateY(-32px) translateX(-6px) rotate(90deg) scale(0.9); opacity: 0.4; }
+        }
+
+        /* 纯动态水墨烟云 Canvas (在淡黄色宣纸上晕染深黑墨迹，两端柔和羽化防切断) */
+        #ink-fluid-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 0;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 120px, rgba(0,0,0,1) calc(100% - 60px), transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 120px, rgba(0,0,0,1) calc(100% - 60px), transparent 100%);
+        }
+
+        /* 樱花飘落动态 Canvas */
+        #sakura-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* ============================================================
+           现代新中式水墨长方体侧翼交织装置 (排列至视口两侧松散交织，中央纯净留白，绝不堆叠在文字下方)
+           ============================================================ */
+        .fc-ink-cuboid-stage {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .ink-caution-tape {
+            position: absolute;
+            mix-blend-mode: multiply; /* 让真实墨迹与淡黄宣纸自然物理混色，水墨渗透纸纹 */
+            will-change: clip-path, opacity;
+            pointer-events: none;
+            opacity: 0;
+            transition: clip-path 1.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease;
+        }
+
+        .ink-caution-tape img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: fill;
+            filter: contrast(1.08) drop-shadow(0 2px 6px rgba(36, 20, 11, 0.08));
+        }
+
+        /* --- 左侧侧翼松散交织笔画群 --- */
+        .tape-left-1 {
+            width: min(38vw, 520px);
+            height: 38px;
+            top: 26%;
+            left: -50px;
+            transform: rotate(-13deg);
+            transform-origin: left center;
+            clip-path: inset(0 100% 0 0);
+            z-index: 3;
+        }
+        .tape-left-2 {
+            width: min(34vw, 460px);
+            height: 34px;
+            top: 48%;
+            left: -35px;
+            transform: rotate(17deg);
+            transform-origin: left center;
+            clip-path: inset(0 100% 0 0);
+            z-index: 4;
+        }
+        .tape-left-3 {
+            width: min(28vw, 380px);
+            height: 26px;
+            top: 68%;
+            left: -20px;
+            transform: rotate(-7deg);
+            transform-origin: left center;
+            clip-path: inset(0 100% 0 0);
+            z-index: 2;
+        }
+
+        /* --- 右侧侧翼松散交织笔画群 --- */
+        .tape-right-1 {
+            width: min(38vw, 500px);
+            height: 36px;
+            top: 22%;
+            right: -50px;
+            transform: rotate(14deg);
+            transform-origin: right center;
+            clip-path: inset(0 0 0 100%);
+            z-index: 3;
+        }
+        .tape-right-2 {
+            width: min(35vw, 450px);
+            height: 32px;
+            top: 46%;
+            right: -35px;
+            transform: rotate(-16deg);
+            transform-origin: right center;
+            clip-path: inset(0 0 0 100%);
+            z-index: 4;
+        }
+        .tape-right-3 {
+            width: min(29vw, 370px);
+            height: 26px;
+            top: 68%;
+            right: -20px;
+            transform: rotate(8deg);
+            transform-origin: right center;
+            clip-path: inset(0 0 0 100%);
+            z-index: 2;
+        }
+
+        /* 激活时优雅舒展：左侧从外向内延展，右侧从外向内延展，层次错落有致 */
+        .fantasycity-ink-realm.fc-entered .tape-left-1 {
+            clip-path: inset(0 0% 0 0);
+            opacity: 0.92;
+            transition-delay: 0.08s;
+        }
+        .fantasycity-ink-realm.fc-entered .tape-left-2 {
+            clip-path: inset(0 0% 0 0);
+            opacity: 0.88;
+            transition-delay: 0.24s;
+        }
+        .fantasycity-ink-realm.fc-entered .tape-left-3 {
+            clip-path: inset(0 0% 0 0);
+            opacity: 0.76;
+            transition-delay: 0.38s;
+        }
+
+        .fantasycity-ink-realm.fc-entered .tape-right-1 {
+            clip-path: inset(0 0 0 0%);
+            opacity: 0.86;
+            transition-delay: 0.16s;
+        }
+        .fantasycity-ink-realm.fc-entered .tape-right-2 {
+            clip-path: inset(0 0 0 0%);
+            opacity: 0.92;
+            transition-delay: 0.32s;
+        }
+        .fantasycity-ink-realm.fc-entered .tape-right-3 {
+            clip-path: inset(0 0 0 0%);
+            opacity: 0.78;
+            transition-delay: 0.46s;
+        }
+
+        @media (max-width: 1024px) {
+            .tape-left-1, .tape-left-2, .tape-left-3,
+            .tape-right-1, .tape-right-2, .tape-right-3 {
+                opacity: 0.45 !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .fc-ink-cuboid-stage {
+                opacity: 0.35;
+            }
+            .tape-left-1 { width: 220px; height: 20px; top: 18%; left: -30px; }
+            .tape-left-2 { width: 200px; height: 18px; top: 42%; left: -20px; }
+            .tape-left-3 { width: 160px; height: 14px; top: 72%; left: -10px; }
+            .tape-right-1 { width: 210px; height: 20px; top: 16%; right: -30px; }
+            .tape-right-2 { width: 190px; height: 18px; top: 44%; right: -20px; }
+            .tape-right-3 { width: 160px; height: 14px; top: 70%; right: -10px; }
+        }
+
+        /* 幻想城自然意境入口：纯粹书法艺术，零按钮、零卡牌框 */
+        .fc-organic-gateway {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s ease;
+        }
+        .fc-organic-gateway:hover .ink-calligraphy-chars-row {
+            filter: drop-shadow(0 0 28px rgba(192, 57, 43, 0.4));
+        }
+
+        /* 散开的狂草书法巨字 (随滑动聚拢；切入时触发深度入场动效，从容生长，随后宁静定格) */
+        .ink-calligraphy-chars-row {
+            font-family: var(--font-calligraphy);
+            font-size: 7.8rem;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+            transition: filter 0.4s ease;
+        }
+        .ink-char-piece {
+            display: inline-block;
+            will-change: transform, opacity, color;
+        }
+        /* 狂草书法巨字 (随滚动平滑无缝聚拢，一体化连续流转) */
+        .ink-char-inner {
+            display: inline-block;
+        }
+
+        /* 散开的英文字母 (随滚动平滑聚拢) */
+        .ink-en-letters-row {
+            font-family: var(--font-cinema);
+            font-size: 1.25rem;
+            letter-spacing: 0.3em;
+            display: flex;
+            justify-content: center;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .ink-en-letter {
+            display: inline-block;
+            will-change: transform, opacity;
+        }
+        .ink-en-inner {
+            display: inline-block;
+        }
+
+        /* 幻想城核心世界观长卷（切入时汉字如墨水浸润逐字舒展跃入，韵律悠长） */
+        .fc-summary-line {
+            font-family: var(--font-song);
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0.16em;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s ease;
+            line-height: 1.9;
+            max-width: 860px;
+            padding: 0 20px;
+        }
+        .fc-flow-char {
+            display: inline-block;
+            will-change: transform, opacity;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+            cursor: default;
+        }
+        .fantasycity-ink-realm.fc-entered .fc-flow-char {
+            animation: poemCharEntrance 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(0.65s + var(--ci) * 0.038s);
+        }
+        .fc-flow-sep {
+            display: inline-block;
+            margin: 0 8px;
+            opacity: 0.5;
+            color: var(--fc-seal);
+            transition: transform 0.25s ease;
+        }
+        .fantasycity-ink-realm.fc-entered .fc-flow-sep {
+            animation: poemSepEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(0.65s + var(--ci) * 0.038s);
+        }
+        .fc-flow-char:hover {
+            transform: translateY(-8px) scale(1.25) !important;
+            color: var(--fc-seal) !important;
+            text-shadow: 0 0 14px rgba(192, 57, 43, 0.5);
+        }
+        @keyframes poemCharEntrance {
+            0% {
+                transform: translateY(24px) scale(0.8);
+                opacity: 0;
+                filter: blur(6px);
+            }
+            65% {
+                transform: translateY(-3px) scale(1.03);
+                opacity: 0.95;
+                filter: blur(0px);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+                filter: blur(0px);
+            }
+        }
+        @keyframes poemSepEntrance {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.55;
+            }
+        }
+
+        /* 移动端自适应 */
+        @media (max-width: 768px) {
+            .floating-navbar {
+                padding: 18px 20px;
+            }
+            .spatial-deck-stage {
+                height: 330px;
+                perspective: 1200px;
+            }
+            .poster-artifact-card {
+                width: 320px;
+                height: 250px;
+                padding: 20px;
+            }
+            .title-chem, .title-sc, .title-chemia {
+                font-size: 1.8rem !important;
+            }
+            .title-bit, .title-pix {
+                font-size: 1.4rem !important;
+            }
+            .sub-chem, .sub-bit, .sub-chemia, .sub-pix, .sub-sc {
+                font-size: 0.75rem;
+            }
+            .desc-chem, .desc-bit, .desc-chemia, .desc-pix, .desc-sc {
+                font-size: 0.74rem;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            .ink-calligraphy-chars-row {
+                font-size: 4.6rem;
+                gap: 16px;
+            }
+            .ink-en-letters-row {
+                font-size: 0.9rem;
+                letter-spacing: 0.18em;
+            }
+        }
+
+        /* ============================================================
+           08. 2022-2025 程序作品展回廊（12 部核心作品双列宽屏全景电影质感卡片展）
+           纯黑底邃景，电影海报级装置质感，纯卡片交互，零多余按钮，无分类标签
+           ============================================================ */
+
+        /* 作品展主区域容器 */
+        .gallery-exhibition-realm {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            padding: 100px 32px 140px;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .exhibition-inner-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .exhibition-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .exhibition-title-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 20px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            letter-spacing: 0.12em;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        .exhibition-year-badge {
+            font-weight: 700;
+            color: #38bdf8;
+        }
+        .exhibition-pill-sep {
+            color: rgba(255, 255, 255, 0.25);
+        }
+        .exhibition-pill-tag {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .exhibition-main-title {
+            font-family: var(--font-song);
+            font-size: 2.9rem;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            color: #f8fafc;
+            margin-bottom: 16px;
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
+        }
+        .exhibition-desc {
+            max-width: 780px;
+            margin: 0 auto;
+            font-family: var(--font-sans-cn);
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #94a3b8;
+        }
+
+        /* 2022-2025 作品精选集电影级入口卡牌 */
+        .collection-portal-card {
+            position: relative;
+            width: 100%;
+            max-width: 1020px;
+            background-color: #070a13;
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.14) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 55%),
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 44px 50px;
+            box-shadow: 0 35px 85px -20px rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 340px;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s ease;
+        }
+        /* 顶部高光微流线 */
+        .collection-portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, transparent);
+            opacity: 0.7;
+            transition: opacity 0.35s ease, height 0.35s ease;
+        }
+        /* 四角十字瞄准标识 */
+        .collection-portal-card::after {
+            content: '+';
+            position: absolute;
+            bottom: 18px;
+            right: 22px;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.18);
+            pointer-events: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .collection-portal-card:hover {
+            transform: translateY(-8px) scale(1.008);
+            border-color: rgba(56, 189, 248, 0.52);
+            box-shadow: 0 45px 105px -20px rgba(0, 0, 0, 0.95),
+                        0 0 50px -10px rgba(56, 189, 248, 0.32);
+        }
+        .collection-portal-card:hover::before {
+            opacity: 1;
+            height: 4px;
+        }
+        .collection-portal-card:hover::after {
+            color: #38bdf8;
+            transform: scale(1.2);
+        }
+
+        /* 入口卡片顶部元数据 */
+        .portal-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .portal-meta-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .portal-pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #38bdf8;
+            box-shadow: 0 0 12px #38bdf8;
+            animation: portalDotPulse 2.4s infinite ease-in-out;
+        }
+        @keyframes portalDotPulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.35); box-shadow: 0 0 16px #38bdf8; }
+        }
+        .portal-code-badge {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            letter-spacing: 0.1em;
+        }
+        .portal-tag-tech {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            font-weight: 600;
+            color: #38bdf8;
+            letter-spacing: 0.12em;
+        }
+
+        /* 入口卡片主体 */
+        .portal-card-body {
+            margin-bottom: 32px;
+        }
+        .portal-title-row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .portal-title-cn {
+            font-family: var(--font-song);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #f8fafc;
+            letter-spacing: 0.06em;
+            line-height: 1.25;
+            transition: color 0.3s ease;
+        }
+        .collection-portal-card:hover .portal-title-cn {
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+        .portal-title-en {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: #64748b;
+        }
+        .portal-desc {
+            font-family: var(--font-sans-cn);
+            font-size: 0.96rem;
+            line-height: 1.75;
+            color: #94a3b8;
+            margin-bottom: 22px;
+            max-width: 860px;
+        }
+        .portal-cta-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #38bdf8;
+            transition: color 0.25s ease;
+        }
+        .portal-cta-arrow {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .collection-portal-card:hover .portal-cta-arrow {
+            transform: translateX(6px);
+        }
+
+        /* 入口卡片底部 */
+        .portal-card-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .portal-foot-spec {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .portal-spec-chip {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+        }
+        .portal-foot-status {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            color: #38bdf8;
+            opacity: 0.9;
+        }
+
+        /* 页脚极简深色化 */
+        .exhibition-footer {
+            width: 100%;
+            padding: 48px 24px 60px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            margin-top: 60px;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #64748b;
+            letter-spacing: 0.08em;
+        }
+        .footer-brand {
+            font-weight: 700;
+            color: #f8fafc;
+        }
+        .footer-dot {
+            opacity: 0.35;
+        }
+        .footer-copy {
+            color: #64748b;
+        }
+        .footer-link {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        .footer-link:hover {
+            color: #7dd3fc;
+            text-decoration: underline;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 960px) {
+            .gallery-exhibition-realm {
+                padding: 70px 20px 100px;
+            }
+            .exhibition-main-title {
+                font-size: 2.1rem;
+            }
+            .collection-portal-card {
+                padding: 30px 24px;
+                min-height: auto;
+            }
+            .portal-title-cn {
+                font-size: 1.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 全屏星空 Canvas (滑动至水墨玄境时平滑减淡) -->
+    <canvas id="cosmos-canvas"></canvas>
+
+    <!-- 专属极简单一长圆柱胶囊滚动条（纯单个圆柱，彻底去除嵌套内芯与上下箭头） -->
+    <div id="custom-scrollbar" class="custom-scrollbar" aria-hidden="true">
+        <div id="custom-scroll-track" class="custom-scroll-track">
+            <div id="custom-scroll-thumb" class="custom-scroll-thumb"></div>
+        </div>
+    </div>
+
+    <!-- 页眉：固定悬浮顶栏（左侧 XRJPROGRAM，右侧 GitHub 源码，不推挤卡片） -->
+    <header class="floating-navbar">
+        <a href="index.html" class="nav-brand" id="navBrand">XRJPROGRAM</a>
+        <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="nav-github" id="navGithub" title="GitHub 源码">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+        </a>
+    </header>
+
+    <!-- ============================================================
+         首屏：完全消除卡片上方的一切标题与占位！
+         整屏 100vh 垂直居中铺满视口，打开网页第一眼直接沉浸进入 3D 卡牌空间
+         ============================================================ -->
+    <main class="first-screen-hero">
+        <div class="spatial-deck-stage" id="deckStage">
+            <!-- 16:9 电影画幅海报由物理引擎在空间中解算坐标 -->
+        </div>
+
+        <!-- 极简长圆柱指示器 -->
+        <div class="stage-indicator-bar" id="indicatorBar">
+            <!-- 极简长圆柱胶囊条 -->
+        </div>
+
+        <!-- 极简向下滚动水墨画卷导引 -->
+        <div class="scroll-down-hint" id="scrollHint">
+            <span class="scroll-hint-label">滑入水墨画卷</span>
+            <div class="scroll-hint-track"><div class="scroll-hint-drop"></div></div>
+        </div>
+    </main>
+
+    <!-- ============================================================
+         东方水墨科技玄境：《FantasyCity 幻想城》
+         （向下滚动过程中，全局平滑无级过渡至淡黄色宣纸 #FAF6E9）
+         狂草笔画自三维吸附重聚为墨黑苍劲大字，朱砂古印盖落
+         ============================================================ -->
+    <section class="fantasycity-ink-realm" id="fantasycitySection">
+        <!-- 纯动态水墨烟云 Canvas -->
+        <canvas id="ink-fluid-canvas"></canvas>
+
+        <!-- 纯动态樱花漫舞落瓣 Canvas -->
+        <canvas id="sakura-canvas"></canvas>
+
+        <!-- 水墨大字气韵光环 -->
+        <div class="ink-ambient-aura"></div>
+
+        <!-- 宣纸金箔洒金浮光 -->
+        <div class="gold-flakes-layer" aria-hidden="true">
+            <span class="gold-leaf-flake" style="--l: 12%; --t: 18%; --s: 4px; --dur: 7s; --delay: 0s;"></span>
+            <span class="gold-leaf-flake" style="--l: 85%; --t: 26%; --s: 6px; --dur: 9s; --delay: -2s;"></span>
+            <span class="gold-leaf-flake" style="--l: 22%; --t: 68%; --s: 5px; --dur: 8s; --delay: -4s;"></span>
+            <span class="gold-leaf-flake" style="--l: 78%; --t: 72%; --s: 3.5px; --dur: 11s; --delay: -1s;"></span>
+            <span class="gold-leaf-flake" style="--l: 48%; --t: 40%; --s: 5px; --dur: 6.5s; --delay: -3s;"></span>
+            <span class="gold-leaf-flake" style="--l: 36%; --t: 84%; --s: 4px; --dur: 10s; --delay: -5s;"></span>
+            <span class="gold-leaf-flake" style="--l: 68%; --t: 14%; --s: 5.5px; --dur: 8.5s; --delay: -2.5s;"></span>
+        </div>
+
+        <!-- 现代新中式警戒线式水墨长方体侧翼交织装置（分布于视口两侧松散错落交织，中央纯净留白，绝不堆叠在文字下方） -->
+        <div class="fc-ink-cuboid-stage" id="fcInkCuboidStage" aria-hidden="true">
+            <!-- 左侧侧翼松散交织笔画群 -->
+            <div class="ink-caution-tape tape-left-1"><img src="assets/images/ink_stroke_black_1.png" alt="" /></div>
+            <div class="ink-caution-tape tape-left-2"><img src="assets/images/ink_stroke_red_1.png" alt="" /></div>
+            <div class="ink-caution-tape tape-left-3"><img src="assets/images/ink_stroke_black_2.png" alt="" /></div>
+            <!-- 右侧侧翼松散交织笔画群 -->
+            <div class="ink-caution-tape tape-right-1"><img src="assets/images/ink_stroke_black_dry.png" alt="" /></div>
+            <div class="ink-caution-tape tape-right-2"><img src="assets/images/ink_stroke_red_2.png" alt="" /></div>
+            <div class="ink-caution-tape tape-right-3"><img src="assets/images/ink_stroke_black_1.png" alt="" /></div>
+        </div>
+
+        <!-- 散落的狂草书法巨字 (随滑动聚拢，三字各自生动律动悬浮；纯自然意境入口，零按钮) -->
+        <a href="FantasyCity/index.html" class="fc-organic-gateway smart-link" data-path="FantasyCity/index.html" title="轻触步入 · 幻想城">
+            <div class="ink-calligraphy-chars-row">
+                <span class="ink-char-piece" data-x="-120" data-y="-25" data-z="80" data-rot="-18"><span class="ink-char-inner char-1">幻</span></span>
+                <span class="ink-char-piece" data-x="100" data-y="30" data-z="-60" data-rot="20"><span class="ink-char-inner char-2">想</span></span>
+                <span class="ink-char-piece" data-x="-70" data-y="40" data-z="50" data-rot="-12"><span class="ink-char-inner char-3">城</span></span>
+            </div>
+        </a>
+
+        <!-- 散落的英文字母 (逐字母微波律动) -->
+        <div class="ink-en-letters-row" id="inkEnLettersRow">
+            <span class="ink-en-letter" data-x="-120" data-y="-15"><span class="ink-en-inner" style="--li:0">F</span></span>
+            <span class="ink-en-letter" data-x="-95" data-y="18"><span class="ink-en-inner" style="--li:1">A</span></span>
+            <span class="ink-en-letter" data-x="-70" data-y="-18"><span class="ink-en-inner" style="--li:2">N</span></span>
+            <span class="ink-en-letter" data-x="-45" data-y="15"><span class="ink-en-inner" style="--li:3">T</span></span>
+            <span class="ink-en-letter" data-x="-20" data-y="-12"><span class="ink-en-inner" style="--li:4">A</span></span>
+            <span class="ink-en-letter" data-x="0" data-y="18"><span class="ink-en-inner" style="--li:5">S</span></span>
+            <span class="ink-en-letter" data-x="25" data-y="-16"><span class="ink-en-inner" style="--li:6">Y</span></span>
+            <span style="display:inline-block; width: 14px;"></span>
+            <span class="ink-en-letter" data-x="50" data-y="16"><span class="ink-en-inner" style="--li:7">C</span></span>
+            <span class="ink-en-letter" data-x="75" data-y="-14"><span class="ink-en-inner" style="--li:8">I</span></span>
+            <span class="ink-en-letter" data-x="95" data-y="18"><span class="ink-en-inner" style="--li:9">T</span></span>
+            <span class="ink-en-letter" data-x="120" data-y="-15"><span class="ink-en-inner" style="--li:10">Y</span></span>
+        </div>
+
+        <!-- 核心世界观逐字起伏水墨长卷（每个汉字全部动起来，彻底去除所有多余按钮） -->
+        <p class="fc-summary-line" id="fcSummaryLine">
+            <span class="fc-flow-char" style="--ci:0">宏</span><span class="fc-flow-char" style="--ci:1">大</span><span class="fc-flow-char" style="--ci:2">架</span><span class="fc-flow-char" style="--ci:3">空</span><span class="fc-flow-char" style="--ci:4">奇</span><span class="fc-flow-char" style="--ci:5">幻</span><span class="fc-flow-char" style="--ci:6">世</span><span class="fc-flow-char" style="--ci:7">界</span><span class="fc-flow-char" style="--ci:8">观</span>
+            <span class="fc-flow-sep" style="--ci:9">·</span>
+            <span class="fc-flow-char" style="--ci:10">百</span><span class="fc-flow-char" style="--ci:11">万</span><span class="fc-flow-char" style="--ci:12">字</span><span class="fc-flow-char" style="--ci:13">史</span><span class="fc-flow-char" style="--ci:14">诗</span><span class="fc-flow-char" style="--ci:15">连</span><span class="fc-flow-char" style="--ci:16">载</span>
+            <span class="fc-flow-sep" style="--ci:17">·</span>
+            <span class="fc-flow-char" style="--ci:18">像</span><span class="fc-flow-char" style="--ci:19">素</span><span class="fc-flow-char" style="--ci:20">卡</span><span class="fc-flow-char" style="--ci:21">牌</span><span class="fc-flow-char" style="--ci:22">对</span><span class="fc-flow-char" style="--ci:23">弈</span>
+            <span class="fc-flow-sep" style="--ci:24">·</span>
+            <span class="fc-flow-char" style="--ci:25">异</span><span class="fc-flow-char" style="--ci:26">能</span><span class="fc-flow-char" style="--ci:27">全</span><span class="fc-flow-char" style="--ci:28">景</span><span class="fc-flow-char" style="--ci:29">百</span><span class="fc-flow-char" style="--ci:30">科</span><span class="fc-flow-char" style="--ci:31">图</span><span class="fc-flow-char" style="--ci:32">鉴</span>
+        </p>
+
+    </section>
+
+    <!-- ============================================================
+         2022-2025 作品精选集：全景电影级独立入口装置
+         ============================================================ -->
+    <section class="gallery-exhibition-realm" id="exhibitionSection">
+        <div class="exhibition-inner-container">
+            <div class="exhibition-header">
+                <div class="exhibition-title-pill">
+                    <span class="exhibition-year-badge">2022 – 2025</span>
+                    <span class="exhibition-pill-sep">/</span>
+                    <span class="exhibition-pill-tag">RETROSPECTIVE COMPILATION</span>
+                </div>
+                <h2 class="exhibition-main-title">2022-2025作品精选集</h2>
+                <p class="exhibition-desc">
+                    四载独立编程沉淀，十二部原生 Scratch / TurboWarp 架构作品精粹：涵盖数值动力学、反应堆工程、自动化流水线与路网拓扑。轻触下方卡片步入完整在线典藏展。
+                </p>
+            </div>
+
+            <!-- 点击跳转至独立作品展新页面 works/index.html -->
+            <a href="works/index.html" class="collection-portal-card smart-link" data-path="works/index.html" title="轻触步入 · 2022-2025作品精选集">
+                <div class="portal-card-top">
+                    <div class="portal-meta-left">
+                        <span class="portal-pulse-dot"></span>
+                        <span class="portal-code-badge">[ RETROSPECTIVE · 12 CORE WORKS ]</span>
+                    </div>
+                    <span class="portal-tag-tech">[ 2022.01 — 2025.12 ]</span>
+                </div>
+                <div class="portal-card-body">
+                    <div class="portal-title-row">
+                        <h3 class="portal-title-cn">2022-2025作品精选集</h3>
+                        <span class="portal-title-en">COMPILATION ARCHIVE</span>
+                    </div>
+                    <p class="portal-desc">
+                        汇聚数字扩散、REACTOR 堆芯机理、资源机三部曲、核工厂、REACTIC 分子动力学、逃亡与战斗、AnyChem 原型、幻想人生模拟与路网调度等 12 部纯积木底层架构作品。
+                    </p>
+                    <div class="portal-cta-indicator">
+                        <span class="portal-cta-label">轻触步入完整典藏展厅与在线运行终端</span>
+                        <div class="portal-cta-arrow">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="portal-card-foot">
+                    <div class="portal-foot-spec">
+                        <span class="portal-spec-chip">TURBOWARP · 60FPS COMPILATION</span>
+                        <span class="portal-spec-chip">12 STANDALONE RUNTIMES</span>
+                    </div>
+                    <div class="portal-foot-status">
+                        <span class="portal-status-text">ONLINE ARCHIVE · READY TO PLAY</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- 极简页脚 -->
+    <footer class="exhibition-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">XRJPROGRAM</span>
+            <span class="footer-dot">·</span>
+            <span class="footer-copy">2022–2026 ARCHIVE · POWERED BY TURBOWARP</span>
+            <span class="footer-dot">·</span>
+            <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="footer-link">GITHUB</a>
+        </div>
+    </footer>
+
+    <!-- 核心项目数据：去除 010203 编号，汉字字体全面适配，专属个性排版 -->
+    <script>
+        const ARTIFACT_ITEMS = [
+            {
+                id: 'anychem',
+                customClass: 'card-anychem',
+                launchUrl: 'Anychem-pro/dist/index.html',
+                innerMarkup: `
+                    <div class="chem-grid-wireframe"></div>
+                    <canvas id="anychem-mol-canvas" class="card-bg-canvas" width="660" height="372"></canvas>
+                    <div class="poster-top-row">
+                        <span style="color:var(--anychem-accent);">3D MOLECULAR DYNAMICS</span>
+                        <span style="color:#d1dcce; font-family:var(--font-mono);">[ C₆H₆ · BENZENE ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-chem-wrap">
+                            <svg class="title-chem-svg" viewBox="0 0 340 44" fill="none">
+                                <line x1="6" y1="22" x2="26" y2="22" stroke="var(--anychem-accent)" stroke-width="2" opacity="0.6" />
+                                <circle cx="6" cy="22" r="3.5" fill="var(--anychem-accent)" />
+                                <circle cx="26" cy="22" r="3.5" fill="#ffffff" />
+                                <text x="36" y="32" class="chem-svg-text">ANYCHEM</text>
+                                <g transform="translate(200, 12)">
+                                    <rect x="0" y="0" width="46" height="21" rx="4" fill="rgba(159, 180, 141, 0.15)" stroke="var(--anychem-accent)" stroke-width="1.5" />
+                                    <text x="23" y="15" class="chem-pro-text" text-anchor="middle">PRO</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="sub-chem">3D 分子动力学与结构仿真</div>
+                        <p class="desc-chem">基于弹簧力学模型求解三维分子运动：支持原子实时拖拽交互、化学键张力解算与动态构型平衡，并内置 IUPAC 标准命名推导。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#8e9a92;">THREE.JS · VERLET FORCEFIELD</span>
+                        <span style="color:var(--anychem-accent); font-family:var(--font-mono);">k_bond = 25.0 · γ = 0.82</span>
+                    </div>
+                `
+            },
+            {
+                id: 'bitpulse',
+                customClass: 'card-bitpulse',
+                launchUrl: 'BitPulse/bit-pulse.html',
+                innerMarkup: `
+                    <div class="crt-lines-overlay"></div>
+                    <div class="cartridge-gold-pins"></div>
+                    <div class="poster-top-row">
+                        <span style="color:var(--bitpulse-mint); font-family:var(--font-pixel); font-size:0.56rem;">NES 2A03 APU SYNTH</span>
+                        <span style="color:var(--bitpulse-green); font-family:var(--font-pixel); font-size:0.56rem;">[ 2×PULSE · TRI · NOISE ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-bit-wrap">
+                            <svg class="title-bit-svg" viewBox="0 0 340 44" fill="none">
+                                <path class="bit-ecg-trace" d="M 0,22 L 18,22 L 22,22 L 28,22 L 34,22 L 38,22 L 42,22 L 52,22" stroke="var(--bitpulse-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                                    <animate attributeName="d" dur="1.5s" repeatCount="indefinite"
+                                        values="
+                                        M 0,22 L 18,22 L 22,22 L 28,22 L 34,22 L 38,22 L 42,22 L 52,22;
+                                        M 0,22 L 18,22 L 22,16 L 28,29 L 34,17 L 38,25 L 42,22 L 52,22;
+                                        M 0,22 L 18,22 L 22,6 L 28,38 L 34,9 L 38,31 L 42,22 L 52,22;
+                                        M 0,22 L 18,22 L 22,14 L 28,30 L 34,16 L 38,26 L 42,22 L 52,22;
+                                        M 0,22 L 18,22 L 22,22 L 28,22 L 34,22 L 38,22 L 42,22 L 52,22;
+                                        M 0,22 L 18,22 L 22,22 L 28,22 L 34,22 L 38,22 L 42,22 L 52,22"
+                                        keyTimes="0; 0.14; 0.26; 0.38; 0.54; 1"
+                                    />
+                                </path>
+                                <text x="60" y="32" class="bit-svg-text">BITPULSE</text>
+                                <rect x="244" y="15" width="8" height="17" rx="1" fill="var(--bitpulse-mint)" class="bit-cursor-blink" />
+                            </svg>
+                        </div>
+                        <div class="sub-bit">NES 2A03 芯片音乐工作站</div>
+                        <p class="desc-bit">高保真模拟红白机 2A03 声音芯片：基于 Web Audio 纯前端实现双脉冲、三角波与噪声通道编曲，在浏览器中创作纯正 8-Bit 复古音效。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#059669; font-family:var(--font-pixel); font-size:0.52rem;">WEB AUDIO · 1.789773 MHz</span>
+                        <div class="bit-equalizer-bars">
+                            <div class="bit-bar-pip" style="animation-delay:0.1s"></div>
+                            <div class="bit-bar-pip" style="animation-delay:0.4s"></div>
+                            <div class="bit-bar-pip" style="animation-delay:0.7s"></div>
+                            <div class="bit-bar-pip" style="animation-delay:0.2s"></div>
+                            <div class="bit-bar-pip" style="animation-delay:0.5s"></div>
+                            <div class="bit-bar-pip" style="animation-delay:0.3s"></div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'chemiation',
+                customClass: 'card-chemiation',
+                launchUrl: 'Chemiation/index.html',
+                innerMarkup: `
+                    <div class="chem-parchment-glow"></div>
+                    <canvas id="chemiation-struct-canvas" class="card-bg-canvas" width="660" height="372"></canvas>
+                    <div class="poster-top-row">
+                        <span style="color:var(--chemiation-gold);">CCPL MECHANISM STUDIO</span>
+                        <span style="color:#d9cbbe; font-family:var(--font-mono);">[ CH₃COOH + C₂H₅OH ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-chemia-wrap">
+                            <svg class="title-chemia-svg" viewBox="0 0 380 46" fill="none">
+                                <text x="0" y="34" class="chemia-svg-text">CHEMIATION</text>
+                                <line x1="0" y1="42" x2="340" y2="42" stroke="url(#goldGradient)" stroke-width="1.5" opacity="0.6" />
+                                <defs>
+                                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#b84a28" />
+                                        <stop offset="50%" stop-color="#c08a3e" />
+                                        <stop offset="100%" stop-color="#faf6e9" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="sub-chemia">化学反应机理与动态势能面演示</div>
+                        <p class="desc-chemia">在 2D 画布中构建多层视差景深：沿微观时间轴推演分子碰撞、旧键断裂与新键重组全过程，直观呈现化学反应机理。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#9e8570;">PSEUDO-3D · CONSERVATION</span>
+                        <span class="pes-barrier-tag" style="color:var(--chemiation-gold); font-family:var(--font-mono);">[RC] → [TS] → [P]</span>
+                    </div>
+                `
+            },
+            {
+                id: 'pixelme',
+                customClass: 'card-pixelme',
+                launchUrl: 'pixelme/index.html',
+                innerMarkup: `
+                    <div class="arcade-grid-mesh"></div>
+                    <div class="poster-top-row">
+                        <span style="color:var(--pixelme-cyan); font-family:var(--font-pixel); font-size:0.54rem;">7-LAYER AVATAR ATELIER</span>
+                        <span style="color:var(--pixelme-pink); font-family:var(--font-pixel); font-size:0.56rem;">[ 32×32 PIXEL GRID ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-pix-wrap">
+                            <svg class="title-pix-svg" viewBox="0 0 340 44" fill="none">
+                                <text x="4" y="34" class="pix-svg-shadow-pink">PIXELME</text>
+                                <text x="2" y="32" class="pix-svg-shadow-cyan">PIXELME</text>
+                                <text x="0" y="30" class="pix-svg-text">PIXELME</text>
+                            </svg>
+                        </div>
+                        <div class="sub-pix">32×32 像素角色与纸娃娃工坊</div>
+                        <p class="desc-pix">面向 32×32 经典点阵的角色创作者：自由组合发型、五官与服饰图层，配合高光与阴影自动分层渲染，一键导出高清像素立绘。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#a5b4fc; font-family:var(--font-pixel); font-size:0.52rem;">CANVAS 2D · 16× SCALED PNG</span>
+                        <div class="pix-swatches-strip">
+                            <div class="pix-dot" style="background:#00cec9;"></div>
+                            <div class="pix-dot" style="background:#fd79a8;"></div>
+                            <div class="pix-dot" style="background:#6c5ce7;"></div>
+                            <div class="pix-dot" style="background:#ffeaa7;"></div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'littlesc',
+                customClass: 'card-littlesc',
+                launchUrl: 'https://github.com/XRJprogram/littlesc',
+                innerMarkup: `
+                    <div class="sc-bg-blocks-overlay">
+                        <svg class="sc-bg-blocks-svg" viewBox="0 0 660 372" fill="none">
+                            <!-- Block 1: Events (Gold) -->
+                            <rect x="430" y="42" width="180" height="34" rx="8" fill="#FFBF00" fill-opacity="0.16" stroke="#FFBF00" stroke-opacity="0.4" stroke-width="1.5" />
+                            <circle cx="448" cy="59" r="6" fill="#FFBF00" fill-opacity="0.5" />
+                            <rect x="462" y="54" width="70" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="540" y="54" width="52" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 2: Motion (Blue) -->
+                            <rect x="450" y="86" width="190" height="34" rx="8" fill="#4C97FF" fill-opacity="0.16" stroke="#4C97FF" stroke-opacity="0.4" stroke-width="1.5" />
+                            <rect x="468" y="98" width="64" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="540" y="95" width="36" height="16" rx="8" fill="#ffffff" fill-opacity="0.4" />
+                            <rect x="584" y="98" width="40" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 3: Control (Orange) -->
+                            <rect x="438" y="130" width="176" height="34" rx="8" fill="#FFAB19" fill-opacity="0.16" stroke="#FFAB19" stroke-opacity="0.4" stroke-width="1.5" />
+                            <rect x="456" y="142" width="56" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="520" y="139" width="38" height="16" rx="8" fill="#ffffff" fill-opacity="0.35" />
+                            <rect x="566" y="142" width="34" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 4: Operators (Green) -->
+                            <rect x="464" y="174" width="164" height="34" rx="8" fill="#59C059" fill-opacity="0.16" stroke="#59C059" stroke-opacity="0.4" stroke-width="1.5" />
+                            <rect x="482" y="186" width="46" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="536" y="183" width="32" height="16" rx="8" fill="#ffffff" fill-opacity="0.35" />
+                            <rect x="576" y="186" width="36" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+
+                            <!-- Block 5: Variables / Data (Deep Orange) -->
+                            <rect x="418" y="218" width="158" height="32" rx="8" fill="#FF8C1A" fill-opacity="0.14" stroke="#FF8C1A" stroke-opacity="0.35" stroke-width="1.5" />
+                            <rect x="434" y="229" width="58" height="10" rx="5" fill="#ffffff" fill-opacity="0.3" />
+                            <rect x="500" y="226" width="42" height="16" rx="8" fill="#ffffff" fill-opacity="0.3" />
+
+                            <!-- Block 6: Sensing (Cyan, floating left bottom) -->
+                            <rect x="52" y="296" width="168" height="30" rx="8" fill="#5CB1D6" fill-opacity="0.12" stroke="#5CB1D6" stroke-opacity="0.3" stroke-width="1.2" />
+                            <rect x="68" y="306" width="60" height="10" rx="5" fill="#ffffff" fill-opacity="0.25" />
+                            <rect x="136" y="303" width="36" height="16" rx="8" fill="#ffffff" fill-opacity="0.28" />
+                            <rect x="180" y="306" width="28" height="10" rx="5" fill="#ffffff" fill-opacity="0.2" />
+                        </svg>
+                    </div>
+                    <div class="poster-top-row">
+                        <span style="color:var(--littlesc-orange); font-family:var(--font-mono);">AI + SCRATCH VIBE CODING</span>
+                        <span style="color:var(--littlesc-blue); font-family:var(--font-mono);">[ PROMPT ↔ SB3 BLOCKS ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-sc-wrap">
+                            <svg class="title-sc-svg" viewBox="0 0 320 44" fill="none">
+                                <text x="2" y="32" class="sc-svg-text">LITTLE<tspan fill="var(--littlesc-orange)">SC</tspan></text>
+                            </svg>
+                        </div>
+                        <div class="sub-sc">AI + Scratch 积木语言 Vibe Coding 编译器</div>
+                        <p class="desc-sc">面向少儿与创客的 AI + Scratch 积木 Vibe Coding 体验：通过自然语言提示词直接生成可执行的 Scratch 积木与 Goboscript 源码，支持 AST 代码比对与行级 Diff 快速定位。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#ea580c;">VIBE CODING · AST DIFF</span>
+                        <span class="littlesc-diff-badge" style="color:var(--littlesc-diff); font-family:var(--font-mono);">+12 / -4 DIFF</span>
+                    </div>
+                `
+            },
+            {
+                id: 'gifeditor',
+                customClass: 'card-gifeditor',
+                launchUrl: 'gifeditor/index.html',
+                innerMarkup: `
+                    <div class="blueprint-grid-mesh"></div>
+                    <svg class="blueprint-wire-svg" viewBox="0 0 660 372" preserveAspectRatio="none">
+                        <path d="M 440,70 C 560,90 500,260 620,310" fill="none" stroke="rgba(56, 189, 248, 0.25)" stroke-width="2" />
+                        <path d="M 420,130 C 510,140 480,210 590,220" fill="none" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1.5" />
+                        <circle cx="440" cy="70" r="5" fill="#38bdf8" opacity="0.9" />
+                        <circle cx="620" cy="310" r="5" fill="#f59e0b" opacity="0.9" />
+                        <circle cx="420" cy="130" r="4" fill="#38bdf8" opacity="0.7" />
+                        <circle cx="590" cy="220" r="4" fill="#f59e0b" opacity="0.7" />
+                    </svg>
+                    <div class="poster-top-row">
+                        <span style="color:var(--gifeditor-cyan); font-family:var(--font-mono);">BLUEPRINT DAG ENGINE</span>
+                        <span style="color:var(--gifeditor-amber); font-family:var(--font-mono);">[ 247 Q-FACE · UE5 STYLE ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-gif-wrap">
+                            <svg class="title-gif-svg" viewBox="0 0 340 44" fill="none">
+                                <polygon points="2,14 14,22 2,30" fill="#ffffff" />
+                                <text x="22" y="32" class="gif-svg-main">GIF <tspan fill="var(--gifeditor-cyan)">EDITOR</tspan></text>
+                            </svg>
+                        </div>
+                        <div class="sub-gif">QQ 表情动图衍生工坊</div>
+                        <p class="desc-gif">基于节点蓝图与有向无环图（DAG）的表情二创工坊：精选 247 款 QQ 经典动态表情，自由连线进行对称镜像、阴阳脸缝合、像素扭曲与微观时序裁剪。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#64748b; font-family:var(--font-mono);">VANILLA JS · 1:1 RASTER</span>
+                        <div class="gif-dag-metric">
+                            <span class="dag-pin-dot pin-blue"></span>
+                            <span class="dag-wire-pulse"></span>
+                            <span class="dag-pin-dot pin-amber"></span>
+                            <span class="dag-time-code">DAG: 4.2ms</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'lambdadiagrams',
+                customClass: 'card-lambdadiagrams',
+                launchUrl: 'lambdaDiagram/index.html',
+                innerMarkup: `
+                    <div class="lambda-grid-mesh"></div>
+                    <svg class="tromp-diagram-svg" viewBox="0 0 660 372" preserveAspectRatio="none">
+                        <!-- John Tromp's S Combinator: S = \\x. \\y. \\z. (x z) (y z) -->
+                        <path d="M 452,60 L 452,70 M 452,65 L 618,65 M 618,60 L 618,70" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
+                        <text x="444" y="69" class="tromp-lbl" text-anchor="end">λx</text>
+                        <path d="M 452,95 L 452,105 M 452,100 L 618,100 M 618,95 L 618,105" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
+                        <text x="444" y="104" class="tromp-lbl" text-anchor="end">λy</text>
+                        <path d="M 452,130 L 452,140 M 452,135 L 618,135 M 618,130 L 618,140" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="square" />
+                        <text x="444" y="139" class="tromp-lbl" text-anchor="end">λz</text>
+                        <line x1="472" y1="65" x2="472" y2="295" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="510" y1="135" x2="510" y2="215" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="555" y1="100" x2="555" y2="295" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="595" y1="135" x2="595" y2="255" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="472" y1="215" x2="510" y2="215" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="555" y1="255" x2="595" y2="255" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                        <line x1="472" y1="295" x2="555" y2="295" stroke="#ffffff" stroke-width="3" stroke-linecap="square" class="tromp-redex-bridge" />
+                        <text x="610" y="299" class="tromp-lbl-sym" text-anchor="middle">S</text>
+                        <circle cx="472" cy="65" r="3.5" fill="#ffffff" />
+                        <circle cx="555" cy="100" r="3.5" fill="#ffffff" />
+                        <circle cx="510" cy="135" r="3.5" fill="#ffffff" />
+                        <circle cx="595" cy="135" r="3.5" fill="#ffffff" />
+                        <circle cx="472" cy="215" r="3" fill="#ffffff" />
+                        <circle cx="510" cy="215" r="3" fill="#ffffff" />
+                        <circle cx="555" cy="255" r="3" fill="#ffffff" />
+                        <circle cx="595" cy="255" r="3" fill="#ffffff" />
+                        <circle cx="472" cy="295" r="4" fill="#ffffff" />
+                        <circle cx="555" cy="295" r="4" fill="#ffffff" />
+                    </svg>
+                    <div class="poster-top-row">
+                        <span style="color:#ffffff; font-family:var(--font-mono); font-weight:700;">JOHN TROMP TOPOLOGY</span>
+                        <span style="color:#a3a3a3; font-family:var(--font-mono);">[ MONOCHROME · β-REDUCTION ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-lambda-wrap">
+                            <svg class="title-lambda-svg" viewBox="0 0 350 48" fill="none">
+                                <path d="M 4,8 L 4,14 M 4,11 L 30,11 M 30,8 L 30,14" stroke="#ffffff" stroke-width="2" />
+                                <path d="M 21,11 L 10,38 M 17,24 L 27,38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" />
+                                <circle cx="21" cy="11" r="2.5" fill="#ffffff" />
+                                <text x="38" y="34" class="lambda-svg-title">LAMBDA<tspan class="lambda-svg-sub" dx="8">DIAGRAMS</tspan></text>
+                            </svg>
+                        </div>
+                        <div class="sub-lambda">John Tromp Lambda 图动态演算工作台</div>
+                        <p class="desc-lambda">基于 John Tromp 几何规范的纯黑白极简电路式拓扑工作台：支持经典与德布鲁因双记法、五阶段 β-规约动态演示、双风格图样与无级回溯。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#737373; font-family:var(--font-mono);">DE BRUIJN · PURE SVG</span>
+                        <div class="lambda-metric">
+                            <span class="lambda-badge-tag">S = \\x y z.(xz)(yz)</span>
+                            <span class="lambda-beacon-dot"></span>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+    </script>
+
+    <!-- 核心交互逻辑：智能链接、防卡顿手势解耦 3D 引擎、草书笔画重聚与无级平滑向淡黄宣纸变色 -->
+    <script>
+        /* 1. 链接自适应 (本地 file: 与 GitHub Pages 在线环境双向兼容) */
+        function resolveUrl(url) {
+            if (!url) return '';
+            if (url.startsWith('http://') || url.startsWith('https://')) return url;
+            if (url.startsWith('works/') || url.startsWith('./works/')) {
+                return url;
+            }
+            if (window.location.protocol === 'file:') {
+                return '../' + url;
+            }
+            return url;
+        }
+
+        (function adaptSmartLinks() {
+            document.querySelectorAll('.smart-link').forEach(link => {
+                const targetPath = link.getAttribute('data-path');
+                if (targetPath) {
+                    link.setAttribute('href', resolveUrl(targetPath));
+                }
+            });
+        })();
+
+        /* 2. 3D 装置流物理引擎 (手势与点击严格解耦，彻底避免滑动卡死) */
+        const DeckEngine = (function() {
+            const stage = document.getElementById('deckStage');
+            const indicatorBar = document.getElementById('indicatorBar');
+            if (!stage) return null;
+
+            const total = ARTIFACT_ITEMS.length;
+            let currentPos = 0;
+            let targetPos = 0;
+            let activeIdx = 0;
+
+            // 拖拽手势物理状态
+            let isPointerDown = false;
+            let startPointerX = 0;
+            let startPos = 0;
+            let lastPointerX = 0;
+            let lastMoveTime = 0;
+            let dragVelocity = 0;
+            let hasMovedSignificantly = false;
+
+            // 鼠标 3D 视差俯仰
+            let mouseTiltX = 0;
+            let mouseTiltY = 0;
+            let curTiltX = 0;
+            let curTiltY = 0;
+
+            let stageRect = null;
+            let needsCardRender = true;
+
+            function updateStageRect() {
+                if (stage) stageRect = stage.getBoundingClientRect();
+            }
+
+            const cardElements = [];
+            let renderAnychemMol = null;
+            let renderChemiationStruct = null;
+            let isDeckVisible = true;
+            let deckRAF = null;
+
+            function requestDeckLoop() {
+                if (!deckRAF && isDeckVisible) {
+                    deckRAF = requestAnimationFrame(renderLoop);
+                }
+            }
+
+            function init() {
+                stage.innerHTML = '';
+                indicatorBar.innerHTML = '';
+
+                ARTIFACT_ITEMS.forEach((item, i) => {
+                    const card = document.createElement('div');
+                    card.className = `poster-artifact-card ${item.customClass}`;
+                    card.setAttribute('data-index', i);
+                    card.innerHTML = item.innerMarkup;
+
+                    // 禁用浏览器原生拖拽干扰
+                    card.ondragstart = () => false;
+
+                    // 点击卡片：若居中则直接进入项目，若在两侧则滑至中心
+                    card.addEventListener('click', (e) => {
+                        if (hasMovedSignificantly) return;
+                        if (i === activeIdx) {
+                            const targetUrl = resolveUrl(item.launchUrl);
+                            if (item.launchUrl.startsWith('http')) {
+                                window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                            } else {
+                                window.location.href = targetUrl;
+                            }
+                        } else {
+                            goTo(i);
+                        }
+                    });
+
+                    stage.appendChild(card);
+                    cardElements.push(card);
+
+                    // 极简长圆柱指示条
+                    const pill = document.createElement('div');
+                    pill.className = 'deck-indicator-pill' + (i === 0 ? ' active' : '');
+                    pill.addEventListener('click', () => goTo(i));
+                    indicatorBar.appendChild(pill);
+                });
+
+                bindEvents();
+                renderAnychemMol = initAnychemMoleculeSimulation();
+                renderChemiationStruct = initChemiationStructureSimulation();
+
+                // 视口感知：仅当 3D 展台在可视范围内时才调度 rAF，离屏时彻底暂停
+                const deckObserver = new IntersectionObserver((entries) => {
+                    isDeckVisible = entries[0].isIntersecting;
+                    if (isDeckVisible) {
+                        requestDeckLoop();
+                    } else if (deckRAF) {
+                        cancelAnimationFrame(deckRAF);
+                        deckRAF = null;
+                    }
+                }, { threshold: 0.04 });
+                deckObserver.observe(stage);
+
+                requestDeckLoop();
+            }
+
+            function getShortestDistance(fromIdx, toIdx) {
+                let diff = (toIdx - fromIdx) % total;
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
+                return diff;
+            }
+
+            function goTo(idx) {
+                const diff = getShortestDistance(activeIdx, idx);
+                targetPos += diff;
+                activeIdx = idx;
+                updateIndicators();
+                needsCardRender = true;
+                requestDeckLoop();
+            }
+
+            function next() {
+                targetPos = Math.round(targetPos) + 1;
+                activeIdx = ((Math.round(targetPos) % total) + total) % total;
+                updateIndicators();
+                needsCardRender = true;
+                requestDeckLoop();
+            }
+
+            function prev() {
+                targetPos = Math.round(targetPos) - 1;
+                activeIdx = ((Math.round(targetPos) % total) + total) % total;
+                updateIndicators();
+                needsCardRender = true;
+                requestDeckLoop();
+            }
+
+            function updateIndicators() {
+                const pills = indicatorBar.querySelectorAll('.deck-indicator-pill');
+                pills.forEach((p, i) => p.classList.toggle('active', i === activeIdx));
+            }
+
+            function bindEvents() {
+                updateStageRect();
+                window.addEventListener('resize', updateStageRect, { passive: true });
+                window.addEventListener('scroll', updateStageRect, { passive: true });
+
+                // 鼠标与触摸按下
+                stage.addEventListener('pointerdown', (e) => {
+                    isPointerDown = true;
+                    hasMovedSignificantly = false;
+                    startPointerX = e.clientX;
+                    startPos = targetPos;
+                    lastPointerX = e.clientX;
+                    lastMoveTime = performance.now();
+                    dragVelocity = 0;
+                    needsCardRender = true;
+                    requestDeckLoop();
+                });
+
+                window.addEventListener('pointermove', (e) => {
+                    // 鼠标 3D 倾斜计算（使用缓存的 stageRect，彻底杜绝指针移动引发的强制同步重排）
+                    if (!stageRect) updateStageRect();
+                    if (stageRect && e.clientY >= stageRect.top && e.clientY <= stageRect.bottom) {
+                        const newTiltX = ((e.clientY - (stageRect.top + stageRect.height / 2)) / (stageRect.height / 2)) * -8;
+                        const newTiltY = ((e.clientX - (stageRect.left + stageRect.width / 2)) / (stageRect.width / 2)) * 8;
+                        if (Math.abs(newTiltX - mouseTiltX) > 0.05 || Math.abs(newTiltY - mouseTiltY) > 0.05) {
+                            mouseTiltX = newTiltX;
+                            mouseTiltY = newTiltY;
+                            needsCardRender = true;
+                            requestDeckLoop();
+                        }
+                    }
+
+                    if (!isPointerDown) return;
+                    const deltaX = e.clientX - startPointerX;
+                    if (Math.abs(deltaX) > 6) {
+                        hasMovedSignificantly = true;
+                    }
+
+                    const cardWidth = window.innerWidth < 768 ? 250 : 420;
+                    targetPos = startPos - (deltaX / cardWidth);
+
+                    const now = performance.now();
+                    const dt = now - lastMoveTime;
+                    if (dt > 10) {
+                        dragVelocity = (e.clientX - lastPointerX) / dt;
+                        lastPointerX = e.clientX;
+                        lastMoveTime = now;
+                    }
+                    needsCardRender = true;
+                    requestDeckLoop();
+                });
+
+                const onPointerUp = () => {
+                    if (!isPointerDown) return;
+                    isPointerDown = false;
+
+                    // 惯性对齐 (环形无锁，自由循环)
+                    targetPos -= dragVelocity * 0.35;
+                    targetPos = Math.round(targetPos);
+                    activeIdx = ((targetPos % total) + total) % total;
+                    updateIndicators();
+                    needsCardRender = true;
+                    requestDeckLoop();
+                };
+
+                window.addEventListener('pointerup', onPointerUp);
+                window.addEventListener('pointercancel', onPointerUp);
+
+                // 鼠标滚轮推演 (带缓冲锁防卡死)
+                let wheelLock = false;
+                stage.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    if (wheelLock) return;
+                    if (Math.abs(e.deltaY) > 20 || Math.abs(e.deltaX) > 20) {
+                        wheelLock = true;
+                        if (e.deltaY > 0 || e.deltaX > 0) next();
+                        else prev();
+                        setTimeout(() => { wheelLock = false; }, 260);
+                    }
+                }, { passive: false });
+
+                // 键盘左右键支持
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') next();
+                    if (e.key === 'ArrowLeft') prev();
+                });
+            }
+
+            // 01. AnyChem: 旋转 3D 分子模型投影 (单色高科技质感，严格与卡牌主题色 #9fb48d 保持一致)
+            function initAnychemMoleculeSimulation() {
+                const canvas = document.getElementById('anychem-mol-canvas');
+                if (!canvas) return null;
+                const ctx = canvas.getContext('2d');
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+                canvas.width = 660 * dpr;
+                canvas.height = 372 * dpr;
+                ctx.scale(dpr, dpr);
+
+                // 3D 苯环与共振结构模型 (Benzene C₆H₆: 6 个碳原子 + 6 个氢原子 + 离域大Π键环)
+                const rc = 64;  // 碳环半径
+                const rh = 106; // 氢原子半径
+                const carbons = [];
+                const hydrogens = [];
+                for (let i = 0; i < 6; i++) {
+                    const ang = (i * Math.PI) / 3;
+                    carbons.push({ x: rc * Math.cos(ang), y: rc * Math.sin(ang), z: 0 });
+                    hydrogens.push({ x: rh * Math.cos(ang), y: rh * Math.sin(ang), z: 0 });
+                }
+
+                let lastMolTime = 0;
+                return function render(time) {
+                    if (time - lastMolTime < 28) return;
+                    lastMolTime = time;
+
+                    ctx.clearRect(0, 0, 660, 372);
+                    const cx = 465;
+                    const cy = 186;
+
+                    // 空间 3D 自转 (Yaw / Pitch / Roll)
+                    const rotY = time * 0.00075;
+                    const rotX = 0.42 + Math.sin(time * 0.0005) * 0.22;
+                    const rotZ = time * 0.00035;
+
+                    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+                    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+                    const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
+
+                    function project(p) {
+                        const x1 = p.x * cosZ - p.y * sinZ;
+                        const y1 = p.x * sinZ + p.y * cosZ;
+                        const z1 = p.z;
+
+                        const x2 = x1 * cosY + z1 * sinY;
+                        const z2 = -x1 * sinY + z1 * cosY;
+
+                        const y3 = y1 * cosX - z2 * sinX;
+                        const z3 = y1 * sinX + z2 * cosX;
+
+                        const fov = 380;
+                        const scale = fov / (fov - z3);
+                        return {
+                            sx: cx + x2 * scale,
+                            sy: cy + y3 * scale,
+                            sz: z3,
+                            scale
+                        };
+                    }
+
+                    const projC = carbons.map(project);
+                    const projH = hydrogens.map(project);
+
+                    // 绘制上下离域电子云环 (大Π键共振虚线投影)
+                    [-20, 20].forEach(offsetZ => {
+                        ctx.save();
+                        ctx.beginPath();
+                        const segments = 24;
+                        for (let j = 0; j <= segments; j++) {
+                            const a = (j * Math.PI * 2) / segments;
+                            const pt = project({ x: rc * Math.cos(a), y: rc * Math.sin(a), z: offsetZ });
+                            if (j === 0) ctx.moveTo(pt.sx, pt.sy);
+                            else ctx.lineTo(pt.sx, pt.sy);
+                        }
+                        ctx.setLineDash([4, 4]);
+                        ctx.strokeStyle = 'rgba(159, 180, 141, 0.16)';
+                        ctx.lineWidth = 1.2;
+                        ctx.stroke();
+                        ctx.restore();
+                    });
+
+                    // 收集共价键并按深度排序绘制
+                    const edges = [];
+                    for (let i = 0; i < 6; i++) {
+                        const next = (i + 1) % 6;
+                        edges.push({
+                            type: 'cc',
+                            order: (i % 2 === 0) ? 2 : 1,
+                            p1: projC[i],
+                            p2: projC[next],
+                            avgZ: (projC[i].sz + projC[next].sz) * 0.5
+                        });
+                    }
+                    for (let i = 0; i < 6; i++) {
+                        edges.push({
+                            type: 'ch',
+                            order: 1,
+                            p1: projC[i],
+                            p2: projH[i],
+                            avgZ: (projC[i].sz + projH[i].sz) * 0.5
+                        });
+                    }
+
+                    edges.sort((a, b) => a.avgZ - b.avgZ);
+
+                    ctx.lineCap = 'round';
+                    edges.forEach(edge => {
+                        const { p1, p2, order, type, avgZ } = edge;
+                        const alpha = Math.max(0.12, Math.min(0.55, 0.28 + (avgZ / 120) * 0.25));
+
+                        if (type === 'cc') {
+                            if (order === 2) {
+                                const dx = p2.sx - p1.sx;
+                                const dy = p2.sy - p1.sy;
+                                const len = Math.hypot(dx, dy) || 1;
+                                const nx = (-dy / len) * 3.2;
+                                const ny = (dx / len) * 3.2;
+
+                                ctx.strokeStyle = `rgba(159, 180, 141, ${alpha})`;
+                                ctx.lineWidth = 1.6;
+                                ctx.beginPath();
+                                ctx.moveTo(p1.sx + nx, p1.sy + ny);
+                                ctx.lineTo(p2.sx + nx, p2.sy + ny);
+                                ctx.moveTo(p1.sx - nx, p1.sy - ny);
+                                ctx.lineTo(p2.sx - nx, p2.sy - ny);
+                                ctx.stroke();
+                            } else {
+                                ctx.strokeStyle = `rgba(159, 180, 141, ${alpha})`;
+                                ctx.lineWidth = 1.6;
+                                ctx.beginPath();
+                                ctx.moveTo(p1.sx, p1.sy);
+                                ctx.lineTo(p2.sx, p2.sy);
+                                ctx.stroke();
+                            }
+                        } else {
+                            ctx.strokeStyle = `rgba(159, 180, 141, ${alpha * 0.75})`;
+                            ctx.lineWidth = 1.2;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.sx, p1.sy);
+                            ctx.lineTo(p2.sx, p2.sy);
+                            ctx.stroke();
+                        }
+                    });
+
+                    // 收集原子并按深度绘制 (颜色单一和卡牌一致: #9fb48d)
+                    const atoms = [];
+                    projC.forEach(p => atoms.push({ type: 'C', p }));
+                    projH.forEach(p => atoms.push({ type: 'H', p }));
+                    atoms.sort((a, b) => a.p.sz - b.p.sz);
+
+                    atoms.forEach(atom => {
+                        const { type, p } = atom;
+                        const alpha = Math.max(0.2, Math.min(0.9, 0.5 + (p.sz / 120) * 0.35));
+                        const r = (type === 'C' ? 4.8 : 2.8) * p.scale;
+
+                        if (type === 'C') {
+                            ctx.beginPath();
+                            ctx.arc(p.sx, p.sy, r + 3.5 * p.scale, 0, Math.PI * 2);
+                            ctx.fillStyle = 'rgba(159, 180, 141, 0.16)';
+                            ctx.fill();
+                        }
+                        ctx.beginPath();
+                        ctx.arc(p.sx, p.sy, r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(159, 180, 141, ${alpha})`;
+                        ctx.fill();
+                    });
+                };
+            }
+
+            // 03. Chemiation: 3D 反应机理结构式仿真 (经典伪 3D 字母排印与化学键模型)
+            function initChemiationStructureSimulation() {
+                const canvas = document.getElementById('chemiation-struct-canvas');
+                if (!canvas) return null;
+                const ctx = canvas.getContext('2d');
+                const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+                canvas.width = 660 * dpr;
+                canvas.height = 372 * dpr;
+                ctx.scale(dpr, dpr);
+
+                // Chemiation 经典乙酸/反应活性中间体拓扑坐标
+                const rawAtoms = [
+                    { id: 'C1', el: 'C', x: -68, y: -18, z: 12 },
+                    { id: 'H1', el: 'H', x: -108, y: -10, z: 32 },
+                    { id: 'H2', el: 'H', x: -62, y: -68, z: 14 },
+                    { id: 'H3', el: 'H', x: -75, y: -12, z: -32 },
+                    { id: 'C2', el: 'C', x: 2, y: 14, z: 0 },
+                    { id: 'O1', el: 'O', x: 12, y: 72, z: -16, isCarbonyl: true },
+                    { id: 'O2', el: 'O', x: 58, y: -26, z: 14 },
+                    { id: 'H4', el: 'H', x: 96, y: -18, z: 10 },
+                    { id: 'C3', el: 'C', x: 76, y: 36, z: -10 },
+                    { id: 'H5', el: 'H', x: 74, y: 80, z: -26 },
+                    { id: 'C4', el: 'C', x: 128, y: 16, z: 16 },
+                    { id: 'H6', el: 'H', x: 166, y: 34, z: 12 },
+                    { id: 'H7', el: 'H', x: 124, y: -30, z: 34 }
+                ];
+
+                const rawBonds = [
+                    { a1: 0, a2: 1, order: 1 },
+                    { a1: 0, a2: 2, order: 1 },
+                    { a1: 0, a2: 3, order: 1 },
+                    { a1: 0, a2: 4, order: 1 },
+                    { a1: 4, a2: 5, order: 2 },
+                    { a1: 4, a2: 6, order: 1 },
+                    { a1: 6, a2: 7, order: 1 },
+                    { a1: 4, a2: 8, order: 1 },
+                    { a1: 8, a2: 9, order: 1 },
+                    { a1: 8, a2: 10, order: 1 },
+                    { a1: 10, a2: 11, order: 1 },
+                    { a1: 10, a2: 12, order: 1 }
+                ];
+
+                let lastChemTime = 0;
+                return function render(time) {
+                    if (time - lastChemTime < 28) return;
+                    lastChemTime = time;
+
+                    ctx.clearRect(0, 0, 660, 372);
+                    const cx = 475;
+                    const cy = 186;
+
+                    // 空间伪 3D 慢速平滑自转
+                    const rotY = time * 0.00065;
+                    const rotX = 0.35 + Math.sin(time * 0.00045) * 0.18;
+                    const rotZ = -0.12 + Math.cos(time * 0.00035) * 0.08;
+
+                    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+                    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+                    const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
+
+                    let minZ = Infinity, maxZ = -Infinity;
+                    const projectedAtoms = rawAtoms.map(atom => {
+                        const x1 = atom.x * cosZ - atom.y * sinZ;
+                        const y1 = atom.x * sinZ + atom.y * cosZ;
+                        const z1 = atom.z;
+
+                        const x2 = x1 * cosY + z1 * sinY;
+                        const z2 = -x1 * sinY + z1 * cosY;
+
+                        const y3 = y1 * cosX - z2 * sinX;
+                        const z3 = y1 * sinX + z2 * cosX;
+
+                        if (z3 < minZ) minZ = z3;
+                        if (z3 > maxZ) maxZ = z3;
+
+                        const fov = 380;
+                        const scale = fov / (fov - z3);
+                        return {
+                            ...atom,
+                            sx: cx + x2 * scale,
+                            sy: cy + y3 * scale,
+                            sz: z3,
+                            scale
+                        };
+                    });
+
+                    const zRange = Math.max(1, maxZ - minZ);
+                    projectedAtoms.forEach(atom => {
+                        atom.depth = (atom.sz - minZ) / zRange;
+                        atom.fontSize = Math.round(15 + atom.depth * 13);
+                        atom.clipRadius = atom.fontSize * 0.46;
+                    });
+
+                    const renderBonds = rawBonds.map(b => {
+                        const a1 = projectedAtoms[b.a1];
+                        const a2 = projectedAtoms[b.a2];
+                        return {
+                            ...b,
+                            a1,
+                            a2,
+                            avgZ: (a1.sz + a2.sz) * 0.5,
+                            avgDepth: (a1.depth + a2.depth) * 0.5
+                        };
+                    });
+
+                    const queue = [];
+                    renderBonds.forEach(b => queue.push({ type: 'bond', z: b.avgZ, data: b }));
+                    projectedAtoms.forEach(a => queue.push({ type: 'atom', z: a.sz, data: a }));
+                    queue.sort((a, b) => a.z - b.z);
+
+                    ctx.lineCap = 'round';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+
+                    queue.forEach(item => {
+                        if (item.type === 'bond') {
+                            const b = item.data;
+                            const { a1, a2, order, avgDepth } = b;
+                            const dx = a2.sx - a1.sx;
+                            const dy = a2.sy - a1.sy;
+                            const dist = Math.hypot(dx, dy) || 1;
+                            const ux = dx / dist;
+                            const uy = dy / dist;
+
+                            // 严格自字母边缘出线，绝不侵入字形
+                            const startX = a1.sx + ux * a1.clipRadius;
+                            const startY = a1.sy + uy * a1.clipRadius;
+                            const endX = a2.sx - ux * a2.clipRadius;
+                            const endY = a2.sy - uy * a2.clipRadius;
+
+                            if (Math.hypot(endX - startX, endY - startY) < 2) return;
+
+                            const nx = -uy;
+                            const ny = ux;
+                            const alpha = 0.22 + avgDepth * 0.55;
+                            const lineWidth = 1.3 + avgDepth * 1.5;
+
+                            ctx.strokeStyle = `rgba(192, 138, 62, ${alpha})`;
+                            ctx.lineWidth = lineWidth;
+
+                            if (order === 2) {
+                                const offset = 3.2;
+                                ctx.beginPath();
+                                ctx.moveTo(startX + nx * offset, startY + ny * offset);
+                                ctx.lineTo(endX + nx * offset, endY + ny * offset);
+                                ctx.moveTo(startX - nx * offset, startY - ny * offset);
+                                ctx.lineTo(endX - nx * offset, endY - ny * offset);
+                                ctx.stroke();
+                            } else {
+                                ctx.beginPath();
+                                ctx.moveTo(startX, startY);
+                                ctx.lineTo(endX, endY);
+                                ctx.stroke();
+                            }
+                        } else {
+                            const a = item.data;
+                            const { el, sx, sy, fontSize, depth } = a;
+
+                            ctx.font = `bold ${fontSize}px "Century Gothic", "Cinzel", "Times New Roman", serif`;
+
+                            // 纯净无描边统一字体排印（无黑边、无颜色差异）
+                            const alpha = 0.42 + depth * 0.52;
+                            ctx.fillStyle = `rgba(235, 218, 200, ${alpha})`;
+                            ctx.fillText(el, sx, sy);
+                        }
+                    });
+                };
+            }
+
+            function renderLoop() {
+                const posDiff = targetPos - currentPos;
+                const tiltXDiff = mouseTiltX - curTiltX;
+                const tiltYDiff = mouseTiltY - curTiltY;
+                const isDeckMoving = isPointerDown || Math.abs(posDiff) > 0.0005 || Math.abs(tiltXDiff) > 0.005 || Math.abs(tiltYDiff) > 0.005;
+
+                if (isDeckMoving) {
+                    currentPos += posDiff * 0.12;
+                    curTiltX += tiltXDiff * 0.08;
+                    curTiltY += tiltYDiff * 0.08;
+
+                    if (Math.abs(targetPos - currentPos) < 0.0005) currentPos = targetPos;
+                    if (Math.abs(mouseTiltX - curTiltX) < 0.005) curTiltX = mouseTiltX;
+                    if (Math.abs(mouseTiltY - curTiltY) < 0.005) curTiltY = mouseTiltY;
+                    needsCardRender = true;
+                }
+
+                const isMobile = window.innerWidth < 768;
+                const spacing = isMobile ? 250 : 420;
+                const depthZ = isMobile ? 150 : 250;
+
+                // 防止整数偏移量无上限累加，静止且偏移极大时平滑移位
+                if (!isPointerDown && Math.abs(targetPos) > 100 && Math.abs(targetPos - currentPos) < 0.01) {
+                    const shifts = Math.floor(targetPos / total) * total;
+                    targetPos -= shifts;
+                    currentPos -= shifts;
+                }
+
+                // 运动趋势与方向感知（用于无缝层叠防穿插）
+                const delta = targetPos - currentPos;
+
+                let isAnychemVisible = false;
+                let isChemiationVisible = false;
+
+                if (needsCardRender) {
+                    cardElements.forEach((card, i) => {
+                        // 环形最短拓扑距离计算：把当前卡片投影至 [-total/2, total/2] 扇区
+                        let offset = ((i - currentPos) % total + total) % total;
+                        if (offset > total / 2) {
+                            offset -= total;
+                        }
+                        const absOffset = Math.abs(offset);
+
+                        // 空间 3D 几何变换：采用幂函数加深远离中心的深度衰减，消除邻近卡牌边缘空间干涉
+                        const tx = offset * spacing;
+                        const tz = -Math.pow(Math.min(absOffset, 2.5), 1.15) * depthZ;
+                        
+                        // 旋转角度适度收敛（桌面端 20deg，移动端 14deg），杜绝宽卡片大幅旋转时前边缘侵入主卡片
+                        const maxRot = isMobile ? 14 : 20;
+                        const clampedOffset = Math.max(-1.5, Math.min(1.5, offset));
+                        const ry = -clampedOffset * maxRot + (absOffset < 0.5 ? curTiltY : 0);
+                        const rx = absOffset < 0.5 ? curTiltX : 0;
+                        const scale = 1 - Math.min(absOffset * 0.12, 0.42);
+                        
+                        // 当卡片转至侧后方时渐隐，杜绝在背面翻折时产生穿帮跳动
+                        let opacity = 0;
+                        if (absOffset < 2.6) {
+                            opacity = Math.max(0, 1 - absOffset * 0.38);
+                        }
+
+                        // 精准识别带有独立 3D 模型的卡片是否面向用户（若在背侧或不可见则停止模型计算）
+                        if (i === 0 && absOffset < 1.6 && opacity > 0.05) isAnychemVisible = true;
+                        if (i === 2 && absOffset < 1.6 && opacity > 0.05) isChemiationVisible = true;
+
+                        // 高精度连续 z-index 计算与运动方向动态偏置（彻底解决相同 zIndex 导致的层级跳变与突兀穿插）
+                        let dirBias = 0;
+                        if (Math.abs(delta) > 0.01) {
+                            if ((delta > 0 && offset > 0) || (delta < 0 && offset < 0)) {
+                                dirBias = 3;
+                            }
+                        }
+                        const zIndex = Math.round(1000 - absOffset * 100) + dirBias;
+
+                        const transStr = `translate3d(${tx.toFixed(1)}px, 0, ${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) rotateX(${rx.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                        const opStr = opacity.toFixed(3);
+                        const visStr = opacity <= 0.01 ? 'hidden' : 'visible';
+
+                        if (card._lastTrans !== transStr) { card.style.transform = transStr; card._lastTrans = transStr; }
+                        if (card._lastOp !== opStr) { card.style.opacity = opStr; card._lastOp = opStr; }
+                        if (card._lastZ !== zIndex) { card.style.zIndex = zIndex; card._lastZ = zIndex; }
+                        if (card._lastVis !== visStr) { card.style.visibility = visStr; card._lastVis = visStr; }
+                    });
+
+                    if (!isDeckMoving) {
+                        needsCardRender = false;
+                    }
+                } else {
+                    let offset0 = ((0 - currentPos) % total + total) % total;
+                    if (offset0 > total / 2) offset0 -= total;
+                    if (Math.abs(offset0) < 1.6) isAnychemVisible = true;
+
+                    let offset2 = ((2 - currentPos) % total + total) % total;
+                    if (offset2 > total / 2) offset2 -= total;
+                    if (Math.abs(offset2) < 1.6) isChemiationVisible = true;
+                }
+
+                // 仅当 AnyChem 与 Chemiation 卡片处于正面可视范围时才计算与绘制 3D 分子动态模型
+                const animTime = performance.now();
+                if (isAnychemVisible && renderAnychemMol) renderAnychemMol(animTime);
+                if (isChemiationVisible && renderChemiationStruct) renderChemiationStruct(animTime);
+
+                // 静止且无独立模型运动时休眠 rAF，杜绝后台空转
+                if (!isDeckVisible || (!isDeckMoving && !isAnychemVisible && !isChemiationVisible && !isPointerDown)) {
+                    deckRAF = null;
+                    return;
+                }
+
+                deckRAF = requestAnimationFrame(renderLoop);
+            }
+
+            return {
+                init,
+                next,
+                prev,
+                goTo
+            };
+        })();
+
+        if (DeckEngine) {
+            DeckEngine.init();
+        }
+
+        /* 3. 星空粒子 Canvas (90 颗星点，按透明度分桶批量绘制，减少 95% Canvas API 调度) */
+        const CosmosEngine = (function() {
+            const canvas = document.getElementById('cosmos-canvas');
+            if (!canvas) return null;
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            const stars = [];
+            const count = 90;
+            let isVisible = true;
+            let rAFId = null;
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    size: Math.random() * 1.5 + 0.4,
+                    alpha: Math.random() * 0.75 + 0.25,
+                    speed: Math.random() * 0.22 + 0.05,
+                    pulse: Math.random() * Math.PI * 2
+                });
+            }
+
+            let mouseX = 0, mouseY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - w / 2) * 0.03;
+                mouseY = (e.clientY - h / 2) * 0.03;
+            }, { passive: true });
+
+            let lastStarTime = 0;
+            function render(time) {
+                if (!isVisible) {
+                    rAFId = null;
+                    return;
+                }
+
+                rAFId = requestAnimationFrame(render);
+                if (time - lastStarTime < 30) return;
+                lastStarTime = time;
+
+                ctx.clearRect(0, 0, w, h);
+                const t = time * 0.0018;
+
+                // 按亮度分桶，仅执行 3 次 beginPath / fill，彻底消除逐点描画的性能瓶颈
+                const binLow = [];
+                const binMid = [];
+                const binHigh = [];
+
+                for (let i = 0; i < stars.length; i++) {
+                    const s = stars[i];
+                    s.y -= s.speed;
+                    if (s.y < 0) s.y = h;
+
+                    const drawX = s.x - mouseX * (s.size * 0.4);
+                    const drawY = s.y - mouseY * (s.size * 0.4);
+                    const twinkle = Math.sin(t + s.pulse) * 0.35 + 0.65;
+                    const finalAlpha = s.alpha * twinkle;
+
+                    if (finalAlpha < 0.4) {
+                        binLow.push(drawX, drawY, s.size);
+                    } else if (finalAlpha < 0.7) {
+                        binMid.push(drawX, drawY, s.size);
+                    } else {
+                        binHigh.push(drawX, drawY, s.size);
+                    }
+                }
+
+                function drawBin(bin, color) {
+                    if (bin.length === 0) return;
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    for (let i = 0; i < bin.length; i += 3) {
+                        ctx.moveTo(bin[i] + bin[i + 2], bin[i + 1]);
+                        ctx.arc(bin[i], bin[i + 1], bin[i + 2], 0, Math.PI * 2);
+                    }
+                    ctx.fill();
+                }
+
+                drawBin(binLow, 'rgba(219, 234, 254, 0.3)');
+                drawBin(binMid, 'rgba(219, 234, 254, 0.6)');
+                drawBin(binHigh, 'rgba(219, 234, 254, 0.95)');
+            }
+
+            function setVisible(val) {
+                if (isVisible === val) return;
+                isVisible = val;
+                if (isVisible) {
+                    if (!rAFId) rAFId = requestAnimationFrame(render);
+                } else {
+                    if (rAFId) {
+                        cancelAnimationFrame(rAFId);
+                        rAFId = null;
+                    }
+                    ctx.clearRect(0, 0, w, h);
+                }
+            }
+
+            rAFId = requestAnimationFrame(render);
+
+            return {
+                setVisible
+            };
+        })();
+
+        /* 4. 散落狂草笔画随滚动吸附重新汇聚算法 + 往下滑平滑无级过渡至淡黄色宣纸 (#FAF6E9) */
+        (function initScrollConvergenceAndColorMorph() {
+            const section = document.getElementById('fantasycitySection');
+            const chars = document.querySelectorAll('.ink-char-piece');
+            const enLetters = document.querySelectorAll('.ink-en-letter');
+            const navBrand = document.getElementById('navBrand');
+            const navGithub = document.getElementById('navGithub');
+            const summaryLine = document.getElementById('fcSummaryLine');
+            const cosmosCanvas = document.getElementById('cosmos-canvas');
+            const inkFluidCanvas = document.getElementById('ink-fluid-canvas');
+            const scrollHint = document.getElementById('scrollHint');
+            if (!section) return;
+
+            let isScrollTicking = false;
+            let lastPaperWeight = -1;
+            let lastProgress = -1;
+
+            function onScroll() {
+                if (!isScrollTicking) {
+                    requestAnimationFrame(updateScrollPhysics);
+                    isScrollTicking = true;
+                }
+            }
+
+            function updateScrollPhysics() {
+                isScrollTicking = false;
+                const vh = window.innerHeight;
+                const scrollY = window.scrollY;
+
+                // 随着向下滑动，提示逐渐淡出
+                if (scrollHint) {
+                    const hintOpacity = Math.max(0, 1 - scrollY / 90);
+                    scrollHint.style.opacity = hintOpacity.toFixed(2);
+                    scrollHint.style.pointerEvents = hintOpacity <= 0.05 ? 'none' : 'auto';
+                }
+
+                // -------------------------------------------------------------
+                // 界面交接平滑解算：
+                // 1. 首屏 3D 展台：100% 深邃纯黑 (#030611)
+                // 2. 向下滑动进入幻想城：平滑无级过渡至淡黄色宣纸 (#FAF6E9)
+                // 3. 继续向下滑动进入 2022-2025 程序作品展：平滑无级过渡回深邃纯黑 (#030611) 与璀璨星空
+                // -------------------------------------------------------------
+                const morphStart = vh * 0.28; // 首屏 28% 滚程内纯净星空深黑，保护 3D 展台
+                const morphEnd = vh * 1.05;   // 接近整屏滚动时完成宣纸色彩升华
+                let enterPaper = 0;
+                if (scrollY > morphStart) {
+                    enterPaper = Math.min(1, (scrollY - morphStart) / (morphEnd - morphStart));
+                }
+
+                // 计算作品展视口入场时淡黄色宣纸平滑退回纯黑的进度
+                const exSection = document.getElementById('exhibitionSection');
+                let exitPaper = 0;
+                if (exSection) {
+                    const exRect = exSection.getBoundingClientRect();
+                    const exitStart = vh * 0.95;
+                    const exitEnd = vh * 0.25;
+                    if (exRect.top < exitStart) {
+                        exitPaper = Math.min(1, Math.max(0, (exitStart - exRect.top) / (exitStart - exitEnd)));
+                    }
+                }
+
+                // 综合宣纸权重 (0: 纯黑星空, 1: 宣纸暖白)
+                const paperWeight = enterPaper * (1 - exitPaper);
+                if (Math.abs(paperWeight - lastPaperWeight) > 0.004) {
+                    lastPaperWeight = paperWeight;
+                    // 采用 smoothstep 缓动，起承转合自然天成，杜绝任何生硬切断
+                    const easeMorph = paperWeight * paperWeight * (3 - 2 * paperWeight);
+
+                    // 背景色：由深邃星空 rgb(3, 6, 17) 与 东方淡黄色宣纸 rgb(250, 246, 233) [#FAF6E9] 缓动插值
+                    const bgR = Math.round(3 + (250 - 3) * easeMorph);
+                    const bgG = Math.round(6 + (246 - 6) * easeMorph);
+                    const bgB = Math.round(17 + (233 - 17) * easeMorph);
+                    document.body.style.backgroundColor = `rgb(${bgR}, ${bgG}, ${bgB})`;
+
+                    // 顶栏文字与图标颜色：宣纸上为古木深墨色 rgb(36, 20, 11)，黑底星空下为纯白 rgb(255, 255, 255)
+                    if (navBrand && navGithub) {
+                        const textR = Math.round(255 + (36 - 255) * easeMorph);
+                        const textG = Math.round(255 + (20 - 255) * easeMorph);
+                        const textB = Math.round(255 + (11 - 255) * easeMorph);
+                        const textColor = `rgb(${textR}, ${textG}, ${textB})`;
+                        navBrand.style.color = textColor;
+                        navGithub.style.color = textColor;
+                    }
+
+                    // 星空淡出与水墨流体淡入（纸质高时暂停星空画布渲染，节约大量 GPU 开销）
+                    if (cosmosCanvas) {
+                        cosmosCanvas.style.opacity = (0.92 * (1 - easeMorph * 0.95)).toFixed(3);
+                    }
+                    if (CosmosEngine?.setVisible) {
+                        CosmosEngine.setVisible(paperWeight < 0.85);
+                    }
+                    if (inkFluidCanvas) {
+                        inkFluidCanvas.style.opacity = (0.35 * easeMorph).toFixed(3);
+                    }
+
+                    // 一句话世界观介绍颜色：由浅色平滑过渡为深咖啡墨色
+                    if (summaryLine) {
+                        const smR = Math.round(226 + (56 - 226) * easeMorph);
+                        const smG = Math.round(232 + (34 - 232) * easeMorph);
+                        const smB = Math.round(240 + (21 - 240) * easeMorph);
+                        summaryLine.style.color = `rgb(${smR}, ${smG}, ${smB})`;
+                    }
+
+                    // 右侧专属长圆柱胶囊主题自适应
+                    const scrollbarThumbColor = easeMorph > 0.38
+                        ? `rgba(36, 20, 11, ${(0.44 + 0.28 * easeMorph).toFixed(2)})`
+                        : `rgba(148, 163, 184, ${(0.50 - 0.12 * easeMorph).toFixed(2)})`;
+                    const scrollbarHoverColor = easeMorph > 0.38 ? '#be123c' : '#38bdf8';
+                    const scrollbarGlowColor = easeMorph > 0.38 ? 'rgba(190, 18, 60, 0.45)' : 'rgba(56, 189, 248, 0.55)';
+                    document.documentElement.style.setProperty('--custom-scroll-color', scrollbarThumbColor);
+                    document.documentElement.style.setProperty('--custom-scroll-hover', scrollbarHoverColor);
+                    document.documentElement.style.setProperty('--custom-scroll-glow', scrollbarGlowColor);
+                }
+
+                // -------------------------------------------------------------
+                // 狂草书法大字三维吸附重聚与视口入场感知解算
+                // -------------------------------------------------------------
+                const rect = section.getBoundingClientRect();
+                const gateway = document.querySelector('.fc-organic-gateway');
+                const gRect = gateway ? gateway.getBoundingClientRect() : rect;
+
+                const startY = vh * 0.92;
+                const endY = vh * 0.30;
+                const rawProgress = (startY - rect.top) / (startY - endY);
+                const progress = Math.max(0, Math.min(1, rawProgress));
+
+                if (scrollY < vh * 0.18) {
+                    section.classList.remove('fc-entered');
+                } else if (progress > 0.32 || (gRect && gRect.top <= vh * 0.78)) {
+                    section.classList.add('fc-entered');
+                }
+                const isConverged = progress > 0.88;
+                section.classList.toggle('fc-converged', isConverged);
+
+                if (Math.abs(progress - lastProgress) > 0.005) {
+                    lastProgress = progress;
+                    const ease = 1 - Math.pow(1 - progress, 2.6);
+                    const unEase = 1 - ease;
+
+                    // 中文大字三维散开 -> 聚拢汇聚
+                    const charR = Math.round(255 + (22 - 255) * ease);
+                    const charG = Math.round(255 + (17 - 255) * ease);
+                    const charB = Math.round(255 + (14 - 255) * ease);
+                    const charColor = `rgb(${charR}, ${charG}, ${charB})`;
+
+                    chars.forEach(char => {
+                        const x = parseFloat(char.getAttribute('data-x')) * unEase;
+                        const y = parseFloat(char.getAttribute('data-y')) * unEase;
+                        const z = parseFloat(char.getAttribute('data-z')) * unEase;
+                        const rot = parseFloat(char.getAttribute('data-rot')) * unEase;
+                        const opacity = 0.2 + 0.8 * ease;
+
+                        char.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotate(${rot.toFixed(1)}deg)`;
+                        char.style.opacity = opacity.toFixed(2);
+                        char.style.color = charColor;
+                    });
+
+                    // 英文字母散开 -> 聚拢
+                    const enR = Math.round(255 + (166 - 255) * ease);
+                    const enG = Math.round(255 + (124 - 255) * ease);
+                    const enB = Math.round(255 + (30 - 255) * ease);
+                    const enColor = `rgb(${enR}, ${enG}, ${enB})`;
+
+                    enLetters.forEach(en => {
+                        const x = parseFloat(en.getAttribute('data-x')) * unEase;
+                        const y = parseFloat(en.getAttribute('data-y')) * unEase;
+                        en.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+                        en.style.opacity = (0.2 + 0.8 * ease).toFixed(2);
+                        en.style.color = enColor;
+                    });
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        /* 5. 幻想城水墨流体 Canvas (在淡黄色宣纸上晕染深黑墨云) - 视口懒加载与离屏休眠 */
+        (function initInkFluid() {
+            const canvas = document.getElementById('ink-fluid-canvas');
+            const section = document.getElementById('fantasycitySection');
+            if (!canvas || !section) return;
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            const puffs = [];
+            const count = 22; // 优化至 22 团柔和水墨烟云，减负 40% 渐变开销
+            let isRunning = false;
+            let inkRAF = null;
+
+            function resize() {
+                w = canvas.width = canvas.parentElement.clientWidth;
+                h = canvas.height = canvas.parentElement.clientHeight;
+            }
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+
+            for (let i = 0; i < count; i++) {
+                puffs.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 105 + 65,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.2,
+                    alpha: Math.random() * 0.28 + 0.08
+                });
+            }
+
+            let lastInkTime = 0;
+            function drawInk(time) {
+                if (!isRunning) {
+                    inkRAF = null;
+                    return;
+                }
+                inkRAF = requestAnimationFrame(drawInk);
+                if (time && time - lastInkTime < 32) return;
+                lastInkTime = time || performance.now();
+
+                ctx.clearRect(0, 0, w, h);
+                for (let i = 0; i < puffs.length; i++) {
+                    const p = puffs[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < -p.r) p.x = w + p.r;
+                    if (p.x > w + p.r) p.x = -p.r;
+                    if (p.y < -p.r) p.y = h + p.r;
+                    if (p.y > h + p.r) p.y = -p.r;
+
+                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+                    grad.addColorStop(0, `rgba(192, 57, 43, ${p.alpha * 0.25})`);
+                    grad.addColorStop(0.4, `rgba(36, 20, 11, ${p.alpha * 0.55})`);
+                    grad.addColorStop(1, 'transparent');
+
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // 视口感知调度：进入幻想城区域才开始渲染，在首屏或作品展时完全暂停
+            const observer = new IntersectionObserver((entries) => {
+                const inView = entries[0].isIntersecting;
+                if (inView) {
+                    if (!isRunning) {
+                        isRunning = true;
+                        drawInk();
+                    }
+                } else {
+                    isRunning = false;
+                    if (inkRAF) {
+                        cancelAnimationFrame(inkRAF);
+                        inkRAF = null;
+                    }
+                }
+            }, { threshold: 0.02 });
+            observer.observe(section);
+        })();
+
+        /* 6. 幻想城樱花漫舞落瓣 Canvas - 离屏预渲染 Sprite + 视口懒加载 */
+        (function initSakuraFalling() {
+            const canvas = document.getElementById('sakura-canvas');
+            const section = document.getElementById('fantasycitySection');
+            if (!canvas || !section) return;
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            const petals = [];
+            const count = 36;
+            let isRunning = false;
+            let sakuraRAF = null;
+
+            function resize() {
+                w = canvas.width = canvas.parentElement.clientWidth;
+                h = canvas.height = canvas.parentElement.clientHeight;
+            }
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+
+            // 预渲染 3 种不同规格的真实樱花花瓣 Sprite，彻底消除每帧 46 次 createLinearGradient 与复杂贝塞尔路径重建！
+            const spriteSizes = [10, 13, 16];
+            const petalSprites = spriteSizes.map(size => {
+                const off = document.createElement('canvas');
+                const pad = 4;
+                off.width = (size * 2 + pad * 2);
+                off.height = (size * 2 + pad * 2);
+                const octx = off.getContext('2d');
+                const ocx = off.width / 2;
+                const ocy = off.height / 2;
+
+                octx.save();
+                octx.translate(ocx, ocy);
+
+                octx.beginPath();
+                octx.moveTo(0, -size);
+                octx.bezierCurveTo(size * 0.75, -size * 0.5, size * 0.85, size * 0.45, 0, size);
+                octx.bezierCurveTo(-size * 0.85, size * 0.45, -size * 0.75, -size * 0.5, 0, -size);
+                octx.closePath();
+
+                const grad = octx.createLinearGradient(0, -size, 0, size);
+                grad.addColorStop(0, 'rgba(255, 215, 225, 0.95)');
+                grad.addColorStop(0.55, 'rgba(251, 113, 133, 0.88)');
+                grad.addColorStop(1, 'rgba(225, 29, 72, 0.78)');
+                octx.fillStyle = grad;
+                octx.fill();
+
+                // 花瓣中心细微粉晶花脉
+                octx.beginPath();
+                octx.moveTo(0, -size * 0.7);
+                octx.lineTo(0, size * 0.4);
+                octx.strokeStyle = 'rgba(190, 24, 93, 0.35)';
+                octx.lineWidth = 0.8;
+                octx.stroke();
+
+                octx.restore();
+                return { canvas: off, radius: size, halfW: off.width / 2, halfH: off.height / 2 };
+            });
+
+            let mouseX = 0;
+            let canvasRect = null;
+            function updateCanvasRect() {
+                if (isRunning && canvas) canvasRect = canvas.getBoundingClientRect();
+            }
+            window.addEventListener('resize', () => { resize(); updateCanvasRect(); }, { passive: true });
+            window.addEventListener('scroll', updateCanvasRect, { passive: true });
+            window.addEventListener('mousemove', (e) => {
+                if (!isRunning) return;
+                if (!canvasRect) updateCanvasRect();
+                if (canvasRect && e.clientY >= canvasRect.top && e.clientY <= canvasRect.bottom) {
+                    mouseX = (e.clientX - canvasRect.left - w / 2) * 0.04;
+                }
+            }, { passive: true });
+
+            for (let i = 0; i < count; i++) {
+                const sp = petalSprites[i % petalSprites.length];
+                petals.push({
+                    sprite: sp,
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    speedY: Math.random() * 0.85 + 0.6,
+                    speedX: (Math.random() - 0.5) * 0.5 + 0.35,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: (Math.random() - 0.5) * 0.02,
+                    flip: Math.random() * Math.PI * 2,
+                    flipSpeed: Math.random() * 0.025 + 0.015,
+                    swayPhase: Math.random() * Math.PI * 2,
+                    swaySpeed: Math.random() * 0.025 + 0.015,
+                    swayAmp: Math.random() * 18 + 12,
+                    alpha: Math.random() * 0.35 + 0.55
+                });
+            }
+
+            let lastSakuraTime = 0;
+            function render(time) {
+                if (!isRunning) {
+                    sakuraRAF = null;
+                    return;
+                }
+                sakuraRAF = requestAnimationFrame(render);
+                if (time && time - lastSakuraTime < 24) return;
+                lastSakuraTime = time || performance.now();
+
+                ctx.clearRect(0, 0, w, h);
+
+                for (let i = 0; i < petals.length; i++) {
+                    const p = petals[i];
+                    p.swayPhase += p.swaySpeed;
+                    p.rotation += p.rotationSpeed;
+                    p.flip += p.flipSpeed;
+
+                    const windSway = Math.sin(p.swayPhase) * (p.swayAmp * 0.05);
+                    p.y += p.speedY;
+                    p.x += p.speedX + windSway + mouseX * 0.15;
+
+                    const r = p.sprite.radius;
+                    if (p.y > h + r) {
+                        p.y = -r;
+                        p.x = Math.random() * w;
+                    }
+                    if (p.x > w + r) {
+                        p.x = -r;
+                    } else if (p.x < -r) {
+                        p.x = w + r;
+                    }
+
+                    const flipScale = Math.cos(p.flip);
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation);
+                    ctx.scale(1, flipScale);
+                    ctx.drawImage(p.sprite.canvas, -p.sprite.halfW, -p.sprite.halfH);
+                    ctx.restore();
+                }
+            }
+
+            // 视口感知调度：进入幻想城区域才开始飘落樱花
+            const observer = new IntersectionObserver((entries) => {
+                const inView = entries[0].isIntersecting;
+                if (inView) {
+                    if (!isRunning) {
+                        isRunning = true;
+                        updateCanvasRect();
+                        render();
+                    }
+                } else {
+                    isRunning = false;
+                    if (sakuraRAF) {
+                        cancelAnimationFrame(sakuraRAF);
+                        sakuraRAF = null;
+                    }
+                }
+            }, { threshold: 0.02 });
+            observer.observe(section);
+        })();
+        /* 7. 专属长圆柱胶囊滚动条系统 & 鼠标滚轮平滑阻尼优化引擎 */
+        (function initScrollbarAndWheelOptimization() {
+            const track = document.getElementById('custom-scroll-track');
+            const thumb = document.getElementById('custom-scroll-thumb');
+            if (!track || !thumb) return;
+
+            let trackHeight = 0;
+            let thumbHeight = 72;
+            let maxScroll = 0;
+            let isDragging = false;
+            let startPointerY = 0;
+            let startScrollY = 0;
+
+            function updateMetrics() {
+                trackHeight = track.clientHeight;
+                const docHeight = document.documentElement.scrollHeight;
+                const winHeight = window.innerHeight;
+                maxScroll = Math.max(1, docHeight - winHeight);
+
+                // 计算长圆柱高度，最小 72px，保持优雅的长圆柱几何形态
+                const ratio = winHeight / docHeight;
+                thumbHeight = Math.max(72, Math.min(trackHeight * 0.45, trackHeight * ratio));
+                thumb.style.height = `${thumbHeight}px`;
+            }
+
+            function updateThumbPosition() {
+                const scrollY = window.scrollY;
+                const availableTrack = trackHeight - thumbHeight;
+                const scrollRatio = Math.max(0, Math.min(1, scrollY / maxScroll));
+                const thumbY = scrollRatio * availableTrack;
+                thumb.style.transform = `translateY(${thumbY}px)`;
+            }
+
+            window.addEventListener('resize', () => {
+                updateMetrics();
+                updateThumbPosition();
+            });
+            let thumbTicking = false;
+            function onScrollThumb() {
+                if (!thumbTicking) {
+                    requestAnimationFrame(() => {
+                        thumbTicking = false;
+                        updateThumbPosition();
+                    });
+                    thumbTicking = true;
+                }
+            }
+            window.addEventListener('scroll', onScrollThumb, { passive: true });
+
+            updateMetrics();
+            updateThumbPosition();
+
+            // 1. 拖拽长圆柱滑块（指针捕获支持）
+            thumb.addEventListener('pointerdown', (e) => {
+                if (e.button !== 0) return;
+                isDragging = true;
+                thumb.classList.add('is-dragging');
+                startPointerY = e.clientY;
+                startScrollY = window.scrollY;
+                thumb.setPointerCapture(e.pointerId);
+                e.preventDefault();
+            });
+
+            thumb.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                const deltaY = e.clientY - startPointerY;
+                const availableTrack = trackHeight - thumbHeight;
+                const scrollDelta = (deltaY / availableTrack) * maxScroll;
+                window.scrollTo(0, Math.max(0, Math.min(maxScroll, startScrollY + scrollDelta)));
+            });
+
+            const onPointerUp = (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                thumb.classList.remove('is-dragging');
+                try { thumb.releasePointerCapture(e.pointerId); } catch (_) {}
+            };
+            thumb.addEventListener('pointerup', onPointerUp);
+            thumb.addEventListener('pointercancel', onPointerUp);
+
+            // 2. 点击轨道跳转
+            track.addEventListener('click', (e) => {
+                if (e.target === thumb || thumb.contains(e.target)) return;
+                const rect = track.getBoundingClientRect();
+                const clickY = e.clientY - rect.top;
+                const availableTrack = trackHeight - thumbHeight;
+                const targetThumbY = clickY - thumbHeight / 2;
+                const targetRatio = Math.max(0, Math.min(1, targetThumbY / availableTrack));
+                window.scrollTo({
+                    top: targetRatio * maxScroll,
+                    behavior: 'smooth'
+                });
+            });
+        })();
+
+
+    </script>
+</body>
+</html>
