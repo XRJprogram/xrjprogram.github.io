@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XRJ · 平面设计与三维线构空间 (Graphic & Wireframe Archive)</title>
-    <meta name="description" content="XRJ 平面设计与视觉探索主站：以高密度参数化线条构成三维空间，融合瑞士网格秩序、实验字体排印、空间包装几何与生成式动态视觉。">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f0ff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>">
+    <title>嗨！我是 XRJ ✨ · 个人主页与创意小宇宙</title>
+    <meta name="description" content="XRJ 的可爱个人主页：独立开发者、平面设计探索者与奇幻小说作者。用代码、线条与白日梦搭建有趣的小世界！">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff79c6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='9'/><path d='M9 10h.01'/><path d='M15 10h.01'/><path d='M9.5 15a3.5 3.5 0 0 0 5 0'/></svg>">
 
-    <!-- 顶奢字体载入：现代无衬线、代码等宽与中文人文黑体 -->
+    <!-- 精选字体：可爱圆润与现代科技无衬线 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&family=Space+Grotesk:wght@400;500;600;700;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&family=Space+Grotesk:wght@400;500;600;700;900&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Grotesk:wght@600;700;800&display=swap">
     </noscript>
 
     <style>
         :root {
-            --bg-deep: #03060c;
-            --bg-surface: #070c18;
-            --bg-card: rgba(10, 16, 30, 0.72);
-            --line-cyan: #00f0ff;
-            --line-blue: #3b82f6;
-            --line-amber: #f59e0b;
-            --line-red: #ef4444;
-            --line-muted: rgba(255, 255, 255, 0.16);
-            --line-faint: rgba(255, 255, 255, 0.06);
+            --bg-cozy: #0a0d18;
+            --bg-card: rgba(18, 23, 42, 0.75);
+            --bg-card-hover: rgba(28, 36, 65, 0.85);
+            --cute-pink: #ff79c6;
+            --cute-yellow: #fde047;
+            --cute-cyan: #38bdf8;
+            --cute-mint: #86efac;
+            --cute-purple: #c084fc;
+            --cute-orange: #fb923c;
             --text-pure: #f8fafc;
-            --text-sub: #94a3b8;
-            --text-dim: #64748b;
+            --text-warm: #fdfbf7;
+            --text-sub: #cbd5e1;
+            --text-dim: #94a3b8;
+            --line-border: rgba(255, 255, 255, 0.12);
+            --line-glow: rgba(255, 121, 198, 0.35);
+            --font-cute: 'Fredoka', 'Noto Sans SC', sans-serif;
             --font-display: 'Space Grotesk', -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
             --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
-            --font-serif: 'Cinzel', 'Noto Serif SC', serif;
         }
 
         * {
@@ -43,8 +46,8 @@
         }
 
         html, body {
-            background-color: var(--bg-deep);
-            color: var(--text-pure);
+            background-color: var(--bg-cozy);
+            color: var(--text-warm);
             font-family: var(--font-sans);
             overflow-x: hidden;
             width: 100%;
@@ -52,656 +55,717 @@
             scroll-behavior: smooth;
         }
 
-        /* 极简网格坐标底纹 */
+        /* 梦幻温馨的星尘波点与极弱柔光底纹 */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                radial-gradient(circle at 50% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 60%),
-                radial-gradient(circle at 85% 75%, rgba(59, 130, 246, 0.04) 0%, transparent 55%),
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+                radial-gradient(circle at 15% 20%, rgba(255, 121, 198, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 35%, rgba(56, 189, 248, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, rgba(253, 224, 71, 0.06) 0%, transparent 45%),
+                radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px;
             pointer-events: none;
             z-index: 0;
         }
 
-        /* 顶部通栏导航 */
+        /* 顶部可爱导航栏 */
         .site-header {
             position: fixed;
             top: 0; left: 0; right: 0;
-            height: 72px;
-            padding: 0 40px;
+            height: 70px;
+            padding: 0 36px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 100;
-            background: rgba(3, 6, 12, 0.82);
-            border-bottom: 1px solid var(--line-faint);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 13, 24, 0.82);
+            border-bottom: 1px solid var(--line-border);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
-        .brand-badge {
+        .brand-pill {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             text-decoration: none;
             color: inherit;
         }
-        .brand-logo-cross {
-            width: 28px;
-            height: 28px;
-            border: 1px solid var(--line-cyan);
+        .brand-avatar-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--cute-pink), var(--cute-purple));
             display: grid;
             place-items: center;
-            position: relative;
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+            font-size: 1.25rem;
+            box-shadow: 0 0 16px rgba(255, 121, 198, 0.4);
+            transform: rotate(-3deg);
+            transition: transform 0.25s ease;
         }
-        .brand-logo-cross::before, .brand-logo-cross::after {
-            content: '';
-            position: absolute;
-            background: var(--line-cyan);
+        .brand-pill:hover .brand-avatar-box {
+            transform: rotate(8deg) scale(1.08);
         }
-        .brand-logo-cross::before { width: 14px; height: 1px; }
-        .brand-logo-cross::after { width: 1px; height: 14px; }
-
-        .brand-text-wrap {
+        .brand-info {
             display: flex;
             flex-direction: column;
         }
-        .brand-title {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 0.95rem;
-            letter-spacing: 0.16em;
+        .brand-name {
+            font-family: var(--font-cute);
+            font-weight: 700;
+            font-size: 1.12rem;
             color: #fff;
+            letter-spacing: 0.04em;
         }
-        .brand-sub {
+        .brand-status-tag {
             font-family: var(--font-mono);
-            font-size: 0.62rem;
-            color: var(--line-cyan);
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+            font-size: 0.68rem;
+            color: var(--cute-cyan);
+            letter-spacing: 0.05em;
         }
 
-        /* 拆分模块全局导航跳板 */
-        .nav-hub-strip {
+        /* 拆分模块全局导航小胶囊 */
+        .header-nav-pills {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--line-faint);
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--line-border);
             border-radius: 9999px;
             padding: 4px 6px;
         }
-        .nav-hub-link {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
+        .nav-capsule {
+            font-family: var(--font-cute);
+            font-weight: 600;
+            font-size: 0.82rem;
             color: var(--text-sub);
             text-decoration: none;
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 9999px;
-            transition: all 0.25s ease;
-            position: relative;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
-        .nav-hub-link:hover {
+        .nav-capsule:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
         }
-        .nav-hub-link.active {
-            color: #03060c;
-            background: var(--line-cyan);
+        .nav-capsule.active {
+            color: #0c0e17;
+            background: linear-gradient(135deg, var(--cute-yellow), var(--cute-orange));
             font-weight: 700;
-            box-shadow: 0 0 16px rgba(0, 240, 255, 0.45);
-        }
-        .nav-hub-link .link-dot {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: currentColor;
-            opacity: 0.7;
+            box-shadow: 0 0 14px rgba(253, 224, 71, 0.45);
         }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .btn-metric-status {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--line-cyan);
-            border: 1px solid rgba(0, 240, 255, 0.35);
-            background: rgba(0, 240, 255, 0.05);
-            padding: 5px 12px;
-            border-radius: 4px;
+        .header-mood-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            background: rgba(255, 121, 198, 0.1);
+            border: 1px solid rgba(255, 121, 198, 0.35);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-family: var(--font-cute);
+            font-size: 0.78rem;
+            color: var(--cute-pink);
+            font-weight: 600;
         }
-        .status-pulse-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--line-cyan);
-            box-shadow: 0 0 8px var(--line-cyan);
-            animation: pulseStatus 2s infinite ease-in-out;
+        .mood-sparkle {
+            animation: bounceWiggle 2s infinite ease-in-out;
         }
-        @keyframes pulseStatus {
-            0%, 100% { opacity: 0.4; transform: scale(0.85); }
-            50% { opacity: 1; transform: scale(1.2); }
+        @keyframes bounceWiggle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(15deg); }
         }
 
         /* ============================================================
-           HERO SECTION: 丰富线条三维空间与交互式参数化线构装置
+           HERO SECTION: 可爱自我介绍 + 丰富线条构成的 3D 萌萌线框机灵星
            ============================================================ */
-        .spatial-hero-realm {
+        .hero-realm {
             position: relative;
             width: 100%;
-            height: 100vh;
-            min-height: 680px;
+            min-height: 100vh;
+            padding: 100px 40px 60px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
+            justify-content: center;
             z-index: 10;
         }
 
-        #wireframe-3d-canvas {
+        .hero-inner-container {
+            width: 100%;
+            max-width: 1320px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        /* 左侧介绍正文 */
+        .hero-bio-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cute-hello-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-family: var(--font-cute);
+            font-size: 0.9rem;
+            color: var(--cute-yellow);
+            font-weight: 600;
+            width: fit-content;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+            animation: floatGently 3.5s ease-in-out infinite;
+        }
+        @keyframes floatGently {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .hero-name-title {
+            font-family: var(--font-cute);
+            font-size: clamp(2.8rem, 5.2vw, 4.8rem);
+            font-weight: 700;
+            line-height: 1.12;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+        .hero-name-title .pink-wave {
+            background: linear-gradient(135deg, var(--cute-pink) 20%, var(--cute-purple) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        .hero-name-title .yellow-accent {
+            color: var(--cute-yellow);
+            -webkit-text-fill-color: var(--cute-yellow);
+        }
+
+        .hero-lead-text {
+            font-family: var(--font-sans);
+            font-size: clamp(1.02rem, 1.35vw, 1.2rem);
+            line-height: 1.85;
+            color: var(--text-sub);
+            max-width: 620px;
+        }
+        .hero-lead-text strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        .hero-lead-text .highlight-pill {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--cute-cyan);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: var(--font-cute);
+        }
+
+        /* 技能/属性气泡标签条 */
+        .hero-tags-stream {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .bio-bubble-tag {
+            font-family: var(--font-cute);
+            font-size: 0.85rem;
+            padding: 7px 16px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--line-border);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: default;
+        }
+        .bio-bubble-tag:hover {
+            transform: scale(1.08) rotate(-2deg);
+            border-color: var(--cute-pink);
+            box-shadow: 0 6px 20px rgba(255, 121, 198, 0.25);
+            background: rgba(255, 121, 198, 0.12);
+        }
+
+        /* 快捷行动按钮组 */
+        .hero-buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 14px;
+        }
+        .btn-cute-primary {
+            font-family: var(--font-cute);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #0c0e17;
+            background: linear-gradient(135deg, var(--cute-pink), var(--cute-purple));
+            padding: 14px 28px;
+            border-radius: 9999px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(255, 121, 198, 0.4);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-cute-primary:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 16px 35px rgba(255, 121, 198, 0.55);
+        }
+        .btn-cute-secondary {
+            font-family: var(--font-cute);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--line-border);
+            padding: 14px 26px;
+            border-radius: 9999px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+        .btn-cute-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* 右侧：用丰富线条构建的 3D 萌萌线框机灵星 */
+        .hero-canvas-column {
+            position: relative;
+            width: 100%;
+            height: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .canvas-3d-card-stage {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(25, 33, 60, 0.65) 0%, rgba(12, 15, 28, 0.85) 70%, transparent 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+            cursor: grab;
+        }
+        .canvas-3d-card-stage:active {
+            cursor: grabbing;
+        }
+        #cute-3d-line-canvas {
             position: absolute;
             top: 0; left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
-            cursor: grab;
-        }
-        #wireframe-3d-canvas:active {
-            cursor: grabbing;
         }
 
-        /* 3D 浮动视窗遮罩与排版图解层 */
-        .hero-spatial-hud {
+        /* 3D 线条互动控制器浮板 */
+        .canvas-mood-dock {
             position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 2;
-            padding: 96px 40px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* 四角设计度量十字与基线刻度 */
-        .hud-corner {
-            position: absolute;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            letter-spacing: 0.1em;
-            line-height: 1.4;
-        }
-        .hud-corner.top-left { top: 92px; left: 40px; }
-        .hud-corner.top-right { top: 92px; right: 40px; text-align: right; }
-        .hud-corner.bottom-left { bottom: 40px; left: 40px; }
-        .hud-corner.bottom-right { bottom: 40px; right: 40px; text-align: right; }
-
-        .hud-cross {
-            color: var(--line-cyan);
-            display: inline-block;
-            margin-right: 4px;
-        }
-
-        .hero-center-content {
-            margin: auto;
-            text-align: center;
-            max-width: 960px;
-            pointer-events: none;
-            position: relative;
-            z-index: 3;
-        }
-
-        .hero-tag-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 18px;
-            border-radius: 9999px;
-            background: rgba(0, 240, 255, 0.06);
-            border: 1px solid rgba(0, 240, 255, 0.28);
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.16em;
-            color: var(--line-cyan);
-            margin-bottom: 22px;
-            text-transform: uppercase;
-        }
-
-        .hero-main-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.8rem, 6.5vw, 5.6rem);
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            line-height: 1.05;
-            color: #fff;
-            margin-bottom: 20px;
-            text-shadow: 0 0 45px rgba(0, 240, 255, 0.25);
-        }
-        .hero-main-title .gradient-text {
-            background: linear-gradient(135deg, #ffffff 30%, var(--line-cyan) 80%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-desc {
-            font-family: var(--font-sans);
-            font-size: clamp(0.95rem, 1.4vw, 1.15rem);
-            line-height: 1.8;
-            color: var(--text-sub);
-            max-width: 660px;
-            margin: 0 auto 32px;
-            letter-spacing: 0.04em;
-        }
-
-        /* 3D 线条拓扑模式切换盘 (交互式控制器) */
-        .wireframe-controls-dock {
-            pointer-events: auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border-radius: 12px;
-            background: rgba(7, 12, 24, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .ctrl-btn {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
-            padding: 8px 14px;
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-sub);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .ctrl-btn:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .ctrl-btn.active {
-            color: #fff;
-            background: rgba(0, 240, 255, 0.15);
-            border-color: var(--line-cyan);
-            box-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
-        }
-
-        .hero-scroll-hint {
-            position: absolute;
-            bottom: 24px;
+            bottom: 18px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 8px;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            letter-spacing: 0.18em;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            z-index: 5;
-            pointer-events: none;
+            background: rgba(10, 13, 24, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+            padding: 6px 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10;
         }
-        .scroll-arrow-line {
-            width: 1px;
-            height: 32px;
-            background: linear-gradient(180deg, var(--line-cyan), transparent);
-            animation: scrollLineDrop 2s infinite ease-in-out;
+        .mood-btn {
+            font-family: var(--font-cute);
+            font-weight: 600;
+            font-size: 0.76rem;
+            color: var(--text-sub);
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        @keyframes scrollLineDrop {
-            0% { transform: scaleY(0); transform-origin: top; }
-            50% { transform: scaleY(1); transform-origin: top; }
-            50.1% { transform-origin: bottom; }
-            100% { transform: scaleY(0); transform-origin: bottom; }
+        .mood-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .mood-btn.active {
+            color: #0c0e17;
+            background: var(--cute-cyan);
+            font-weight: 700;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
         }
 
-        /* ============================================================
-           SECTION 2: 平面设计作品展（六大专业维度展呈）
-           ============================================================ */
-        .gallery-realm {
-            position: relative;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 80px 40px 140px;
+        .canvas-hint-tag {
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--cute-pink);
+            letter-spacing: 0.08em;
+            background: rgba(255, 121, 198, 0.12);
+            border: 1px solid rgba(255, 121, 198, 0.3);
+            border-radius: 8px;
+            padding: 4px 10px;
+            pointer-events: none;
             z-index: 10;
         }
 
-        .section-header-block {
+        /* ============================================================
+           SECTION 2: 我的四个奇妙小宇宙（平面设计、交互程序、Scratch、幻想城）
+           ============================================================ */
+        .realms-section {
+            position: relative;
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 80px 40px 120px;
+            z-index: 10;
+        }
+
+        .section-header-row {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 64px;
-            position: relative;
-        }
-        .section-index-num {
-            font-family: var(--font-mono);
-            font-size: 0.82rem;
-            color: var(--line-cyan);
-            letter-spacing: 0.2em;
-            margin-bottom: 12px;
-            display: flex;
             align-items: center;
-            gap: 8px;
+            text-align: center;
+            margin-bottom: 56px;
         }
-        .section-index-num::before {
-            content: '';
-            width: 18px;
-            height: 1px;
-            background: var(--line-cyan);
+        .section-pill-badge {
+            font-family: var(--font-cute);
+            font-size: 0.86rem;
+            color: var(--cute-cyan);
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 6px 18px;
+            border-radius: 9999px;
+            margin-bottom: 16px;
+            font-weight: 600;
         }
-        .section-main-heading {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 3.8vw, 3.2rem);
-            font-weight: 800;
-            letter-spacing: -0.01em;
+        .section-big-title {
+            font-family: var(--font-cute);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
             color: #fff;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
-        .section-sub-heading {
+        .section-sub-desc {
             font-family: var(--font-sans);
             font-size: 1.05rem;
             color: var(--text-sub);
-            max-width: 680px;
+            max-width: 640px;
             line-height: 1.7;
         }
 
-        /* 类别筛选 Tab */
-        .filter-tags-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 28px;
-        }
-        .filter-pill {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
-            padding: 8px 18px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--line-faint);
-            color: var(--text-sub);
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-        .filter-pill:hover {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-        .filter-pill.active {
-            color: #03060c;
-            background: #fff;
-            font-weight: 700;
-            border-color: #fff;
-        }
-
-        /* 作品双列/三列矩阵 */
-        .design-matrix-grid {
+        /* 4 个可爱宇宙卡片网格 */
+        .realms-cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 26px;
             width: 100%;
         }
 
-        /* 平面设计作品卡牌 (带高精度线条度量与悬浮透视) */
-        .design-poster-card {
-            position: relative;
+        .realm-card {
             background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            overflow: hidden;
+            border: 1px solid var(--line-border);
+            border-radius: 26px;
+            padding: 32px 28px;
             display: flex;
             flex-direction: column;
-            cursor: pointer;
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                        border-color 0.35s ease,
-                        box-shadow 0.35s ease;
-            box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.7);
-        }
-        .design-poster-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 240, 255, 0.45);
-            box-shadow: 0 30px 65px -15px rgba(0, 240, 255, 0.15);
-        }
-
-        /* 卡牌顶栏度量线 */
-        .card-spec-bar {
-            padding: 16px 22px;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--line-faint);
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: var(--text-dim);
-            letter-spacing: 0.12em;
-        }
-        .card-spec-tag {
-            color: var(--line-cyan);
-            font-weight: 600;
-        }
-
-        /* 艺术画幅视口 (包含线条渲染预览图) */
-        .card-art-canvas-frame {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
-            width: 100%;
-            height: 310px;
-            background: #020408;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+            text-decoration: none;
+            color: inherit;
         }
-        .card-vector-svg {
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .design-poster-card:hover .card-vector-svg {
-            transform: scale(1.05);
-        }
-
-        /* 附着在画幅上的设计基准十字标 */
-        .canvas-aim-cross {
+        .realm-card::before {
+            content: '';
             position: absolute;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.3);
-            pointer-events: none;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, transparent, var(--card-color, var(--cute-pink)), transparent);
+            opacity: 0.7;
+            transition: height 0.3s ease;
         }
-        .aim-tl { top: 12px; left: 14px; }
-        .aim-tr { top: 12px; right: 14px; }
-        .aim-bl { bottom: 12px; left: 14px; }
-        .aim-br { bottom: 12px; right: 14px; }
+        .realm-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: var(--bg-card-hover);
+            border-color: var(--card-color, var(--cute-pink));
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+        .realm-card:hover::before {
+            height: 6px;
+        }
 
-        /* 卡牌内容体 */
-        .card-body-content {
-            padding: 24px 26px 28px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+        .realm-icon-wrap {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: grid;
+            place-items: center;
+            font-size: 1.8rem;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
         }
-        .card-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 8px;
+        .realm-card:hover .realm-icon-wrap {
+            transform: scale(1.15) rotate(6deg);
         }
-        .card-title {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
+
+        .realm-title {
+            font-family: var(--font-cute);
+            font-size: 1.4rem;
             font-weight: 700;
             color: #fff;
-            letter-spacing: 0.02em;
+            margin-bottom: 10px;
         }
-        .card-year-tag {
+        .realm-tagline {
             font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--text-dim);
-        }
-        .card-cat-title {
-            font-family: var(--font-serif);
-            font-size: 0.88rem;
-            color: var(--line-cyan);
+            font-size: 0.74rem;
+            color: var(--card-color, var(--cute-cyan));
             letter-spacing: 0.08em;
-            margin-bottom: 12px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
             font-weight: 600;
         }
-        .card-desc {
+        .realm-body-text {
             font-family: var(--font-sans);
-            font-size: 0.86rem;
+            font-size: 0.9rem;
             color: var(--text-sub);
             line-height: 1.7;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
-        /* 规格参数行 */
-        .card-footer-metrics {
+        .realm-footer-action {
             margin-top: auto;
-            padding-top: 16px;
-            border-top: 1px solid var(--line-faint);
+            padding-top: 18px;
+            border-top: 1px solid var(--line-border);
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--text-dim);
-        }
-        .card-action-cue {
-            color: var(--line-cyan);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            font-family: var(--font-cute);
+            font-size: 0.88rem;
             font-weight: 600;
-            transition: gap 0.2s ease;
-        }
-        .design-poster-card:hover .card-action-cue {
-            gap: 10px;
+            color: var(--card-color, var(--cute-pink));
         }
 
         /* ============================================================
-           SECTION 3: 架构跳转中枢（快速前往其他拆分模块）
+           SECTION 3: 平面设计作品展（迷你线框海报矩阵，可点击放大查看）
            ============================================================ */
-        .split-portals-realm {
+        .graphic-showcase-section {
             width: 100%;
-            max-width: 1400px;
+            max-width: 1320px;
             margin: 0 auto;
-            padding: 0 40px 140px;
+            padding: 40px 40px 120px;
             z-index: 10;
             position: relative;
         }
-        .portals-grid {
+
+        .graphic-cards-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 28px;
+            margin-top: 36px;
         }
-        .portal-entry-card {
-            background: linear-gradient(135deg, rgba(10, 16, 32, 0.85) 0%, rgba(5, 8, 16, 0.95) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 32px 36px;
-            text-decoration: none;
-            color: inherit;
+
+        .mini-poster-card {
+            background: var(--bg-card);
+            border: 1px solid var(--line-border);
+            border-radius: 22px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 220px;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
         }
-        .portal-entry-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 3px; height: 100%;
-            background: var(--line-cyan);
-            opacity: 0.4;
-            transition: opacity 0.3s ease;
-        }
-        .portal-entry-card:hover {
+        .mini-poster-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(0, 240, 255, 0.4);
-            box-shadow: 0 25px 50px -15px rgba(0, 240, 255, 0.15);
+            border-color: var(--cute-yellow);
+            box-shadow: 0 20px 45px -10px rgba(253, 224, 71, 0.2);
         }
-        .portal-entry-card:hover::before {
-            opacity: 1;
-        }
-        .portal-header-tag {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--line-cyan);
-            letter-spacing: 0.14em;
-            margin-bottom: 12px;
+        .mini-poster-preview {
+            width: 100%;
+            height: 220px;
+            background: #060914;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line-border);
         }
-        .portal-main-name {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
+        .mini-poster-svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s ease;
+        }
+        .mini-poster-card:hover .mini-poster-svg {
+            transform: scale(1.06);
+        }
+        .mini-poster-content {
+            padding: 20px 24px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .mini-poster-title {
+            font-family: var(--font-cute);
+            font-size: 1.25rem;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 8px;
         }
-        .portal-desc {
-            font-family: var(--font-sans);
-            font-size: 0.88rem;
-            color: var(--text-sub);
-            line-height: 1.6;
-        }
-        .portal-arrow-foot {
-            margin-top: 24px;
+        .mini-poster-type {
             font-family: var(--font-mono);
             font-size: 0.72rem;
+            color: var(--cute-cyan);
+            letter-spacing: 0.05em;
+        }
+        .mini-poster-desc {
+            font-family: var(--font-sans);
+            font-size: 0.84rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           SECTION 4: 技能爱好可爱贴纸包与日常补给
+           ============================================================ */
+        .stickers-section {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 20px 40px 140px;
+            z-index: 10;
+            position: relative;
+        }
+        .stickers-board-card {
+            background: linear-gradient(135deg, rgba(20, 26, 48, 0.75) 0%, rgba(12, 16, 30, 0.9) 100%);
+            border: 1px solid var(--line-border);
+            border-radius: 32px;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.7);
+        }
+        .stickers-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .stickers-pill-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .cute-sticker {
+            font-family: var(--font-cute);
+            font-size: 0.92rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--line-border);
             color: #fff;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-weight: 600;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            cursor: pointer;
+        }
+        .cute-sticker:hover {
+            transform: scale(1.12) rotate(var(--rot, 3deg));
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--sticker-col, var(--cute-pink));
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
         }
 
-        /* ============================================================
-           MODAL: 蓝图细节与设计度量浮层
-           ============================================================ */
+        /* 底部温馨落款页脚 */
+        .site-footer {
+            border-top: 1px solid var(--line-border);
+            padding: 50px 40px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+            font-family: var(--font-cute);
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+        .footer-heart {
+            color: var(--cute-pink);
+            display: inline-block;
+            animation: pulseHeart 1.5s infinite;
+        }
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            font-size: 0.82rem;
+        }
+        .footer-links a {
+            color: var(--text-sub);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: var(--cute-cyan);
+        }
+
+        /* 蓝图细节弹窗 */
         .blueprint-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(2, 4, 10, 0.88);
+            background: rgba(4, 7, 16, 0.88);
             z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 24px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
         .blueprint-modal-backdrop.active {
             opacity: 1;
@@ -710,674 +774,414 @@
         .blueprint-modal-window {
             position: relative;
             width: 100%;
-            max-width: 980px;
-            max-height: 90vh;
-            background: #060a14;
-            border: 1px solid rgba(0, 240, 255, 0.35);
-            border-radius: 20px;
-            box-shadow: 0 40px 95px rgba(0, 0, 0, 0.9);
-            overflow-y: auto;
+            max-width: 820px;
+            background: #0d1222;
+            border: 2px solid var(--cute-pink);
+            border-radius: 28px;
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            transform: scale(0.96);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .blueprint-modal-backdrop.active .blueprint-modal-window {
             transform: scale(1);
         }
-        .modal-header-bar {
-            padding: 20px 28px;
-            border-bottom: 1px solid var(--line-faint);
+        .modal-top-bar {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--line-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            color: var(--line-cyan);
-            letter-spacing: 0.1em;
+            font-family: var(--font-cute);
+            font-size: 0.9rem;
+            color: var(--cute-yellow);
         }
-        .modal-close-btn {
-            background: transparent;
-            border: 1px solid var(--line-muted);
+        .modal-close-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
             color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
+            padding: 6px 14px;
+            border-radius: 9999px;
             cursor: pointer;
+            font-family: var(--font-cute);
+            font-weight: 700;
             transition: all 0.2s ease;
         }
-        .modal-close-btn:hover {
-            border-color: var(--line-cyan);
-            color: var(--line-cyan);
-            transform: rotate(90deg);
+        .modal-close-pill:hover {
+            background: var(--cute-pink);
+            color: #0c0e17;
+            transform: scale(1.05);
         }
-        .modal-body-layout {
-            padding: 32px 36px;
+        .modal-body {
+            padding: 28px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 36px;
+            gap: 28px;
         }
-        .modal-preview-box {
-            background: #020408;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            height: 380px;
+        .modal-preview-stage {
+            background: #050813;
+            border-radius: 18px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             overflow: hidden;
         }
-        .modal-info-col {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .modal-title {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 6px;
-        }
-        .modal-subtitle {
-            font-family: var(--font-serif);
-            font-size: 1.05rem;
-            color: var(--line-cyan);
-            margin-bottom: 16px;
-        }
-        .modal-desc-text {
-            font-family: var(--font-sans);
-            font-size: 0.92rem;
-            color: var(--text-sub);
-            line-height: 1.8;
-            margin-bottom: 24px;
-        }
-        .metrics-grid-table {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--line-faint);
-            border-radius: 10px;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-        }
-        .metric-cell-label {
-            color: var(--text-dim);
-            margin-bottom: 2px;
-        }
-        .metric-cell-val {
-            color: #fff;
-            font-weight: 600;
-        }
 
-        /* 页脚度量 */
-        .site-footer {
-            border-top: 1px solid var(--line-faint);
-            padding: 48px 40px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 900px) {
+        @media (max-width: 960px) {
             .site-header { padding: 0 20px; }
-            .nav-hub-strip { display: none; }
-            .gallery-realm { padding: 60px 20px 100px; }
-            .design-matrix-grid { grid-template-columns: 1fr; }
-            .modal-body-layout { grid-template-columns: 1fr; gap: 20px; }
-            .modal-preview-box { height: 260px; }
-            .hud-corner { display: none; }
-            .hero-spatial-hud { padding: 90px 20px 20px; }
+            .header-nav-pills { display: none; }
+            .hero-realm { padding: 90px 20px 40px; }
+            .hero-inner-container { grid-template-columns: 1fr; gap: 40px; }
+            .hero-canvas-column { height: 400px; }
+            .realms-section, .graphic-showcase-section, .stickers-section { padding: 40px 20px 80px; }
+            .stickers-board-card { padding: 28px 20px; }
+            .modal-body { grid-template-columns: 1fr; }
+            .modal-preview-stage { height: 200px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 顶部极简导航栏与跨模块跳板 -->
+    <!-- 顶部极简可爱导航条 -->
     <header class="site-header">
-        <a href="index.html" class="brand-badge">
-            <div class="brand-logo-cross"></div>
-            <div class="brand-text-wrap">
-                <span class="brand-title">XRJ · 视觉架构</span>
-                <span class="brand-sub">Graphic & Spatial Archive</span>
+        <a href="index.html" class="brand-pill">
+            <div class="brand-avatar-box">✨</div>
+            <div class="brand-info">
+                <span class="brand-name">XRJ · 质子星</span>
+                <span class="brand-status-tag">HELLO &amp; WELCOME! (｡･ω･｡)ﾉ</span>
             </div>
         </a>
 
-        <!-- 站点模块拆分跳板 -->
-        <nav class="nav-hub-strip">
-            <a href="index.html" class="nav-hub-link active">
-                <span class="link-dot"></span>平面设计 (主页)
+        <!-- 站点拆分快速传送胶囊 -->
+        <nav class="header-nav-pills">
+            <a href="index.html" class="nav-capsule active">
+                <span>🏠</span>关于我 (Home)
             </a>
-            <a href="projects.html" class="nav-hub-link">
-                <span class="link-dot"></span>交互程序 (GitHub)
+            <a href="projects.html" class="nav-capsule">
+                <span>💻</span>交互程序 (GitHub)
             </a>
-            <a href="projects.html#fantasycitySection" class="nav-hub-link">
-                <span class="link-dot"></span>东方水墨 (幻想城)
+            <a href="projects.html#fantasycitySection" class="nav-capsule">
+                <span>🌸</span>东方水墨 (幻想城)
             </a>
-            <a href="works/index.html" class="nav-hub-link">
-                <span class="link-dot"></span>作品精选 (Scratch)
+            <a href="works/index.html" class="nav-capsule">
+                <span>🎮</span>作品集 (Scratch)
             </a>
         </nav>
 
-        <div class="header-actions">
-            <div class="btn-metric-status">
-                <span class="status-pulse-dot"></span>
-                <span>WIREFRAME 3D: ONLINE</span>
-            </div>
+        <div class="header-mood-badge">
+            <span class="mood-sparkle">🛸</span>
+            <span>正在好奇探索中...</span>
         </div>
     </header>
 
-    <!-- HERO SECTION: 丰富线条构成的 3D 视觉主画面 -->
-    <section class="spatial-hero-realm" id="heroSpatialStage">
-        <!-- 3D 空间数学线构 Canvas -->
-        <canvas id="wireframe-3d-canvas"></canvas>
+    <!-- HERO SECTION: 可爱自我介绍 + 丰富线条构筑的 3D 线框机灵星 -->
+    <section class="hero-realm" id="heroSection">
+        <div class="hero-inner-container">
 
-        <!-- 3D 空间平铺视线度量 HUD -->
-        <div class="hero-spatial-hud">
-            <div class="hud-corner top-left">
-                <span class="hud-cross">+</span> LATITUDE: 31°14'N<br>
-                <span class="hud-cross">+</span> PROJECTION: AXONOMETRIC 3D
-            </div>
-            <div class="hud-corner top-right">
-                <span class="hud-cross">+</span> VECTOR LINES: 540 EDGES<br>
-                <span class="hud-cross">+</span> FIELD DEPTH: 1600PX
-            </div>
-
-            <!-- 主视觉标题与阐述 -->
-            <div class="hero-center-content">
-                <div class="hero-tag-pill">
-                    <span>◆</span> 平面设计与空间线构作品展 <span>◆</span>
+            <!-- 左侧：亲和力满满的自我介绍 -->
+            <div class="hero-bio-column">
+                <div class="cute-hello-badge">
+                    <span>✨</span> 欢迎光临我的数字小宇宙！(≧▽≦)
                 </div>
-                <h1 class="hero-main-title">
-                    线条构筑的三维<br>
-                    <span class="gradient-text">平面设计视觉场</span>
+
+                <h1 class="hero-name-title">
+                    嗨，我是 <span class="pink-wave">XRJ</span><br>
+                    一个把 <span class="yellow-accent">代码</span> 与 <span class="pink-wave">设计</span><br>
+                    揉进星空的手艺人
                 </h1>
-                <p class="hero-desc">
-                    以密集的参数化几何线条打破二维纸面的边界。在三维透视网格中探索瑞士现代主义排版、实验字体拓扑、折线空间包装与极简向量美学。
+
+                <p class="hero-lead-text">
+                    平时喜欢在纯黑的屏幕前敲敲打打，用 <span class="highlight-pill">参数化线条</span> 编织三维世界，在 <span class="highlight-pill">瑞士网格</span> 里把玩排版与字体，在 <span class="highlight-pill">幻想城</span> 里写百万字奇幻冒险故事。坚信好玩、好看、能让人会心一笑的东西才最浪漫！
                 </p>
 
-                <!-- 3D 拓扑结构切换器 -->
-                <div class="wireframe-controls-dock" id="wireframeControls">
-                    <button class="ctrl-btn active" data-mode="terrain">
-                        <span>☵</span> 空间地貌曲面 (Terrain)
-                    </button>
-                    <button class="ctrl-btn" data-mode="posters">
-                        <span>☷</span> 多维海报矩阵 (Matrix)
-                    </button>
-                    <button class="ctrl-btn" data-mode="ribbon">
-                        <span>☱</span> 莫比乌斯环带 (Ribbon)
-                    </button>
-                    <button class="ctrl-btn" data-mode="swiss">
-                        <span>☲</span> 瑞士正交网格 (Swiss Grid)
-                    </button>
+                <!-- 趣味标签泡泡 -->
+                <div class="hero-tags-stream">
+                    <div class="bio-bubble-tag" style="--rot: -2deg">🎨 强迫症平面设计</div>
+                    <div class="bio-bubble-tag" style="--rot: 3deg">💻 创意前端与 WebGL</div>
+                    <div class="bio-bubble-tag" style="--rot: -3deg">👾 32×32 像素点阵</div>
+                    <div class="bio-bubble-tag" style="--rot: 2deg">🕹️ Scratch 极客</div>
+                    <div class="bio-bubble-tag" style="--rot: -1deg">📖 《幻想城》创作者</div>
+                    <div class="bio-bubble-tag" style="--rot: 2deg">☕ 拿铁续命机</div>
+                </div>
+
+                <!-- 交互按钮组 -->
+                <div class="hero-buttons-row">
+                    <a href="#realmsSection" class="btn-cute-primary">
+                        <span>🎈</span> 探索我的四个小宇宙
+                    </a>
+                    <a href="projects.html" class="btn-cute-secondary">
+                        <span>🚀</span> 去交互程序展台瞧瞧 →
+                    </a>
                 </div>
             </div>
 
-            <div class="hud-corner bottom-left">
-                <span class="hud-cross">+</span> INTERACTION: DRAG TO ORBIT<br>
-                <span class="hud-cross">+</span> FPS STABLE: 60HZ
-            </div>
-            <div class="hud-corner bottom-right">
-                <span class="hud-cross">+</span> ARCHIVE YEARS: 2022–2026<br>
-                <span class="hud-cross">+</span> STATUS: CURATED
-            </div>
-        </div>
+            <!-- 右侧：用丰富线条构建的 3D 萌萌线框机灵星 (Kira 3D Wireframe Companion) -->
+            <div class="hero-canvas-column">
+                <div class="canvas-3d-card-stage" id="canvas3dStage">
+                    <canvas id="cute-3d-line-canvas"></canvas>
+                    <div class="canvas-hint-tag">拖动我试试看！👆</div>
 
-        <div class="hero-scroll-hint">
-            <span>SCROLL TO EXPLORE WORKS</span>
-            <div class="scroll-arrow-line"></div>
+                    <!-- 4 种萌萌三维线条拓扑模式 -->
+                    <div class="canvas-mood-dock" id="moodDock">
+                        <button class="mood-btn active" data-mood="buddy">
+                            <span>( • ̀ω•́ )</span> 萌萌伴侣
+                        </button>
+                        <button class="mood-btn" data-mood="saturn">
+                            <span>🪐</span> 梦幻土星环
+                        </button>
+                        <button class="mood-btn" data-mood="torus">
+                            <span>✨</span> 甜甜圈星云
+                        </button>
+                        <button class="mood-btn" data-mood="cube">
+                            <span>🧊</span> 几何魔方
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- SECTION 2: 平面设计作品展矩阵 -->
-    <section class="gallery-realm" id="gallerySection">
-        <div class="section-header-block">
-            <span class="section-index-num">SECTION 01 / GRAPHIC WORKS</span>
-            <h2 class="section-main-heading">平面设计作品精选集</h2>
-            <p class="section-sub-heading">
-                涵盖实验海报、书籍排版、空间几何包装与动态生成图形。每一件作品均通过严谨的网格度量与视觉张力构建，将理性线条赋予生命。
+    <!-- SECTION 2: 我的四个奇妙小宇宙 -->
+    <section class="realms-section" id="realmsSection">
+        <div class="section-header-row">
+            <span class="section-pill-badge">WHAT I AM DOING // 我在做些什么？</span>
+            <h2 class="section-big-title">我的四个奇妙小宇宙 ✨</h2>
+            <p class="section-sub-desc">
+                不给自己设限，只要有趣就一头扎进去。从严谨的视觉度量到奔放的算法代码，以下是我最享受的四个创作领域：
             </p>
-
-            <!-- 分类筛选 Pill -->
-            <div class="filter-tags-row" id="filterPills">
-                <button class="filter-pill active" data-filter="all">全部作品 (ALL)</button>
-                <button class="filter-pill" data-filter="poster">海报与字体 (POSTER & TYPE)</button>
-                <button class="filter-pill" data-filter="editorial">版面与网格 (EDITORIAL)</button>
-                <button class="filter-pill" data-filter="packaging">包装与立体结构 (PACKAGING)</button>
-                <button class="filter-pill" data-filter="generative">生成式与动态 (GENERATIVE)</button>
-            </div>
         </div>
 
-        <!-- 6 个核心平面设计作品卡牌矩阵 -->
-        <div class="design-matrix-grid" id="designCardGrid">
-
-            <!-- 01. 度规与解构 -->
-            <div class="design-poster-card" data-category="poster" data-id="p1">
-                <div class="card-spec-bar">
-                    <span>SPEC // POSTER-EXP-01</span>
-                    <span class="card-spec-tag">实验海报</span>
-                </div>
-                <div class="card-art-canvas-frame">
-                    <span class="canvas-aim-cross aim-tl">┌</span>
-                    <span class="canvas-aim-cross aim-tr">┐</span>
-                    <span class="canvas-aim-cross aim-bl">└</span>
-                    <span class="canvas-aim-cross aim-br">┘</span>
-                    <svg class="card-vector-svg" viewBox="0 0 420 310" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad-p1" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.8"/>
-                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.1"/>
-                            </linearGradient>
-                        </defs>
-                        <!-- 网格背景线 -->
-                        <g stroke="rgba(255,255,255,0.06)" stroke-width="0.8">
-                            <line x1="40" y1="20" x2="40" y2="290"/>
-                            <line x1="120" y1="20" x2="120" y2="290"/>
-                            <line x1="200" y1="20" x2="200" y2="290"/>
-                            <line x1="280" y1="20" x2="280" y2="290"/>
-                            <line x1="360" y1="20" x2="360" y2="290"/>
-                            <line x1="20" y1="60" x2="400" y2="60"/>
-                            <line x1="20" y1="140" x2="400" y2="140"/>
-                            <line x1="20" y1="220" x2="400" y2="220"/>
-                        </g>
-                        <!-- 解构线条字体图形 -->
-                        <path d="M 70 230 L 70 80 L 150 80 C 190 80 190 140 150 140 L 70 140 M 130 140 L 190 230" fill="none" stroke="url(#grad-p1)" stroke-width="3.5" stroke-linecap="round"/>
-                        <circle cx="280" cy="155" r="65" fill="none" stroke="#00f0ff" stroke-width="1.2" stroke-dasharray="4 4"/>
-                        <circle cx="280" cy="155" r="45" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
-                        <line x1="215" y1="155" x2="345" y2="155" stroke="rgba(0,240,255,0.4)" stroke-width="1"/>
-                        <line x1="280" y1="90" x2="280" y2="220" stroke="rgba(0,240,255,0.4)" stroke-width="1"/>
-                        <!-- 装饰标注 -->
-                        <text x="70" y="260" font-family="'JetBrains Mono', monospace" font-size="10" fill="#94a3b8">DECONSTRUCTION 01 / KERNING: 120</text>
-                        <text x="280" y="245" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="var(--line-cyan)">Ø 130.00MM</text>
-                    </svg>
-                </div>
-                <div class="card-body-content">
-                    <div class="card-title-row">
-                        <h3 class="card-title">《度规与解构》</h3>
-                        <span class="card-year-tag">2024</span>
-                    </div>
-                    <div class="card-cat-title">实验海报与字体拓扑 (Typographic Poster)</div>
-                    <p class="card-desc">
-                        解构汉字结构与几何线条的张力平衡。通过严密的数学辅助线建立反常规版面张力，呈现冷峻克制的建筑级排印质感。
+        <div class="realms-cards-grid">
+            <!-- 01. 平面设计 -->
+            <div class="realm-card" style="--card-color: var(--cute-pink)">
+                <div>
+                    <div class="realm-icon-wrap">🎨</div>
+                    <div class="realm-tagline">GRAPHIC &amp; TYPOGRAPHY</div>
+                    <h3 class="realm-title">平面设计与视觉构建</h3>
+                    <p class="realm-body-text">
+                        深爱瑞士国际主义网格系统、实验海报与字体拓扑。对字间距、对齐基准线与留白负空间有极度洁癖，喜欢把理性秩序转化为震撼的视觉力量。
                     </p>
-                    <div class="card-footer-metrics">
-                        <span>1000 × 1414MM / 丝网印刷</span>
-                        <span class="card-action-cue">查看设计度量 →</span>
-                    </div>
+                </div>
+                <div class="realm-footer-action">
+                    <span>向下滑动查看作品精选</span>
+                    <span>↓</span>
                 </div>
             </div>
 
-            <!-- 02. 秩序的崇高 -->
-            <div class="design-poster-card" data-category="editorial" data-id="p2">
-                <div class="card-spec-bar">
-                    <span>SPEC // SWISS-GRID-12</span>
-                    <span class="card-spec-tag">版面系统</span>
+            <!-- 02. 交互程序 -->
+            <a href="projects.html" class="realm-card" style="--card-color: var(--cute-cyan)">
+                <div>
+                    <div class="realm-icon-wrap">💻</div>
+                    <div class="realm-tagline">CREATIVE CODING &amp; LAB</div>
+                    <h3 class="realm-title">交互程序与技术装置</h3>
+                    <p class="realm-body-text">
+                        开发了 AnyChem 3D 分子力学仿真、BitPulse 芯片音乐工作站、Chemiation 动态势能面等开源实验装置。把代码当成画笔，探索技术表达的前沿。
+                    </p>
                 </div>
-                <div class="card-art-canvas-frame">
-                    <span class="canvas-aim-cross aim-tl">┌</span>
-                    <span class="canvas-aim-cross aim-tr">┐</span>
-                    <span class="canvas-aim-cross aim-bl">└</span>
-                    <span class="canvas-aim-cross aim-br">┘</span>
-                    <svg class="card-vector-svg" viewBox="0 0 420 310" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 12 列瑞士栅格模型 -->
-                        <g stroke="rgba(0,240,255,0.18)" stroke-width="0.8">
-                            <rect x="50" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="76" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="102" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="128" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="154" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="180" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="206" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="232" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="258" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="284" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="310" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
-                            <rect x="336" y="40" width="22" height="230" fill="rgba(0,240,255,0.02)"/>
+                <div class="realm-footer-action">
+                    <span>进入交互程序展台</span>
+                    <span>→</span>
+                </div>
+            </a>
+
+            <!-- 03. 幻想城 -->
+            <a href="projects.html#fantasycitySection" class="realm-card" style="--card-color: var(--cute-orange)">
+                <div>
+                    <div class="realm-icon-wrap">🌸</div>
+                    <div class="realm-tagline">FANTASY CITY WORLDBUILDING</div>
+                    <h3 class="realm-title">东方水墨 · 《幻想城》</h3>
+                    <p class="realm-body-text">
+                        构筑了一个独立异能法则与百万字奇幻连载的长卷世界。在网站中通过深邃星空与淡黄宣纸的平滑无级过渡，配合狂草大字吸附汇聚展现东方韵味。
+                    </p>
+                </div>
+                <div class="realm-footer-action">
+                    <span>漫步水墨长卷</span>
+                    <span>→</span>
+                </div>
+            </a>
+
+            <!-- 04. Scratch 作品集 -->
+            <a href="works/index.html" class="realm-card" style="--card-color: var(--cute-yellow)">
+                <div>
+                    <div class="realm-icon-wrap">🎮</div>
+                    <div class="realm-tagline">2022–2025 RETROSPECTIVE</div>
+                    <h3 class="realm-title">Scratch 积木历年精选</h3>
+                    <p class="realm-body-text">
+                        收录 12 部核心代表作（逃亡与战斗、REACTOR、工业资源机等）。通过 TurboWarp 独立打包为纯净全屏网页，沉淀了数年关于游戏交互与玩法的思考。
+                    </p>
+                </div>
+                <div class="realm-footer-action">
+                    <span>打开 12 部打包作品</span>
+                    <span>→</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- SECTION 3: 平面设计代表作展示 (可点击放大查看设计度量) -->
+    <section class="graphic-showcase-section" id="graphicWorksSection">
+        <div class="section-header-row">
+            <span class="section-pill-badge" style="background: rgba(253, 224, 71, 0.1); border-color: rgba(253, 224, 71, 0.3); color: var(--cute-yellow)">
+                POSTER &amp; LAYOUT // 平面设计精选
+            </span>
+            <h2 class="section-big-title">线条与网格的平面狂想 📐</h2>
+            <p class="section-sub-desc">
+                这里展示了我近期在海报、版面网格与参数化线条方面的部分探索。点击卡片可呼出详细设计规范图解：
+            </p>
+        </div>
+
+        <div class="graphic-cards-row">
+            <!-- 作品 1 -->
+            <div class="mini-poster-card" data-title="《度规与解构》" data-type="实验海报 / 字体拓扑" data-desc="在严密数学坐标辅助线下对汉字骨架的解构重组。以极端对比度和冷峻克制展现建筑级排印质感。">
+                <div class="mini-poster-preview">
+                    <svg class="mini-poster-svg" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="rgba(255,255,255,0.08)" stroke-width="0.8">
+                            <line x1="30" y1="20" x2="30" y2="200"/>
+                            <line x1="110" y1="20" x2="110" y2="200"/>
+                            <line x1="190" y1="20" x2="190" y2="200"/>
+                            <line x1="270" y1="20" x2="270" y2="200"/>
                         </g>
-                        <!-- 版面排布实块线条 -->
-                        <rect x="50" y="60" width="180" height="90" fill="none" stroke="#fff" stroke-width="1.8"/>
-                        <line x1="50" y1="180" x2="230" y2="180" stroke="#00f0ff" stroke-width="2"/>
-                        <line x1="50" y1="195" x2="358" y2="195" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-                        <line x1="50" y1="210" x2="358" y2="210" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-                        <line x1="50" y1="225" x2="280" y2="225" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
-                        <!-- 标尺微线 -->
-                        <line x1="42" y1="40" x2="42" y2="270" stroke="var(--line-amber)" stroke-width="1"/>
-                        <text x="35" y="160" transform="rotate(-90 35 160)" font-family="'JetBrains Mono'" font-size="8" fill="var(--line-amber)">MODULAR: 24PT</text>
+                        <path d="M 60 170 L 60 50 L 130 50 C 160 50 160 100 130 100 L 60 100 M 115 100 L 165 170" fill="none" stroke="var(--cute-cyan)" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="230" cy="110" r="48" fill="none" stroke="var(--cute-pink)" stroke-width="1.2" stroke-dasharray="3 3"/>
+                        <circle cx="230" cy="110" r="32" fill="none" stroke="rgba(255,255,255,0.3)"/>
                     </svg>
                 </div>
-                <div class="card-body-content">
-                    <div class="card-title-row">
-                        <h3 class="card-title">《秩序的崇高》</h3>
-                        <span class="card-year-tag">2023</span>
-                    </div>
-                    <div class="card-cat-title">瑞士国际主义网格系统重构 (Swiss Grid System)</div>
-                    <p class="card-desc">
-                        致敬布鲁克曼与瑞士学派。在绝对严密的 12 栏黄金比例网格中，探索文本信息层级的极致逻辑之美。
-                    </p>
-                    <div class="card-footer-metrics">
-                        <span>210 × 297MM / 纯质特种纸</span>
-                        <span class="card-action-cue">查看设计度量 →</span>
-                    </div>
+                <div class="mini-poster-content">
+                    <div class="mini-poster-title">《度规与解构》</div>
+                    <span class="mini-poster-type">EXPERIMENTAL POSTER 01</span>
+                    <p class="mini-poster-desc">汉字笔画与几何切线的碰撞，冷调包豪斯美学。</p>
                 </div>
             </div>
 
-            <!-- 03. 拓扑折痕 -->
-            <div class="design-poster-card" data-category="packaging" data-id="p3">
-                <div class="card-spec-bar">
-                    <span>SPEC // STRUCT-FOLD-03</span>
-                    <span class="card-spec-tag">立体包装</span>
-                </div>
-                <div class="card-art-canvas-frame">
-                    <span class="canvas-aim-cross aim-tl">┌</span>
-                    <span class="canvas-aim-cross aim-tr">┐</span>
-                    <span class="canvas-aim-cross aim-bl">└</span>
-                    <span class="canvas-aim-cross aim-br">┘</span>
-                    <svg class="card-vector-svg" viewBox="0 0 420 310" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 几何多面体折叠线框与刀模展平图 -->
-                        <g stroke="#00f0ff" stroke-width="1.2" fill="none">
-                            <polygon points="210,60 310,120 210,180 110,120" stroke-dasharray="3 3"/>
-                            <polygon points="210,180 310,240 210,300 110,240" stroke-dasharray="3 3"/>
-                            <line x1="210" y1="60" x2="210" y2="300" stroke="#fff" stroke-width="1.8"/>
-                            <line x1="110" y1="120" x2="110" y2="240" stroke="rgba(255,255,255,0.7)"/>
-                            <line x1="310" y1="120" x2="310" y2="240" stroke="rgba(255,255,255,0.7)"/>
-                            <polygon points="210,180 260,150 260,210" fill="rgba(0,240,255,0.12)"/>
-                            <polygon points="210,180 160,150 160,210" fill="rgba(59,130,246,0.15)"/>
+            <!-- 作品 2 -->
+            <div class="mini-poster-card" data-title="《秩序的崇高》" data-type="瑞士国际主义网格系统" data-desc="严格基于 12 栏黄金分割基线网格的版面重构。探讨极度克制与秩序井然的文本信息层级美感。">
+                <div class="mini-poster-preview">
+                    <svg class="mini-poster-svg" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="rgba(56,189,248,0.2)" stroke-width="0.8">
+                            <rect x="40" y="30" width="16" height="160" fill="rgba(56,189,248,0.03)"/>
+                            <rect x="62" y="30" width="16" height="160" fill="rgba(56,189,248,0.03)"/>
+                            <rect x="84" y="30" width="16" height="160" fill="rgba(56,189,248,0.03)"/>
+                            <rect x="106" y="30" width="16" height="160" fill="rgba(56,189,248,0.03)"/>
+                            <rect x="128" y="30" width="16" height="160" fill="rgba(56,189,248,0.03)"/>
+                            <rect x="150" y="30" width="16" height="160" fill="rgba(56,189,248,0.03)"/>
                         </g>
-                        <!-- 刀模剪裁虚线与折痕压痕线 -->
-                        <line x1="60" y1="120" x2="110" y2="120" stroke="#f59e0b" stroke-width="1" stroke-dasharray="5 3"/>
-                        <line x1="310" y1="120" x2="360" y2="120" stroke="#f59e0b" stroke-width="1" stroke-dasharray="5 3"/>
-                        <text x="210" y="42" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="#00f0ff">DIHEDRAL CREASE: 68.4°</text>
+                        <rect x="40" y="45" width="140" height="70" fill="none" stroke="#fff" stroke-width="1.8"/>
+                        <line x1="40" y1="135" x2="280" y2="135" stroke="var(--cute-yellow)" stroke-width="1.5"/>
+                        <line x1="40" y1="150" x2="240" y2="150" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+                        <line x1="40" y1="165" x2="200" y2="165" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
                     </svg>
                 </div>
-                <div class="card-body-content">
-                    <div class="card-title-row">
-                        <h3 class="card-title">《拓扑折痕》</h3>
-                        <span class="card-year-tag">2024</span>
-                    </div>
-                    <div class="card-cat-title">空间几何立体包装与刀模线条 (Spatial Packaging)</div>
-                    <p class="card-desc">
-                        基于非欧几里得几何的多面体折叠包装。通过二维刀模切线与三维折痕力学，实现无胶自锁固态空间造型。
-                    </p>
-                    <div class="card-footer-metrics">
-                        <span>三维多面体 / 灰卡覆亚膜</span>
-                        <span class="card-action-cue">查看设计度量 →</span>
-                    </div>
+                <div class="mini-poster-content">
+                    <div class="mini-poster-title">《秩序的崇高》</div>
+                    <span class="mini-poster-type">SWISS MODULAR SYSTEM</span>
+                    <p class="mini-poster-desc">12 栏理性主义网格，极度舒适的信息呼吸感。</p>
                 </div>
             </div>
 
-            <!-- 04. 算式绘形 -->
-            <div class="design-poster-card" data-category="generative" data-id="p4">
-                <div class="card-spec-bar">
-                    <span>SPEC // MATH-FLOW-04</span>
-                    <span class="card-spec-tag">生成式视觉</span>
-                </div>
-                <div class="card-art-canvas-frame">
-                    <span class="canvas-aim-cross aim-tl">┌</span>
-                    <span class="canvas-aim-cross aim-tr">┐</span>
-                    <span class="canvas-aim-cross aim-bl">└</span>
-                    <span class="canvas-aim-cross aim-br">┘</span>
-                    <svg class="card-vector-svg" viewBox="0 0 420 310" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 贝塞尔参数化曲线群与数学向量场 -->
+            <!-- 作品 3 -->
+            <div class="mini-poster-card" data-title="《算式绘形》" data-type="生成式参数化动态线条" data-desc="将极坐标变换与三角波函数融入矢量平面。成百上千根曲线随音律震颤演化，生成具有生命律动的图案。">
+                <div class="mini-poster-preview">
+                    <svg class="mini-poster-svg" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
                         <g fill="none" stroke-width="1">
-                            <path d="M 40 155 C 130 50, 290 260, 380 155" stroke="rgba(0,240,255,0.85)"/>
-                            <path d="M 40 165 C 130 65, 290 245, 380 145" stroke="rgba(0,240,255,0.7)"/>
-                            <path d="M 40 175 C 130 80, 290 230, 380 135" stroke="rgba(0,240,255,0.55)"/>
-                            <path d="M 40 185 C 130 95, 290 215, 380 125" stroke="rgba(59,130,246,0.6)"/>
-                            <path d="M 40 195 C 130 110, 290 200, 380 115" stroke="rgba(59,130,246,0.45)"/>
-                            <path d="M 40 205 C 130 125, 290 185, 380 105" stroke="rgba(59,130,246,0.3)"/>
-                            <path d="M 40 215 C 130 140, 290 170, 380 95" stroke="rgba(255,255,255,0.2)"/>
+                            <path d="M 30 110 C 100 30, 240 190, 310 110" stroke="rgba(255,121,198,0.85)"/>
+                            <path d="M 30 118 C 100 42, 240 178, 310 102" stroke="rgba(255,121,198,0.65)"/>
+                            <path d="M 30 126 C 100 54, 240 166, 310 94" stroke="rgba(192,132,252,0.6)"/>
+                            <path d="M 30 134 C 100 66, 240 154, 310 86" stroke="rgba(56,189,248,0.55)"/>
+                            <path d="M 30 142 C 100 78, 240 142, 310 78" stroke="rgba(134,239,172,0.45)"/>
                         </g>
-                        <!-- 极坐标网格 -->
-                        <circle cx="210" cy="155" r="90" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
-                        <circle cx="210" cy="155" r="45" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
-                        <line x1="210" y1="55" x2="210" y2="255" stroke="rgba(255,255,255,0.12)" stroke-dasharray="2 2"/>
-                        <text x="210" y="275" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="#00f0ff">HARMONIC RATIO: 1.618033</text>
+                        <circle cx="170" cy="110" r="60" fill="none" stroke="rgba(255,255,255,0.12)" stroke-dasharray="2 2"/>
                     </svg>
                 </div>
-                <div class="card-body-content">
-                    <div class="card-title-row">
-                        <h3 class="card-title">《算式绘形》</h3>
-                        <span class="card-year-tag">2025</span>
-                    </div>
-                    <div class="card-cat-title">生成式线条与动态向量 (Parametric Lines)</div>
-                    <p class="card-desc">
-                        将三角函数波形与极坐标变换融入平面视觉。数以千计的贝塞尔微线根据音律频率震颤演化，生成具有有机生命力的矢量图案。
-                    </p>
-                    <div class="card-footer-metrics">
-                        <span>动态可变矢量 / 极坐标</span>
-                        <span class="card-action-cue">查看设计度量 →</span>
-                    </div>
+                <div class="mini-poster-content">
+                    <div class="mini-poster-title">《算式绘形》</div>
+                    <span class="mini-poster-type">GENERATIVE PARAMETRIC</span>
+                    <p class="mini-poster-desc">用数学算法谱写线条，宛若琴弦振动的视觉波形。</p>
                 </div>
             </div>
-
-            <!-- 05. 符号之核 -->
-            <div class="design-poster-card" data-category="poster" data-id="p5">
-                <div class="card-spec-bar">
-                    <span>SPEC // BRAND-GEO-05</span>
-                    <span class="card-spec-tag">品牌几何</span>
-                </div>
-                <div class="card-art-canvas-frame">
-                    <span class="canvas-aim-cross aim-tl">┌</span>
-                    <span class="canvas-aim-cross aim-tr">┐</span>
-                    <span class="canvas-aim-cross aim-bl">└</span>
-                    <span class="canvas-aim-cross aim-br">┘</span>
-                    <svg class="card-vector-svg" viewBox="0 0 420 310" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 黄金分割线构图与极简品牌几何徽标 -->
-                        <g stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none">
-                            <rect x="110" y="55" width="200" height="200"/>
-                            <circle cx="210" cy="155" r="100" stroke="#00f0ff" stroke-width="1.5"/>
-                            <circle cx="160" cy="155" r="50" stroke="#f59e0b" stroke-width="1.2"/>
-                            <circle cx="260" cy="155" r="50" stroke="#f59e0b" stroke-width="1.2"/>
-                            <line x1="110" y1="55" x2="310" y2="255" stroke="rgba(255,255,255,0.4)"/>
-                            <line x1="110" y1="255" x2="310" y2="55" stroke="rgba(255,255,255,0.4)"/>
-                        </g>
-                        <path d="M 160 155 Q 210 105 260 155 Q 210 205 160 155 Z" fill="rgba(0,240,255,0.18)" stroke="#fff" stroke-width="2"/>
-                        <text x="210" y="278" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="var(--text-sub)">GOLDEN PROPORTION Φ = 1.618</text>
-                    </svg>
-                </div>
-                <div class="card-body-content">
-                    <div class="card-title-row">
-                        <h3 class="card-title">《符号之核》</h3>
-                        <span class="card-year-tag">2023</span>
-                    </div>
-                    <div class="card-cat-title">品牌视觉系统与徽标几何 (Brand Identity)</div>
-                    <p class="card-desc">
-                        以纯粹的圆形与对角交错线构建高辨识度徽标系统。展示严苛的制图规范与矢量控制点逻辑，塑造高信赖度的品牌图腾。
-                    </p>
-                    <div class="card-footer-metrics">
-                        <span>矢量栅格规范 / 识别系统</span>
-                        <span class="card-action-cue">查看设计度量 →</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 06. 墨线与负空间 -->
-            <div class="design-poster-card" data-category="editorial" data-id="p6">
-                <div class="card-spec-bar">
-                    <span>SPEC // EAST-VECTOR-06</span>
-                    <span class="card-spec-tag">东方现代</span>
-                </div>
-                <div class="card-art-canvas-frame">
-                    <span class="canvas-aim-cross aim-tl">┌</span>
-                    <span class="canvas-aim-cross aim-tr">┐</span>
-                    <span class="canvas-aim-cross aim-bl">└</span>
-                    <span class="canvas-aim-cross aim-br">┘</span>
-                    <svg class="card-vector-svg" viewBox="0 0 420 310" xmlns="http://www.w3.org/2000/svg">
-                        <!-- 狂草枯笔墨团与高精度矢量微线对比 -->
-                        <path d="M 80 180 Q 140 60 210 160 T 340 130" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="36" stroke-linecap="round"/>
-                        <path d="M 80 180 Q 140 60 210 160 T 340 130" fill="none" stroke="#fff" stroke-width="2.5"/>
-                        <g stroke="#00f0ff" stroke-width="0.8">
-                            <line x1="80" y1="180" x2="80" y2="240"/>
-                            <line x1="210" y1="160" x2="210" y2="240"/>
-                            <line x1="340" y1="130" x2="340" y2="240"/>
-                            <line x1="60" y1="240" x2="360" y2="240"/>
-                        </g>
-                        <!-- 红色印鉴印记 -->
-                        <rect x="315" y="60" width="26" height="26" fill="none" stroke="#ef4444" stroke-width="1.5"/>
-                        <text x="328" y="77" text-anchor="middle" font-family="'Cinzel', serif" font-size="10" fill="#ef4444" font-weight="900">XRJ</text>
-                        <text x="210" y="260" text-anchor="middle" font-family="'JetBrains Mono'" font-size="9" fill="#00f0ff">NEGATIVE SPACE / TENSION</text>
-                    </svg>
-                </div>
-                <div class="card-body-content">
-                    <div class="card-title-row">
-                        <h3 class="card-title">《墨线与负空间》</h3>
-                        <span class="card-year-tag">2024</span>
-                    </div>
-                    <div class="card-cat-title">东方写意与现代极简线条 (Eastern Ink & Vector)</div>
-                    <p class="card-desc">
-                        融合东方大写意气韵与现代科技矢量。用精确至 0.5px 的精密网格线切断墨团混沌，在留白深处引爆空间想象力。
-                    </p>
-                    <div class="card-footer-metrics">
-                        <span>宣纸微喷 / 亚克力蚀刻</span>
-                        <span class="card-action-cue">查看设计度量 →</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
-    <!-- SECTION 3: 架构跳板中枢（快速导航至其他三个独立拆分项目） -->
-    <section class="split-portals-realm">
-        <div class="section-header-block">
-            <span class="section-index-num">SECTION 02 / SYSTEM ARCHITECTURE</span>
-            <h2 class="section-main-heading">全站拆分模块入口</h2>
-            <p class="section-sub-heading">
-                网站已拆分为独立专题域。您可以随时从平面设计主页前往交互程序库、沉浸式东方幻想城长卷或 Scratch 历年典藏展。
-            </p>
-        </div>
+    <!-- SECTION 4: 技能爱好可爱贴纸包 -->
+    <section class="stickers-section">
+        <div class="stickers-board-card">
+            <div class="stickers-title-wrap">
+                <h3 style="font-family: var(--font-cute); font-size: 1.6rem; color: #fff;">
+                    一些奇奇怪怪的小标签与补给包 🎒✨
+                </h3>
+                <p style="color: var(--text-sub); font-size: 0.95rem;">
+                    把喜欢的技术、工具与日常碎碎念贴在一起，随时准备开启下一个好玩的项目！
+                </p>
+            </div>
 
-        <div class="portals-grid">
-            <!-- 模块 01: GitHub 项目装置 -->
-            <a href="projects.html" class="portal-entry-card">
-                <div>
-                    <div class="portal-header-tag">
-                        <span>MODULE 02</span>
-                        <span>INTERACTIVE DECK</span>
-                    </div>
-                    <h3 class="portal-main-name">交互程序展台</h3>
-                    <p class="portal-desc">
-                        包含 AnyChem 3D 分子仿真、BitPulse 音频调频器、Chemiation 反应动力学等 8 款核心开源技术装置。
-                    </p>
-                </div>
-                <div class="portal-arrow-foot">
-                    <span>进入交互程序空间</span>
-                    <span>→</span>
-                </div>
-            </a>
-
-            <!-- 模块 02: 东方水墨幻想城 -->
-            <a href="projects.html#fantasycitySection" class="portal-entry-card">
-                <div>
-                    <div class="portal-header-tag">
-                        <span>MODULE 03</span>
-                        <span>INK CONVERGENCE</span>
-                    </div>
-                    <h3 class="portal-main-name">幻想城 · 水墨长卷</h3>
-                    <p class="portal-desc">
-                        由深邃星空无级过渡至东方暖黄宣纸，狂草书法大字三维散开与吸附汇聚，水墨烟云与樱花漫舞落瓣。
-                    </p>
-                </div>
-                <div class="portal-arrow-foot">
-                    <span>踏入幻想城画境</span>
-                    <span>→</span>
-                </div>
-            </a>
-
-            <!-- 模块 03: Scratch 2022-2025 历年作品精选展 -->
-            <a href="works/index.html" class="portal-entry-card">
-                <div>
-                    <div class="portal-header-tag">
-                        <span>MODULE 04</span>
-                        <span>TURBOWARP PACKAGED</span>
-                    </div>
-                    <h3 class="portal-main-name">2022–2025 作品精选</h3>
-                    <p class="portal-desc">
-                        12 款原生态 Scratch 核心代表作，通过 TurboWarp 独立打包成纯净 HTML 并入，双列宽屏全景电影质感。
-                    </p>
-                </div>
-                <div class="portal-arrow-foot">
-                    <span>打开作品精选回廊</span>
-                    <span>→</span>
-                </div>
-            </a>
+            <div class="stickers-pill-cloud">
+                <div class="cute-sticker" style="--rot: -2deg; --sticker-col: var(--cute-pink)">🎨 Figma &amp; Illustrator</div>
+                <div class="cute-sticker" style="--rot: 3deg; --sticker-col: var(--cute-cyan)">📐 瑞士网格系统强迫症</div>
+                <div class="cute-sticker" style="--rot: -1deg; --sticker-col: var(--cute-yellow)">⚡ TypeScript &amp; React</div>
+                <div class="cute-sticker" style="--rot: 2deg; --sticker-col: var(--cute-mint)">🪐 Three.js &amp; WebGL</div>
+                <div class="cute-sticker" style="--rot: -3deg; --sticker-col: var(--cute-purple)">✏️ Canvas 2D 像素与矢量</div>
+                <div class="cute-sticker" style="--rot: 2deg; --sticker-col: var(--cute-orange)">🎹 8-Bit NES 复古芯片音</div>
+                <div class="cute-sticker" style="--rot: -2deg; --sticker-col: var(--cute-pink)">👾 32×32 像素角色工坊</div>
+                <div class="cute-sticker" style="--rot: 3deg; --sticker-col: var(--cute-cyan)">🕹️ Scratch 极客研究者</div>
+                <div class="cute-sticker" style="--rot: -1deg; --sticker-col: var(--cute-yellow)">📚 《幻想城》世界观创作者</div>
+                <div class="cute-sticker" style="--rot: 2deg; --sticker-col: var(--cute-mint)">🐱 云吸猫特级专家</div>
+                <div class="cute-sticker" style="--rot: -2deg; --sticker-col: var(--cute-purple)">☕ 重度拿铁依赖</div>
+                <div class="cute-sticker" style="--rot: 3deg; --sticker-col: var(--cute-orange)">🌙 深夜脑洞发酵机</div>
+                <div class="cute-sticker" style="--rot: -1deg; --sticker-col: var(--cute-pink)">💖 全糖可爱主义</div>
+            </div>
         </div>
     </section>
 
-    <!-- 底部极简度量页脚 -->
+    <!-- 页脚落款 -->
     <footer class="site-footer">
         <div>
-            <span>XRJ STUDIO // GRAPHIC & SPATIAL DESIGN ARCHIVE</span>
+            Made with lots of <span class="footer-heart">💖</span>, curiosity &amp; coffee by XRJ (质子)
         </div>
-        <div>
-            <span>WIREFRAME 3D RENDER ENGINE (NO DEPENDENCIES)</span>
+        <div class="footer-links">
+            <a href="projects.html">💻 交互程序展台</a>
+            <span>·</span>
+            <a href="projects.html#fantasycitySection">🌸 幻想城水墨长卷</a>
+            <span>·</span>
+            <a href="works/index.html">🎮 Scratch 历年典藏</a>
+            <span>·</span>
+            <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
         </div>
-        <div>
-            <span>© 2022–2026 XRJ. ALL RIGHTS RESERVED.</span>
+        <div style="font-size: 0.76rem; color: #64748b; font-family: var(--font-mono);">
+            © 2022–2026 XRJ · ALL WONDERS RESERVED. 欢迎常来玩呀！(◍•ᴗ•◍)
         </div>
     </footer>
 
-    <!-- 交互式蓝图弹窗 (展示设计度量规格) -->
-    <div class="blueprint-modal-backdrop" id="blueprintModal">
+    <!-- 蓝图细节弹窗 -->
+    <div class="blueprint-modal-backdrop" id="posterModal">
         <div class="blueprint-modal-window">
-            <div class="modal-header-bar">
-                <span id="modalMetaSpec">BLUEPRINT DETAIL // SPEC-VIEW</span>
-                <button class="modal-close-btn" id="modalCloseBtn" aria-label="关闭">✕</button>
+            <div class="modal-top-bar">
+                <span id="mTag">POSTER BLUEPRINT DETAIL</span>
+                <button class="modal-close-pill" id="mClose">✕ 关闭</button>
             </div>
-            <div class="modal-body-layout">
-                <div class="modal-preview-box" id="modalPreviewBox">
-                    <!-- 动态注入放大版矢量预览 -->
+            <div class="modal-body">
+                <div class="modal-preview-stage" id="mPreview">
+                    <!-- SVG 预览将注入在此 -->
                 </div>
-                <div class="modal-info-col">
-                    <div>
-                        <h3 class="modal-title" id="modalTitle">作品名称</h3>
-                        <div class="modal-subtitle" id="modalSubtitle">作品副标题</div>
-                        <p class="modal-desc-text" id="modalDesc">作品详细设计理念与几何构造解析。</p>
-                    </div>
-
-                    <div class="metrics-grid-table">
-                        <div>
-                            <div class="metric-cell-label">设计类型 / TYPE</div>
-                            <div class="metric-cell-val" id="mType">实验海报</div>
-                        </div>
-                        <div>
-                            <div class="metric-cell-label">网格模数 / GRID</div>
-                            <div class="metric-cell-val" id="mGrid">12-COL 8PT</div>
-                        </div>
-                        <div>
-                            <div class="metric-cell-label">字体系统 / FONTS</div>
-                            <div class="metric-cell-val" id="mFont">Space Grotesk / 汉仪</div>
-                        </div>
-                        <div>
-                            <div class="metric-cell-label">色彩规范 / COLOR</div>
-                            <div class="metric-cell-val" id="mColor">PANTONE 801C + 特黑</div>
-                        </div>
-                    </div>
+                <div style="display:flex; flex-direction:column; justify-content:center; gap:12px;">
+                    <h3 id="mTitle" style="font-family: var(--font-cute); font-size: 1.6rem; color: #fff;">作品名称</h3>
+                    <div id="mSub" style="color: var(--cute-pink); font-family: var(--font-mono); font-size: 0.8rem;">副标题</div>
+                    <p id="mDesc" style="color: var(--text-sub); font-size: 0.92rem; line-height: 1.7;">详细解析说明...</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ============================================================
-       三维高密度线条渲染引擎 (Canvas 2D + 3D 矩阵投影，零重排高帧率)
+       三维高密度可爱线框伴侣引擎 (CuteWireframeEngine)
        ============================================================ -->
     <script>
-        /* 1. 3D 线构拓扑引擎 (LineSpatialEngine) */
-        const LineSpatialEngine = (function() {
-            const canvas = document.getElementById('wireframe-3d-canvas');
-            if (!canvas) return null;
+        const CuteWireframeEngine = (function() {
+            const canvas = document.getElementById('cute-3d-line-canvas');
+            const stage = document.getElementById('canvas3dStage');
+            if (!canvas || !stage) return null;
             const ctx = canvas.getContext('2d');
 
             let w = 0, h = 0;
@@ -1385,237 +1189,230 @@
             let animRAF = null;
             let isVisible = true;
 
-            // 摄像机视点与物理阻尼
-            let rotX = 0.38;
-            let rotY = 0.45;
-            let targetRotX = 0.38;
-            let targetRotY = 0.45;
+            // 摄像机视点与物理旋转
+            let rotX = 0.2;
+            let rotY = 0.3;
+            let targetRotX = 0.2;
+            let targetRotY = 0.3;
             let isDragging = false;
             let lastMouseX = 0, lastMouseY = 0;
 
-            // 当前拓扑模式: 'terrain' | 'posters' | 'ribbon' | 'swiss'
-            let currentMode = 'terrain';
+            // 萌萌互动状态: 眨眼、目光追踪与戳捏回弹
+            let eyeLookX = 0, eyeLookY = 0;
+            let blinkTimer = 0;
+            let isBlinking = false;
+            let squishY = 1, squishX = 1;
+            let stageRect = null;
 
-            // 预生成线条几何点集
+            // 当前形态: 'buddy' (萌萌伴侣) | 'saturn' (梦幻土星) | 'torus' (甜甜圈) | 'cube' (几何魔方)
+            let currentMood = 'buddy';
             let linesData = [];
 
+            function updateStageRect() {
+                if (stage) stageRect = stage.getBoundingClientRect();
+            }
+
             function resize() {
-                w = canvas.parentElement.clientWidth;
-                h = canvas.parentElement.clientHeight;
+                w = stage.clientWidth;
+                h = stage.clientHeight;
                 dpr = Math.min(window.devicePixelRatio || 1, 1.5);
                 canvas.width = w * dpr;
                 canvas.height = h * dpr;
                 ctx.scale(dpr, dpr);
-                buildGeometry(currentMode);
+                updateStageRect();
+                buildLines(currentMood);
             }
 
-            // 构建高密度三维线条拓扑
-            function buildGeometry(mode) {
+            // 构建密集三维线条拓扑
+            function buildLines(mood) {
                 linesData = [];
 
-                if (mode === 'terrain') {
-                    // 1. 空间地貌曲面网格 (高低起伏的数学线条网架)
-                    const cols = 28;
-                    const rows = 28;
-                    const spacing = 42;
-                    const offsetX = -(cols * spacing) / 2;
-                    const offsetZ = -(rows * spacing) / 2;
+                if (mood === 'buddy') {
+                    // 1. 萌萌线框机灵头球体 (由细密的经纬线 + 萌萌小腮红环构成)
+                    const radius = 105;
+                    const rings = 14;
+                    const segs = 24;
 
-                    const gridPoints = [];
-                    for (let r = 0; r <= rows; r++) {
-                        const row = [];
-                        for (let c = 0; c <= cols; c++) {
-                            const x = offsetX + c * spacing;
-                            const z = offsetZ + r * spacing;
-                            // 空间波形谐振
-                            const dist = Math.hypot(x, z) * 0.008;
-                            const y = Math.sin(x * 0.015) * Math.cos(z * 0.015) * 65 + Math.sin(dist * 4) * 30;
-                            row.push({ x, y, z });
-                        }
-                        gridPoints.push(row);
-                    }
-
-                    // 水平线条
-                    for (let r = 0; r <= rows; r++) {
-                        for (let c = 0; c < cols; c++) {
-                            linesData.push({ p1: gridPoints[r][c], p2: gridPoints[r][c + 1], type: 'grid' });
-                        }
-                    }
-                    // 垂直线条
-                    for (let c = 0; c <= cols; c++) {
-                        for (let r = 0; r < rows; r++) {
-                            linesData.push({ p1: gridPoints[r][c], p2: gridPoints[r + 1][c], type: 'grid' });
-                        }
-                    }
-
-                    // 空间中浮动的三维轴线与焦点指示
-                    linesData.push({ p1: { x: 0, y: -150, z: 0 }, p2: { x: 0, y: 150, z: 0 }, type: 'axis' });
-                    linesData.push({ p1: { x: -300, y: 0, z: 0 }, p2: { x: 300, y: 0, z: 0 }, type: 'axis' });
-                    linesData.push({ p1: { x: 0, y: 0, z: -300 }, p2: { x: 0, y: 0, z: 300 }, type: 'axis' });
-
-                } else if (mode === 'posters') {
-                    // 2. 多维海报透视矩阵 (多块在三维空间错落排布的平面设计画幅与投影连线)
-                    const posters = [
-                        { cx: -180, cy: -40, cz: -120, w: 160, h: 220, rx: 0.1, ry: -0.3 },
-                        { cx: 80, cy: -80, cz: 40, w: 180, h: 250, rx: -0.15, ry: 0.2 },
-                        { cx: 240, cy: 60, cz: -100, w: 150, h: 210, rx: 0.2, ry: -0.4 },
-                        { cx: -80, cy: 110, cz: 110, w: 170, h: 230, rx: -0.1, ry: 0.35 }
-                    ];
-
-                    posters.forEach(pst => {
-                        const hw = pst.w / 2;
-                        const hh = pst.h / 2;
-                        const corners = [
-                            { x: -hw, y: -hh, z: 0 },
-                            { x: hw, y: -hh, z: 0 },
-                            { x: hw, y: hh, z: 0 },
-                            { x: -hw, y: hh, z: 0 }
-                        ];
-
-                        // 旋转与偏移局部坐标
-                        const transCorners = corners.map(pt => {
-                            // 绕 Y 轴
-                            let x1 = pt.x * Math.cos(pst.ry) + pt.z * Math.sin(pst.ry);
-                            let z1 = -pt.x * Math.sin(pst.ry) + pt.z * Math.cos(pst.ry);
-                            // 绕 X 轴
-                            let y2 = pt.y * Math.cos(pst.rx) - z1 * Math.sin(pst.rx);
-                            let z2 = pt.y * Math.sin(pst.rx) + z1 * Math.cos(pst.rx);
-                            return { x: x1 + pst.cx, y: y2 + pst.cy, z: z2 + pst.cz };
-                        });
-
-                        // 画幅四周边框线
-                        for (let i = 0; i < 4; i++) {
-                            linesData.push({ p1: transCorners[i], p2: transCorners[(i + 1) % 4], type: 'hero' });
-                        }
-
-                        // 内部黄金分割网格辅助线
-                        const midLeft = {
-                            x: (transCorners[0].x * 0.618 + transCorners[3].x * 0.382),
-                            y: (transCorners[0].y * 0.618 + transCorners[3].y * 0.382),
-                            z: (transCorners[0].z * 0.618 + transCorners[3].z * 0.382)
-                        };
-                        const midRight = {
-                            x: (transCorners[1].x * 0.618 + transCorners[2].x * 0.382),
-                            y: (transCorners[1].y * 0.618 + transCorners[2].y * 0.382),
-                            z: (transCorners[1].z * 0.618 + transCorners[2].z * 0.382)
-                        };
-                        linesData.push({ p1: midLeft, p2: midRight, type: 'faint' });
-
-                        // 地面投影连线
-                        transCorners.forEach(c => {
-                            linesData.push({ p1: c, p2: { x: c.x, y: 160, z: c.z }, type: 'faint' });
-                        });
-                    });
-
-                    // 地面网格基准
-                    for (let x = -300; x <= 300; x += 60) {
-                        linesData.push({ p1: { x, y: 160, z: -300 }, p2: { x, y: 160, z: 300 }, type: 'grid' });
-                    }
-                    for (let z = -300; z <= 300; z += 60) {
-                        linesData.push({ p1: { x: -300, y: 160, z }, p2: { x: 300, y: 160, z }, type: 'grid' });
-                    }
-
-                } else if (mode === 'ribbon') {
-                    // 3. 莫比乌斯拓扑与曲率环带 (连续高密度线框螺旋)
-                    const segments = 120;
-                    const ringR = 210;
-                    const stripW = 65;
-                    const steps = 6;
-
-                    const ribbonPoints = [];
-                    for (let i = 0; i <= segments; i++) {
-                        const u = (i / segments) * Math.PI * 2;
+                    const spherePts = [];
+                    for (let i = 0; i <= rings; i++) {
+                        const theta = (i / rings) * Math.PI;
                         const ringRow = [];
-                        for (let j = 0; j <= steps; j++) {
-                            const v = ((j / steps) - 0.5) * stripW;
-                            // 莫比乌斯带参数化方程
-                            const x = (ringR + v * Math.cos(u / 2)) * Math.cos(u);
-                            const y = v * Math.sin(u / 2) * 1.5;
-                            const z = (ringR + v * Math.cos(u / 2)) * Math.sin(u);
+                        for (let j = 0; j <= segs; j++) {
+                            const phi = (j / segs) * Math.PI * 2;
+                            const x = radius * Math.sin(theta) * Math.cos(phi);
+                            const y = radius * Math.cos(theta);
+                            const z = radius * Math.sin(theta) * Math.sin(phi);
                             ringRow.push({ x, y, z });
                         }
-                        ribbonPoints.push(ringRow);
+                        spherePts.push(ringRow);
                     }
 
-                    // 纵向脊线
-                    for (let j = 0; j <= steps; j++) {
-                        for (let i = 0; i < segments; i++) {
+                    // 纬线圈
+                    for (let i = 1; i < rings; i++) {
+                        for (let j = 0; j < segs; j++) {
                             linesData.push({
-                                p1: ribbonPoints[i][j],
-                                p2: ribbonPoints[i + 1][j],
-                                type: (j === 0 || j === steps) ? 'hero' : 'grid'
+                                p1: spherePts[i][j],
+                                p2: spherePts[i][j + 1],
+                                type: (i === 7) ? 'accent-pink' : 'cyan-grid'
                             });
                         }
                     }
-                    // 横向肋骨线
-                    for (let i = 0; i < segments; i += 3) {
+                    // 经线圈
+                    for (let j = 0; j < segs; j += 2) {
+                        for (let i = 0; i < rings; i++) {
+                            linesData.push({
+                                p1: spherePts[i][j],
+                                p2: spherePts[i + 1][j],
+                                type: 'faint-grid'
+                            });
+                        }
+                    }
+
+                    // 左右可爱的小腮红螺旋线框
+                    [-1, 1].forEach(side => {
+                        const cx = side * 75;
+                        const cy = 25;
+                        const cz = 75;
+                        for (let a = 0; a < Math.PI * 2; a += 0.5) {
+                            linesData.push({
+                                p1: { x: cx + Math.cos(a) * 16, y: cy + Math.sin(a) * 12, z: cz },
+                                p2: { x: cx + Math.cos(a + 0.5) * 16, y: cy + Math.sin(a + 0.5) * 12, z: cz },
+                                type: 'accent-pink'
+                            });
+                        }
+                    });
+
+                    // 环绕伴侣自转的小光环 (Halo Ring)
+                    const haloR = 155;
+                    const hSegs = 36;
+                    for (let i = 0; i < hSegs; i++) {
+                        const a1 = (i / hSegs) * Math.PI * 2;
+                        const a2 = ((i + 1) / hSegs) * Math.PI * 2;
                         linesData.push({
-                            p1: ribbonPoints[i][0],
-                            p2: ribbonPoints[i][steps],
-                            type: 'accent'
+                            p1: { x: Math.cos(a1) * haloR, y: Math.sin(a1) * 25, z: Math.sin(a1) * haloR },
+                            p2: { x: Math.cos(a2) * haloR, y: Math.sin(a2) * 25, z: Math.sin(a2) * haloR },
+                            type: 'sparkle-yellow'
                         });
                     }
 
-                } else if (mode === 'swiss') {
-                    // 4. 瑞士现代主义三维立方体网格 (正交度量轴线与空间模数立方体)
-                    const boxSize = 240;
-                    const half = boxSize / 2;
-                    const cuts = 4;
-                    const step = boxSize / cuts;
+                } else if (mood === 'saturn') {
+                    // 2. 梦幻土星与稠密三维行星环线
+                    const planetR = 75;
+                    const rings = 10;
+                    const segs = 20;
 
-                    // 空间立方体框架
+                    for (let i = 0; i <= rings; i++) {
+                        const theta = (i / rings) * Math.PI;
+                        for (let j = 0; j < segs; j++) {
+                            const phi1 = (j / segs) * Math.PI * 2;
+                            const phi2 = ((j + 1) / segs) * Math.PI * 2;
+                            linesData.push({
+                                p1: { x: planetR * Math.sin(theta) * Math.cos(phi1), y: planetR * Math.cos(theta), z: planetR * Math.sin(theta) * Math.sin(phi1) },
+                                p2: { x: planetR * Math.sin(theta) * Math.cos(phi2), y: planetR * Math.cos(theta), z: planetR * Math.sin(theta) * Math.sin(phi2) },
+                                type: 'cyan-grid'
+                            });
+                        }
+                    }
+
+                    // 土星三大同心环层
+                    const ringRadii = [115, 135, 155, 175, 195];
+                    ringRadii.forEach((r, idx) => {
+                        const rSegs = 48;
+                        const type = (idx % 2 === 0) ? 'accent-pink' : 'sparkle-yellow';
+                        for (let i = 0; i < rSegs; i++) {
+                            const a1 = (i / rSegs) * Math.PI * 2;
+                            const a2 = ((i + 1) / rSegs) * Math.PI * 2;
+                            // 倾斜 24°
+                            const tilt = 0.42;
+                            const y1 = Math.sin(a1) * r * Math.sin(tilt);
+                            const z1 = Math.sin(a1) * r * Math.cos(tilt);
+                            const y2 = Math.sin(a2) * r * Math.sin(tilt);
+                            const z2 = Math.sin(a2) * r * Math.cos(tilt);
+                            linesData.push({
+                                p1: { x: Math.cos(a1) * r, y: y1, z: z1 },
+                                p2: { x: Math.cos(a2) * r, y: y2, z: z2 },
+                                type
+                            });
+                        }
+                    });
+
+                } else if (mood === 'torus') {
+                    // 3. 梦幻甜甜圈拓扑
+                    const R = 110;
+                    const r = 45;
+                    const uSteps = 30;
+                    const vSteps = 16;
+
+                    for (let i = 0; i < uSteps; i++) {
+                        const u1 = (i / uSteps) * Math.PI * 2;
+                        const u2 = ((i + 1) / uSteps) * Math.PI * 2;
+                        for (let j = 0; j < vSteps; j++) {
+                            const v1 = (j / vSteps) * Math.PI * 2;
+                            const v2 = ((j + 1) / vSteps) * Math.PI * 2;
+
+                            const pA = {
+                                x: (R + r * Math.cos(v1)) * Math.cos(u1),
+                                y: r * Math.sin(v1),
+                                z: (R + r * Math.cos(v1)) * Math.sin(u1)
+                            };
+                            const pB = {
+                                x: (R + r * Math.cos(v1)) * Math.cos(u2),
+                                y: r * Math.sin(v1),
+                                z: (R + r * Math.cos(v1)) * Math.sin(u2)
+                            };
+                            const pC = {
+                                x: (R + r * Math.cos(v2)) * Math.cos(u1),
+                                y: r * Math.sin(v2),
+                                z: (R + r * Math.cos(v2)) * Math.sin(u1)
+                            };
+
+                            linesData.push({ p1: pA, p2: pB, type: (j % 4 === 0) ? 'accent-pink' : 'cyan-grid' });
+                            linesData.push({ p1: pA, p2: pC, type: 'faint-grid' });
+                        }
+                    }
+
+                } else if (mood === 'cube') {
+                    // 4. 可爱几何魔方线框
+                    const size = 130;
+                    const half = size / 2;
+                    const div = 3;
+                    const step = size / div;
+
                     for (let x = -half; x <= half; x += step) {
                         for (let y = -half; y <= half; y += step) {
-                            linesData.push({ p1: { x, y, z: -half }, p2: { x, y, z: half }, type: 'faint' });
+                            linesData.push({ p1: { x, y, z: -half }, p2: { x, y, z: half }, type: 'cyan-grid' });
                         }
                     }
                     for (let y = -half; y <= half; y += step) {
                         for (let z = -half; z <= half; z += step) {
-                            linesData.push({ p1: { x: -half, y, z }, p2: { x: half, y, z }, type: 'faint' });
+                            linesData.push({ p1: { x: -half, y, z }, p2: { x: half, y, z }, type: 'accent-pink' });
                         }
                     }
                     for (let x = -half; x <= half; x += step) {
                         for (let z = -half; z <= half; z += step) {
-                            linesData.push({ p1: { x, y: -half, z }, p2: { x, y: half, z }, type: 'faint' });
+                            linesData.push({ p1: { x, y: -half, z }, p2: { x, y: half, z }, type: 'sparkle-yellow' });
                         }
                     }
-
-                    // 核心高光立方体
-                    const coreH = half * 0.6;
-                    const cCorners = [
-                        { x: -coreH, y: -coreH, z: -coreH },
-                        { x: coreH, y: -coreH, z: -coreH },
-                        { x: coreH, y: coreH, z: -coreH },
-                        { x: -coreH, y: coreH, z: -coreH },
-                        { x: -coreH, y: -coreH, z: coreH },
-                        { x: coreH, y: -coreH, z: coreH },
-                        { x: coreH, y: coreH, z: coreH },
-                        { x: -coreH, y: coreH, z: coreH }
-                    ];
-                    const edges = [
-                        [0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],
-                        [0,4],[1,5],[2,6],[3,7]
-                    ];
-                    edges.forEach(e => {
-                        linesData.push({ p1: cCorners[e[0]], p2: cCorners[e[1]], type: 'hero' });
-                    });
                 }
             }
 
-            // 3D 点透视变换计算
-            const fov = 750;
+            // 透视投影
+            const fov = 520;
             function project(p, rotCosX, rotSinX, rotCosY, rotSinY) {
-                // 绕 Y 轴旋转
-                const x1 = p.x * rotCosY + p.z * rotSinY;
-                const z1 = -p.x * rotSinY + p.z * rotCosY;
+                // 捏捏回弹形变 (Squish physics)
+                const sx = p.x * squishX;
+                const sy = p.y * squishY;
+                const sz = p.z;
 
-                // 绕 X 轴旋转
-                const y2 = p.y * rotCosX - z1 * rotSinX;
-                const z2 = p.y * rotSinX + z1 * rotCosX;
+                // 旋转
+                const x1 = sx * rotCosY + sz * rotSinY;
+                const z1 = -sx * rotSinY + sz * rotCosY;
 
-                // 深度平移
-                const zDist = z2 + 650;
-                if (zDist <= 20) return null;
+                const y2 = sy * rotCosX - z1 * rotSinX;
+                const z2 = sy * rotSinX + z1 * rotCosX;
+
+                const zDist = z2 + 480;
+                if (zDist <= 10) return null;
 
                 const scale = fov / zDist;
                 return {
@@ -1625,7 +1422,7 @@
                 };
             }
 
-            // 渲染主循环（限频 ~60 FPS，零强制布局重排）
+            // 渲染主循环
             let lastTime = 0;
             function render(time) {
                 if (!isVisible) {
@@ -1637,13 +1434,27 @@
                 if (time - lastTime < 16) return;
                 lastTime = time;
 
-                // 阻尼逼近目标角度
-                rotX += (targetRotX - rotX) * 0.06;
-                rotY += (targetRotY - rotY) * 0.06;
+                // 物理阻尼与平滑逼近
+                rotX += (targetRotX - rotX) * 0.08;
+                rotY += (targetRotY - rotY) * 0.08;
 
-                // 默认持续轻微自转
+                // 捏捏弹性衰减复原
+                squishX += (1 - squishX) * 0.12;
+                squishY += (1 - squishY) * 0.12;
+
+                // 默认缓慢惬意自转
                 if (!isDragging) {
-                    targetRotY += 0.0016;
+                    targetRotY += 0.004;
+                }
+
+                // 眨眼定时器
+                blinkTimer++;
+                if (blinkTimer > 180) {
+                    isBlinking = true;
+                    if (blinkTimer > 192) {
+                        isBlinking = false;
+                        blinkTimer = 0;
+                    }
                 }
 
                 ctx.clearRect(0, 0, w, h);
@@ -1653,105 +1464,161 @@
                 const rotCosY = Math.cos(rotY);
                 const rotSinY = Math.sin(rotY);
 
-                // 投影全部线段
+                // 收集投影并按深度排序
                 const renderLines = [];
                 for (let i = 0; i < linesData.length; i++) {
                     const l = linesData[i];
-                    const proj1 = project(l.p1, rotCosX, rotSinX, rotCosY, rotSinY);
-                    const proj2 = project(l.p2, rotCosX, rotSinX, rotCosY, rotSinY);
-                    if (proj1 && proj2) {
-                        const avgDepth = (proj1.depth + proj2.depth) * 0.5;
+                    const p1 = project(l.p1, rotCosX, rotSinX, rotCosY, rotSinY);
+                    const p2 = project(l.p2, rotCosX, rotSinX, rotCosY, rotSinY);
+                    if (p1 && p2) {
+                        const avgDepth = (p1.depth + p2.depth) * 0.5;
                         renderLines.push({
-                            x1: proj1.x, y1: proj1.y,
-                            x2: proj2.x, y2: proj2.y,
+                            x1: p1.x, y1: p1.y,
+                            x2: p2.x, y2: p2.y,
                             depth: avgDepth,
                             type: l.type
                         });
                     }
                 }
 
-                // 深度排序（由远及近绘制）
                 renderLines.sort((a, b) => b.depth - a.depth);
 
-                // 批量绘制
+                // 批量绘制 3D 线段
                 for (let i = 0; i < renderLines.length; i++) {
                     const l = renderLines[i];
-                    // 深度衰减计算
-                    const depthFactor = Math.max(0.12, Math.min(1, 1 - (l.depth - 250) / 900));
+                    const alphaDepth = Math.max(0.15, Math.min(1, 1 - (l.depth - 250) / 550));
 
                     ctx.beginPath();
                     ctx.moveTo(l.x1, l.y1);
                     ctx.lineTo(l.x2, l.y2);
 
-                    if (l.type === 'hero') {
-                        ctx.strokeStyle = `rgba(0, 240, 255, ${0.45 + depthFactor * 0.55})`;
-                        ctx.lineWidth = 1.6 * depthFactor;
-                    } else if (l.type === 'accent') {
-                        ctx.strokeStyle = `rgba(245, 158, 11, ${0.4 + depthFactor * 0.5})`;
-                        ctx.lineWidth = 1.3 * depthFactor;
-                    } else if (l.type === 'axis') {
-                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.3 + depthFactor * 0.4})`;
-                        ctx.lineWidth = 1.1 * depthFactor;
-                    } else if (l.type === 'faint') {
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.04 + depthFactor * 0.12})`;
-                        ctx.lineWidth = 0.8;
+                    if (l.type === 'accent-pink') {
+                        ctx.strokeStyle = `rgba(255, 121, 198, ${0.45 + alphaDepth * 0.55})`;
+                        ctx.lineWidth = 1.6 * alphaDepth;
+                    } else if (l.type === 'sparkle-yellow') {
+                        ctx.strokeStyle = `rgba(253, 224, 71, ${0.5 + alphaDepth * 0.5})`;
+                        ctx.lineWidth = 1.4 * alphaDepth;
+                    } else if (l.type === 'faint-grid') {
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.06 + alphaDepth * 0.14})`;
+                        ctx.lineWidth = 0.9 * alphaDepth;
                     } else {
-                        // 基础网格线
-                        ctx.strokeStyle = `rgba(0, 240, 255, ${0.08 + depthFactor * 0.22})`;
-                        ctx.lineWidth = 1.0 * depthFactor;
+                        // 晴空青色线
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${0.35 + alphaDepth * 0.55})`;
+                        ctx.lineWidth = 1.2 * alphaDepth;
                     }
                     ctx.stroke();
                 }
+
+                // 若在萌萌伴侣模式下，在前方投影绘制两只灵动的 3D 大眼睛
+                if (currentMood === 'buddy') {
+                    // 头部正前方锚点
+                    const eyeCenterPos = project({ x: 0, y: -8, z: 106 }, rotCosX, rotSinX, rotCosY, rotSinY);
+                    if (eyeCenterPos) {
+                        const cx = eyeCenterPos.x;
+                        const cy = eyeCenterPos.y;
+
+                        // 眨眼动画
+                        const eyeH = isBlinking ? 1.5 : 12;
+                        const eyeW = 9;
+                        const eyeSpan = 24;
+
+                        // 目光偏移
+                        const lookOffsetX = eyeLookX * 4;
+                        const lookOffsetY = eyeLookY * 3;
+
+                        [-1, 1].forEach(side => {
+                            const ex = cx + side * eyeSpan + lookOffsetX;
+                            const ey = cy + lookOffsetY;
+
+                            // 眼睛主体
+                            ctx.fillStyle = '#ffffff';
+                            ctx.beginPath();
+                            ctx.ellipse(ex, ey, eyeW, eyeH, 0, 0, Math.PI * 2);
+                            ctx.fill();
+
+                            // 瞳孔
+                            if (!isBlinking) {
+                                ctx.fillStyle = '#0c0e17';
+                                ctx.beginPath();
+                                ctx.ellipse(ex + lookOffsetX * 0.4, ey + lookOffsetY * 0.4, eyeW * 0.6, eyeH * 0.7, 0, 0, Math.PI * 2);
+                                ctx.fill();
+
+                                // 高光萌萌小圆点
+                                ctx.fillStyle = '#ffffff';
+                                ctx.beginPath();
+                                ctx.arc(ex + 2, ey - 3, 2.5, 0, Math.PI * 2);
+                                ctx.fill();
+                            }
+                        });
+
+                        // 嘴巴 (｡•‿•｡)
+                        if (!isBlinking) {
+                            ctx.strokeStyle = '#ffffff';
+                            ctx.lineWidth = 2;
+                            ctx.beginPath();
+                            ctx.arc(cx + lookOffsetX * 0.5, cy + 16 + lookOffsetY * 0.5, 6, 0.2, Math.PI - 0.2);
+                            ctx.stroke();
+                        }
+                    }
+                }
             }
 
-            // 事件监听与交互
+            // 事件与交互绑定
             function bindEvents() {
-                window.addEventListener('resize', resize, { passive: true });
+                window.addEventListener('resize', () => { resize(); updateStageRect(); }, { passive: true });
+                window.addEventListener('scroll', updateStageRect, { passive: true });
 
-                canvas.addEventListener('pointerdown', (e) => {
+                // 拖拽旋转
+                stage.addEventListener('pointerdown', (e) => {
                     isDragging = true;
                     lastMouseX = e.clientX;
                     lastMouseY = e.clientY;
+
+                    // 捏捏弹性反馈！
+                    squishY = 0.75;
+                    squishX = 1.25;
                 });
 
                 window.addEventListener('pointermove', (e) => {
-                    if (!isDragging) return;
-                    const dx = e.clientX - lastMouseX;
-                    const dy = e.clientY - lastMouseY;
-                    targetRotY += dx * 0.005;
-                    targetRotX -= dy * 0.005;
-                    targetRotX = Math.max(-1.2, Math.min(1.2, targetRotX));
-                    lastMouseX = e.clientX;
-                    lastMouseY = e.clientY;
-                });
+                    if (isDragging) {
+                        const dx = e.clientX - lastMouseX;
+                        const dy = e.clientY - lastMouseY;
+                        targetRotY += dx * 0.007;
+                        targetRotX -= dy * 0.007;
+                        targetRotX = Math.max(-1.1, Math.min(1.1, targetRotX));
+                        lastMouseX = e.clientX;
+                        lastMouseY = e.clientY;
+                    }
+
+                    // 目光跟随鼠标方向
+                    if (!stageRect) updateStageRect();
+                    if (stageRect) {
+                        const stageCenterX = stageRect.left + stageRect.width / 2;
+                        const stageCenterY = stageRect.top + stageRect.height / 2;
+                        eyeLookX = Math.max(-1, Math.min(1, (e.clientX - stageCenterX) / (stageRect.width / 2)));
+                        eyeLookY = Math.max(-1, Math.min(1, (e.clientY - stageCenterY) / (stageRect.height / 2)));
+                    }
+                }, { passive: true });
 
                 window.addEventListener('pointerup', () => { isDragging = false; });
                 window.addEventListener('pointercancel', () => { isDragging = false; });
 
-                // 鼠标悬停倾斜微调
-                window.addEventListener('mousemove', (e) => {
-                    if (isDragging) return;
-                    const normX = (e.clientX / window.innerWidth) - 0.5;
-                    const normY = (e.clientY / window.innerHeight) - 0.5;
-                    targetRotY += normX * 0.0004;
-                    targetRotX += normY * 0.0003;
-                }, { passive: true });
-
-                // 模式切换
-                const controls = document.getElementById('wireframeControls');
-                if (controls) {
-                    controls.addEventListener('click', (e) => {
-                        const btn = e.target.closest('.ctrl-btn');
+                // 切换心情形态
+                const moodDock = document.getElementById('moodDock');
+                if (moodDock) {
+                    moodDock.addEventListener('click', (e) => {
+                        const btn = e.target.closest('.mood-btn');
                         if (!btn) return;
-                        controls.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+                        moodDock.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
-                        currentMode = btn.getAttribute('data-mode');
-                        buildGeometry(currentMode);
+                        currentMood = btn.getAttribute('data-mood');
+                        squishY = 0.8;
+                        squishX = 1.2;
+                        buildLines(currentMood);
                     });
                 }
 
-                // 视口感知暂停：滑离 Hero 区彻底休眠 rAF
-                const stage = document.getElementById('heroSpatialStage');
+                // 视口感知暂停：离开可视区时彻底休眠 rAF
                 const observer = new IntersectionObserver((entries) => {
                     isVisible = entries[0].isIntersecting;
                     if (isVisible) {
@@ -1760,7 +1627,7 @@
                         cancelAnimationFrame(animRAF);
                         animRAF = null;
                     }
-                }, { threshold: 0.04 });
+                }, { threshold: 0.05 });
                 observer.observe(stage);
             }
 
@@ -1773,119 +1640,29 @@
             return { init };
         })();
 
-        /* 2. 平面设计作品过滤与详情弹窗系统 */
-        (function initGallerySystem() {
-            // 筛选过滤器
-            const filterRow = document.getElementById('filterPills');
-            const cards = document.querySelectorAll('.design-poster-card');
-            if (filterRow) {
-                filterRow.addEventListener('click', (e) => {
-                    const btn = e.target.closest('.filter-pill');
-                    if (!btn) return;
-                    filterRow.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-                    btn.classList.add('active');
-                    const cat = btn.getAttribute('data-filter');
-
-                    cards.forEach(card => {
-                        const cCat = card.getAttribute('data-category');
-                        if (cat === 'all' || cCat === cat) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            }
-
-            // 弹窗数据字典
-            const projectData = {
-                p1: {
-                    title: '《度规与解构》',
-                    subtitle: '实验海报与字体拓扑 (Typographic Poster)',
-                    desc: '在包豪斯与解构主义的交汇点上，探讨汉字构形与拉丁字母在空间中的重叠张力。利用精密坐标定位锚点，以 0.5px 的精密网格线破开实体笔画，展现理性度量之下的纯粹形态。',
-                    type: '实验海报 / 字体设计',
-                    grid: '12 栏黄金比例网格',
-                    fonts: 'Space Grotesk / 汉仪黑体',
-                    color: 'PANTONE 801C (荧光青) + 极黑'
-                },
-                p2: {
-                    title: '《秩序的崇高》',
-                    subtitle: '瑞士国际主义网格系统重构 (Swiss Grid System)',
-                    desc: '基于约瑟夫·米勒-布鲁克曼的经典栅格系统理论，对现代多媒体资讯排版进行严格的模数化划分。文字字阶采用 8pt 递增音律数列，展现极端克制与秩序井然的平面美学。',
-                    type: '版面系统 / 书籍设计',
-                    grid: '12-COL 8PT Baseline',
-                    fonts: 'Inter / Noto Serif SC',
-                    color: '墨黑 + 冷烫银 + 特种哑粉'
-                },
-                p3: {
-                    title: '《拓扑折痕》',
-                    subtitle: '空间几何立体包装与刀模线条 (Spatial Packaging)',
-                    desc: '探索从二维平面到三维物体的折叠瞬间。仅依靠一张纸的自锁紧结构，无需胶水黏合。包装表面布满严谨的裁切刀线与压痕线图解，展现工业工程与平面视觉的交织。',
-                    type: '立体包装 / 空间刀模',
-                    grid: '非欧几何折痕网络',
-                    fonts: 'JetBrains Mono',
-                    color: '高对比度哑光白 + 烫印橙'
-                },
-                p4: {
-                    title: '《算式绘形》',
-                    subtitle: '生成式线条与动态向量 (Parametric Lines)',
-                    desc: '通过傅里叶变换与三角函数谐振群，将声音振幅实时映射为上千条光滑的贝塞尔微线。在平面的静止媒介中注入如同水波与琴弦震颤般的视觉韵律。',
-                    type: '生成式视觉 / 动态参数化',
-                    grid: '极坐标函数网架',
-                    fonts: 'Space Grotesk',
-                    color: 'RGB 动态流体青蓝'
-                },
-                p5: {
-                    title: '《符号之核》',
-                    subtitle: '品牌视觉系统与徽标几何 (Brand Identity)',
-                    desc: '严苛遵循 1:1.618 黄金分割比例的徽标视觉系统设计。每一处曲线倒角、直线交汇点与线宽均由精确的几何辅助网格推导，赋予品牌标志极强的稳定感与权威感。',
-                    type: '品牌识别 / 标志规范',
-                    grid: '黄金比例网格切线',
-                    fonts: 'Cinzel / Inter',
-                    color: '黑白极简 + 烫金工艺'
-                },
-                p6: {
-                    title: '《墨线与负空间》',
-                    subtitle: '东方写意与现代极简线条 (Eastern Ink & Vector)',
-                    desc: '传统水墨写意的枯笔焦墨，与现代计算机矢量的精密细线在同一画幅中碰撞。利用极细的矢量射线切割墨滴与负空间，在黑白虚实之间重塑东方意境的当代视觉表达。',
-                    type: '东方现代 / 负空间实验',
-                    grid: '留白气韵自由度量',
-                    fonts: 'Noto Serif SC',
-                    color: '徽墨纯黑 + 哑光朱砂红'
-                }
-            };
-
-            const modal = document.getElementById('blueprintModal');
-            const closeBtn = document.getElementById('modalCloseBtn');
-            const mTitle = document.getElementById('modalTitle');
-            const mSubtitle = document.getElementById('modalSubtitle');
-            const mDesc = document.getElementById('modalDesc');
-            const mType = document.getElementById('mType');
-            const mGrid = document.getElementById('mGrid');
-            const mFont = document.getElementById('mFont');
-            const mColor = document.getElementById('mColor');
-            const previewBox = document.getElementById('modalPreviewBox');
+        /* 2. 弹窗微交互 */
+        (function initModal() {
+            const modal = document.getElementById('posterModal');
+            const closeBtn = document.getElementById('mClose');
+            const cards = document.querySelectorAll('.mini-poster-card');
+            const mTitle = document.getElementById('mTitle');
+            const mSub = document.getElementById('mSub');
+            const mDesc = document.getElementById('mDesc');
+            const mPreview = document.getElementById('mPreview');
 
             cards.forEach(card => {
                 card.addEventListener('click', () => {
-                    const id = card.getAttribute('data-id');
-                    const d = projectData[id];
-                    if (!d) return;
+                    const title = card.getAttribute('data-title');
+                    const type = card.getAttribute('data-type');
+                    const desc = card.getAttribute('data-desc');
+                    const svg = card.querySelector('.mini-poster-svg');
 
-                    mTitle.textContent = d.title;
-                    mSubtitle.textContent = d.subtitle;
-                    mDesc.textContent = d.desc;
-                    mType.textContent = d.type;
-                    mGrid.textContent = d.grid;
-                    mFont.textContent = d.fonts;
-                    mColor.textContent = d.color;
-
-                    // 克隆卡片内的 SVG 预览至弹窗
-                    const svg = card.querySelector('.card-vector-svg');
+                    mTitle.textContent = title;
+                    mSub.textContent = type;
+                    mDesc.textContent = desc;
                     if (svg) {
-                        previewBox.innerHTML = svg.outerHTML;
+                        mPreview.innerHTML = svg.outerHTML;
                     }
-
                     modal.classList.add('active');
                 });
             });
@@ -1893,7 +1670,6 @@
             function closeModal() {
                 modal.classList.remove('active');
             }
-
             if (closeBtn) closeBtn.addEventListener('click', closeModal);
             if (modal) {
                 modal.addEventListener('click', (e) => {
@@ -1901,16 +1677,14 @@
                 });
             }
             window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeModal();
-                }
+                if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
             });
         })();
 
-        // 页面就绪启动
+        // 页面启动
         window.addEventListener('DOMContentLoaded', () => {
-            if (LineSpatialEngine) {
-                LineSpatialEngine.init();
+            if (CuteWireframeEngine) {
+                CuteWireframeEngine.init();
             }
         });
     </script>
