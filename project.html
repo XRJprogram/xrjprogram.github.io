@@ -82,80 +82,26 @@
             --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ============================================================
-           全浏览器原生滚动条消除 (隐藏默认三角箭头、生硬滑块，全平台统一样式)
-           ============================================================ */
-        html {
-            scrollbar-width: none !important; /* Firefox 隐藏原生滚动条 */
-            -ms-overflow-style: none !important; /* IE / 旧版 Edge 隐藏原生滚动条 */
-            scroll-behavior: auto; /* 由平滑阻尼滚轮引擎精准接管，避免原声碰撞冲突 */
-        }
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar,
-        *::-webkit-scrollbar {
-            display: none !important;
-            width: 0 !important;
-            height: 0 !important;
-        }
-
-        /* ============================================================
-           专属右侧长圆柱胶囊滚动条 (纯长圆柱、无任何上下箭头、全浏览器统一响应)
-           ============================================================ */
-        .custom-scrollbar {
-            position: fixed;
-            top: 0;
-            right: 4px;
-            width: 14px;
+        html, body {
+            width: 100vw;
             height: 100vh;
-            z-index: 99999;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease;
-        }
-        .custom-scroll-track {
-            position: relative;
-            width: 100%;
-            height: calc(100vh - 24px);
-            margin-top: 12px;
-            pointer-events: auto;
-            cursor: pointer;
-        }
-        /* 纯正现代单一长圆柱胶囊滑块：单一圆柱、彻底无嵌套内芯、无上下箭头 */
-        .custom-scroll-thumb {
-            position: absolute;
-            top: 0;
-            right: 3px;
-            width: 7px;
-            min-height: 64px; /* 唯一一个长圆柱胶囊形态 */
-            border-radius: 9999px; /* 极简现代单一长圆柱 */
-            background: var(--custom-scroll-color, rgba(148, 163, 184, 0.5));
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
-            cursor: grab;
-            transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.25s ease;
-            will-change: transform;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: none;
-        }
-        .custom-scroll-thumb:hover,
-        .custom-scroll-thumb.is-dragging {
-            width: 10px;
-            cursor: grabbing;
-            background: var(--custom-scroll-hover, #38bdf8);
-            box-shadow: 0 0 14px var(--custom-scroll-glow, rgba(56, 189, 248, 0.55));
-        }
-        @media (max-width: 768px) {
-            .custom-scrollbar {
-                display: none !important;
-            }
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
 
         body {
@@ -1079,12 +1025,6 @@
     <!-- 全屏星空 Canvas (滑动至水墨玄境时平滑减淡) -->
     <canvas id="cosmos-canvas"></canvas>
 
-    <!-- 专属极简单一长圆柱胶囊滚动条（纯单个圆柱，彻底去除嵌套内芯与上下箭头） -->
-    <div id="custom-scrollbar" class="custom-scrollbar" aria-hidden="true">
-        <div id="custom-scroll-track" class="custom-scroll-track">
-            <div id="custom-scroll-thumb" class="custom-scroll-thumb"></div>
-        </div>
-    </div>
 
     <!-- 页眉：固定悬浮顶栏（左侧 XRJPROGRAM，右侧 GitHub 源码，不推挤卡片） -->
     <header class="floating-navbar">
@@ -1115,13 +1055,11 @@
     <!-- 底部极简版面导航 (全站各独立 HTML 页面互通) -->
     <footer class="deck-bottom-bar">
         <div class="deck-nav-left">
-            <a href="index.html" class="deck-nav-link">← ABOUT XRJ</a>
+            <a href="index.html" class="deck-nav-link">← XRJPROGRAM</a>
             <span class="deck-nav-sep">/</span>
             <a href="FantasyCity/index.html" class="deck-nav-link smart-link" data-path="FantasyCity/index.html">FANTASY CITY</a>
             <span class="deck-nav-sep">/</span>
             <a href="works/index.html" class="deck-nav-link">SCRATCH WORKS</a>
-            <span class="deck-nav-sep">/</span>
-            <a href="motion.html" class="deck-nav-link">MOTION</a>
         </div>
         <div class="deck-nav-right">
             <span>7 ARTIFACTS · 3D INTERACTIVE DECK</span>
@@ -2259,102 +2197,7 @@
             };
         })();
 
-        /* 7. 专属长圆柱胶囊滚动条系统 & 鼠标滚轮平滑阻尼优化引擎 */
-        (function initScrollbarAndWheelOptimization() {
-            const track = document.getElementById('custom-scroll-track');
-            const thumb = document.getElementById('custom-scroll-thumb');
-            if (!track || !thumb) return;
-
-            let trackHeight = 0;
-            let thumbHeight = 72;
-            let maxScroll = 0;
-            let isDragging = false;
-            let startPointerY = 0;
-            let startScrollY = 0;
-
-            function updateMetrics() {
-                trackHeight = track.clientHeight;
-                const docHeight = document.documentElement.scrollHeight;
-                const winHeight = window.innerHeight;
-                maxScroll = Math.max(1, docHeight - winHeight);
-
-                // 计算长圆柱高度，最小 72px，保持优雅的长圆柱几何形态
-                const ratio = winHeight / docHeight;
-                thumbHeight = Math.max(72, Math.min(trackHeight * 0.45, trackHeight * ratio));
-                thumb.style.height = `${thumbHeight}px`;
-            }
-
-            function updateThumbPosition() {
-                const scrollY = window.scrollY;
-                const availableTrack = trackHeight - thumbHeight;
-                const scrollRatio = Math.max(0, Math.min(1, scrollY / maxScroll));
-                const thumbY = scrollRatio * availableTrack;
-                thumb.style.transform = `translateY(${thumbY}px)`;
-            }
-
-            window.addEventListener('resize', () => {
-                updateMetrics();
-                updateThumbPosition();
-            });
-            let thumbTicking = false;
-            function onScrollThumb() {
-                if (!thumbTicking) {
-                    requestAnimationFrame(() => {
-                        thumbTicking = false;
-                        updateThumbPosition();
-                    });
-                    thumbTicking = true;
-                }
-            }
-            window.addEventListener('scroll', onScrollThumb, { passive: true });
-
-            updateMetrics();
-            updateThumbPosition();
-
-            // 1. 拖拽长圆柱滑块（指针捕获支持）
-            thumb.addEventListener('pointerdown', (e) => {
-                if (e.button !== 0) return;
-                isDragging = true;
-                thumb.classList.add('is-dragging');
-                startPointerY = e.clientY;
-                startScrollY = window.scrollY;
-                thumb.setPointerCapture(e.pointerId);
-                e.preventDefault();
-            });
-
-            thumb.addEventListener('pointermove', (e) => {
-                if (!isDragging) return;
-                const deltaY = e.clientY - startPointerY;
-                const availableTrack = trackHeight - thumbHeight;
-                const scrollDelta = (deltaY / availableTrack) * maxScroll;
-                window.scrollTo(0, Math.max(0, Math.min(maxScroll, startScrollY + scrollDelta)));
-            });
-
-            const onPointerUp = (e) => {
-                if (!isDragging) return;
-                isDragging = false;
-                thumb.classList.remove('is-dragging');
-                try { thumb.releasePointerCapture(e.pointerId); } catch (_) {}
-            };
-            thumb.addEventListener('pointerup', onPointerUp);
-            thumb.addEventListener('pointercancel', onPointerUp);
-
-            // 2. 点击轨道跳转
-            track.addEventListener('click', (e) => {
-                if (e.target === thumb || thumb.contains(e.target)) return;
-                const rect = track.getBoundingClientRect();
-                const clickY = e.clientY - rect.top;
-                const availableTrack = trackHeight - thumbHeight;
-                const targetThumbY = clickY - thumbHeight / 2;
-                const targetRatio = Math.max(0, Math.min(1, targetThumbY / availableTrack));
-                window.scrollTo({
-                    top: targetRatio * maxScroll,
-                    behavior: 'smooth'
-                });
-            });
-        })();
-
-
-    </script>
+        
+</script>
 </body>
 </html>
