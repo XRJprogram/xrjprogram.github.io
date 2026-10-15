@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XRJprogram</title>
     <meta name="description" content="XRJprogram 个人主页：代码、平面设计与空间线构。">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f0ff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='9'/><line x1='12' y1='3' x2='12' y2='21'/><line x1='3' y1='12' x2='21' y2='12'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff7a00' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='9'/><line x1='12' y1='3' x2='12' y2='21'/><line x1='3' y1='12' x2='21' y2='12'/></svg>">
 
     <!-- 典雅字体：Space Grotesk、JetBrains Mono 与人文黑体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,12 +17,14 @@
 
     <style>
         :root {
-            --bg-void: #030408;
+            --bg-void: #040508;
             --text-main: #ffffff;
             --text-sub: #94a3b8;
             --text-dim: #64748b;
-            --line-cyan: #00f0ff;
-            --line-pink: #f472b6;
+            --line-orange: #ff7a00;
+            --line-orange-bright: #fb923c;
+            --line-beige: #fef08a;
+            --line-deep-orange: #c2410c;
             --font-display: 'Space Grotesk', -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
             --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
@@ -49,14 +51,17 @@
             position: relative;
         }
 
-        /* 纯黑背景微弱径向渐晕 */
+        /* 纯黑背景微弱橙红与焦糖渐晕底纹 */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             background-image: 
-                radial-gradient(circle at 65% 50%, rgba(0, 240, 255, 0.035) 0%, transparent 60%),
-                radial-gradient(circle at 30% 60%, rgba(244, 114, 182, 0.025) 0%, transparent 50%);
+                radial-gradient(circle at 65% 50%, rgba(255, 122, 0, 0.055) 0%, transparent 60%),
+                radial-gradient(circle at 30% 60%, rgba(194, 65, 12, 0.04) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
             pointer-events: none;
             z-index: 0;
         }
@@ -103,11 +108,11 @@
             pointer-events: auto;
         }
         .brand-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--line-cyan);
+            width: 7px;
+            height: 7px;
+            background: var(--line-orange);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--line-cyan);
+            box-shadow: 0 0 10px var(--line-orange);
         }
 
         /* 核心大文字区域：高冲击力瑞士极简主义排版 */
@@ -120,7 +125,7 @@
         .hero-label {
             font-family: var(--font-mono);
             font-size: clamp(0.7rem, 0.95vw, 0.84rem);
-            color: var(--line-cyan);
+            color: var(--line-orange-bright);
             letter-spacing: 0.2em;
             text-transform: uppercase;
             margin-bottom: 20px;
@@ -132,8 +137,8 @@
             content: '';
             width: 24px;
             height: 1px;
-            background: var(--line-cyan);
-            opacity: 0.8;
+            background: var(--line-orange);
+            opacity: 0.85;
         }
         .hero-title {
             font-family: var(--font-display);
@@ -144,7 +149,7 @@
             color: #ffffff;
             margin-bottom: 24px;
             text-transform: uppercase;
-            text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 45px rgba(0, 0, 0, 0.85);
         }
         .hero-desc {
             font-family: var(--font-sans);
@@ -155,7 +160,7 @@
             font-weight: 300;
         }
         .hero-desc strong {
-            color: #fff;
+            color: #ffedd5;
             font-weight: 500;
         }
 
@@ -183,10 +188,29 @@
             position: relative;
         }
         .footer-link:hover {
-            color: #fff;
+            color: var(--line-orange-bright);
         }
         .footer-sep {
             color: rgba(255, 255, 255, 0.15);
+        }
+
+        .state-status-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.12em;
+        }
+        .state-status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--line-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--line-orange);
+            animation: statusPulse 2s infinite ease-in-out;
+        }
+        @keyframes statusPulse {
+            0%, 100% { opacity: 0.45; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
         @media (max-width: 768px) {
@@ -232,12 +256,15 @@
                 <span class="footer-sep">/</span>
                 <a href="works/index.html" class="footer-link">Scratch Works</a>
             </nav>
-            <span>CONTINUOUS 3D MORPH // AUTONOMOUS</span>
+            <div class="state-status-wrap">
+                <span class="state-status-dot"></span>
+                <span id="stateIndicatorLabel">MORPH // 01 · 莫比乌斯曲率环带</span>
+            </div>
         </footer>
     </main>
 
     <!-- ============================================================
-       不断变幻的三维参数化线条组渲染引擎 (原生 Canvas 2D，自主演进，零重排)
+       不断变幻的三维参数化线条组渲染引擎 (每隔 5 秒演进拓扑形态，橙·米黄·深橙三色流)
        ============================================================ -->
     <script>
         // 智能路径适配 (兼容本地 file: 与 GitHub Pages 线上多仓库结构)
@@ -254,6 +281,7 @@
             const canvas = document.getElementById('generative-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
+            const stateLabel = document.getElementById('stateIndicatorLabel');
 
             let w = 0, h = 0;
             let dpr = 1;
@@ -276,7 +304,6 @@
                 ctx.scale(dpr, dpr);
             }
 
-            // 监听指针微弱视差互动
             window.addEventListener('resize', resize, { passive: true });
 
             window.addEventListener('pointerdown', (e) => {
@@ -324,13 +351,80 @@
                 };
             }
 
-            // 核心参数化设置：流线簇与横向张力环
-            const streamCount = 52;
+            // 核心参数化设置：54 组流线、84 组采样点与 16 组张力肋环
+            const streamCount = 54;
             const ptsPerStream = 84;
             const ringSteps = 16;
 
+            // 5 大截然不同且数学自洽的三维空间拓扑形态
+            const TOPOLOGY_STATES = [
+                {
+                    name: '01 · 莫比乌斯曲率环带',
+                    fn: function(u, v, t) {
+                        const rMain = 185 + Math.sin(u * 2 + t * 0.85) * 35;
+                        const rCross = 68 + Math.cos(v * 3 - t * 0.6) * 22;
+                        const twist = u * 2 + v + t * 0.45;
+                        const x = (rMain + rCross * Math.cos(twist)) * Math.cos(u + t * 0.12);
+                        const y = (rMain + rCross * Math.cos(twist)) * Math.sin(u + t * 0.12) * 0.82 + Math.sin(u * 3 + t * 0.6) * 32;
+                        const z = rCross * Math.sin(twist) * 2.2 + Math.cos(u * 2 + t * 0.4) * 45;
+                        return { x, y, z };
+                    }
+                },
+                {
+                    name: '02 · 空间起伏波形地貌',
+                    fn: function(u, v, t) {
+                        const rad = 230;
+                        const nx = (Math.cos(u) * rad) * (0.62 + 0.38 * Math.sin(v));
+                        const nz = (Math.sin(u) * rad) * (0.62 + 0.38 * Math.cos(v));
+                        const dist = Math.hypot(nx, nz) * 0.015;
+                        const ny = Math.sin(nx * 0.02 + t * 0.95) * Math.cos(nz * 0.02 + t * 0.75) * 90 + Math.sin(dist * 4 - t * 1.3) * 45;
+                        return { x: nx, y: ny, z: nz };
+                    }
+                },
+                {
+                    name: '03 · 空间折纸灵动展翼',
+                    fn: function(u, v, t) {
+                        const flap = Math.sin(t * 1.5) * 26;
+                        const span = 220;
+                        const wingX = (Math.cos(u) * span) * (0.7 + 0.3 * Math.cos(v));
+                        const wingZ = Math.sin(u) * 140 + Math.sin(v * 2) * 40;
+                        const wingY = -Math.abs(wingX) * 0.45 + Math.sin(Math.abs(wingX) * 0.02 - t) * flap + Math.cos(u * 3) * 35;
+                        return { x: wingX, y: wingY, z: wingZ };
+                    }
+                },
+                {
+                    name: '04 · 利萨如超引力扭结',
+                    fn: function(u, v, t) {
+                        const R = 175;
+                        const kx = Math.sin(u * 3 + t * 0.85) * R + Math.cos(v * 2) * 45;
+                        const ky = Math.sin(u * 2 - t * 0.65) * (R * 0.85) + Math.sin(v * 3 + t) * 35;
+                        const kz = Math.cos(u * 4 + t * 0.7) * (R * 0.9) + Math.sin(v * 2) * 42;
+                        return { x: kx, y: ky, z: kz };
+                    }
+                },
+                {
+                    name: '05 · 超维正交棱晶方阵',
+                    fn: function(u, v, t) {
+                        const boxSize = 165;
+                        const pulse = 1 + Math.sin(t * 0.95 + v) * 0.16;
+                        const cu = Math.cos(u);
+                        const su = Math.sin(u);
+                        const roundCubeX = Math.sign(cu) * Math.pow(Math.abs(cu), 0.6) * boxSize * pulse;
+                        const roundCubeZ = Math.sign(su) * Math.pow(Math.abs(su), 0.6) * boxSize * pulse;
+                        const roundCubeY = (Math.sin(v + t * 0.55) * 130) + Math.cos(u * 4) * 25;
+                        return { x: roundCubeX, y: roundCubeY, z: roundCubeZ };
+                    }
+                }
+            ];
+
             let startTime = performance.now();
             let lastFrameTime = 0;
+            let displayedStateIdx = -1;
+
+            // 三次缓动曲线
+            function easeInOutCubic(x) {
+                return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+            }
 
             function render(now) {
                 animId = requestAnimationFrame(render);
@@ -338,9 +432,32 @@
                 if (now - lastFrameTime < 16) return;
                 lastFrameTime = now;
 
-                const t = (now - startTime) * 0.00085;
+                const elapsedSeconds = (now - startTime) * 0.001;
+                const t = elapsedSeconds * 0.85;
 
-                // 自主平滑旋转
+                // 5 秒周期演进控制
+                const cycleDuration = 5.0; // 每 5 秒平滑切换一次形态
+                const morphDuration = 1.6; // 1.6 秒极度平滑的形态过渡期，其余 3.4 秒在此形态中呼吸演变
+
+                const totalCycles = elapsedSeconds / cycleDuration;
+                const currentIdx = Math.floor(totalCycles) % TOPOLOGY_STATES.length;
+                const nextIdx = (currentIdx + 1) % TOPOLOGY_STATES.length;
+                const cycleTime = elapsedSeconds % cycleDuration;
+
+                let morphProgress = 0;
+                if (cycleTime >= (cycleDuration - morphDuration)) {
+                    const rawProgress = (cycleTime - (cycleDuration - morphDuration)) / morphDuration;
+                    morphProgress = easeInOutCubic(rawProgress);
+                }
+
+                // 更新状态指示文本
+                const activeStateToShow = morphProgress > 0.5 ? nextIdx : currentIdx;
+                if (activeStateToShow !== displayedStateIdx && stateLabel) {
+                    displayedStateIdx = activeStateToShow;
+                    stateLabel.textContent = `MORPH // ${TOPOLOGY_STATES[activeStateToShow].name}`;
+                }
+
+                // 视角自主演进
                 rotX += (targetRotX - rotX) * 0.06;
                 rotY += (targetRotY - rotY) * 0.06;
                 if (!isPointerInteracting) {
@@ -359,13 +476,10 @@
                 const cx = w > 1024 ? w * 0.62 : w * 0.5;
                 const cy = h * 0.5;
 
-                // 连续变幻的调和波系数 (无需点击触发，随时间连续呼吸演进)
-                const waveA = Math.sin(t * 0.38);
-                const waveB = Math.cos(t * 0.27);
-                const waveC = Math.sin(t * 0.19);
-                const waveD = Math.cos(t * 0.44);
+                const stateA = TOPOLOGY_STATES[currentIdx].fn;
+                const stateB = TOPOLOGY_STATES[nextIdx].fn;
 
-                // 生成网格顶点
+                // 生成网格顶点（双形态平滑加权融合）
                 const grid = [];
                 for (let i = 0; i < streamCount; i++) {
                     const v = (i / streamCount) * Math.PI * 2;
@@ -373,14 +487,12 @@
                     for (let j = 0; j <= ptsPerStream; j++) {
                         const u = (j / ptsPerStream) * Math.PI * 2;
 
-                        // 持续演进的动态双环曲面方程
-                        const rMain = 185 + waveA * 55 + Math.sin(u * 2 + t * 0.9) * 45 + waveC * 30 * Math.cos(v * 2);
-                        const rCross = 72 + waveB * 30 + Math.cos(v * 3 - t * 0.7) * 26 + waveD * 18 * Math.sin(u * 3);
+                        const ptA = stateA(u, v, t);
+                        const ptB = stateB(u, v, t);
 
-                        const twist = u * 2 + v + t * 0.52;
-                        const px = (rMain + rCross * Math.cos(twist)) * Math.cos(u + t * 0.14);
-                        const py = (rMain + rCross * Math.cos(twist)) * Math.sin(u + t * 0.14) * 0.82 + Math.sin(u * 3 + t * 0.75) * 38;
-                        const pz = rCross * Math.sin(twist) * 2.2 + Math.cos(u * 2 + t * 0.45) * 60;
+                        const px = ptA.x + (ptB.x - ptA.x) * morphProgress;
+                        const py = ptA.y + (ptB.y - ptA.y) * morphProgress;
+                        const pz = ptA.z + (ptB.z - ptA.z) * morphProgress;
 
                         const proj = project(px, py, pz, rotCosX, rotSinX, rotCosY, rotSinY, cx, cy);
                         row.push(proj);
@@ -388,7 +500,7 @@
                     grid.push(row);
                 }
 
-                // 1. 渲染连续纵向流动线 (Streams)
+                // 1. 渲染连续纵向流动线 (三色流：明橙、米黄、深橙)
                 for (let i = 0; i < streamCount; i++) {
                     const row = grid[i];
                     let avgZ = 0;
@@ -420,18 +532,25 @@
                         }
                     }
 
-                    if (ratio < 0.4) {
-                        ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 + depthFactor * 0.55})`;
-                    } else if (ratio < 0.65) {
-                        ctx.strokeStyle = `rgba(244, 114, 182, ${0.12 + depthFactor * 0.5})`;
+                    // 颜色配置严格遵循：橙、米黄、深橙
+                    if (ratio < 0.35) {
+                        // 明橙流 (Vibrant Orange)
+                        ctx.strokeStyle = `rgba(251, 146, 60, ${0.18 + depthFactor * 0.65})`;
+                        ctx.lineWidth = 1.05 * depthFactor + 0.35;
+                    } else if (ratio < 0.68) {
+                        // 米黄流 (Warm Cream / Beige)
+                        ctx.strokeStyle = `rgba(254, 240, 138, ${0.16 + depthFactor * 0.62})`;
+                        ctx.lineWidth = 0.95 * depthFactor + 0.3;
                     } else {
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 + depthFactor * 0.4})`;
+                        // 深橙流 (Deep Burnt Caramel Orange)
+                        ctx.strokeStyle = `rgba(234, 88, 12, ${0.2 + depthFactor * 0.6})`;
+                        ctx.lineWidth = 1.15 * depthFactor + 0.4;
                     }
-                    ctx.lineWidth = 0.95 * depthFactor + 0.35;
+
                     ctx.stroke();
                 }
 
-                // 2. 渲染横向张力环线 (Connecting Ribs)
+                // 2. 渲染横向张力环线 (Connecting Ribs: 极细温润米黄光纤)
                 const ribInterval = Math.floor(ptsPerStream / ringSteps);
                 for (let k = 0; k < ringSteps; k++) {
                     const j = k * ribInterval;
@@ -448,7 +567,7 @@
                             }
                         }
                     }
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+                    ctx.strokeStyle = 'rgba(254, 243, 199, 0.075)';
                     ctx.lineWidth = 0.75;
                     ctx.stroke();
                 }
