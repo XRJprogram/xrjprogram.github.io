@@ -8,26 +8,56 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/fumo-icon.png">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="apple-touch-icon" href="../assets/images/fumo-icon.png">
-    
-    <!-- Google Fonts & FontAwesome 6 -->
+
+    <!-- 典雅与工程排版字体：Space Grotesk、JetBrains Mono、Inter、Noto Serif SC 与 Noto Sans SC -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;600;800&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
+        /* ============================================================
+           设计系统：纯净白蓝极简美学 (White & Cobalt / Electric Cyan)
+           灵感汲取自 Antoine Wodniack (wodniack.dev) 顶尖创意开发规范
+           ============================================================ */
         :root {
-            --bg-cosmos: #030611;
-            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-song: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', '华文宋体', 'SimSun', '宋体', serif;
-            --font-sans-cn: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', sans-serif;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-glass: rgba(255, 255, 255, 0.88);
+            --bg-surface-alt: #f0f6ff;
+            --bg-translucent: rgba(255, 255, 255, 0.72);
+
+            /* 白蓝核心色彩 */
+            --blue-primary: #0052ff;        /* 国际克莱因蓝 / 纯正数码皇家蓝 */
+            --blue-vibrant: #0284c7;        /* 蔚蓝高光 */
+            --blue-electric: #00d2ff;       /* 霓虹电光青 */
+            --blue-soft: #e0edff;          /* 温润极淡蓝底 */
+            --blue-deep: #071530;          /* 宇宙深蓝字重底色 */
+            
+            /* 文字对比阶梯 */
+            --text-main: #0a1329;
+            --text-sub: #334155;
+            --text-muted: #64748b;
+            --text-ghost: #94a3b8;
+
+            /* 线框与投影 */
+            --border-subtle: rgba(0, 82, 255, 0.12);
+            --border-strong: rgba(0, 82, 255, 0.28);
+            --border-light: rgba(148, 163, 184, 0.2);
+            --shadow-card: 0 20px 48px -12px rgba(0, 50, 180, 0.08), 0 4px 16px -4px rgba(0, 0, 0, 0.04);
+            --shadow-float: 0 32px 72px -16px rgba(0, 60, 220, 0.16), 0 0 0 1px var(--border-strong);
+
+            /* 字体族群 */
             --font-display: 'Space Grotesk', -apple-system, sans-serif;
+            --font-serif: 'Noto Serif SC', 'Source Han Serif SC', serif;
+            --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
             --font-mono: 'JetBrains Mono', 'Consolas', monospace;
         }
 
+        /* 隐藏原生滚动条并保持流畅惯性滚动 */
         html {
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
+            background-color: var(--bg-body);
         }
         html::-webkit-scrollbar,
         body::-webkit-scrollbar,
@@ -45,22 +75,20 @@
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-        }
-
-        body {
-            font-family: var(--font-sans-cn);
-            background-color: var(--bg-cosmos);
-            color: #f8fafc;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            position: relative;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 星空背景 Canvas */
-        #cosmos-canvas {
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景几何蓝图 Canvas */
+        #blueprint-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -68,571 +96,1119 @@
             height: 100vh;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.92;
+            opacity: 0.85;
         }
 
-        /* 顶部导航栏 */
-        .page-navbar {
+        /* 顶部导航栏 (White & Blue Frosted Header) */
+        .site-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            padding: 22px 36px;
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(180deg, rgba(3, 6, 17, 0.85) 0%, rgba(3, 6, 17, 0) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
         }
+
+        .header-brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
         .nav-back-link {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             font-family: var(--font-mono);
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 700;
             letter-spacing: 0.12em;
-            color: #f8fafc;
+            color: var(--text-main);
             text-decoration: none;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            transition: all 0.25s ease;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav-back-link:hover {
-            background: rgba(56, 189, 248, 0.15);
-            border-color: rgba(56, 189, 248, 0.45);
-            color: #38bdf8;
+            border-color: var(--blue-primary);
+            color: var(--blue-primary);
+            background: #ffffff;
+            transform: translateX(-3px);
+            box-shadow: 0 4px 16px rgba(0, 82, 255, 0.12);
+        }
+        .nav-back-link svg {
+            transition: transform 0.25s ease;
+        }
+        .nav-back-link:hover svg {
             transform: translateX(-3px);
         }
-        .nav-meta-tag {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: #64748b;
-            letter-spacing: 0.1em;
-        }
 
-        /* 页面主体 */
-        .main-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 120px 32px 140px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-        .page-title-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 20px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            font-family: var(--font-mono);
-            font-size: 0.76rem;
-            letter-spacing: 0.12em;
-            color: #94a3b8;
-            margin-bottom: 22px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .pill-year {
-            font-weight: 700;
-            color: #38bdf8;
-        }
-        .pill-sep {
-            color: rgba(255, 255, 255, 0.25);
-        }
-        .pill-tag {
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-        .page-main-title {
-            font-family: var(--font-song);
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: 0.14em;
-            color: #f8fafc;
-            margin-bottom: 18px;
-            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
-        }
-        .page-desc {
-            max-width: 820px;
-            margin: 0 auto;
-            font-family: var(--font-sans-cn);
-            font-size: 1.02rem;
-            line-height: 1.8;
-            color: #94a3b8;
-        }
-
-        /* 双列宽屏全景电影质感卡片网格 */
-        .exhibition-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-            width: 100%;
-        }
-
-        /* 电影质感装置卡牌 */
-        .ex-artifact-card {
-            position: relative;
-            background-color: #070a13;
-            background-image: 
-                radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 65%),
-                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 100% 100%, 32px 32px, 32px 32px;
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 20px;
-            padding: 32px 36px;
-            box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 270px;
-            overflow: hidden;
-            cursor: pointer;
-            outline: none;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        border-color 0.35s ease;
-        }
-        .ex-artifact-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, var(--card-accent, #38bdf8), transparent);
-            opacity: 0.6;
-            transition: opacity 0.3s ease, height 0.3s ease;
-        }
-        .ex-artifact-card::after {
-            content: '+';
-            position: absolute;
-            bottom: 14px;
-            right: 18px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.15);
-            pointer-events: none;
-            transition: color 0.3s ease;
-        }
-        .ex-artifact-card:hover,
-        .ex-artifact-card:focus-visible {
-            transform: translateY(-7px) scale(1.008);
-            border-color: rgba(var(--card-rgb, 56, 189, 248), 0.48);
-            box-shadow: 0 36px 85px -20px rgba(0, 0, 0, 0.95),
-                        0 0 35px -8px rgba(var(--card-rgb, 56, 189, 248), 0.28);
-        }
-        .ex-artifact-card:hover::before,
-        .ex-artifact-card:focus-visible::before {
-            opacity: 1;
-            height: 4px;
-        }
-        .ex-artifact-card:hover::after,
-        .ex-artifact-card:focus-visible::after {
-            color: var(--card-accent, #38bdf8);
-        }
-
-        /* 顶部元数据 */
-        .ex-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .ex-card-meta-left {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .ex-pulse-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--card-accent, #38bdf8);
-            box-shadow: 0 0 10px var(--card-accent, #38bdf8);
-            animation: exPulseDot 2.4s infinite ease-in-out;
-        }
-        @keyframes exPulseDot {
-            0%, 100% { opacity: 0.6; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 14px var(--card-accent, #38bdf8); }
-        }
-        .ex-code-badge {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #e2e8f0;
-            letter-spacing: 0.08em;
-        }
-        .ex-tag-tech {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--card-accent, #38bdf8);
-            letter-spacing: 0.1em;
-            opacity: 0.92;
-        }
-
-        /* 中部标题与正文 */
-        .ex-card-body {
-            margin-bottom: 24px;
-        }
-        .ex-title-wrap {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-        .ex-title-cn {
-            font-family: var(--font-song);
-            font-size: 1.55rem;
-            font-weight: 800;
-            color: #f8fafc;
-            line-height: 1.25;
-            letter-spacing: 0.04em;
-            transition: color 0.3s ease;
-        }
-        .ex-artifact-card:hover .ex-title-cn {
-            color: #ffffff;
-            text-shadow: 0 0 18px rgba(var(--card-rgb, 56, 189, 248), 0.35);
-        }
-        .ex-title-en {
-            font-family: var(--font-display);
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #64748b;
-            letter-spacing: 0.06em;
-        }
-        .ex-card-desc {
-            font-family: var(--font-sans-cn);
-            font-size: 0.9rem;
-            line-height: 1.7;
-            color: #94a3b8;
-        }
-
-        /* 底部硬核技术参数行 */
-        .ex-card-foot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.07);
-        }
-        .ex-foot-spec {
+        .header-status-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             font-family: var(--font-mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.06em;
-            color: #64748b;
-        }
-        .ex-spec-chip {
-            padding: 3px 8px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #94a3b8;
-        }
-        .ex-foot-formula {
-            font-family: var(--font-mono);
             font-size: 0.72rem;
-            color: var(--card-accent, #38bdf8);
-            letter-spacing: 0.04em;
-            opacity: 0.88;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            background: rgba(0, 82, 255, 0.05);
+            border: 1px solid rgba(0, 82, 255, 0.1);
+        }
+        .status-pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--blue-primary);
+            box-shadow: 0 0 10px var(--blue-primary);
+            animation: statusPulse 2s infinite ease-in-out;
+        }
+        @keyframes statusPulse {
+            0%, 100% { opacity: 0.45; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.25); box-shadow: 0 0 14px var(--blue-electric); }
         }
 
-        /* 模态浮层系统 (Works Modal Overlay) */
-        .works-modal-backdrop {
+        /* 视图切换器 (3D 滚动视窗 / 平面全景矩阵) */
+        .view-switch-group {
+            display: inline-flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            padding: 4px;
+            border-radius: 9999px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+        .view-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+        .view-btn.active {
+            background: var(--blue-primary);
+            color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 82, 255, 0.3);
+        }
+        .view-btn:hover:not(.active) {
+            color: var(--blue-primary);
+        }
+
+        /* 页面主容器 */
+        .stage-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px;
+        }
+
+        /* ============================================================
+           WODNIACK 经典超大 W O R K 标头排版
+           ============================================================ */
+        .hero-section {
+            width: 100%;
+            max-width: 1360px;
+            padding: 40px 40px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 20px;
+            border-radius: 9999px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0, 50, 200, 0.04);
+        }
+        .hero-meta-pill strong {
+            color: var(--blue-primary);
+            font-weight: 800;
+        }
+        .hero-meta-sep {
+            color: var(--border-strong);
+        }
+
+        /* 雕塑感超大 W O R K 字母组 */
+        .work-sculpture-title {
+            font-family: var(--font-display);
+            font-size: clamp(4.5rem, 14vw, 12rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--blue-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(12px, 3vw, 42px);
+            margin: 0 auto 28px;
+            position: relative;
+        }
+        .sculpture-letter {
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+            position: relative;
+        }
+        .sculpture-letter::after {
+            content: attr(data-char);
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(0, 82, 255, 0.15);
+            z-index: -1;
+            transform: translate(4px, 4px);
+            pointer-events: none;
+        }
+        .sculpture-letter:hover {
+            color: var(--blue-primary);
+            transform: translateY(-8px) scale(1.03);
+        }
+
+        .hero-description {
+            max-width: 860px;
+            margin: 0 auto;
+            font-family: var(--font-serif);
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            line-height: 1.85;
+            color: var(--text-sub);
+            letter-spacing: 0.02em;
+        }
+        .hero-description em {
+            font-style: normal;
+            color: var(--blue-primary);
+            font-weight: 700;
+            border-bottom: 1.5px solid rgba(0, 82, 255, 0.25);
+            padding-bottom: 1px;
+        }
+
+        /* ============================================================
+           WORK 3D 滚动视窗核心系统 (3D Perspective Viewport)
+           ============================================================ */
+        .work-3d-arena {
+            width: 100%;
+            height: 640px;
+            max-width: 1440px;
+            position: relative;
+            margin: 20px auto 40px;
+            perspective: 1200px;
+            perspective-origin: 50% 50%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .work-3d-scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+        }
+        .work-3d-scene:active {
+            cursor: grabbing;
+        }
+
+        /* 单张 3D 视窗卡片 */
+        .scene-card-item {
+            position: absolute;
+            width: clamp(340px, 44vw, 540px);
+            height: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-card);
+            transform-origin: 50% 50%;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            will-change: transform, opacity;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .scene-card-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--blue-primary), transparent);
+            border-radius: 20px 20px 0 0;
+            opacity: 0.8;
+        }
+        /* 四角精准十字测量标 */
+        .card-corner-cross {
+            position: absolute;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: rgba(0, 82, 255, 0.25);
+            line-height: 1;
+            pointer-events: none;
+        }
+        .corner-tl { top: 8px; left: 10px; }
+        .corner-tr { top: 8px; right: 10px; }
+        .corner-bl { bottom: 8px; left: 10px; }
+        .corner-br { bottom: 8px; right: 10px; }
+
+        .scene-card-item.is-active {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-float);
+        }
+
+        /* 卡片头部 */
+        .card-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .card-index-badge {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--blue-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-index-badge span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--blue-primary);
+        }
+        .card-highlight-tag {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            background: var(--bg-surface-alt);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        /* 卡片交互式动态微缩仿真画布容器 */
+        .card-canvas-preview {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #f0f6ff 0%, #ffffff 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 14px;
+            box-shadow: inset 0 2px 8px rgba(0, 50, 150, 0.04);
+        }
+        .card-preview-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .preview-live-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--blue-primary);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 7px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-subtle);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .preview-live-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--blue-primary);
+            animation: previewPulse 1.6s infinite ease-in-out;
+        }
+        @keyframes previewPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* 卡片文字介绍 */
+        .card-titles-wrap {
+            margin-bottom: 8px;
+        }
+        .card-title-cn {
+            font-family: var(--font-serif);
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--blue-deep);
+            line-height: 1.25;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+        .card-title-en {
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+        .card-synopsis {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-sub);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        /* 卡片底部操作与技术参数 */
+        .card-footer-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0, 82, 255, 0.08);
+        }
+        .card-formula-spec {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--blue-primary);
+            letter-spacing: 0.06em;
+            max-width: 55%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .card-launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            background: var(--blue-primary);
+            color: #ffffff;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 14px rgba(0, 82, 255, 0.28);
+        }
+        .card-launch-btn:hover {
+            background: #0043d9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 82, 255, 0.4);
+        }
+
+        /* 3D 视窗操控组件：左右步进箭标与精准刻度滑尺 */
+        .work-3d-controls {
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 0 20px;
+        }
+
+        .controls-action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .scene-nav-arrow {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
+        .scene-nav-arrow:hover {
+            border-color: var(--blue-primary);
+            color: var(--blue-primary);
+            transform: scale(1.08);
+            box-shadow: 0 4px 16px rgba(0, 82, 255, 0.18);
+        }
+
+        .ruler-container {
+            flex: 1;
+            margin: 0 28px;
+            position: relative;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+            box-shadow: inset 0 1px 4px rgba(0, 50, 150, 0.03);
+            cursor: pointer;
+        }
+        .ruler-tick {
+            position: relative;
+            width: 1px;
+            height: 12px;
+            background: rgba(0, 82, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+        .ruler-tick.active {
+            height: 20px;
+            background: var(--blue-primary);
+            box-shadow: 0 0 8px var(--blue-primary);
+        }
+        .ruler-tick span {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-ghost);
+        }
+        .ruler-tick.active span {
+            color: var(--blue-primary);
+        }
+        .ruler-tracker-pill {
+            position: absolute;
+            height: 28px;
+            border-radius: 9999px;
+            background: rgba(0, 82, 255, 0.1);
+            border: 1.5px solid var(--blue-primary);
+            pointer-events: none;
+            transition: left 0.15s ease-out, width 0.15s ease;
+            box-shadow: 0 2px 8px rgba(0, 82, 255, 0.15);
+        }
+
+        .current-indicator-tag {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+        .current-indicator-tag span {
+            color: var(--blue-primary);
+        }
+
+        /* ============================================================
+           备用视图：高密度矩阵画廊 (Grid Overview Mode)
+           ============================================================ */
+        .work-grid-view {
+            width: 100%;
+            max-width: 1360px;
+            padding: 20px 40px 60px;
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+        .work-grid-view.is-visible {
+            display: grid;
+        }
+
+        .grid-card-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 30px 32px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .grid-card-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--blue-primary), transparent);
+            border-radius: 20px 20px 0 0;
+            opacity: 0.6;
+        }
+        .grid-card-item:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-float);
+        }
+
+        /* ============================================================
+           沉浸式仿真运行模态浮层 (Works Modal Runner)
+           ============================================================ */
+        .modal-backdrop {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(10, 8, 7, 0.86);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            background: rgba(7, 21, 48, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .works-modal-backdrop.active {
+        .modal-backdrop.is-open {
             opacity: 1;
             pointer-events: auto;
         }
-        .works-modal-dialog {
+
+        .modal-dialog {
             width: 100%;
-            max-width: 1080px;
-            height: 86vh;
-            max-height: 740px;
-            background: #0d0c0c;
+            max-width: 1120px;
+            height: 88vh;
+            max-height: 780px;
+            background: #ffffff;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.95);
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 40px 100px -20px rgba(7, 21, 48, 0.35);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transform: scale(0.95);
+            transform: scale(0.96);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .works-modal-backdrop.active .works-modal-dialog {
+        .modal-backdrop.is-open .modal-dialog {
             transform: scale(1);
         }
-        .works-modal-topbar {
-            height: 54px;
-            padding: 0 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+        .modal-header-bar {
+            height: 58px;
+            padding: 0 24px;
+            background: var(--bg-surface-alt);
+            border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        .works-modal-info {
+        .modal-title-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             overflow: hidden;
         }
-        .works-modal-year {
+        .modal-badge-year {
             font-family: var(--font-mono);
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             font-weight: 700;
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.12);
-            color: #38bdf8;
+            background: var(--blue-primary);
+            color: #ffffff;
         }
-        .works-modal-title {
-            font-family: var(--font-sans-cn);
-            font-size: 0.96rem;
+        .modal-title-text {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
             font-weight: 700;
-            color: #f8fafc;
+            color: var(--blue-deep);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .works-modal-actions {
+
+        .modal-actions-right {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .works-modal-btn {
+        .modal-action-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 8px;
-            color: #cbd5e1;
+            padding: 7px 15px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+            color: var(--text-sub);
             font-family: var(--font-mono);
-            font-size: 0.76rem;
+            font-size: 0.74rem;
+            font-weight: 600;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .works-modal-btn:hover {
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.25);
+        .modal-action-btn:hover {
+            border-color: var(--blue-primary);
+            color: var(--blue-primary);
         }
-        .works-modal-close {
-            padding: 6px 10px;
-            background: rgba(239, 68, 68, 0.15);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #f87171;
+        .modal-btn-close {
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
-        .works-modal-close:hover {
+        .modal-btn-close:hover {
             background: #ef4444;
             color: #ffffff;
             border-color: #ef4444;
         }
-        .works-modal-body {
+
+        .modal-body-frame {
             flex: 1;
             width: 100%;
             height: 100%;
+            background: #020617;
             position: relative;
-            background: #000000;
         }
-        .works-modal-iframe {
+        .modal-iframe {
             width: 100%;
             height: 100%;
             border: none;
             display: block;
         }
 
-        /* 页脚 */
-        .page-footer {
+        /* 极简工程规范页脚 */
+        .site-footer {
             width: 100%;
-            padding: 48px 24px 60px;
+            padding: 60px 40px 80px;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.07);
-            margin-top: 60px;
+            border-top: 1px solid var(--border-subtle);
+            background: #ffffff;
             position: relative;
             z-index: 10;
         }
-        .footer-inner {
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .footer-meta-line {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
             gap: 12px;
             font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: #64748b;
+            font-size: 0.76rem;
+            color: var(--text-muted);
             letter-spacing: 0.08em;
         }
         .footer-brand {
-            font-weight: 700;
-            color: #f8fafc;
-        }
-        .footer-dot {
-            opacity: 0.35;
-        }
-        .footer-copy {
-            color: #64748b;
+            font-weight: 800;
+            color: var(--blue-primary);
         }
         .footer-link {
-            color: #38bdf8;
+            color: var(--blue-primary);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             transition: color 0.2s ease;
         }
         .footer-link:hover {
-            color: #7dd3fc;
             text-decoration: underline;
         }
 
-        /* 响应式微调 */
-        @media (max-width: 960px) {
-            .page-navbar {
-                padding: 16px 20px;
+        /* 响应式断点 */
+        @media (max-width: 900px) {
+            .site-header {
+                padding: 14px 20px;
             }
-            .main-container {
-                padding: 100px 20px 100px;
+            .header-status-badge {
+                display: none;
             }
-            .page-main-title {
-                font-size: 2.2rem;
+            .stage-wrapper {
+                padding-top: 80px;
             }
-            .exhibition-grid {
+            .hero-section {
+                padding: 24px 20px 16px;
+            }
+            .work-3d-arena {
+                height: 560px;
+            }
+            .scene-card-item {
+                width: 86vw;
+                height: 480px;
+                padding: 20px;
+            }
+            .card-canvas-preview {
+                height: 150px;
+            }
+            .ruler-container {
+                margin: 0 12px;
+            }
+            .work-grid-view {
                 grid-template-columns: 1fr;
-                gap: 24px;
+                padding: 10px 20px 40px;
             }
-            .ex-artifact-card {
-                padding: 26px 24px;
-                min-height: auto;
-            }
-            .works-modal-dialog {
-                width: 100%;
+            .modal-dialog {
                 height: 94vh;
                 border-radius: 12px;
-            }
-            .works-modal-topbar {
-                padding: 0 12px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 全屏星空 Canvas -->
-    <canvas id="cosmos-canvas"></canvas>
 
-    <!-- 顶部固定导航栏 -->
-    <header class="page-navbar">
-        <a href="../index.html" class="nav-back-link">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            <span>返回主页</span>
-        </a>
-        <div class="nav-meta-tag">[ 2022 — 2025 COMPILATION ]</div>
+    <!-- 几何微光蓝图背景 Canvas -->
+    <canvas id="blueprint-canvas"></canvas>
+
+    <!-- 顶部固定控制栏 -->
+    <header class="site-header">
+        <div class="header-brand-wrap">
+            <a href="../index.html" class="nav-back-link" title="返回 XRJprogram 主页">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span>INDEX</span>
+            </a>
+            <div class="header-status-badge">
+                <span class="status-pulse-dot"></span>
+                <span>SYS.ONLINE // 12 COMPILED ARTIFACTS</span>
+            </div>
+        </div>
+
+        <!-- 视图模式切换 -->
+        <div class="view-switch-group">
+            <button class="view-btn active" id="viewBtn3D">3D PERSPECTIVE</button>
+            <button class="view-btn" id="viewBtnGrid">GRID MATRIX</button>
+        </div>
     </header>
 
-    <!-- 页面内容主体 -->
-    <main class="main-container">
-        <div class="page-header">
-            <div class="page-title-pill">
-                <span class="pill-year">2022 – 2025</span>
-                <span class="pill-sep">/</span>
-                <span class="pill-tag">PROJECT ARCHIVE</span>
+    <!-- 页面核心主舞台 -->
+    <main class="stage-wrapper">
+
+        <!-- WODNIACK 经典超大 W O R K 标头排版 -->
+        <section class="hero-section">
+            <div class="hero-meta-pill">
+                <strong>2022 — 2025</strong>
+                <span class="hero-meta-sep">/</span>
+                <span>INDEPENDENT ENGINEERING ARCHIVE</span>
+                <span class="hero-meta-sep">/</span>
+                <span>TURBOWARP 60FPS</span>
             </div>
-            <h1 class="page-main-title">2022 — 2025 作品精选集</h1>
-            <p class="page-desc">
-                四载独立编程沉淀，十二部原生 Scratch / TurboWarp 架构作品：从微观数值扩散、核反应堆控制机理，到自动化汇编逻辑机与程序化生成地铁调度器。轻触任意卡片即可在线体验完整编译版本。
+
+            <h1 class="work-sculpture-title" aria-label="WORK">
+                <span class="sculpture-letter" data-char="W">W</span>
+                <span class="sculpture-letter" data-char="O">O</span>
+                <span class="sculpture-letter" data-char="R">R</span>
+                <span class="sculpture-letter" data-char="K">K</span>
+            </h1>
+
+            <p class="hero-description">
+                四载独立编程沉淀，十二部原生 <em>Scratch / TurboWarp</em> 架构作品：从微观数值扩散、核反应堆控制机理，到自动化汇编逻辑机与程序化生成地铁调度器。拖拽或滑动即可在三维视窗中漫游探索，轻触任意卡片即刻启动仿真。
             </p>
+        </section>
+
+        <!-- 模式一：3D 空间滚动视窗 (3D Perspective Viewport) -->
+        <section class="work-3d-arena" id="work3DArena">
+            <div class="work-3d-scene" id="work3DScene">
+                <!-- 12 张在 3D 空间中连续飞跃的实体卡片 -->
+            </div>
+        </section>
+
+        <!-- 3D 视窗操控栏：左右步进、精准标尺与当前序号 -->
+        <div class="work-3d-controls" id="work3DControls">
+            <div class="controls-action-row">
+                <button class="scene-nav-arrow" id="scenePrevBtn" title="上一项 (←)" aria-label="上一项">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+
+                <!-- 交互式精准刻度滑尺 -->
+                <div class="ruler-container" id="rulerContainer" title="点击或滑动任意刻度快速跳转">
+                    <div class="ruler-tracker-pill" id="rulerPill"></div>
+                    <!-- 12 根精密刻度线 -->
+                </div>
+
+                <button class="scene-nav-arrow" id="sceneNextBtn" title="下一项 (→)" aria-label="下一项">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+
+            <div class="current-indicator-tag">
+                VIEWPORT // <span id="currentCardIndexText">01</span> OF 12 · <span id="currentCardTitleText">数字扩散</span>
+            </div>
         </div>
 
-        <div class="exhibition-grid" id="exhibitionGrid">
-            <!-- 12 张由 JS 驱动的双列宽屏全景电影质感卡片 -->
-        </div>
+        <!-- 模式二：高密度矩阵画廊 (Grid Overview Mode) -->
+        <section class="work-grid-view" id="workGridView">
+            <!-- 12 个平面卡片矩阵 -->
+        </section>
+
     </main>
 
-    <!-- 极简页脚 -->
-    <footer class="page-footer">
-        <div class="footer-inner">
-            <span class="footer-brand">XRJPROGRAM</span>
-            <span class="footer-dot">·</span>
-            <span class="footer-copy">2022–2026 ARCHIVE · POWERED BY TURBOWARP</span>
-            <span class="footer-dot">·</span>
-            <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="footer-link">GITHUB</a>
-        </div>
-    </footer>
-
-    <!-- 在线沉浸式作品运行浮层 (Works Modal) -->
-    <div class="works-modal-backdrop" id="worksModal" aria-hidden="true">
-        <div class="works-modal-dialog">
-            <div class="works-modal-topbar">
-                <div class="works-modal-info">
-                    <span class="works-modal-year" id="worksModalYear">2022</span>
-                    <h3 class="works-modal-title" id="worksModalTitle">作品标题</h3>
+    <!-- 沉浸式仿真运行模态浮层 (Works Modal Runner) -->
+    <div class="modal-backdrop" id="worksModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-header-bar">
+                <div class="modal-title-left">
+                    <span class="modal-badge-year" id="modalYear">2022</span>
+                    <h3 class="modal-title-text" id="modalTitle">数字扩散 · Number Diffusion</h3>
                 </div>
-                <div class="works-modal-actions">
-                    <a href="#" target="_blank" rel="noopener noreferrer" class="works-modal-btn" id="worksModalNewTab" title="在新标签页全屏打开">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <div class="modal-actions-right">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="modal-action-btn" id="modalNewTabBtn" title="在新窗口全屏打开">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                         <span>新窗口打开</span>
                     </a>
-                    <button class="works-modal-btn" id="worksModalFs" title="全屏">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                    <button class="modal-action-btn" id="modalFsBtn" title="全屏视窗">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
                         <span>全屏</span>
                     </button>
-                    <button class="works-modal-btn works-modal-close" id="worksModalClose" title="关闭 (Esc)">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <button class="modal-action-btn modal-btn-close" id="modalCloseBtn" title="关闭 (Esc)">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        <span>关闭</span>
                     </button>
                 </div>
             </div>
-            <div class="works-modal-body">
-                <iframe id="worksModalIframe" class="works-modal-iframe" src="about:blank" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+            <div class="modal-body-frame">
+                <iframe id="modalIframe" class="modal-iframe" src="about:blank" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
+    <!-- 极简工程规范页脚 -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-meta-line">
+                <span class="footer-brand">XRJPROGRAM</span>
+                <span>//</span>
+                <span>WHITE &amp; BLUE EDITORIAL ARCHIVE</span>
+                <span>//</span>
+                <span>TURBOWARP RUNTIME 60FPS</span>
+                <span>//</span>
+                <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="footer-link">GITHUB</a>
+            </div>
+            <div class="footer-meta-line" style="font-size: 0.7rem; color: #94a3b8;">
+                LAT: 31.2304° N · LON: 121.4737° E · TIME: 2022–2026 · ALL RIGHTS RESERVED
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+       核心引擎脚本：几何蓝图背景、3D 空间视窗动力学、专属生成预览与模态交互
+       ============================================================ -->
     <script>
-        /* 星空粒子画布系统 */
-        (function initCosmos() {
-            const canvas = document.getElementById('cosmos-canvas');
+        /* 12 部核心作品元数据全集 */
+        const WORKS_DATA = [
+            {
+                id: 'number-diffusion',
+                idxStr: '01',
+                year: '2022',
+                titleCn: '数字扩散',
+                titleEn: 'Number Diffusion',
+                desc: '基于离散数值网格与能量守恒的扩散求解算法。在二维矩阵中推演数值梯度的流动与耗散，构建极富思维深度的链式扩散与策略解谜关卡。',
+                highlight: 'DISCRETE NUMERICAL DIFFUSION',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: '∂u/∂t = α∇²u',
+                url: 'number-diffusion.html',
+                drawType: 'diffusion'
+            },
+            {
+                id: 'reactor-1',
+                idxStr: '02',
+                year: '2022',
+                titleCn: 'REACTOR I',
+                titleEn: 'Fission Core BTS',
+                desc: '核裂变链式反应堆初期工程机理仿真：实时解算中子通量、控制棒位移与热力学循环，还原复杂工业面板在临界状态下的控制逻辑。',
+                highlight: 'NEUTRON FLUX DYNAMICS',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'dn/dt = [(ρ-β)/Λ]n + ∑λᵢCᵢ',
+                url: 'reactor-1.html',
+                drawType: 'reactor'
+            },
+            {
+                id: 'reactor-2',
+                idxStr: '03',
+                year: '2022',
+                titleCn: 'REACTOR II',
+                titleEn: 'Advanced Core Automation',
+                desc: 'REACTOR 架构重大升级版：全面重构堆芯热工水力模型与蒸汽发生器环路，支持多通道故障应急处置、余热排出与全自动化调谐系统。',
+                highlight: 'THERMOHYDRAULIC SCRAM',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'q = ṁ · cₚ · ΔT',
+                url: 'reactor-2.html',
+                drawType: 'reactor-advanced'
+            },
+            {
+                id: 'human-resource-machine',
+                idxStr: '04',
+                year: '2023',
+                titleCn: 'Human Resource Machine',
+                titleEn: 'Assembly Logic Sandbox',
+                desc: '致敬经典逻辑编程神作的完全重构实现：基于自主设计的轻量级微指令集（INBOX、OUTBOX、COPYTO、JUMPZ 等），推演基础数据结构与算力编排。',
+                highlight: 'BYTECODE ASSEMBLY PIPELINE',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'INBOX → [ACC] → OUTBOX',
+                url: 'human-resource-machine.html',
+                drawType: 'assembly'
+            },
+            {
+                id: 'earth-resource-machine',
+                idxStr: '05',
+                year: '2023',
+                titleCn: 'Earth Resource Machine',
+                titleEn: 'Planetary Industrial Loop',
+                desc: '宏观行星工业资源开采与流水线调度模拟：构建多层级传送带网络、精炼窑炉与能源中继系统，实现从原始矿物到复杂构件的全自动产线自循环。',
+                highlight: 'CONVEYOR DAG AUTOMATION',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: '∮ J · dA = dM/dt',
+                url: 'earth-resource-machine.html',
+                drawType: 'conveyor'
+            },
+            {
+                id: 'unknown-resource-machine',
+                idxStr: '06',
+                year: '2023',
+                titleCn: 'Unknown Resource Machine',
+                titleEn: 'Cyber Concurrency Matrix',
+                desc: '高阶指令驱动的赛博异构资源矩阵：突破传统流水线范式，融合动态内存分配、并发线程锁机制与未知数据协议逆向工程。',
+                highlight: 'CONCURRENT PROTOCOL MATRIX',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: '0xDEADBEEF ⊕ MUTEX_LOCK',
+                url: 'unknown-resource-machine.html',
+                drawType: 'cyber'
+            },
+            {
+                id: 'nuclear-factory-2',
+                idxStr: '07',
+                year: '2024',
+                titleCn: 'Nuclear Factory II',
+                titleEn: 'Isotope Refining Facility',
+                desc: '核燃料循环与同位素分离流水线仿真：精准建模重水减速剂、气体离心机级联浓缩与裂变产物衰变热，呈现极简硬核的工业控制美学。',
+                highlight: 'CENTRIFUGE CASCADE SEPARATION',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'N(t) = N₀ · 2^(-t/T₁/₂)',
+                url: 'nuclear-factory-2.html',
+                drawType: 'centrifuge'
+            },
+            {
+                id: 'reactic',
+                idxStr: '08',
+                year: '2023',
+                titleCn: 'Reactic',
+                titleEn: 'Chemical Kinetics Engine',
+                desc: '微观化学反应动力学演示机：通过硬球碰撞模型与活化能势垒判定，动态推演旧键断裂与基团重组，直观呈现阿伦尼乌斯速率方程规律。',
+                highlight: 'ARRHENIUS COLLISION KINETICS',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'k = A · exp(-Eₐ / RT)',
+                url: 'reactic.html',
+                drawType: 'kinetics'
+            },
+            {
+                id: 'escape-and-combat-2',
+                idxStr: '09',
+                year: '2024',
+                titleCn: '逃亡与战斗II',
+                titleEn: 'Escape & Combat II Final',
+                desc: '历经多轮大版本迭代的高帧率对决系统：独创动作帧判定、弹幕时空延时机制与多段招式衔接，在复杂机制下带来极其爽快的手感反馈。',
+                highlight: 'FRAME HITBOX & TIME DILATION',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'Δt_dilation = f(combo)',
+                url: 'escape-and-combat-2.html',
+                drawType: 'combat'
+            },
+            {
+                id: 'anychem-scratch',
+                idxStr: '10',
+                year: '2024',
+                titleCn: 'Anychem (Scratch)',
+                titleEn: '3D Molecule Projection',
+                desc: 'AnyChem Pro 的原生 Scratch 原型系统：纯积木自主实现三维透视投影矩阵、分子空间旋转与简谐振动势能面，开启 3D 化学力学仿真的序幕。',
+                highlight: '3D PROJECTION & FORCE FIELD',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: "[X', Y']ᵀ = P · R(θ) · [X, Y, Z]ᵀ",
+                url: 'anychem-scratch.html',
+                drawType: 'molecule3d'
+            },
+            {
+                id: 'dream-big',
+                idxStr: '11',
+                year: '2025',
+                titleCn: '幻想成为大人物',
+                titleEn: 'Life Simulation Sandbox',
+                desc: '充满幽默与哲思的叙事微世界：在动态分支事件中扮演各色小人物，通过技能树抉择、资源权衡与突发奇遇，经历跌宕起伏的人生轨迹。',
+                highlight: 'PROCEDURAL STORY TREE',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'P(destiny) = ∑ wᵢ · choiceᵢ',
+                url: 'dream-big.html',
+                drawType: 'storytree'
+            },
+            {
+                id: 'subway-displayer',
+                idxStr: '12',
+                year: '2025',
+                titleCn: 'Subway Displayer',
+                titleEn: 'Transit Block Signal Board',
+                desc: '城市轨道交通运行图与列车实时追踪系统：精准绘制闭塞区间、信号灯联锁逻辑与发车时序，完美还原地铁大屏的高清动态调度看板。',
+                highlight: 'TOPOLOGICAL TRANSIT INTERLOCK',
+                runtime: 'TURBOWARP · 60FPS',
+                formula: 'G = (V, E) · SIGNAL_BLOCK',
+                url: 'subway-displayer.html',
+                drawType: 'subway'
+            }
+        ];
+
+        /* ============================================================
+           1. 几何微光蓝图背景 Canvas (Blueprint Grid)
+           ============================================================ */
+        (function initBlueprint() {
+            const canvas = document.getElementById('blueprint-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let w, h;
-            const stars = [];
-            const count = 180;
 
             function resize() {
                 w = canvas.width = window.innerWidth;
@@ -641,313 +1217,553 @@
             window.addEventListener('resize', resize);
             resize();
 
-            for (let i = 0; i < count; i++) {
-                stars.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    radius: Math.random() * 1.5 + 0.5,
-                    alpha: Math.random() * 0.7 + 0.3,
-                    speed: Math.random() * 0.015 + 0.005
-                });
-            }
-
+            let time = 0;
             function draw() {
+                time += 0.005;
                 ctx.clearRect(0, 0, w, h);
-                for (let i = 0; i < stars.length; i++) {
-                    const s = stars[i];
-                    s.alpha += s.speed;
-                    if (s.alpha > 1 || s.alpha < 0.2) s.speed = -s.speed;
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, Math.min(1, s.alpha))})`;
-                    ctx.fill();
+
+                // 细密工程网格
+                const gridSize = 48;
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(0, 82, 255, 0.04)';
+
+                const offsetX = (time * 12) % gridSize;
+                const offsetY = (time * 8) % gridSize;
+
+                ctx.beginPath();
+                for (let x = offsetX; x < w; x += gridSize) {
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
                 }
+                for (let y = offsetY; y < h; y += gridSize) {
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                }
+                ctx.stroke();
+
+                // 偶发交点十字标
+                const crossSize = 4;
+                ctx.strokeStyle = 'rgba(0, 82, 255, 0.12)';
+                for (let x = offsetX + gridSize; x < w; x += gridSize * 3) {
+                    for (let y = offsetY + gridSize; y < h; y += gridSize * 3) {
+                        ctx.beginPath();
+                        ctx.moveTo(x - crossSize, y);
+                        ctx.lineTo(x + crossSize, y);
+                        ctx.moveTo(x, y - crossSize);
+                        ctx.lineTo(x, y + crossSize);
+                        ctx.stroke();
+                    }
+                }
+
                 requestAnimationFrame(draw);
             }
             draw();
         })();
 
-        /* 12 部作品精选集数据 */
-        const EXHIBITION_WORKS = [
-            {
-                id: 'number-diffusion',
-                code: '2022 · 01',
-                year: '2022',
-                titleCn: '数字扩散',
-                titleEn: 'Number Diffusion',
-                desc: '基于离散数值网格与能量守恒的扩散求解算法。在二维矩阵中推演数值梯度的流动与耗散，构建极富思维深度的链式扩散与策略解谜关卡。',
-                highlight: 'DISCRETE NUMERICAL DIFFUSION',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: '∂u/∂t = α∇²u',
-                url: 'number-diffusion.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'reactor-1',
-                code: '2022 · 02',
-                year: '2022',
-                titleCn: 'REACTOR I',
-                titleEn: 'Fission Core BTS',
-                desc: '核裂变链式反应堆初期工程机理仿真：实时解算中子通量、控制棒位移与热力学循环，还原复杂工业面板在临界状态下的控制逻辑。',
-                highlight: 'NEUTRON FLUX DYNAMICS',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'dn/dt = [(ρ-β)/Λ]n + ∑λᵢCᵢ',
-                url: 'reactor-1.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'reactor-2',
-                code: '2022 · 03',
-                year: '2022',
-                titleCn: 'REACTOR II',
-                titleEn: 'Advanced Core Automation',
-                desc: 'REACTOR 架构重大升级版：全面重构堆芯热工水力模型与蒸汽发生器环路，支持多通道故障应急处置、余热排出与全自动化调谐系统。',
-                highlight: 'THERMOHYDRAULIC SCRAM',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'q = ṁ · cₚ · ΔT',
-                url: 'reactor-2.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'human-resource-machine',
-                code: '2023 · 04',
-                year: '2023',
-                titleCn: 'Human Resource Machine',
-                titleEn: 'Assembly Logic Sandbox',
-                desc: '致敬经典逻辑编程神作的完全重构实现：基于自主设计的轻量级微指令集（INBOX、OUTBOX、COPYTO、JUMPZ 等），推演基础数据结构与算力编排。',
-                highlight: 'BYTECODE ASSEMBLY PIPELINE',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'INBOX → [ACC] → OUTBOX',
-                url: 'human-resource-machine.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'earth-resource-machine',
-                code: '2023 · 05',
-                year: '2023',
-                titleCn: 'Earth Resource Machine',
-                titleEn: 'Planetary Industrial Loop',
-                desc: '宏观行星工业资源开采与流水线调度模拟：构建多层级传送带网络、精炼窑炉与能源中继系统，实现从原始矿物到复杂构件的全自动产线自循环。',
-                highlight: 'CONVEYOR DAG AUTOMATION',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: '∮ J · dA = dM/dt',
-                url: 'earth-resource-machine.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'unknown-resource-machine',
-                code: '2023 · 06',
-                year: '2023',
-                titleCn: 'Unknown Resource Machine',
-                titleEn: 'Cyber Concurrency Matrix',
-                desc: '高阶指令驱动的赛博异构资源矩阵：突破传统流水线范式，融合动态内存分配、并发线程锁机制与未知数据协议逆向工程。',
-                highlight: 'CONCURRENT PROTOCOL MATRIX',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: '0xDEADBEEF ⊕ MUTEX_LOCK',
-                url: 'unknown-resource-machine.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'nuclear-factory-2',
-                code: '2024 · 07',
-                year: '2024',
-                titleCn: 'Nuclear Factory II',
-                titleEn: 'Isotope Refining Facility',
-                desc: '核燃料循环与同位素分离流水线仿真：精准建模重水减速剂、气体离心机级联浓缩与裂变产物衰变热，呈现极简硬核的工业控制美学。',
-                highlight: 'CENTRIFUGE CASCADE SEPARATION',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'N(t) = N₀ · 2^(-t/T₁/₂)',
-                url: 'nuclear-factory-2.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'reactic',
-                code: '2023 · 08',
-                year: '2023',
-                titleCn: 'Reactic',
-                titleEn: 'Chemical Kinetics Engine',
-                desc: '微观化学反应动力学演示机：通过硬球碰撞模型与活化能势垒判定，动态推演旧键断裂与基团重组，直观呈现阿伦尼乌斯速率方程规律。',
-                highlight: 'ARRHENIUS COLLISION KINETICS',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'k = A · exp(-Eₐ / RT)',
-                url: 'reactic.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'escape-and-combat-2',
-                code: '2024 · 09',
-                year: '2024',
-                titleCn: '逃亡与战斗II',
-                titleEn: 'Escape & Combat II Final',
-                desc: '历经多轮大版本迭代的高帧率对决系统：独创动作帧判定、弹幕时空延时机制与多段招式衔接，在复杂机制下带来极其爽快的手感反馈。',
-                highlight: 'FRAME HITBOX & TIME DILATION',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'Δt_dilation = f(combo)',
-                url: 'escape-and-combat-2.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'anychem-scratch',
-                code: '2024 · 10',
-                year: '2024',
-                titleCn: 'Anychem (Scratch)',
-                titleEn: '3D Molecule Projection',
-                desc: 'AnyChem Pro 的原生 Scratch 原型系统：纯积木自主实现三维透视投影矩阵、分子空间旋转与简谐振动势能面，开启 3D 化学力学仿真的序幕。',
-                highlight: '3D PROJECTION & FORCE FIELD',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: "[X', Y']ᵀ = P · R(θ) · [X, Y, Z]ᵀ",
-                url: 'anychem-scratch.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'dream-big',
-                code: '2025 · 11',
-                year: '2025',
-                titleCn: '幻想成为大人物',
-                titleEn: 'Life Simulation Sandbox',
-                desc: '充满幽默与哲思的叙事微世界：在动态分支事件中扮演各色小人物，通过技能树抉择、资源权衡与突发奇遇，经历跌宕起伏的人生轨迹。',
-                highlight: 'PROCEDURAL STORY TREE',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'P(destiny) = ∑ wᵢ · choiceᵢ',
-                url: 'dream-big.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
-            },
-            {
-                id: 'subway-displayer',
-                code: '2025 · 12',
-                year: '2025',
-                titleCn: 'Subway Displayer',
-                titleEn: 'Transit Block Signal Board',
-                desc: '城市轨道交通运行图与列车实时追踪系统：精准绘制闭塞区间、信号灯联锁逻辑与发车时序，完美还原地铁大屏的高清动态调度看板。',
-                highlight: 'TOPOLOGICAL TRANSIT INTERLOCK',
-                runtime: 'TURBOWARP · 60FPS COMPILATION',
-                formula: 'G = (V, E) · SIGNAL_BLOCK',
-                url: 'subway-displayer.html',
-                accent: '#38bdf8',
-                rgb: '56, 189, 248'
+        /* ============================================================
+           2. 作品专属生成微缩画布渲染器 (Micro Simulation Canvas)
+           ============================================================ */
+        function initCardPreview(canvas, type) {
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let w = canvas.width = canvas.clientWidth || 300;
+            let h = canvas.height = canvas.clientHeight || 180;
+            let t = Math.random() * 100;
+
+            function render() {
+                t += 0.025;
+                ctx.clearRect(0, 0, w, h);
+
+                // 柔和底色网格
+                ctx.strokeStyle = 'rgba(0, 82, 255, 0.06)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < w; x += 24) {
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+                }
+                for (let y = 0; y < h; y += 24) {
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+                }
+
+                if (type === 'diffusion') {
+                    // 数值网格扩散波
+                    const cx = w / 2, cy = h / 2;
+                    for (let r = 10; r < 90; r += 16) {
+                        const wave = Math.sin(t * 2 - r * 0.08) * 0.5 + 0.5;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, r + wave * 4, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(0, 82, 255, ${0.15 + wave * 0.55})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
+                    }
+                } else if (type === 'reactor' || type === 'reactor-advanced') {
+                    // 反应堆堆芯粒子与控制棒
+                    const cx = w / 2, cy = h / 2;
+                    ctx.strokeStyle = 'rgba(0, 82, 255, 0.4)';
+                    ctx.strokeRect(cx - 50, cy - 40, 100, 80);
+                    // 控制棒上下位移
+                    const rodY = Math.sin(t) * 15;
+                    ctx.fillStyle = 'rgba(0, 82, 255, 0.7)';
+                    ctx.fillRect(cx - 30, cy - 35 + rodY, 12, 50);
+                    ctx.fillRect(cx + 18, cy - 35 - rodY, 12, 50);
+                    // 粒子碰撞
+                    for (let i = 0; i < 8; i++) {
+                        const px = cx + Math.sin(t * 3 + i) * 35;
+                        const py = cy + Math.cos(t * 2.5 + i * 2) * 28;
+                        ctx.beginPath();
+                        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+                        ctx.fillStyle = '#0284c7';
+                        ctx.fill();
+                    }
+                } else if (type === 'assembly') {
+                    // 汇编指令流水线方块
+                    const offset = (t * 40) % 60;
+                    ctx.font = '9px JetBrains Mono';
+                    ctx.fillStyle = '#0052ff';
+                    for (let x = -20 + offset; x < w + 40; x += 60) {
+                        ctx.strokeRect(x, h / 2 - 14, 46, 28);
+                        ctx.fillText('0x' + Math.floor((x + 100) % 256).toString(16).toUpperCase(), x + 8, h / 2 + 4);
+                    }
+                } else if (type === 'conveyor') {
+                    // 自动化环形网络
+                    const cx = w / 2, cy = h / 2;
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, 75, 45, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(0, 82, 255, 0.35)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    // 沿椭圆移动的货物
+                    for (let i = 0; i < 6; i++) {
+                        const ang = t + (i * Math.PI / 3);
+                        const px = cx + Math.cos(ang) * 75;
+                        const py = cy + Math.sin(ang) * 45;
+                        ctx.fillStyle = '#0052ff';
+                        ctx.fillRect(px - 4, py - 4, 8, 8);
+                    }
+                } else if (type === 'molecule3d') {
+                    // 3D 旋转分子骨架
+                    const cx = w / 2, cy = h / 2;
+                    const nodes = [
+                        { x: -35, y: -25, z: 20 },
+                        { x: 35, y: -25, z: -20 },
+                        { x: 0, y: 35, z: 25 },
+                        { x: 0, y: -45, z: -10 }
+                    ];
+                    const rotX = t * 0.8, rotY = t * 1.2;
+                    const proj = nodes.map(n => {
+                        let x1 = n.x * Math.cos(rotY) - n.z * Math.sin(rotY);
+                        let z1 = n.x * Math.sin(rotY) + n.z * Math.cos(rotY);
+                        let y2 = n.y * Math.cos(rotX) - z1 * Math.sin(rotX);
+                        return { x: cx + x1, y: cy + y2 };
+                    });
+                    ctx.strokeStyle = 'rgba(0, 82, 255, 0.5)';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(proj[0].x, proj[0].y); ctx.lineTo(proj[1].x, proj[1].y);
+                    ctx.lineTo(proj[2].x, proj[2].y); ctx.lineTo(proj[0].x, proj[0].y);
+                    ctx.lineTo(proj[3].x, proj[3].y); ctx.lineTo(proj[1].x, proj[1].y);
+                    ctx.stroke();
+                    proj.forEach(p => {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                        ctx.fillStyle = '#0052ff';
+                        ctx.fill();
+                    });
+                } else if (type === 'subway') {
+                    // 拓扑地铁线路与信号灯
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#0052ff';
+                    ctx.beginPath();
+                    ctx.moveTo(20, h - 30); ctx.lineTo(w / 2 - 20, h / 2); ctx.lineTo(w - 20, 30);
+                    ctx.stroke();
+                    ctx.strokeStyle = '#0284c7';
+                    ctx.beginPath();
+                    ctx.moveTo(20, 40); ctx.lineTo(w / 2, h / 2); ctx.lineTo(w - 20, h - 40);
+                    ctx.stroke();
+                    // 移动的列车
+                    const trainPos = (t * 0.4) % 1;
+                    const tx = 20 + (w - 40) * trainPos;
+                    const ty = h - 30 + (60 - h) * trainPos;
+                    ctx.fillStyle = '#071530';
+                    ctx.fillRect(tx - 6, ty - 6, 12, 12);
+                } else {
+                    // 通用动态矢量波形与质点
+                    ctx.beginPath();
+                    ctx.moveTo(0, h / 2);
+                    for (let x = 0; x < w; x += 5) {
+                        const y = h / 2 + Math.sin(x * 0.04 + t * 2) * 25 * Math.cos(t * 0.5);
+                        ctx.lineTo(x, y);
+                    }
+                    ctx.strokeStyle = 'rgba(0, 82, 255, 0.6)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+
+                requestAnimationFrame(render);
             }
-        ];
+            render();
+        }
 
-        /* 卡片渲染与在线模态浮层 */
-        (function initExhibition() {
-            const grid = document.getElementById('exhibitionGrid');
-            const modal = document.getElementById('worksModal');
-            const modalTitle = document.getElementById('worksModalTitle');
-            const modalYear = document.getElementById('worksModalYear');
-            const modalIframe = document.getElementById('worksModalIframe');
-            const modalClose = document.getElementById('worksModalClose');
-            const modalNewTab = document.getElementById('worksModalNewTab');
-            const modalFs = document.getElementById('worksModalFs');
+        /* ============================================================
+           3. 3D 空间视窗动力学引擎 (Perspective Viewport & Ruler Scrubbing)
+           ============================================================ */
+        (function init3DViewport() {
+            const scene = document.getElementById('work3DScene');
+            const arena = document.getElementById('work3DArena');
+            const ruler = document.getElementById('rulerContainer');
+            const rulerPill = document.getElementById('rulerPill');
+            const prevBtn = document.getElementById('scenePrevBtn');
+            const nextBtn = document.getElementById('sceneNextBtn');
+            const idxText = document.getElementById('currentCardIndexText');
+            const titleText = document.getElementById('currentCardTitleText');
 
-            if (!grid) return;
+            if (!scene || !arena) return;
 
-            function renderCards() {
-                grid.innerHTML = '';
-                EXHIBITION_WORKS.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'ex-artifact-card';
-                    card.style.setProperty('--card-accent', item.accent);
-                    card.style.setProperty('--card-rgb', item.rgb);
-                    card.setAttribute('tabindex', '0');
-                    card.setAttribute('role', 'button');
-                    card.setAttribute('aria-label', `体验 ${item.titleCn} · ${item.titleEn}`);
-                    card.innerHTML = `
-                        <div class="ex-card-top">
-                            <div class="ex-card-meta-left">
-                                <span class="ex-pulse-dot"></span>
-                                <span class="ex-code-badge">[ ${item.code} ]</span>
-                            </div>
-                            <span class="ex-tag-tech">[ ${item.highlight} ]</span>
+            let currentIndex = 0;
+            let targetIndex = 0;
+            const total = WORKS_DATA.length;
+            const cardElements = [];
+
+            // 生成卡片元素
+            WORKS_DATA.forEach((item, index) => {
+                const card = document.createElement('article');
+                card.className = 'scene-card-item';
+                card.setAttribute('data-index', index);
+                card.innerHTML = `
+                    <span class="card-corner-cross corner-tl">+</span>
+                    <span class="card-corner-cross corner-tr">+</span>
+                    <span class="card-corner-cross corner-bl">+</span>
+                    <span class="card-corner-cross corner-br">+</span>
+
+                    <div class="card-header-bar">
+                        <div class="card-index-badge">
+                            <span></span>
+                            <span>INDEX #${item.idxStr} // ${item.year}</span>
                         </div>
-                        <div class="ex-card-body">
-                            <div class="ex-title-wrap">
-                                <h3 class="ex-title-cn">${item.titleCn}</h3>
-                                <span class="ex-title-en">${item.titleEn}</span>
-                            </div>
-                            <p class="ex-card-desc">${item.desc}</p>
-                        </div>
-                        <div class="ex-card-foot">
-                            <div class="ex-foot-spec">
-                                <span class="ex-spec-chip">${item.runtime}</span>
-                            </div>
-                            <div class="ex-foot-formula">
-                                <span class="ex-formula-text">${item.formula}</span>
-                            </div>
-                        </div>
-                    `;
+                        <span class="card-highlight-tag">${item.highlight}</span>
+                    </div>
 
-                    card.addEventListener('click', () => {
+                    <div class="card-canvas-preview">
+                        <span class="preview-live-tag">
+                            <span class="preview-live-dot"></span>
+                            <span>SIMULATION</span>
+                        </span>
+                        <canvas class="card-preview-canvas"></canvas>
+                    </div>
+
+                    <div class="card-titles-wrap">
+                        <h2 class="card-title-cn">${item.titleCn}</h2>
+                        <div class="card-title-en">${item.titleEn}</div>
+                    </div>
+
+                    <p class="card-synopsis">${item.desc}</p>
+
+                    <div class="card-footer-strip">
+                        <div class="card-formula-spec" title="${item.formula}">
+                            ${item.formula}
+                        </div>
+                        <button class="card-launch-btn" data-url="${item.url}" data-index="${index}">
+                            <span>LAUNCH</span>
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                `;
+
+                scene.appendChild(card);
+                cardElements.push(card);
+
+                // 启动卡片内微缩生成预览
+                const canvasEl = card.querySelector('.card-preview-canvas');
+                initCardPreview(canvasEl, item.drawType);
+
+                // 点击非当前卡片快速居中；点击当前卡片或按钮进入仿真
+                card.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.card-launch-btn');
+                    if (btn || Math.round(currentIndex) === index) {
                         openModal(item);
-                    });
-
-                    card.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            openModal(item);
-                        }
-                    });
-
-                    grid.appendChild(card);
+                    } else {
+                        targetIndex = index;
+                    }
                 });
+            });
+
+            // 生成底部精密刻度标尺
+            if (ruler) {
+                for (let i = 0; i < total; i++) {
+                    const tick = document.createElement('div');
+                    tick.className = 'ruler-tick' + (i === 0 ? ' active' : '');
+                    tick.innerHTML = `<span>${WORKS_DATA[i].idxStr}</span>`;
+                    tick.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        targetIndex = i;
+                    });
+                    ruler.appendChild(tick);
+                }
             }
 
-            function openModal(item) {
-                if (!modal) return;
-                modalTitle.textContent = `${item.titleCn} · ${item.titleEn}`;
-                modalYear.textContent = item.year;
-                modalYear.style.backgroundColor = item.accent;
-                modalYear.style.color = '#ffffff';
-                modalNewTab.href = item.url;
-                modalIframe.src = item.url;
-
-                modal.classList.add('active');
-                modal.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeModal() {
-                if (!modal) return;
-                modal.classList.remove('active');
-                modal.setAttribute('aria-hidden', 'true');
-                modalIframe.src = 'about:blank';
-                document.body.style.overflow = '';
-            }
-
-            if (modalClose) modalClose.addEventListener('click', closeModal);
-            if (modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) closeModal();
+            // 更新刻度指示器
+            function updateRuler(index) {
+                const rounded = Math.round(index);
+                const ticks = ruler.querySelectorAll('.ruler-tick');
+                ticks.forEach((t, i) => {
+                    if (i === rounded) {
+                        t.classList.add('active');
+                    } else {
+                        t.classList.remove('active');
+                    }
                 });
+
+                if (rulerPill && ticks[rounded]) {
+                    const tickRect = ticks[rounded].getBoundingClientRect();
+                    const rulerRect = ruler.getBoundingClientRect();
+                    const leftPos = tickRect.left - rulerRect.left - 10;
+                    rulerPill.style.left = `${Math.max(4, leftPos)}px`;
+                    rulerPill.style.width = `22px`;
+                }
+
+                if (idxText && WORKS_DATA[rounded]) {
+                    idxText.textContent = WORKS_DATA[rounded].idxStr;
+                }
+                if (titleText && WORKS_DATA[rounded]) {
+                    titleText.textContent = WORKS_DATA[rounded].titleCn;
+                }
             }
+
+            // 3D 动力学帧循环 (Kinetic Lerp Loop)
+            function animate() {
+                // 弹性平滑逼近
+                currentIndex += (targetIndex - currentIndex) * 0.085;
+
+                const rounded = Math.round(currentIndex);
+
+                cardElements.forEach((card, i) => {
+                    const delta = i - currentIndex;
+                    const absDelta = Math.abs(delta);
+
+                    // 3D 空间变换：距离中心越远，沿 Z 轴深陷、Y 轴旋转并向两侧排布
+                    const spacing = Math.min(window.innerWidth * 0.38, 380);
+                    const tx = delta * spacing;
+                    const tz = -absDelta * 140;
+                    const rotY = Math.max(-45, Math.min(45, -delta * 22));
+                    const scale = Math.max(0.68, 1 - absDelta * 0.12);
+                    const opacity = Math.max(0, 1 - absDelta * 0.32);
+
+                    card.style.transform = `translate3d(${tx}px, 0, ${tz}px) rotateY(${rotY}deg) scale(${scale})`;
+                    card.style.opacity = opacity;
+                    card.style.zIndex = Math.round(100 - absDelta * 10);
+                    card.style.pointerEvents = absDelta < 2.5 ? 'auto' : 'none';
+
+                    if (absDelta < 0.45) {
+                        card.classList.add('is-active');
+                    } else {
+                        card.classList.remove('is-active');
+                    }
+                });
+
+                updateRuler(currentIndex);
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // 按钮与键盘方向键交互
+            if (prevBtn) prevBtn.addEventListener('click', () => {
+                targetIndex = Math.max(0, Math.round(targetIndex) - 1);
+            });
+            if (nextBtn) nextBtn.addEventListener('click', () => {
+                targetIndex = Math.min(total - 1, Math.round(targetIndex) + 1);
+            });
+
             window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
-                    closeModal();
+                const modal = document.getElementById('worksModal');
+                if (modal && modal.classList.contains('is-open')) return;
+
+                if (e.key === 'ArrowLeft') {
+                    targetIndex = Math.max(0, Math.round(targetIndex) - 1);
+                } else if (e.key === 'ArrowRight') {
+                    targetIndex = Math.min(total - 1, Math.round(targetIndex) + 1);
                 }
             });
 
-            if (modalFs && modalIframe) {
-                modalFs.addEventListener('click', () => {
-                    if (modalIframe.requestFullscreen) {
-                        modalIframe.requestFullscreen();
-                    } else if (modalIframe.webkitRequestFullscreen) {
-                        modalIframe.webkitRequestFullscreen();
-                    }
-                });
-            }
+            // 鼠标拖拽与触摸滑动手势
+            let isDragging = false;
+            let startX = 0;
+            let initialTarget = 0;
+            let snapTimeout = null;
 
-            renderCards();
+            arena.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.card-launch-btn')) return;
+                isDragging = true;
+                startX = e.clientX;
+                initialTarget = targetIndex;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const diff = startX - e.clientX;
+                const sensitivity = window.innerWidth > 768 ? 280 : 160;
+                targetIndex = Math.max(0, Math.min(total - 1, initialTarget + diff / sensitivity));
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                targetIndex = Math.max(0, Math.min(total - 1, Math.round(targetIndex)));
+            });
+
+            // 移动端 Touch 事件支持
+            arena.addEventListener('touchstart', (e) => {
+                if (e.target.closest('.card-launch-btn')) return;
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                initialTarget = targetIndex;
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const diff = startX - e.touches[0].clientX;
+                targetIndex = Math.max(0, Math.min(total - 1, initialTarget + diff / 150));
+            }, { passive: true });
+
+            window.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                targetIndex = Math.max(0, Math.min(total - 1, Math.round(targetIndex)));
+            });
+
+            // 鼠标滚轮惯性微调与智能吸附
+            arena.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                targetIndex = Math.max(0, Math.min(total - 1, targetIndex + (e.deltaY || e.deltaX) * 0.0022));
+                clearTimeout(snapTimeout);
+                snapTimeout = setTimeout(() => {
+                    targetIndex = Math.max(0, Math.min(total - 1, Math.round(targetIndex)));
+                }, 220);
+            }, { passive: false });
         })();
+
+        /* ============================================================
+           4. 模式二：高密度矩阵画廊 (Grid Overview Render)
+           ============================================================ */
+        (function initGridView() {
+            const gridContainer = document.getElementById('workGridView');
+            if (!gridContainer) return;
+
+            WORKS_DATA.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'grid-card-item';
+                card.innerHTML = `
+                    <div class="card-header-bar">
+                        <div class="card-index-badge">
+                            <span></span>
+                            <span>INDEX #${item.idxStr} // ${item.year}</span>
+                        </div>
+                        <span class="card-highlight-tag">${item.highlight}</span>
+                    </div>
+
+                    <div class="card-titles-wrap" style="margin-top: 14px;">
+                        <h2 class="card-title-cn" style="font-size: 1.6rem;">${item.titleCn}</h2>
+                        <div class="card-title-en">${item.titleEn}</div>
+                    </div>
+
+                    <p class="card-synopsis" style="-webkit-line-clamp: 4; margin: 12px 0;">${item.desc}</p>
+
+                    <div class="card-footer-strip">
+                        <span class="card-formula-spec">${item.formula}</span>
+                        <button class="card-launch-btn" data-url="${item.url}">
+                            <span>LAUNCH</span>
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => {
+                    openModal(item);
+                });
+
+                gridContainer.appendChild(card);
+            });
+        })();
+
+        /* ============================================================
+           5. 视图切换逻辑 (3D Perspective ↔ Grid Overview)
+           ============================================================ */
+        (function initViewSwitch() {
+            const btn3D = document.getElementById('viewBtn3D');
+            const btnGrid = document.getElementById('viewBtnGrid');
+            const arena = document.getElementById('work3DArena');
+            const controls = document.getElementById('work3DControls');
+            const grid = document.getElementById('workGridView');
+
+            if (!btn3D || !btnGrid || !arena || !grid) return;
+
+            btn3D.addEventListener('click', () => {
+                btn3D.classList.add('active');
+                btnGrid.classList.remove('active');
+                arena.style.display = 'flex';
+                controls.style.display = 'flex';
+                grid.classList.remove('is-visible');
+            });
+
+            btnGrid.addEventListener('click', () => {
+                btnGrid.classList.add('active');
+                btn3D.classList.remove('active');
+                arena.style.display = 'none';
+                controls.style.display = 'none';
+                grid.classList.add('is-visible');
+            });
+        })();
+
+        /* ============================================================
+           6. 沉浸式仿真运行模态浮层管理 (TurboWarp Modal Engine)
+           ============================================================ */
+        const modal = document.getElementById('worksModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalYear = document.getElementById('modalYear');
+        const modalIframe = document.getElementById('modalIframe');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalNewTabBtn = document.getElementById('modalNewTabBtn');
+        const modalFsBtn = document.getElementById('modalFsBtn');
+
+        function openModal(item) {
+            if (!modal) return;
+            modalTitle.textContent = `${item.titleCn} · ${item.titleEn}`;
+            modalYear.textContent = item.year;
+            modalNewTabBtn.href = item.url;
+            modalIframe.src = item.url;
+
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            if (!modal) return;
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            modalIframe.src = 'about:blank';
+            document.body.style.overflow = '';
+        }
+
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) {
+                closeModal();
+            }
+        });
+
+        if (modalFsBtn && modalIframe) {
+            modalFsBtn.addEventListener('click', () => {
+                if (modalIframe.requestFullscreen) {
+                    modalIframe.requestFullscreen();
+                } else if (modalIframe.webkitRequestFullscreen) {
+                    modalIframe.webkitRequestFullscreen();
+                }
+            });
+        }
     </script>
 </body>
 </html>
