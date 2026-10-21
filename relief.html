@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Character Topographic Relief · 动漫人物立体线条拓扑起伏</title>
+    <link rel="icon" type="image/png" href="assets/images/fumo-icon.png">
+    <link rel="stylesheet" href="./works/bundle.css">
+    <style>
+        :root {
+            --bg-void: #040508;
+            --line-orange: #ff7a00;
+            --line-cyan: #38bdf8;
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.45);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', -apple-system, monospace;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        #relief-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 1;
+            cursor: grab;
+        }
+        #relief-canvas:active {
+            cursor: grabbing;
+        }
+        
+        /* 顶部导航与状态条 */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            padding: 20px clamp(20px, 4vw, 48px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(4,5,8,0.85) 0%, transparent 100%);
+        }
+        .top-bar * {
+            pointer-events: auto;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(15, 18, 25, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+        }
+        .back-btn:hover {
+            border-color: var(--line-orange);
+            color: var(--line-orange);
+            box-shadow: 0 0 15px rgba(255, 122, 0, 0.3);
+        }
+        .title-badge {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        /* 底部浮动控制板 */
+        .control-panel {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            background: rgba(15, 18, 25, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.5);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+        }
+        .ctrl-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-family: inherit;
+            font-size: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .ctrl-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+        .ctrl-btn.active {
+            background: var(--line-orange);
+            color: #000;
+            font-weight: 700;
+            border-color: var(--line-orange);
+            box-shadow: 0 0 12px rgba(255, 122, 0, 0.5);
+        }
+        .sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 浮动参考缩略图小窗 */
+        .preview-box {
+            position: fixed;
+            bottom: 84px;
+            right: 28px;
+            width: 220px;
+            background: rgba(15, 18, 25, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            z-index: 20;
+            pointer-events: auto;
+            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease;
+        }
+        .preview-header {
+            padding: 8px 12px;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            color: var(--text-dim);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+        .preview-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-bar">
+        <a href="index.html" class="back-btn">
+            <span>←</span> <span>INDEX / HOME</span>
+        </a>
+        <div class="title-badge">
+            3D TOPOGRAPHIC RELIEF // AI MONOCULAR DEPTH
+        </div>
+    </header>
+
+    <canvas id="relief-canvas"></canvas>
+
+    <!-- 底部控制栏 -->
+    <div class="control-panel">
+        <button class="ctrl-btn active" data-sample="2">SAMPLE 2 (银发少女·高反差)</button>
+        <button class="ctrl-btn" data-sample="1">SAMPLE 1 (黑发少女·长椅)</button>
+        <div class="sep"></div>
+        <button class="ctrl-btn" id="toggleAmp">起伏幅度: 高 (110px)</button>
+        <button class="ctrl-btn" id="toggleDensity">线条密度: 75条</button>
+        <button class="ctrl-btn" id="togglePreview">参考小窗: 开启</button>
+    </div>
+
+    <!-- 右下角实时深度与样图小窗 -->
+    <div class="preview-box" id="previewBox">
+        <div class="preview-header">
+            <span id="previewTitle">DEPTH MAP</span>
+            <span style="color: var(--line-orange);">8-BIT</span>
+        </div>
+        <img id="previewImg" class="preview-img" src="assets/images/depth_map_02.png" alt="Depth Map">
+    </div>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('relief-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let w = window.innerWidth, h = window.innerHeight;
+            let dpr = window.devicePixelRatio || 1;
+
+            let currentSample = 2;
+            let numLines = 75;
+            let amp = 110;
+            let isPreviewVisible = true;
+
+            // 深度图像素缓冲区
+            let depthCanvas = document.createElement('canvas');
+            let depthCtx = depthCanvas.getContext('2d');
+            let depthData = null;
+            let depthWidth = 0, depthHeight = 0;
+
+            const depthImgs = {
+                1: 'assets/images/depth_map_01.png',
+                2: 'assets/images/depth_map_02.png'
+            };
+            const origImgs = {
+                1: 'assets/images/anime_sample_01.jpg',
+                2: 'assets/images/anime_sample_02.jpg'
+            };
+
+            function resize() {
+                w = window.innerWidth;
+                h = window.innerHeight;
+                dpr = window.devicePixelRatio || 1;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                ctx.scale(dpr, dpr);
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            // 加载当前样本的深度图
+            function loadDepthMap(sampleId) {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    depthWidth = img.width;
+                    depthHeight = img.height;
+                    depthCanvas.width = depthWidth;
+                    depthCanvas.height = depthHeight;
+                    depthCtx.drawImage(img, 0, 0);
+                    depthData = depthCtx.getImageData(0, 0, depthWidth, depthHeight).data;
+                    document.getElementById('previewImg').src = depthImgs[sampleId];
+                };
+                img.src = depthImgs[sampleId];
+            }
+            loadDepthMap(currentSample);
+
+            // 获取 (nx, ny) 归一化坐标处的深度值 [0, 1]
+            function getDepth(nx, ny) {
+                if (!depthData || depthWidth === 0) return 0;
+                const px = Math.min(depthWidth - 1, Math.max(0, Math.floor(nx * depthWidth)));
+                const py = Math.min(depthHeight - 1, Math.max(0, Math.floor(ny * depthHeight)));
+                const idx = (py * depthWidth + px) * 4;
+                return depthData[idx] / 255.0; // 灰度 R 通道
+            }
+
+            // 交互视角动力学
+            let mouseX = w / 2, mouseY = h / 2;
+            let targetRotX = 0, targetRotY = 0;
+            let rotX = 0, rotY = 0;
+            let isPointerDown = false;
+            let lastX = 0, lastY = 0;
+
+            window.addEventListener('mousemove', e => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                if (isPointerDown) {
+                    const dx = e.clientX - lastX;
+                    const dy = e.clientY - lastY;
+                    targetRotY += dx * 0.003;
+                    targetRotX += dy * 0.003;
+                    lastX = e.clientX;
+                    lastY = e.clientY;
+                } else {
+                    targetRotY = (e.clientX / w - 0.5) * 0.25;
+                    targetRotX = (e.clientY / h - 0.5) * 0.2;
+                }
+            });
+
+            window.addEventListener('mousedown', e => {
+                if (e.target.closest('.control-panel') || e.target.closest('.top-bar')) return;
+                isPointerDown = true;
+                lastX = e.clientX;
+                lastY = e.clientY;
+            });
+            window.addEventListener('mouseup', () => { isPointerDown = false; });
+
+            // 渲染主循环
+            let time = 0;
+            function render() {
+                time += 0.02;
+                rotX += (targetRotX - rotX) * 0.08;
+                rotY += (targetRotY - rotY) * 0.08;
+
+                ctx.fillStyle = '#040508';
+                ctx.fillRect(0, 0, w, h);
+
+                if (!depthData) {
+                    requestAnimationFrame(render);
+                    return;
+                }
+
+                // 计算线条舞台区域（横向 16:9 比例框）
+                const stageAspect = 16 / 9;
+                let stageW = w * 0.88;
+                let stageH = stageW / stageAspect;
+                if (stageH > h * 0.82) {
+                    stageH = h * 0.82;
+                    stageW = stageH * stageAspect;
+                }
+                const stageLeft = (w - stageW) / 2 + rotY * 120;
+                const stageTop = (h - stageH) / 2 + rotX * 80;
+
+                const stepY = stageH / (numLines - 1);
+                const numSamplesX = 220;
+                const stepX = stageW / (numSamplesX - 1);
+
+                // 从后向前依次绘制每条等高线并填色遮挡（Occlusion）
+                for (let i = 0; i < numLines; i++) {
+                    const y0 = stageTop + i * stepY;
+                    const ny = i / (numLines - 1);
+
+                    const curvePoints = [];
+                    for (let j = 0; j < numSamplesX; j++) {
+                        const x = stageLeft + j * stepX;
+                        const nx = j / (numSamplesX - 1);
+
+                        const d = getDepth(nx, ny);
+
+                        // 呼吸式有机微波
+                        const ambientWave = Math.sin(nx * 8 + time + i * 0.15) * 2.5;
+
+                        // 3D 深度位移（向上隆起）
+                        const dispY = y0 - d * amp + ambientWave;
+                        curvePoints.push({ x, y: dispY, depth: d });
+                    }
+
+                    // 1. 绘制遮挡背景多边形（防止后方的线条穿透出来）
+                    ctx.beginPath();
+                    ctx.moveTo(curvePoints[0].x, h);
+                    for (let p of curvePoints) {
+                        ctx.lineTo(p.x, p.y);
+                    }
+                    ctx.lineTo(curvePoints[curvePoints.length - 1].x, h);
+                    ctx.closePath();
+                    ctx.fillStyle = '#040508';
+                    ctx.fill();
+
+                    // 2. 绘制立体线条
+                    for (let j = 0; j < curvePoints.length - 1; j++) {
+                        const p1 = curvePoints[j];
+                        const p2 = curvePoints[j + 1];
+                        const avgDepth = (p1.depth + p2.depth) * 0.5;
+
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+
+                        // 依据立体高程映射线条色彩与粗细
+                        if (avgDepth < 0.08) {
+                            ctx.strokeStyle = 'rgba(71, 85, 105, 0.45)'; // 背景暗灰
+                            ctx.lineWidth = 1;
+                        } else if (avgDepth < 0.4) {
+                            ctx.strokeStyle = '#f97316'; // 渐起斜坡暖橙
+                            ctx.lineWidth = 1.6;
+                        } else {
+                            ctx.strokeStyle = '#fff7ed'; // 鼻尖/胸脯最高脊线亮白
+                            ctx.lineWidth = 2.4;
+                            ctx.shadowColor = 'rgba(255, 122, 0, 0.4)';
+                            ctx.shadowBlur = 6;
+                        }
+
+                        ctx.stroke();
+                        ctx.shadowBlur = 0; // 重置光晕
+                    }
+                }
+
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+
+            // 切换样本
+            document.querySelectorAll('[data-sample]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('[data-sample]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentSample = parseInt(btn.getAttribute('data-sample'));
+                    loadDepthMap(currentSample);
+                });
+            });
+
+            // 切换幅度
+            const ampBtn = document.getElementById('toggleAmp');
+            ampBtn.addEventListener('click', () => {
+                if (amp === 110) {
+                    amp = 160;
+                    ampBtn.textContent = '起伏幅度: 极致 (160px)';
+                } else if (amp === 160) {
+                    amp = 65;
+                    ampBtn.textContent = '起伏幅度: 平缓 (65px)';
+                } else {
+                    amp = 110;
+                    ampBtn.textContent = '起伏幅度: 高 (110px)';
+                }
+            });
+
+            // 切换线条密度
+            const densBtn = document.getElementById('toggleDensity');
+            densBtn.addEventListener('click', () => {
+                if (numLines === 75) {
+                    numLines = 105;
+                    densBtn.textContent = '线条密度: 105条 (极密)';
+                } else if (numLines === 105) {
+                    numLines = 45;
+                    densBtn.textContent = '线条密度: 45条 (粗犷)';
+                } else {
+                    numLines = 75;
+                    densBtn.textContent = '线条密度: 75条 (经典)';
+                }
+            });
+
+            // 切换参考小窗
+            const prevBtn = document.getElementById('togglePreview');
+            const prevBox = document.getElementById('previewBox');
+            prevBtn.addEventListener('click', () => {
+                isPreviewVisible = !isPreviewVisible;
+                prevBox.style.display = isPreviewVisible ? 'block' : 'none';
+                prevBtn.textContent = '参考小窗: ' + (isPreviewVisible ? '开启' : '关闭');
+            });
+        })();
+    </script>
+</body>
+</html>

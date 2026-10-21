@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRJprogram</title>
+    <meta name="description" content="XRJprogram 个人主页：代码、平面设计与空间线构。">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/fumo-icon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/fumo-icon.png">
+
+    <!-- 典雅字体：Space Grotesk、JetBrains Mono 与人文黑体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Grotesk:wght@500;600;700;800&display=swap">
+    </noscript>
+
+    <style>
+        :root {
+            --bg-void: #040508;
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --text-dim: #64748b;
+            --line-orange: #ff7a00;
+            --line-orange-bright: #fb923c;
+            --line-beige: #fef08a;
+            --line-deep-orange: #c2410c;
+            --font-display: 'Space Grotesk', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', 'Noto Sans SC', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        html, body {
+            background-color: var(--bg-void);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 纯黑背景微弱橙红与焦糖渐晕底纹 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 65% 50%, rgba(255, 122, 0, 0.055) 0%, transparent 60%),
+                radial-gradient(circle at 30% 60%, rgba(194, 65, 12, 0.04) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 全屏自适应 Canvas 画布 */
+        #generative-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 1;
+        }
+
+        /* 极简主义：全幅前景大文字排版层（无分栏、无点击点） */
+        .stage-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: clamp(24px, 4.5vw, 56px);
+        }
+
+        /* 顶部边缘极简印记 */
+        .header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: clamp(0.68rem, 0.85vw, 0.78rem);
+            color: var(--text-dim);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+        .header-brand {
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            pointer-events: auto;
+        }
+        .brand-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--line-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--line-orange);
+        }
+
+        /* 核心大文字区域：高冲击力瑞士极简主义排版 */
+        .hero-block {
+            max-width: 960px;
+            margin-top: auto;
+            margin-bottom: auto;
+            padding-top: 4vh;
+        }
+        .hero-label {
+            font-family: var(--font-mono);
+            font-size: clamp(0.7rem, 0.95vw, 0.84rem);
+            color: var(--line-orange-bright);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .hero-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--line-orange);
+            opacity: 0.85;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(4.2rem, 11vw, 9.8rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 0.92;
+            color: #ffffff;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            text-shadow: 0 0 45px rgba(0, 0, 0, 0.85);
+        }
+        .hero-desc {
+            font-family: var(--font-sans);
+            font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+            line-height: 1.85;
+            color: var(--text-sub);
+            max-width: 580px;
+            font-weight: 300;
+        }
+        .hero-desc strong {
+            color: #ffedd5;
+            font-weight: 500;
+        }
+
+        /* 底部边缘极简导航与状态标注（无任何按钮或点击点，仅保留版面文本链接） */
+        .footer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-family: var(--font-mono);
+            font-size: clamp(0.68rem, 0.85vw, 0.78rem);
+            letter-spacing: 0.14em;
+            color: var(--text-dim);
+            pointer-events: auto;
+        }
+        .footer-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-transform: uppercase;
+        }
+        .footer-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+        .footer-link:hover {
+            color: var(--line-orange-bright);
+        }
+        .footer-sep {
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .music-controller {
+            display: inline-flex;
+            align-items: center;
+        }
+        .music-toggle-btn {
+            background: transparent;
+            border: none;
+            padding: 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            font-family: inherit;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: color 0.25s ease;
+            outline: none;
+        }
+        .music-toggle-btn:hover {
+            color: var(--line-orange-bright);
+        }
+        .music-eq {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2.5px;
+            height: 12px;
+        }
+        .eq-bar {
+            width: 2px;
+            background: var(--line-orange);
+            border-radius: 1px;
+            height: 3px;
+            transition: height 0.2s ease, opacity 0.25s ease;
+        }
+        .music-toggle-btn.is-playing .eq-bar:nth-child(1) {
+            animation: eqBounce1 0.8s infinite ease-in-out alternate;
+        }
+        .music-toggle-btn.is-playing .eq-bar:nth-child(2) {
+            animation: eqBounce2 1.1s infinite ease-in-out alternate 0.15s;
+        }
+        .music-toggle-btn.is-playing .eq-bar:nth-child(3) {
+            animation: eqBounce3 0.9s infinite ease-in-out alternate 0.3s;
+        }
+        .music-toggle-btn.is-playing .eq-bar:nth-child(4) {
+            animation: eqBounce4 1.2s infinite ease-in-out alternate 0.05s;
+        }
+        .music-toggle-btn:not(.is-playing) .eq-bar {
+            opacity: 0.35;
+            height: 3px !important;
+            animation: none !important;
+        }
+        @keyframes eqBounce1 { 0% { height: 3px; } 100% { height: 11px; } }
+        @keyframes eqBounce2 { 0% { height: 12px; } 100% { height: 4px; } }
+        @keyframes eqBounce3 { 0% { height: 5px; } 100% { height: 13px; } }
+        @keyframes eqBounce4 { 0% { height: 10px; } 100% { height: 2px; } }
+
+        @media (max-width: 768px) {
+            .footer-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 动态连续变幻 3D 线构 Canvas -->
+    <canvas id="generative-canvas"></canvas>
+
+    <!-- 极简大文字排版层 -->
+    <main class="stage-overlay">
+        <!-- 顶栏极简标注 -->
+        <header class="header-meta">
+            <a href="index.html" class="header-brand">
+                <span class="brand-dot"></span>
+                <span>XRJ // 2026</span>
+            </a>
+            <span>SPATIAL LINE ARCHIVE</span>
+        </header>
+
+        <!-- 居中大文字主体 -->
+        <div class="hero-block">
+            <span class="hero-label">PROFILE // CREATIVE CODE &amp; DESIGN</span>
+            <h1 class="hero-title">XRJprogram</h1>
+            <p class="hero-desc">
+                这里是 <strong>XRJprogram</strong>。小说&游戏&音乐绝赞制作、代码编写中。
+            </p>
+        </div>
+
+        <!-- 底部边缘全站跳板（纯文本链接，无按钮感） -->
+        <footer class="footer-meta">
+            <nav class="footer-nav">
+                <a href="projects.html" class="footer-link">Projects</a>
+                <span class="footer-sep">/</span>
+                <a href="FantasyCity/index.html" class="footer-link smart-link" data-path="FantasyCity/index.html">Fantasy City</a>
+                <span class="footer-sep">/</span>
+                <a href="works/index.html" class="footer-link">Scratch Works</a>
+            </nav>
+            <div class="music-controller">
+                <button id="bgmToggle" class="music-toggle-btn" aria-label="切换配乐播放状态" title="ハウトゥー世界征服 - Neru feat. 鏡音リン・レン">
+                    <span class="music-eq" aria-hidden="true">
+                        <span class="eq-bar"></span>
+                        <span class="eq-bar"></span>
+                        <span class="eq-bar"></span>
+                        <span class="eq-bar"></span>
+                    </span>
+                    <span class="music-label">BGM // ハウトゥー世界征服</span>
+                </button>
+            </div>
+        </footer>
+    </main>
+
+    <!-- 背景配乐：ハウトゥー世界征服 (Neru feat. 鏡音リン・レン 原版，本地与云端双源保障) -->
+    <audio id="bgm" loop preload="auto">
+        <source src="assets/audio/how-to-sekai-seifuku.mp3" type="audio/mpeg">
+        <source src="https://archive.org/download/Sekai-Seifuku/14%20%E3%83%8F%E3%82%A6%E3%83%88%E3%82%A5%E3%83%BC%E4%B8%96%E7%95%8C%E5%BE%81%E6%9C%8D.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ============================================================
+       不断变幻的三维参数化线条组渲染引擎 (每隔 5 秒演进拓扑形态，橙·米黄·深橙三色流)
+       ============================================================ -->
+    <script>
+        // 智能路径适配 (兼容本地 file: 与 GitHub Pages 线上多仓库结构)
+        if (window.location.protocol === 'file:') {
+            document.querySelectorAll('.smart-link').forEach(link => {
+                const targetPath = link.getAttribute('data-path');
+                if (targetPath) {
+                    link.setAttribute('href', '../' + targetPath);
+                }
+            });
+        }
+
+        (function() {
+            const canvas = document.getElementById('generative-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let w = 0, h = 0;
+            let dpr = 1;
+            let animId = null;
+
+            // 视角与平滑动力学
+            let rotX = 0.25;
+            let rotY = 0.35;
+            let targetRotX = 0.25;
+            let targetRotY = 0.35;
+            let isPointerInteracting = false;
+            let lastMouseX = 0, lastMouseY = 0;
+
+            function resize() {
+                w = window.innerWidth;
+                h = window.innerHeight;
+                dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                ctx.scale(dpr, dpr);
+            }
+
+            window.addEventListener('resize', resize, { passive: true });
+
+            window.addEventListener('pointerdown', (e) => {
+                isPointerInteracting = true;
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                const nx = (e.clientX / w - 0.5) * 2;
+                const ny = (e.clientY / h - 0.5) * 2;
+                if (isPointerInteracting) {
+                    const dx = e.clientX - lastMouseX;
+                    const dy = e.clientY - lastMouseY;
+                    targetRotY += dx * 0.005;
+                    targetRotX -= dy * 0.005;
+                    lastMouseX = e.clientX;
+                    lastMouseY = e.clientY;
+                } else {
+                    targetRotY += nx * 0.0004;
+                    targetRotX -= ny * 0.0004;
+                }
+            });
+
+            window.addEventListener('pointerup', () => { isPointerInteracting = false; });
+            window.addEventListener('pointercancel', () => { isPointerInteracting = false; });
+
+            // 透视投影
+            const fov = 720;
+            function project(x, y, z, rotCosX, rotSinX, rotCosY, rotSinY, cx, cy) {
+                const x1 = x * rotCosY + z * rotSinY;
+                const z1 = -x * rotSinY + z * rotCosY;
+
+                const y2 = y * rotCosX - z1 * rotSinX;
+                const z2 = y * rotSinX + z1 * rotCosX;
+
+                const zDist = z2 + 620;
+                if (zDist <= 25) return null;
+
+                const scale = fov / zDist;
+                return {
+                    x: cx + x1 * scale,
+                    y: cy + y2 * scale,
+                    depth: zDist
+                };
+            }
+
+            // 核心参数化设置：54 组流线、84 组采样点与 16 组张力肋环
+            const streamCount = 54;
+            const ptsPerStream = 84;
+            const ringSteps = 16;
+
+            // 5 大截然不同且数学自洽的三维空间拓扑形态
+            const TOPOLOGY_STATES = [
+                {
+                    name: '01 · 莫比乌斯曲率环带',
+                    fn: function(u, v, t) {
+                        const rMain = 185 + Math.sin(u * 2 + t * 0.85) * 35;
+                        const rCross = 68 + Math.cos(v * 3 - t * 0.6) * 22;
+                        const twist = u * 2 + v + t * 0.45;
+                        const x = (rMain + rCross * Math.cos(twist)) * Math.cos(u + t * 0.12);
+                        const y = (rMain + rCross * Math.cos(twist)) * Math.sin(u + t * 0.12) * 0.82 + Math.sin(u * 3 + t * 0.6) * 32;
+                        const z = rCross * Math.sin(twist) * 2.2 + Math.cos(u * 2 + t * 0.4) * 45;
+                        return { x, y, z };
+                    }
+                },
+                {
+                    name: '02 · 空间起伏波形地貌',
+                    fn: function(u, v, t) {
+                        const rad = 230;
+                        const nx = (Math.cos(u) * rad) * (0.62 + 0.38 * Math.sin(v));
+                        const nz = (Math.sin(u) * rad) * (0.62 + 0.38 * Math.cos(v));
+                        const dist = Math.hypot(nx, nz) * 0.015;
+                        const ny = Math.sin(nx * 0.02 + t * 0.95) * Math.cos(nz * 0.02 + t * 0.75) * 90 + Math.sin(dist * 4 - t * 1.3) * 45;
+                        return { x: nx, y: ny, z: nz };
+                    }
+                },
+                {
+                    name: '03 · 空间折纸灵动展翼',
+                    fn: function(u, v, t) {
+                        const flap = Math.sin(t * 1.5) * 26;
+                        const span = 220;
+                        const wingX = (Math.cos(u) * span) * (0.7 + 0.3 * Math.cos(v));
+                        const wingZ = Math.sin(u) * 140 + Math.sin(v * 2) * 40;
+                        const wingY = -Math.abs(wingX) * 0.45 + Math.sin(Math.abs(wingX) * 0.02 - t) * flap + Math.cos(u * 3) * 35;
+                        return { x: wingX, y: wingY, z: wingZ };
+                    }
+                },
+                {
+                    name: '04 · 利萨如超引力扭结',
+                    fn: function(u, v, t) {
+                        const R = 175;
+                        const kx = Math.sin(u * 3 + t * 0.85) * R + Math.cos(v * 2) * 45;
+                        const ky = Math.sin(u * 2 - t * 0.65) * (R * 0.85) + Math.sin(v * 3 + t) * 35;
+                        const kz = Math.cos(u * 4 + t * 0.7) * (R * 0.9) + Math.sin(v * 2) * 42;
+                        return { x: kx, y: ky, z: kz };
+                    }
+                },
+                {
+                    name: '05 · 超维正交棱晶方阵',
+                    fn: function(u, v, t) {
+                        const boxSize = 165;
+                        const pulse = 1 + Math.sin(t * 0.95 + v) * 0.16;
+                        const cu = Math.cos(u);
+                        const su = Math.sin(u);
+                        const roundCubeX = Math.sign(cu) * Math.pow(Math.abs(cu), 0.6) * boxSize * pulse;
+                        const roundCubeZ = Math.sign(su) * Math.pow(Math.abs(su), 0.6) * boxSize * pulse;
+                        const roundCubeY = (Math.sin(v + t * 0.55) * 130) + Math.cos(u * 4) * 25;
+                        return { x: roundCubeX, y: roundCubeY, z: roundCubeZ };
+                    }
+                }
+            ];
+
+            let startTime = performance.now();
+            let lastFrameTime = 0;
+
+            // 三次缓动曲线
+            function easeInOutCubic(x) {
+                return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+            }
+
+            function render(now) {
+                animId = requestAnimationFrame(render);
+
+                if (now - lastFrameTime < 16) return;
+                lastFrameTime = now;
+
+                const elapsedSeconds = (now - startTime) * 0.001;
+                const t = elapsedSeconds * 0.85;
+
+                // 5 秒周期演进控制
+                const cycleDuration = 5.0; // 每 5 秒平滑切换一次形态
+                const morphDuration = 1.6; // 1.6 秒极度平滑的形态过渡期，其余 3.4 秒在此形态中呼吸演变
+
+                const totalCycles = elapsedSeconds / cycleDuration;
+                const currentIdx = Math.floor(totalCycles) % TOPOLOGY_STATES.length;
+                const nextIdx = (currentIdx + 1) % TOPOLOGY_STATES.length;
+                const cycleTime = elapsedSeconds % cycleDuration;
+
+                let morphProgress = 0;
+                if (cycleTime >= (cycleDuration - morphDuration)) {
+                    const rawProgress = (cycleTime - (cycleDuration - morphDuration)) / morphDuration;
+                    morphProgress = easeInOutCubic(rawProgress);
+                }
+
+                // 视角自主演进
+                rotX += (targetRotX - rotX) * 0.06;
+                rotY += (targetRotY - rotY) * 0.06;
+                if (!isPointerInteracting) {
+                    targetRotY += 0.0018;
+                    targetRotX = 0.22 + Math.sin(t * 0.35) * 0.12;
+                }
+
+                ctx.clearRect(0, 0, w, h);
+
+                const rotCosX = Math.cos(rotX);
+                const rotSinX = Math.sin(rotX);
+                const rotCosY = Math.cos(rotY);
+                const rotSinY = Math.sin(rotY);
+
+                // 线条组中心：桌面端略偏向右侧以和大文字形成瑞士网格负空间对冲
+                const cx = w > 1024 ? w * 0.62 : w * 0.5;
+                const cy = h * 0.5;
+
+                const stateA = TOPOLOGY_STATES[currentIdx].fn;
+                const stateB = TOPOLOGY_STATES[nextIdx].fn;
+
+                // 生成网格顶点（双形态平滑加权融合）
+                const grid = [];
+                for (let i = 0; i < streamCount; i++) {
+                    const v = (i / streamCount) * Math.PI * 2;
+                    const row = [];
+                    for (let j = 0; j <= ptsPerStream; j++) {
+                        const u = (j / ptsPerStream) * Math.PI * 2;
+
+                        const ptA = stateA(u, v, t);
+                        const ptB = stateB(u, v, t);
+
+                        const px = ptA.x + (ptB.x - ptA.x) * morphProgress;
+                        const py = ptA.y + (ptB.y - ptA.y) * morphProgress;
+                        const pz = ptA.z + (ptB.z - ptA.z) * morphProgress;
+
+                        const proj = project(px, py, pz, rotCosX, rotSinX, rotCosY, rotSinY, cx, cy);
+                        row.push(proj);
+                    }
+                    grid.push(row);
+                }
+
+                // 1. 渲染连续纵向流动线 (三色流：明橙、米黄、深橙)
+                for (let i = 0; i < streamCount; i++) {
+                    const row = grid[i];
+                    let avgZ = 0;
+                    let validCount = 0;
+                    for (let j = 0; j < row.length; j++) {
+                        if (row[j]) {
+                            avgZ += row[j].depth;
+                            validCount++;
+                        }
+                    }
+                    if (validCount === 0) continue;
+                    avgZ /= validCount;
+
+                    // 深度感知色彩与透射衰减
+                    const depthFactor = Math.max(0.08, Math.min(1, 1 - (avgZ - 280) / 660));
+                    const ratio = i / streamCount;
+
+                    ctx.beginPath();
+                    let hasStarted = false;
+                    for (let j = 0; j < row.length; j++) {
+                        const pt = row[j];
+                        if (pt) {
+                            if (!hasStarted) {
+                                ctx.moveTo(pt.x, pt.y);
+                                hasStarted = true;
+                            } else {
+                                ctx.lineTo(pt.x, pt.y);
+                            }
+                        }
+                    }
+
+                    // 颜色配置严格遵循：橙、米黄、深橙
+                    if (ratio < 0.35) {
+                        // 明橙流 (Vibrant Orange)
+                        ctx.strokeStyle = `rgba(251, 146, 60, ${0.18 + depthFactor * 0.65})`;
+                        ctx.lineWidth = 1.05 * depthFactor + 0.35;
+                    } else if (ratio < 0.68) {
+                        // 米黄流 (Warm Cream / Beige)
+                        ctx.strokeStyle = `rgba(254, 240, 138, ${0.16 + depthFactor * 0.62})`;
+                        ctx.lineWidth = 0.95 * depthFactor + 0.3;
+                    } else {
+                        // 深橙流 (Deep Burnt Caramel Orange)
+                        ctx.strokeStyle = `rgba(234, 88, 12, ${0.2 + depthFactor * 0.6})`;
+                        ctx.lineWidth = 1.15 * depthFactor + 0.4;
+                    }
+
+                    ctx.stroke();
+                }
+
+                // 2. 渲染横向张力环线 (Connecting Ribs: 极细温润米黄光纤)
+                const ribInterval = Math.floor(ptsPerStream / ringSteps);
+                for (let k = 0; k < ringSteps; k++) {
+                    const j = k * ribInterval;
+                    ctx.beginPath();
+                    let hasStarted = false;
+                    for (let i = 0; i <= streamCount; i++) {
+                        const pt = grid[i % streamCount][j];
+                        if (pt) {
+                            if (!hasStarted) {
+                                ctx.moveTo(pt.x, pt.y);
+                                hasStarted = true;
+                            } else {
+                                ctx.lineTo(pt.x, pt.y);
+                            }
+                        }
+                    }
+                    ctx.strokeStyle = 'rgba(254, 243, 199, 0.075)';
+                    ctx.lineWidth = 0.75;
+                    ctx.stroke();
+                }
+            }
+
+            resize();
+            animId = requestAnimationFrame(render);
+        })();
+
+        // ============================================================
+        // 背景音乐控制引擎 (ハウトゥー世界征服 - Neru 原版)
+        // ============================================================
+        (function() {
+            const bgm = document.getElementById('bgm');
+            const bgmToggle = document.getElementById('bgmToggle');
+            if (!bgm || !bgmToggle) return;
+
+            // 设置适宜的环境音量 (45%)
+            bgm.volume = 0.45;
+
+            function updateUI(isPlaying) {
+                if (isPlaying) {
+                    bgmToggle.classList.add('is-playing');
+                    bgmToggle.setAttribute('aria-pressed', 'true');
+                } else {
+                    bgmToggle.classList.remove('is-playing');
+                    bgmToggle.setAttribute('aria-pressed', 'false');
+                }
+            }
+
+            function playAudio() {
+                const playPromise = bgm.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        updateUI(true);
+                    }).catch(() => {
+                        updateUI(false);
+                    });
+                }
+            }
+
+            function pauseAudio() {
+                bgm.pause();
+                updateUI(false);
+            }
+
+            bgmToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (bgm.paused) {
+                    playAudio();
+                } else {
+                    pauseAudio();
+                }
+            });
+
+            bgm.addEventListener('play', () => updateUI(true));
+            bgm.addEventListener('pause', () => updateUI(false));
+            bgm.addEventListener('ended', () => updateUI(false));
+
+            // 针对现代浏览器 Audio Autoplay 限制策略：
+            // 页面加载时尝试直接启动；若被策略拦截，则在用户发生任意初次交互（触碰/点击）时即刻自动启动
+            playAudio();
+
+            const unlockAudio = function() {
+                if (bgm.paused) {
+                    playAudio();
+                }
+                window.removeEventListener('pointerdown', unlockAudio);
+                window.removeEventListener('keydown', unlockAudio);
+            };
+            window.addEventListener('pointerdown', unlockAudio, { passive: true });
+            window.addEventListener('keydown', unlockAudio, { passive: true });
+        })();
+    </script>
+</body>
+</html>
