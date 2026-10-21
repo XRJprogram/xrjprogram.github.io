@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Work 3D 场景等宽字体预览对比</title>
+  <style>
+    @font-face {
+      font-family: 'Martian Mono';
+      font-style: normal;
+      font-weight: 800;
+      src: url('./fonts/MartianMono-ExtraBold.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 800;
+      src: url('./fonts/JetBrainsMono-ExtraBold.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Space Mono';
+      font-style: normal;
+      font-weight: 700;
+      src: url('./fonts/SpaceMono-Bold.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Chivo Mono';
+      font-style: normal;
+      font-weight: 900;
+      src: url('./fonts/ChivoMono-Black.woff2') format('woff2');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Fraktion Mono';
+      font-style: normal;
+      font-weight: 700;
+      src: url('./fonts/PPFraktionMono-Bold.woff2') format('woff2');
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #07152b;
+      --card-bg: #0d1e38;
+      --text-main: #fcfdfd;
+      --text-muted: #8899aa;
+      --accent: #2563eb;
+      --shadow-blue: #3b82f6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 40px 24px;
+      line-height: 1.5;
+    }
+
+    .header {
+      max-width: 1200px;
+      margin: 0 auto 40px auto;
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(540px, 1fr));
+      gap: 28px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    .card.recommended {
+      border-color: #3b82f6;
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
+    }
+    .badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: rgba(37, 99, 235, 0.25);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60a5fa;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .font-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+    }
+    .font-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    .font-tag {
+      font-size: 0.85rem;
+      color: #93c5fd;
+    }
+    .font-desc {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* 3D Simulation Container */
+    .sim-wrap {
+      background: #040c1a;
+      border-radius: 10px;
+      padding: 24px;
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      perspective: 800px;
+      min-height: 220px;
+    }
+
+    /* Entrance Vertical Letters */
+    .entrance-demo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 0.85;
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: #fcfdfd;
+      text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    }
+    .entrance-demo span {
+      display: block;
+    }
+
+    /* 3D Floating Tunnel Letters */
+    .tunnel-demo {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .floating-letter {
+      position: relative;
+      font-size: 4rem;
+      line-height: 1;
+      font-weight: bold;
+      color: #fcfdfd;
+      transform: rotateY(-20deg) rotateX(10deg);
+      transform-style: preserve-3d;
+      text-align: center;
+      width: 1.2em;
+    }
+    .floating-letter::before {
+      content: attr(data-char);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      color: #2563eb;
+      opacity: 0.85;
+      transform: scale(1.06, 1.02) translate3d(6px, 0, -10px);
+    }
+
+    .charset {
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: #94a3b8;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 10px 14px;
+      border-radius: 6px;
+      word-break: break-all;
+    }
+
+    /* Specific Font Classes */
+    .f-martian { font-family: 'Martian Mono', monospace; font-weight: 800; }
+    .f-jetbrains { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+    .f-space { font-family: 'Space Mono', monospace; font-weight: 700; }
+    .f-chivo { font-family: 'Chivo Mono', monospace; font-weight: 900; }
+    .f-fraktion { font-family: 'Fraktion Mono', monospace; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>WORK 3D 场景 · 重粗等宽字体候选预览</h1>
+    <p>为解决随机字母不等宽导致的间距跳动与视觉不匀称问题，精选 4 款顶级重粗等宽字体</p>
+  </div>
+
+  <div class="grid">
+    <!-- Option A: Martian Mono -->
+    <div class="card recommended">
+      <div class="badge">方案 A · 极力推荐 (Heavy Brutalist)</div>
+      <div class="font-info">
+        <span class="font-name f-martian">Martian Mono</span>
+        <span class="font-tag">Weight 800 ExtraBold</span>
+      </div>
+      <p class="font-desc">
+        由 Evil Martians 团队打造的新怪诞野兽派等宽体。字形扁平宽厚、方正扎实，笔画极粗且具有现代高科技建筑感，在 3D 旋转与透视中极具力量感与视觉压迫力。
+      </p>
+      <div class="sim-wrap">
+        <div class="entrance-demo f-martian">
+          <span>W</span><span>O</span><span>R</span><span>K</span>
+        </div>
+        <div class="tunnel-demo">
+          <div class="floating-letter f-martian" data-char="X">X</div>
+          <div class="floating-letter f-martian" data-char="R">R</div>
+          <div class="floating-letter f-martian" data-char="J">J</div>
+          <div class="floating-letter f-martian" data-char="9">9</div>
+        </div>
+      </div>
+      <div class="charset f-martian">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 #@%&
+      </div>
+    </div>
+
+    <!-- Option B: JetBrains Mono -->
+    <div class="card">
+      <div class="badge">方案 B · 极客现代 (Modern Dev Classic)</div>
+      <div class="font-info">
+        <span class="font-name f-jetbrains">JetBrains Mono</span>
+        <span class="font-tag">Weight 800 ExtraBold</span>
+      </div>
+      <p class="font-desc">
+        JetBrains 专为开发者设计的硬核等宽字体。几何切角凌厉分明，字符比例匀称挺拔，呈现极致严谨的黑客与工程美学，适合呈现严肃计算仿真与架构系统作品。
+      </p>
+      <div class="sim-wrap">
+        <div class="entrance-demo f-jetbrains">
+          <span>W</span><span>O</span><span>R</span><span>K</span>
+        </div>
+        <div class="tunnel-demo">
+          <div class="floating-letter f-jetbrains" data-char="X">X</div>
+          <div class="floating-letter f-jetbrains" data-char="R">R</div>
+          <div class="floating-letter f-jetbrains" data-char="J">J</div>
+          <div class="floating-letter f-jetbrains" data-char="9">9</div>
+        </div>
+      </div>
+      <div class="charset f-jetbrains">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 #@%&
+      </div>
+    </div>
+
+    <!-- Option C: Space Mono -->
+    <div class="card">
+      <div class="badge">方案 C · 赛博复古 (Cyberpunk Mechanical)</div>
+      <div class="font-info">
+        <span class="font-name f-space">Space Mono</span>
+        <span class="font-tag">Weight 700 Bold</span>
+      </div>
+      <p class="font-desc">
+        Colophon Foundry 打造的复古未来主义等宽体。融合 1960 年代机械打字机衬线与现代赛博朋克空间站终端美感，几何转角夸张且个性极为鲜明。
+      </p>
+      <div class="sim-wrap">
+        <div class="entrance-demo f-space">
+          <span>W</span><span>O</span><span>R</span><span>K</span>
+        </div>
+        <div class="tunnel-demo">
+          <div class="floating-letter f-space" data-char="X">X</div>
+          <div class="floating-letter f-space" data-char="R">R</div>
+          <div class="floating-letter f-space" data-char="J">J</div>
+          <div class="floating-letter f-space" data-char="9">9</div>
+        </div>
+      </div>
+      <div class="charset f-space">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 #@%&
+      </div>
+    </div>
+
+    <!-- Option D: Chivo Mono -->
+    <div class="card">
+      <div class="badge">方案 D · 工业重黑 (Industrial Black)</div>
+      <div class="font-info">
+        <span class="font-name f-chivo">Chivo Mono</span>
+        <span class="font-tag">Weight 900 Black</span>
+      </div>
+      <p class="font-desc">
+        Omnibus-Type 经典无衬线等宽演绎。黑度达到 900 Ultra-Black，几乎形成实心字块，笔画厚实、转角平滑，工业机械印刷质感纯正。
+      </p>
+      <div class="sim-wrap">
+        <div class="entrance-demo f-chivo">
+          <span>W</span><span>O</span><span>R</span><span>K</span>
+        </div>
+        <div class="tunnel-demo">
+          <div class="floating-letter f-chivo" data-char="X">X</div>
+          <div class="floating-letter f-chivo" data-char="R">R</div>
+          <div class="floating-letter f-chivo" data-char="J">J</div>
+          <div class="floating-letter f-chivo" data-char="9">9</div>
+        </div>
+      </div>
+      <div class="charset f-chivo">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 #@%&
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
