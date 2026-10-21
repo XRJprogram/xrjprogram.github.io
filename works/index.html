@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="theme-white-blue">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +14,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- GSAP 动画核心与 ScrollTrigger 惯性流 (wodniack.dev 官方技术栈) -->
+    <!-- GSAP & ScrollTrigger 官方高保真动效引擎 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Lenis 惯性平滑滚动 -->
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
     <style>
@@ -27,16 +28,16 @@
             --color-white: #ffffff;
             --color-ice: #f8fafc;
             --color-surface: #f0f6ff;
-            --color-primary: #0052ff;       /* 标志性国际克莱因蓝 */
-            --color-cyan: #00d2ff;          /* 霓虹电光青高光 */
-            --color-deep: #071530;          /* 宇宙深蓝字重 */
+            --color-primary: #0052ff;       /* 国际克莱因蓝 */
+            --color-cyan: #00d2ff;          /* 霓虹电光青 */
+            --color-deep: #071530;          /* 深邃宇宙蓝文本色 */
             --color-sub: #334155;           /* 石板灰正文 */
             --color-muted: #64748b;         /* 工程元数据灰 */
-            --color-border: rgba(0, 82, 255, 0.15);
-            --color-border-heavy: rgba(0, 82, 255, 0.35);
+            --color-border: rgba(0, 82, 255, 0.16);
+            --color-border-heavy: rgba(0, 82, 255, 0.38);
 
-            /* 3D WORK 视窗高对比深邃蓝底系统 */
-            --work-bg: #050e24;
+            /* 3D WORK 视窗深邃夜空蓝底系统 */
+            --work-bg: #030917;
             --work-card-bg: #ffffff;
             --work-text-shadow: #002277;
 
@@ -52,6 +53,7 @@
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
             background-color: var(--color-white);
+            scroll-behavior: smooth;
         }
         html::-webkit-scrollbar,
         body::-webkit-scrollbar,
@@ -78,102 +80,165 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            padding: 1rem;
+        }
+        @media (max-width: 768px) {
+            body { padding: 0.5rem; }
         }
 
         /* 整个站点的边框框架 (wodniack.dev site-mount) */
         .site-mount-border {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            border: 12px solid var(--color-white);
+            border: 1rem solid var(--color-white);
             pointer-events: none;
             z-index: 999;
         }
         @media (max-width: 768px) {
-            .site-mount-border { border-width: 6px; }
+            .site-mount-border { border-width: 0.5rem; }
         }
 
         /* ============================================================
-           1. 顶栏 (SiteHead)
+           1. 顶栏 (SiteHead: wodniack.dev exact 6rem layout)
            ============================================================ */
         .site-head {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 24px 36px;
+            position: relative;
+            z-index: 50;
+            width: 100%;
+            height: 6rem;
+            border-bottom: 1px solid var(--color-border);
             display: flex;
+            align-items: stretch;
             justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            mix-blend-mode: exclusion;
-            color: #ffffff;
+            background: var(--color-white);
         }
-        .sb-logo a {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: inherit;
-        }
-        .sb-logo-svg {
-            width: 32px;
-            height: 32px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2.2;
-            transition: transform 0.4s ease;
-        }
-        .sb-logo:hover .sb-logo-svg {
-            transform: rotate(90deg);
-        }
-        .sb-logo-label {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 800;
-            letter-spacing: 0.16em;
+        @media (max-width: 768px) {
+            .site-head { height: 4.5rem; }
         }
 
-        .site-head-nav {
+        /* Logo 独立方块 */
+        .sb-logo-box {
+            width: 6rem;
+            height: 6rem;
+            border-right: 1px solid var(--color-border);
             display: flex;
             align-items: center;
-            gap: 28px;
-        }
-        .nav-link-item {
-            font-family: var(--font-mono);
-            font-size: 0.74rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
+            justify-content: center;
             text-decoration: none;
-            color: inherit;
+            color: var(--color-deep);
+            transition: background 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .sb-logo-box { width: 4.5rem; height: 4.5rem; }
+        }
+        .sb-logo-box:hover {
+            background: var(--color-surface);
+        }
+        .sb-logo-svg {
+            width: 2.4rem;
+            height: 2.4rem;
+            fill: none;
+            stroke: var(--color-primary);
+            stroke-width: 2;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .sb-logo-box:hover .sb-logo-svg {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        /* 中间实时控制台状态条 (Console & Clock) */
+        .sb-console {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 1.8rem;
+            margin-right: auto;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            line-height: 1.45;
+            color: var(--color-muted);
+            text-transform: uppercase;
+        }
+        @media (max-width: 900px) {
+            .sb-console { display: none; }
+        }
+        .sb-console-highlight {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+        .sb-console-caret {
+            display: inline-block;
+            animation: blinkCaret 1s infinite;
+        }
+        @keyframes blinkCaret { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+        /* 右侧导航列表 */
+        .sb-menu {
+            display: flex;
+            align-items: stretch;
+            list-style: none;
+            border-left: 1px solid var(--color-border);
+        }
+        .sb-menu-item {
+            border-right: 1px solid var(--color-border);
+            display: flex;
+            align-items: stretch;
+        }
+        .sb-menu-item:last-child {
+            border-right: none;
+        }
+        .sb-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            color: var(--color-deep);
+            text-transform: uppercase;
             position: relative;
-            padding-bottom: 2px;
-            transition: opacity 0.2s ease;
+            transition: all 0.25s ease;
         }
-        .nav-link-item:hover {
-            opacity: 0.7;
+        @media (max-width: 768px) {
+            .sb-menu-link { padding: 0 1rem; font-size: 0.7rem; }
         }
-        .nav-link-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; width: 0; height: 1.5px;
-            background: currentColor;
-            transition: width 0.25s ease;
+        .sb-menu-link:hover {
+            color: var(--color-primary);
+            background: var(--color-surface);
         }
-        .nav-link-item:hover::after {
-            width: 100%;
+        /* wodniack.dev 标志性三角提示符 */
+        .sb-menu-caret {
+            width: 0;
+            height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 6px solid var(--color-primary);
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .sb-menu-link:hover .sb-menu-caret {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         /* ============================================================
-           2. 英雄首屏 (SHero) + 动态交互波浪 (AWaves)
+           2. 英雄首屏 (SHero) + AWaves 交互波浪
            ============================================================ */
         .s-hero {
             position: relative;
             width: 100%;
-            min-height: 94vh;
+            min-height: 86vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 100px 36px 40px;
+            padding: 70px 24px 50px;
             background-color: var(--color-white);
             overflow: hidden;
+            border-bottom: 1px solid var(--color-border);
         }
 
         /* AWaves 交互式波浪画布 */
@@ -198,7 +263,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 24px;
+            gap: 28px;
         }
 
         /* 字符分隔条 (ASeparator) */
@@ -206,11 +271,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 18px;
+            gap: 16px;
             font-family: var(--font-mono);
-            font-size: 0.76rem;
+            font-size: 0.74rem;
             font-weight: 700;
-            letter-spacing: 0.18em;
+            letter-spacing: 0.22em;
             color: var(--color-primary);
             text-transform: uppercase;
             width: 100%;
@@ -226,7 +291,7 @@
         /* 标志性超大标题：Creative ★ Developer */
         .s__hero-title {
             font-family: var(--font-serif);
-            font-size: clamp(3.2rem, 9vw, 8.5rem);
+            font-size: clamp(3.2rem, 9.5vw, 8.8rem);
             font-weight: 900;
             line-height: 1.05;
             letter-spacing: -0.01em;
@@ -258,17 +323,17 @@
             width: 100%;
             max-width: 1360px;
             margin: 0 auto;
-            padding: 90px 40px 120px;
+            padding: 90px 24px 120px;
             display: grid;
             grid-template-columns: 1.15fr 0.85fr;
-            gap: 80px;
+            gap: 70px;
             background-color: var(--color-white);
         }
         @media (max-width: 900px) {
             .s-about {
                 grid-template-columns: 1fr;
                 gap: 50px;
-                padding: 60px 24px;
+                padding: 60px 16px;
             }
         }
 
@@ -308,12 +373,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 22px 0;
+            padding: 20px 0;
             border-bottom: 1px solid var(--color-border);
         }
         .metric-name {
             font-family: var(--font-mono);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.12em;
             color: var(--color-deep);
@@ -321,9 +386,9 @@
         }
         .metric-values {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             font-family: var(--font-mono);
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             color: var(--color-primary);
             font-weight: 700;
         }
@@ -338,59 +403,44 @@
            4. 标志性 SWork 3D 飞跃视窗 (wodniack.dev SWork exact clone)
            ============================================================ */
         .s-work {
-            --height: 520lvh;
+            --height: 520vh;
             position: relative;
             z-index: 10;
             height: var(--height);
-            background: var(--work-bg);
-            color: var(--color-white);
+            background: var(--color-white);
         }
         .s-work::before {
             position: absolute;
             top: 0; left: 0; z-index: 2;
             width: 100%; height: 1px;
-            background: var(--color-primary);
+            background: var(--color-border);
             content: '';
         }
 
-        /* 视窗遮罩外层与孔径裁切 (Aperture Mask) */
-        .s__mask-outer {
+        /* 粘性固定外壳 (Sticky Outer Stage) */
+        .s__outer {
             position: sticky;
-            top: 0; left: 0;
-            width: 100%; height: 100lvh;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             overflow: hidden;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .s__mask {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            will-change: transform, scale;
-        }
-        .s__mask__svg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-        }
-        .s__mask__path-outer {
-            fill: var(--color-white);
-            fill-rule: evenodd;
-            stroke: var(--color-primary);
-            stroke-width: 1px;
+            background: var(--color-white);
         }
 
-        /* 内部固定舞台 (s__inner) */
+        /* 内部舞台 (s__inner: 3D 宇宙舞台，置于底层) */
         .s__inner {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: fixed;
+            position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: var(--work-bg);
-            will-change: clip-path, transform;
             overflow: hidden;
+            background: var(--work-bg);
+            color: var(--color-white);
+            z-index: 1;
         }
 
         /* 背景几何透视网格 Canvas */
@@ -401,67 +451,73 @@
             pointer-events: none;
         }
 
-        /* W O R K 巨型立体字母层 */
-        .s__title,
-        .s__scene {
-            font: 900 min(18.75rem, 25lvh) / 0.85 var(--font-display);
-            text-align: center;
-            text-transform: uppercase;
-        }
-        .s__title {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .s__title__inner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: clamp(10px, 3vw, 40px);
-        }
-
         /* 3D 舞台空间 (.s__scene) */
         .s__scene {
-            --progress: 0.5;
-            --state: 0;
             position: absolute;
             top: 0; left: 0; z-index: 2;
             width: 100%; height: 100%;
-            perspective: 42rem;
+            perspective: 44rem;
             will-change: transform;
             pointer-events: auto;
         }
 
-        /* 3D 空间中的单个巨型字母 (W, O, R, K) */
-        .s__scene__letter {
-            --head: calc((var(--progress) - 0.5) * -2);
-            --ahead: calc(var(--head) * var(--head));
+        /* 3D 空间中的单个巨型字母 (W, O, R, K: 纵向排列在中央胶囊视窗内，入场后向两侧展开) */
+        .s__title-capsule {
             position: absolute;
             top: 50%; left: 50%;
-            display: block;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: clamp(3.8rem, 8vw, 6.5rem);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.02em;
             color: #ffffff;
-            transform: translate(-50%, -50%)
-                       rotateY(calc(var(--head) * -12deg * var(--state)))
-                       translate3d(
-                           calc(var(--head) * 44vw * var(--state)),
-                           calc(var(--iy, 0) * 40% * var(--ahead) * var(--state)),
-                           0
-                       );
             pointer-events: none;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+        .s__title-letter {
+            display: block;
+            text-shadow: 0 0 30px rgba(0, 82, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.9);
+            will-change: transform, opacity;
+            transition: transform 0.1s linear, opacity 0.1s linear;
+        }
+
+        /* wodniack.dev 标志性中央胶囊遮罩层 (s__mask-outer & s__mask) */
+        .s__mask-outer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .s__mask {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transform-origin: 50% 50%;
             will-change: transform;
         }
-        .s__scene__letter::before {
+        .s__mask__svg {
             position: absolute;
-            top: 0; left: 0; z-index: -1;
-            color: var(--color-primary);
-            opacity: min(calc(var(--state) * 1.5), 0.7);
-            transform: scale(1.04, 1.02)
-                       translate3d(calc(var(--head) * 0.15rem * var(--state) * var(--state)), 0, 0);
-            will-change: opacity, transform;
-            content: attr(data-letter);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+        .s__mask__path-outer {
+            fill: var(--color-white);
+            fill-rule: evenodd;
+            stroke: var(--color-border);
+            stroke-width: 1px;
+        }
+        .s__mask__path-lines {
+            fill: none;
+            stroke: var(--color-border);
+            stroke-width: 1px;
         }
 
         /* 3D 空间中连续飞跃的项目实体卡片 (.s__scene__work) */
@@ -476,27 +532,27 @@
             padding: 8px 8px 0;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 82, 255, 0.4);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 82, 255, 0.4);
             transform-style: preserve-3d;
-            will-change: transform;
+            will-change: transform, opacity;
             cursor: pointer;
             text-decoration: none;
 
             /* wodniack.dev 标志性 3D 轨迹数学方程 */
             transform: rotateY(calc(var(--progress, 1) * -22deg))
                        translate3d(
-                           calc(var(--progress, 1) * (50vw + 100%) - 50%),
+                           calc(var(--progress, 1) * (50vw + 95%) - 50%),
                            calc(var(--y, 0) * 45% - 50%),
                            calc(var(--progress, 1) * var(--progress, 1) * -6rem)
                        )
                        scale(var(--size, 1));
-            transition: box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
         }
         .s__scene__work:hover {
-            box-shadow: 0 35px 90px rgba(0, 82, 255, 0.5), 0 0 0 2px var(--color-cyan);
+            box-shadow: 0 35px 90px rgba(0, 82, 255, 0.65), 0 0 0 2px var(--color-cyan);
         }
 
-        /* 卡片内视觉展示容器 (视频/实时生成仿真视窗) */
+        /* 卡片内视觉展示容器 (实时生成仿真视窗) */
         .a__preview-box {
             width: 100%;
             flex: 1;
@@ -558,7 +614,7 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(5, 14, 36, 0.85);
+            background: rgba(4, 10, 26, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 99999;
@@ -658,12 +714,12 @@
         }
 
         /* ============================================================
-           6. 页脚 (SiteFoot)
+           6. 页脚 (SiteFoot: wodniack.dev exact metadata style)
            ============================================================ */
         .site-foot {
             position: relative;
             z-index: 10;
-            padding: 80px 40px 100px;
+            padding: 80px 24px 100px;
             background: var(--color-white);
             border-top: 1px solid var(--color-border);
             text-align: center;
@@ -701,22 +757,46 @@
 
     <!-- 1. 顶栏 (SiteHead) -->
     <header class="site-head">
-        <div class="sb-logo">
-            <a href="../index.html">
-                <svg class="sb-logo-svg" viewBox="0 0 28 28">
-                    <rect x="2" y="2" width="24" height="24" rx="4"/>
-                    <line x1="8" y1="8" x2="20" y2="20"/>
-                    <line x1="20" y1="8" x2="8" y2="20"/>
-                </svg>
-                <span class="sb-logo-label">XRJPROGRAM</span>
-            </a>
+        <a href="../index.html" class="sb-logo-box" title="XRJprogram Home">
+            <svg class="sb-logo-svg" viewBox="0 0 28 28">
+                <rect x="2" y="2" width="24" height="24" rx="4"/>
+                <line x1="8" y1="8" x2="20" y2="20"/>
+                <line x1="20" y1="8" x2="8" y2="20"/>
+            </svg>
+        </a>
+
+        <div class="sb-console">
+            <div>SYS.ARCHIVE // VER 2025 · <span class="sb-console-highlight">12 COMPILATIONS LOADED</span></div>
+            <div>STATUS: ONLINE // TURBOWARP 60FPS COMPILER<span class="sb-console-caret">_</span></div>
         </div>
 
-        <nav class="site-head-nav">
-            <a href="../index.html" class="nav-link-item">HOME</a>
-            <a href="../projects.html" class="nav-link-item">PROJECTS</a>
-            <a href="#work" class="nav-link-item">WORK (12)</a>
-            <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="nav-link-item">GITHUB</a>
+        <nav>
+            <ul class="sb-menu">
+                <li class="sb-menu-item">
+                    <a href="../index.html" class="sb-menu-link">
+                        <span class="sb-menu-caret"></span>
+                        <span>HOME</span>
+                    </a>
+                </li>
+                <li class="sb-menu-item">
+                    <a href="../projects.html" class="sb-menu-link">
+                        <span class="sb-menu-caret"></span>
+                        <span>PROJECTS</span>
+                    </a>
+                </li>
+                <li class="sb-menu-item">
+                    <a href="#work" class="sb-menu-link">
+                        <span class="sb-menu-caret"></span>
+                        <span>WORK (12)</span>
+                    </a>
+                </li>
+                <li class="sb-menu-item">
+                    <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer" class="sb-menu-link">
+                        <span class="sb-menu-caret"></span>
+                        <span>GITHUB</span>
+                    </a>
+                </li>
+            </ul>
         </nav>
     </header>
 
@@ -728,7 +808,7 @@
 
         <div class="s-hero__content">
             <div class="a-separator">
-                <span>X</span><span>R</span><span>J</span><span>P</span><span>R</span><span>O</span><span>G</span><span>R</span><span>A</span><span>M</span>
+                <span>01001000</span><span>·</span><span>X R J P R O G R A M</span><span>·</span><span>01010011</span>
             </div>
 
             <h1 class="s__hero-title">
@@ -782,8 +862,8 @@
                     <div class="metric-values"><span class="metric-pill">Numerical Kinetics</span><span class="metric-pill">Cybernetics</span></div>
                 </li>
                 <li class="s-about__metric-row">
-                    <span class="metric-name">Creative Output</span>
-                    <div class="metric-values"><span class="metric-pill">Novels</span><span class="metric-pill">Games</span><span class="metric-pill">Architecture</span></div>
+                    <span class="metric-name">Interaction Model</span>
+                    <div class="metric-values"><span class="metric-pill">Real-time Sandboxes</span></div>
                 </li>
             </ul>
         </div>
@@ -791,40 +871,41 @@
 
     <!-- 4. 标志性 SWork 3D 飞跃视窗 (wodniack.dev SWork exact clone) -->
     <section class="s-work" id="work">
-        <!-- 粘性固定舞台 -->
-        <div class="s__inner" id="workInner">
+        <!-- 粘性固定舞台 (position: sticky 确保自然平滑滚动) -->
+        <div class="s__outer" id="workOuter">
 
-            <!-- 几何网格 Canvas (Perspective Wireframe Lines) -->
-            <canvas class="s__canvas" id="workCanvas"></canvas>
+            <!-- 底层深邃 3D 舞台 (s__inner) -->
+            <div class="s__inner" id="workInner">
 
-            <!-- 巨型立体字母：W O R K -->
-            <div class="s__title">
-                <div class="s__title__inner">
-                    <span>W</span><span>O</span><span>R</span><span>K</span>
+                <!-- 几何网格 Canvas (Perspective Wireframe Lines) -->
+                <canvas class="s__canvas" id="workCanvas"></canvas>
+
+                <!-- 中央垂直巨型标题：W O R K (置于胶囊中央，随遮罩展开向外扩散) -->
+                <div class="s__title-capsule" id="workTitleCapsule">
+                    <span class="s__title-letter" id="titleLetterW">W</span>
+                    <span class="s__title-letter" id="titleLetterO">O</span>
+                    <span class="s__title-letter" id="titleLetterR">R</span>
+                    <span class="s__title-letter" id="titleLetterK">K</span>
+                </div>
+
+                <!-- 3D 飞跃舞台与 12 部项目卡片 -->
+                <div class="s__scene" id="workScene">
+                    <!-- 12 张 3D 空间连续漂浮飞跃的实体项目卡片由 JS 动态装配注入 -->
+                </div>
+
+            </div><!-- .s__inner -->
+
+            <!-- 表层胶囊遮罩层 (s__mask-outer: wodniack.dev signature portal) -->
+            <div class="s__mask-outer" id="maskOuter">
+                <div class="s__mask" id="workMask">
+                    <svg class="s__mask__svg" id="maskSvg" xmlns="http://www.w3.org/2000/svg">
+                        <path class="s__mask__path-outer" id="maskPathOuter" d=""></path>
+                        <path class="s__mask__path-lines" id="maskPathLines" d=""></path>
+                    </svg>
                 </div>
             </div>
 
-            <!-- 3D 飞跃舞台与 12 部项目卡片 -->
-            <div class="s__scene" id="workScene">
-                <!-- 巨型 W O R K 3D 字母 (随滚动向两侧展开) -->
-                <span class="s__scene__letter" data-letter="W" id="letterW" style="--iy: -0.2;">W</span>
-                <span class="s__scene__letter" data-letter="O" id="letterO" style="--iy: 0.15;">O</span>
-                <span class="s__scene__letter" data-letter="R" id="letterR" style="--iy: -0.1;">R</span>
-                <span class="s__scene__letter" data-letter="K" id="letterK" style="--iy: 0.25;">K</span>
-
-                <!-- 12 张 3D 空间连续漂浮飞跃的实体项目卡片 -->
-            </div><!-- .s__scene -->
-
-        </div><!-- .s__inner -->
-
-        <!-- 孔径外层遮罩 -->
-        <div class="s__mask-outer">
-            <div class="s__mask" id="workMask">
-                <svg class="s__mask__svg" id="workMaskSvg">
-                    <path class="s__mask__path-outer" id="maskPathOuter" d=""></path>
-                </svg>
-            </div>
-        </div>
+        </div><!-- .s__outer -->
     </section>
 
     <!-- 5. 全屏 TurboWarp 仿真模态器 -->
@@ -862,7 +943,7 @@
             <a href="https://github.com/XRJprogram" target="_blank" rel="noopener noreferrer">GITHUB</a>
         </div>
         <div class="foot-meta" style="font-size: 0.7rem; color: #94a3b8;">
-            LAT: 31.2304° N · LON: 121.4737° E · 2022 — 2026 · DO THINGS YOUR WAY
+            LAT: 31.2304° N · LON: 121.4737° E · 2022 — 2026 · ALL RIGHTS RESERVED
         </div>
     </footer>
 
@@ -978,8 +1059,8 @@
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let w, h;
-            let mouseX = 0, mouseY = 0;
-            let targetMouseX = 0, targetMouseY = 0;
+            let mouseX = -999, mouseY = -999;
+            let targetMouseX = -999, targetMouseY = -999;
 
             function resize() {
                 w = canvas.width = canvas.parentElement.clientWidth;
@@ -997,8 +1078,8 @@
             let t = 0;
             function drawWaves() {
                 t += 0.012;
-                mouseX += (targetMouseX - mouseX) * 0.05;
-                mouseY += (targetMouseY - mouseY) * 0.05;
+                mouseX += (targetMouseX - mouseX) * 0.06;
+                mouseY += (targetMouseY - mouseY) * 0.06;
 
                 ctx.clearRect(0, 0, w, h);
 
@@ -1034,15 +1115,74 @@
         })();
 
         /* ============================================================
-           2. SWork 3D 舞台与 12 张飞跃卡片生成
+           2. SWork 标志性中央胶囊遮罩 (SVG Capsule Mask & Grid Lines)
+           ============================================================ */
+        const maskSvg = document.getElementById('maskSvg');
+        const maskPathOuter = document.getElementById('maskPathOuter');
+        const maskPathLines = document.getElementById('maskPathLines');
+        const workMask = document.getElementById('workMask');
+
+        let maskDimensions = { w: 0, h: 0, pillW: 0, pillH: 0, maxScale: 1 };
+
+        function updateMaskGeometry() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            maskDimensions.w = w;
+            maskDimensions.h = h;
+
+            // 中央胶囊尺寸适配
+            const pillW = Math.min(w * 0.22, 220);
+            const pillH = Math.min(h * 0.68, 620);
+            maskDimensions.pillW = pillW;
+            maskDimensions.pillH = pillH;
+
+            // 计算缩放到充满屏幕所需的倍数
+            const halfW = pillW / 2;
+            maskDimensions.maxScale = Math.max(w / halfW, h / halfW) * 1.35;
+
+            const cx = w / 2;
+            const cy = h / 2;
+            const x1 = cx - pillW / 2;
+            const x2 = cx + pillW / 2;
+            const y1 = cy - pillH / 2;
+            const y2 = cy + pillH / 2;
+            const r = pillW / 2;
+
+            // 外部大框 + 内部胶囊切口
+            const dOuter = `M -2 -2 L ${w + 4} -2 L ${w + 4} ${h + 4} L -2 ${h + 4} Z`;
+            const dInner = `M ${x1} ${y1 + r} A ${r} ${r} 0 0 1 ${x2} ${y1 + r} L ${x2} ${y2 - r} A ${r} ${r} 0 0 1 ${x1} ${y2 - r} Z`;
+
+            maskPathOuter.setAttribute('d', `${dOuter} ${dInner}`);
+
+            // 绘制网格线
+            let dLines = '';
+            const vCols = w > 768 ? 12 : 8;
+            const gapX = w / vCols;
+            for (let i = 1; i < vCols; i++) {
+                const x = gapX * i;
+                dLines += `M ${x} 0 L ${x} ${h} `;
+            }
+            const gapY = h * 0.12;
+            const hRows = Math.ceil(h / gapY);
+            for (let j = 1; j < hRows; j++) {
+                const y = gapY * j;
+                dLines += `M 0 ${y} L ${w} ${y} `;
+            }
+            maskPathLines.setAttribute('d', dLines);
+        }
+        window.addEventListener('resize', updateMaskGeometry);
+        updateMaskGeometry();
+
+        /* ============================================================
+           3. SWork 3D 舞台与 12 张飞跃卡片生成
            ============================================================ */
         const workScene = document.getElementById('workScene');
         const workSection = document.getElementById('work');
-        const workInner = document.getElementById('workInner');
-        const letterW = document.getElementById('letterW');
-        const letterO = document.getElementById('letterO');
-        const letterR = document.getElementById('letterR');
-        const letterK = document.getElementById('letterK');
+        const titleCapsule = document.getElementById('workTitleCapsule');
+        const letterW = document.getElementById('titleLetterW');
+        const letterO = document.getElementById('titleLetterO');
+        const letterR = document.getElementById('titleLetterR');
+        const letterK = document.getElementById('titleLetterK');
 
         const workCards = [];
 
@@ -1052,8 +1192,8 @@
             card.setAttribute('href', item.url);
             card.setAttribute('data-index', i);
 
-            // wodniack.dev 初始随机尺寸与 Y 偏移配置
-            const size = 0.72 + (i % 3) * 0.12;
+            // wodniack.dev 尺寸与 Y 偏移配置
+            const size = 0.82 + (i % 3) * 0.08;
             const yOffset = (0.35 + ((i * 3) % 5) * 0.15) * (i % 2 === 0 ? -1 : 1);
             card.style.setProperty('--size', String(size));
             card.style.setProperty('--y', String(yOffset));
@@ -1084,7 +1224,7 @@
         });
 
         /* ============================================================
-           3. 专属生成式微缩仿真画布 (Micro Simulations)
+           4. 专属生成式微缩仿真画布 (Micro Simulations)
            ============================================================ */
         workCards.forEach(cardObj => {
             const canvas = cardObj.canvas;
@@ -1098,8 +1238,8 @@
                 time += 0.03;
                 ctx.clearRect(0, 0, w, h);
 
-                // 统一高科技微缩蓝图底网
-                ctx.strokeStyle = 'rgba(0, 82, 255, 0.07)';
+                // 高科技微缩底网
+                ctx.strokeStyle = 'rgba(0, 82, 255, 0.08)';
                 ctx.lineWidth = 1;
                 for (let x = 0; x < w; x += 22) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
                 for (let y = 0; y < h; y += 22) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
@@ -1151,6 +1291,16 @@
                         ctx.beginPath(); ctx.arc(node.x, node.y, 4, 0, Math.PI * 2);
                         ctx.fillStyle = '#ffffff'; ctx.fill();
                     });
+                } else if (type === 'conveyor' || type === 'assembly') {
+                    ctx.strokeStyle = '#0052ff';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(40, h / 2); ctx.lineTo(w - 40, h / 2); ctx.stroke();
+                    for (let k = 0; k < 5; k++) {
+                        const bx = ((k * 60 + time * 40) % (w - 80)) + 40;
+                        ctx.fillStyle = '#00d2ff';
+                        ctx.fillRect(bx, h / 2 - 14, 22, 14);
+                    }
                 } else {
                     ctx.beginPath();
                     ctx.moveTo(0, h / 2);
@@ -1169,7 +1319,7 @@
         });
 
         /* ============================================================
-           4. 3D 透视视窗 Canvas (Wireframe Points & Lines)
+           5. 3D 透视视窗 Canvas (Wireframe Points & Lines)
            ============================================================ */
         (function initPerspectiveCanvas() {
             const canvas = document.getElementById('workCanvas');
@@ -1215,99 +1365,92 @@
         })();
 
         /* ============================================================
-           5. 核心 3D 轨迹滚动编排 (GSAP ScrollTrigger + Fallback)
+           6. SWork 核心滚动轨迹算法与胶囊遮罩缩放 (GSAP + ScrollTrigger)
            ============================================================ */
-        function initTimeline() {
-            // 平滑滚动
-            let lenis = null;
-            if (typeof Lenis !== 'undefined') {
-                lenis = new Lenis({
-                    duration: 1.2,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                    smoothWheel: true
-                });
-                function raf(time) {
-                    lenis.raf(time);
-                    requestAnimationFrame(raf);
-                }
-                requestAnimationFrame(raf);
-            }
+        const worksElements = workCards.map(c => c.el);
+        const totalCards = worksElements.length;
 
-            const worksElements = workCards.map(c => c.el);
-            const total = worksElements.length;
+        function update3DScroll() {
+            const rect = workSection.getBoundingClientRect();
+            const scrollDist = workSection.offsetHeight - window.innerHeight;
+            if (scrollDist <= 0) return;
 
-            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
+            // 当前在 SWork 区域的绝对滚动进度 [0, 1]
+            const scrolled = -rect.top;
+            const progress = Math.max(0, Math.min(1, scrolled / scrollDist));
 
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: workSection,
-                        start: 'top top',
-                        end: 'bottom bottom',
-                        scrub: 1.2,
-                        pin: workInner,
-                        onUpdate: (self) => {
-                            const p = self.progress;
-                            // 随着滚动深入，W O R K 字母展开
-                            const state = p > 0.05 && p < 0.95 ? 1 : (p <= 0.05 ? p / 0.05 : (1 - p) / 0.05);
-                            workScene.style.setProperty('--state', String(state));
-
-                            // 更新 W O R K 字母散开位置
-                            letterW.style.setProperty('--progress', String(p));
-                            letterO.style.setProperty('--progress', String(p));
-                            letterR.style.setProperty('--progress', String(p));
-                            letterK.style.setProperty('--progress', String(p));
-                        }
-                    }
-                });
-
-                // 12 张卡片交错飞跃：attr progress 从 1 飞到 -1
-                worksElements.forEach((el, index) => {
-                    const startP = 0.08 + (index / total) * 0.72;
-                    const duration = 0.28;
-
-                    tl.fromTo(el, {
-                        '--progress': 1
-                    }, {
-                        '--progress': -1,
-                        ease: 'power1.inOut',
-                        duration: duration
-                    }, startP);
-                });
+            // 1. 胶囊遮罩缩放：在 0.0 到 0.16 之间，遮罩从 1 缩放到 maxScale，彻底揭示 3D 舞台
+            // 在 0.88 到 1.0 之间，遮罩从 maxScale 缩回 1
+            let maskScale = 1;
+            let maskOpacity = 1;
+            if (progress <= 0.16) {
+                const p = progress / 0.16;
+                maskScale = 1 + (maskDimensions.maxScale - 1) * Math.pow(p, 2.5);
+                maskOpacity = 1;
+            } else if (progress >= 0.88) {
+                const p = (progress - 0.88) / 0.12;
+                maskScale = maskDimensions.maxScale - (maskDimensions.maxScale - 1) * Math.pow(p, 2);
+                maskOpacity = 1;
             } else {
-                // 原生滚动兜底
-                window.addEventListener('scroll', () => {
-                    const rect = workSection.getBoundingClientRect();
-                    const top = -rect.top;
-                    const totalDist = rect.height - window.innerHeight;
-                    if (totalDist <= 0) return;
-
-                    const progress = Math.max(0, Math.min(1, top / totalDist));
-                    const state = progress > 0.05 && progress < 0.95 ? 1 : 0;
-                    workScene.style.setProperty('--state', String(state));
-
-                    letterW.style.setProperty('--progress', String(progress));
-                    letterO.style.setProperty('--progress', String(progress));
-                    letterR.style.setProperty('--progress', String(progress));
-                    letterK.style.setProperty('--progress', String(progress));
-
-                    worksElements.forEach((el, index) => {
-                        const center = 0.08 + (index / total) * 0.72;
-                        const cardP = (progress - center) / 0.28;
-                        el.style.setProperty('--progress', String(Math.max(-1, Math.min(1, -cardP))));
-                    });
-                });
+                maskScale = maskDimensions.maxScale;
+                maskOpacity = 0; // 完全进入 3D 空间时隐藏遮罩边线
             }
+            workMask.style.transform = `scale(${maskScale.toFixed(4)})`;
+            workMask.style.opacity = maskOpacity;
+
+            // 2. 字母 W O R K 散开动画：当胶囊放大时，四枚字母向左上方、左下方、右上方、右下方扩散隐去
+            const letterSpread = Math.min(1, progress / 0.14);
+            const lAlpha = Math.max(0, 1 - letterSpread * 1.2);
+            titleCapsule.style.opacity = String(lAlpha.toFixed(2));
+            letterW.style.transform = `translate(${-letterSpread * 60}vw, ${-letterSpread * 40}vh) scale(${1 + letterSpread * 0.8})`;
+            letterO.style.transform = `translate(${-letterSpread * 50}vw, ${letterSpread * 45}vh) scale(${1 + letterSpread * 0.8})`;
+            letterR.style.transform = `translate(${letterSpread * 50}vw, ${-letterSpread * 45}vh) scale(${1 + letterSpread * 0.8})`;
+            letterK.style.transform = `translate(${letterSpread * 60}vw, ${letterSpread * 40}vh) scale(${1 + letterSpread * 0.8})`;
+
+            // 3. 12 张卡片在 3D 空间中的平滑飞跃计算 (在 progress 0.12 ~ 0.88 区间内连续穿梭)
+            worksElements.forEach((el, index) => {
+                const centerProgress = 0.15 + (index / (totalCards - 1)) * 0.72;
+                const windowSpan = 0.28; // 每张卡片可见的滚动区间跨度
+                const cardP = (centerProgress - progress) / (windowSpan / 2);
+                const clamped = Math.max(-1.4, Math.min(1.4, cardP));
+
+                el.style.setProperty('--progress', clamped.toFixed(4));
+
+                // 视野内外可见性与层级控制
+                if (Math.abs(clamped) < 1.15) {
+                    el.style.opacity = '1';
+                    el.style.pointerEvents = 'auto';
+                    el.style.visibility = 'visible';
+                    el.style.zIndex = Math.round(100 - Math.abs(clamped) * 50);
+                } else {
+                    el.style.opacity = '0';
+                    el.style.pointerEvents = 'none';
+                    el.style.visibility = 'hidden';
+                }
+            });
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initTimeline);
-        } else {
-            initTimeline();
+        window.addEventListener('scroll', update3DScroll, { passive: true });
+        window.addEventListener('resize', update3DScroll, { passive: true });
+        update3DScroll();
+
+        // 启动 Lenis 平滑滚动
+        if (typeof Lenis !== 'undefined') {
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true
+            });
+            lenis.on('scroll', update3DScroll);
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
         }
 
         /* ============================================================
-           6. 全屏 TurboWarp 模态仿真管理
+           7. 全屏 TurboWarp 模态仿真管理
            ============================================================ */
         const modal = document.getElementById('workModal');
         const modalTitle = document.getElementById('modalTitle');
