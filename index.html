@@ -157,12 +157,12 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            --stem-w: clamp(5.0px, 0.52vw, 6.0px);
-            --stem-gap: clamp(5.0px, 0.52vw, 6.0px);
+            --stem-w: clamp(4.4px, 0.44vw, 5.2px);
+            --stem-gap: clamp(2.4px, 0.25vw, 3.2px);
             --char-w: calc(var(--stem-w) * 2 + var(--stem-gap));
             --m-w: calc(var(--stem-w) * 3 + var(--stem-gap) * 2);
             gap: var(--stem-gap) !important;
-            height: clamp(52px, 6.5vw, 62px) !important;
+            height: clamp(48px, 5.8vw, 56px) !important;
             width: max-content !important;
             margin: 0 auto !important;
             pointer-events: none !important;
@@ -185,7 +185,7 @@
             position: absolute;
             background: #000000 !important; /* 纯黑深邃高对比线条，杜绝浅淡感 */
         }
-        /* 粗立柱连续贯通竖线 (5.0px~6.0px Monolithic Pillars) */
+        /* 粗立柱连续贯通竖线 */
         .sb__path--v {
             width: var(--stem-w) !important;
             height: 100% !important;
@@ -198,29 +198,22 @@
         .sb__v--right { right: 0 !important; }
         .sb__v--center { left: calc(var(--stem-w) + var(--stem-gap)) !important; }
 
-        /* 4-态真圆弧缺口雕刻 */
+        /* 两种单侧挖掉圆弧规范：挖左半圆 vs 挖右半圆 (留出完整对边，杜绝横线分离断层) */
         .sb__v--full {
             /* 100% 完整实心贯通竖柱 */
         }
         .sb__v--notch-left {
-            -webkit-mask-image: radial-gradient(circle 5.0px at 0% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
-            mask-image: radial-gradient(circle 5.0px at 0% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
+            /* 挖左半圆：圆弧在左侧，右侧完全连续连贯 */
+            -webkit-mask-image: radial-gradient(circle 3.6px at 0% 50%, transparent 0, transparent 3.6px, #000000 4.0px) !important;
+            mask-image: radial-gradient(circle 3.6px at 0% 50%, transparent 0, transparent 3.6px, #000000 4.0px) !important;
         }
         .sb__v--notch-right {
-            -webkit-mask-image: radial-gradient(circle 5.0px at 100% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
-            mask-image: radial-gradient(circle 5.0px at 100% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
-        }
-        .sb__v--notch-both {
-            -webkit-mask-image: radial-gradient(circle 4.8px at 0% 50%, transparent 0, transparent 4.8px, #000000 5.2px),
-                                radial-gradient(circle 4.8px at 100% 50%, transparent 0, transparent 4.8px, #000000 5.2px) !important;
-            -webkit-mask-composite: source-in !important;
-            mask-composite: intersect !important;
+            /* 挖右半圆：圆弧在右侧，左侧完全连续连贯 */
+            -webkit-mask-image: radial-gradient(circle 3.6px at 100% 50%, transparent 0, transparent 3.6px, #000000 4.0px) !important;
+            mask-image: radial-gradient(circle 3.6px at 100% 50%, transparent 0, transparent 3.6px, #000000 4.0px) !important;
         }
         .sb__v--half-top {
             clip-path: polygon(0% 0%, 100% 0%, 100% 52%, 0% 52%) !important;
-        }
-        .sb__v--half-bottom {
-            clip-path: polygon(0% 48%, 100% 48%, 100% 100%, 0% 100%) !important;
         }
 
         /* 横向纤细架构 (降低粗细到 1.5px~1.8px，右侧严丝合缝不出头) */
@@ -465,22 +458,21 @@
     <!-- 开场动画遮罩层 -->
     <div class="site-intro js-intro astro-j7pv25f6" style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 9999; width: 100%; height: 100%; background: var(--color-primary, #fcfdfd);">
         <div class="sb-logo js-logo astro-j7pv25f6" aria-label="XRJPROGRAM" style="width: max-content !important; min-width: 238px !important; display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important;">
-            <!-- 1. X -->
+            <!-- 1. X (左侧挖右半圆，右侧挖左半圆，中横线平滑贯通无断层) -->
             <div class="sb-char sb-char--X astro-j7pv25f6" data-char="X">
-                <div class="sb__path sb__path--v sb__v--left sb__v--notch-both js-logo-line-v astro-j7pv25f6"></div>
-                <div class="sb__path sb__path--v sb__v--right sb__v--notch-both js-logo-line-v astro-j7pv25f6"></div>
-                <div class="sb__path sb__path--h sb__h--h2 sb__h--mid js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--left sb__v--notch-right js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--notch-left js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
             </div>
-            <!-- 2. R -->
+            <!-- 2. R (右侧挖左半圆) -->
             <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
                 <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--v sb__v--right sb__v--notch-left js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
             </div>
-            <!-- 3. J -->
+            <!-- 3. J (仅保留右侧竖柱与底部横线，无左侧多余半竖线) -->
             <div class="sb-char sb-char--J astro-j7pv25f6" data-char="J">
-                <div class="sb__path sb__path--v sb__v--left sb__v--half-bottom js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
             </div>
