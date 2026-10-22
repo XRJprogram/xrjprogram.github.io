@@ -30,28 +30,64 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            min-height: 100vh;
             background-color: var(--color-primary, #fcfdfd);
             color: var(--color-secondary, #07152b);
             font-family: var(--font-family-fraktion, monospace);
+            overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none;
         }
 
         .s-hero.astro-7dteeuzc {
             height: 100vh;
             min-height: 100vh;
+            max-height: 100vh;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            box-sizing: border-box;
+            padding: 0 clamp(16px, 2vw, 36px) clamp(16px, 2.5vh, 28px) clamp(16px, 2vw, 36px) !important;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* 标题中间的小星星：确保纯黑/深青黑清晰居中显示 */
-        .s__title.astro-7dteeuzc {
+        /* 保证动态波浪占用剩余空间，但不强行挤出内容区 */
+        .s-hero.astro-7dteeuzc .s__waves.astro-7dteeuzc {
+            flex: 1 1 0 !important;
+            min-height: 0 !important;
+            width: 100%;
+            height: auto !important;
+        }
+
+        /* 内容区紧凑居中并完全位于视口内部 */
+        .s-hero.astro-7dteeuzc .s__content.astro-7dteeuzc {
+            flex-shrink: 0 !important;
+            width: 100% !important;
+            overflow: visible !important;
+            margin-top: auto !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* 核心大标题比例优化：高宽高比自适应，避免在大屏/小屏纵向溢出 */
+        .s-hero.astro-7dteeuzc .s__title.astro-7dteeuzc {
+            font-size: min(12vw, 13vh, 8.5rem) !important;
+            line-height: 0.85 !important;
+            padding: clamp(0.4rem, 1.2vh, 1.1rem) 0 !important;
+            margin: 0 !important;
             align-items: center !important;
             justify-content: center !important;
         }
+
+        /* 标题中间的小星星：确保纯黑/深青黑清晰居中显示 */
         .s__title__asset.js-star {
             display: inline-block !important;
-            width: clamp(28px, 3.2vw, 48px) !important;
-            height: clamp(28px, 3.2vw, 48px) !important;
-            margin: 0 clamp(1rem, 2vw, 2.5rem) !important;
+            width: clamp(24px, 2.6vw, 40px) !important;
+            height: clamp(24px, 2.6vw, 40px) !important;
+            margin: 0 clamp(0.8rem, 1.8vw, 2rem) !important;
             fill: var(--color-secondary, #07152b) !important;
             color: var(--color-secondary, #07152b) !important;
             flex-shrink: 0 !important;
@@ -89,34 +125,36 @@
             color: var(--color-secondary, #07152b) !important;
         }
 
-        /* 摩斯密码下方弱文字导航交互（与 backup 一致，纯黑文字） */
+        /* 摩斯密码下方弱文字导航交互（纯黑文字，与 backup 一致，清晰可见且不超出屏幕） */
         .sub-nav {
-            margin-top: clamp(14px, 2.2vh, 26px);
-            margin-bottom: clamp(6px, 1vh, 14px);
+            margin-top: clamp(10px, 1.5vh, 20px) !important;
+            margin-bottom: 0 !important;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 12px 18px;
+            gap: 12px 20px;
             pointer-events: auto;
             position: relative;
             z-index: 25;
             font-family: 'JetBrains Mono', -apple-system, monospace;
-            font-size: clamp(0.68rem, 0.85vw, 0.78rem);
+            font-size: clamp(0.72rem, 0.88vw, 0.82rem);
             letter-spacing: 0.16em;
             text-transform: uppercase;
         }
         .sub-nav-link {
             color: var(--color-secondary, #07152b);
             text-decoration: none;
-            opacity: 0.75;
+            opacity: 0.78;
             font-weight: 500;
-            transition: opacity 0.2s ease, color 0.2s ease;
+            padding: 3px 6px;
+            transition: all 0.2s ease;
             position: relative;
         }
         .sub-nav-link:hover {
             color: #ff7a00;
             opacity: 1;
+            transform: translateY(-1px);
         }
         .sub-nav-sep {
             color: rgba(7, 21, 43, 0.25);
