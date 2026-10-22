@@ -1,20 +1,95 @@
 <!DOCTYPE html><html lang="en" class="astro-j7pv25f6"> <head><meta charset="utf-8"><title>Works · XRJprogram · 独立编程作品集 (2022–2025)</title><meta name="description" content="XRJprogram 独立编程作品精选集（2022–2025）：十二部原生复杂计算与数值仿真作品，涵盖离散动力学、反应堆工程、汇编架构、自动化流水线与3D分子投影。"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v4.15.9"><link rel="icon" type="image/png" href="../assets/images/fumo-icon.png"><link rel="shortcut icon" href="../favicon.ico"><link rel="apple-touch-icon" href="../assets/images/fumo-icon.png"><meta name="apple-mobile-web-app-title" content="XRJprogram"><meta name="theme-color" content="#160000"><meta name="msapplication-navbutton-color" content="#160000"><meta name="apple-mobile-web-app-status-bar-style" content="#160000"><meta property="og:locale" content="en_GB"><meta property="og:type" content="website"><meta property="og:title" content="AW - Creative Developer Freelance - France"><meta property="og:description" content="Creative Developer with 15+ years and 140+ projects, specializing in animation-driven, high-impact websites. Partnering with designers to craft memorable UX."><meta property="og:url" content="https://wodniack.dev/"><meta property="og:site_name" content="AW - Creative Developer Freelance - France"><meta property="og:image" content="https://wodniack.dev/images/aw-creative-developer.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://wodniack.dev/images/aw-creative-developer.png"><link rel="preload" href="./fonts/PPEditorialNew-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/PPEditorialNew-Ultralight.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/PPFraktionMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/PPFraktionMono-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/Bigger-Display.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/JetBrainsMono-ExtraBold.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="stylesheet" href="./bundle.css"><style>
 *:not(input):not(textarea){user-select:none;-webkit-user-select:none;}
-/* 锁定 works 容器位置，防止滑动时发生上下漂移与晃动 */
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+body {
+  padding: 0 !important;
+}
+
+/* 1. 彻底锁定 works 纵轴视口，消除上下漂移、48px位移与轻微滚动晃动 */
+.s-work.astro-doefkd43 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 .s-work.astro-doefkd43 .s__inner.astro-doefkd43 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
   transform: translate3d(0, 0, 0) !important;
 }
+.s-work.astro-doefkd43 .s__mask-outer.astro-doefkd43 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+}
+.s-work.astro-doefkd43 .s__mask__path-inner.astro-doefkd43 {
+  transform: none !important; /* 消除原 48px 的纵向偏移漂移 */
+}
+.s-work.astro-doefkd43 .s__canvas.astro-doefkd43 {
+  transform: none !important; /* 消除画布 -5% 的纵向偏移漂移 */
+}
+
+/* 2. 状态锁：未放大完成（--state < 0.85）时卡片彻底隐藏，放大完成后才优雅显示 */
+.s-work.astro-doefkd43 .s__scene.astro-doefkd43 .s__scene__work {
+  opacity: clamp(0, calc((var(--state) - 0.85) * 6.67), 1) !important;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+}
+.s-work.astro-doefkd43 .s__scene.astro-doefkd43 .s__scene__work.is-inview {
+  pointer-events: auto;
+}
+
+/* 3. 彻底删除 works 的网格线条 */
+.s-work.astro-doefkd43 .s__mask__path-lines.astro-doefkd43,
+.js-mask-path-lines {
+  display: none !important;
+  stroke: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 纯文字返回按钮交互（无胶囊背景、纯粹文字与箭头悬浮动效） */
+.works-back-link {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  mix-blend-mode: difference;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.works-back-link:hover {
+  opacity: 0.65;
+  transform: translateX(-4px);
+}
 </style></head> <body class="astro-j7pv25f6"> <div class="site-wrapper js-site-wrapper astro-j7pv25f6" style="opacity: 1;">    
-  <header class="works-nav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 18px clamp(20px, 4vw, 48px); pointer-events: none;">
-    <a href="../index.html" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: #fff; text-decoration: none; background: rgba(10,12,18,0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 8px 18px; border: 1px solid rgba(255,255,255,0.15); border-radius: 999px; transition: all 0.25s ease;" onmouseover="this.style.borderColor='#ff7a00';this.style.color='#ff7a00';this.style.boxShadow='0 0 15px rgba(255,122,0,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='#fff';this.style.boxShadow='none'">
-      <span style="font-size: 14px;">←</span> <span>INDEX / HOME</span>
+  <header class="works-nav" style="position: fixed; top: 0; left: 0; z-index: 100; padding: clamp(16px, 2.8vh, 26px) clamp(20px, 4vw, 48px); pointer-events: none;">
+    <a href="../index.html" class="works-back-link">
+      <span style="font-size: 15px;">←</span> <span>INDEX / HOME</span>
     </a>
-    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.55); background: rgba(10,12,18,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 8px 16px; border: 1px solid rgba(255,255,255,0.08); border-radius: 999px;">
-      WORK ARCHIVES // 12 ENTRIES
-    </span>
   </header>
 <section id="work" class="s-work astro-doefkd43" data-intersect> <div class="s__outer astro-doefkd43"> <div class="s__inner js-container astro-doefkd43"> <h2 class="s__title astro-doefkd43"> <span class="s__title__inner js-title astro-doefkd43"> <span class="s__title__letter js-letter astro-doefkd43">W</span> <span class="s__title__letter js-letter astro-doefkd43">O</span> <span class="s__title__letter js-letter astro-doefkd43">R</span> <span class="s__title__letter js-letter astro-doefkd43">K</span> </span> </h2> <div class="s__scene js-scene astro-doefkd43">
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./number-diffusion.html" target="_blank" class="astro-meqjtcea" title="启动 Number Diffusion · 数字扩散">
           <img src="./cards/01-number-diffusion.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Number Diffusion · 数字扩散" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -26,7 +101,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./reactor-1.html" target="_blank" class="astro-meqjtcea" title="启动 REACTOR I · 反应堆物理仿真">
           <img src="./cards/02-reactor-1.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="REACTOR I · 反应堆物理仿真" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -38,7 +113,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./reactor-2.html" target="_blank" class="astro-meqjtcea" title="启动 REACTOR II · 堆芯应急控制">
           <img src="./cards/03-reactor-2.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="REACTOR II · 堆芯应急控制" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -50,7 +125,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./human-resource-machine.html" target="_blank" class="astro-meqjtcea" title="启动 Human Resource Machine · 汇编沙盒">
           <img src="./cards/04-human-resource-machine.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Human Resource Machine · 汇编沙盒" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -62,7 +137,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./earth-resource-machine.html" target="_blank" class="astro-meqjtcea" title="启动 Earth Resource Machine · 资源流水线">
           <img src="./cards/05-earth-resource-machine.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Earth Resource Machine · 资源流水线" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -74,7 +149,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./unknown-resource-machine.html" target="_blank" class="astro-meqjtcea" title="启动 Unknown Resource Machine · 赛博矩阵">
           <img src="./cards/06-unknown-resource-machine.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Unknown Resource Machine · 赛博矩阵" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -86,7 +161,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./nuclear-factory-2.html" target="_blank" class="astro-meqjtcea" title="启动 Nuclear Factory II · 同位素级联浓缩">
           <img src="./cards/07-nuclear-factory-2.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Nuclear Factory II · 同位素级联浓缩" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -98,7 +173,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./reactic.html" target="_blank" class="astro-meqjtcea" title="启动 Reactic · 化学动力学仿真">
           <img src="./cards/08-reactic.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Reactic · 化学动力学仿真" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -110,7 +185,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./escape-and-combat-2.html" target="_blank" class="astro-meqjtcea" title="启动 Escape & Combat II · 动作时空延时">
           <img src="./cards/09-escape-and-combat-2.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Escape & Combat II · 动作时空延时" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -122,7 +197,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./anychem-scratch.html" target="_blank" class="astro-meqjtcea" title="启动 Anychem (Scratch) · 3D分子投影">
           <img src="./cards/10-anychem-scratch.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Anychem (Scratch) · 3D分子投影" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -134,7 +209,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./dream-big.html" target="_blank" class="astro-meqjtcea" title="启动 幻想成为大人物 · 人生决策沙盒">
           <img src="./cards/11-dream-big.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="幻想成为大人物 · 人生决策沙盒" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
@@ -146,7 +221,7 @@
       </div>
     </a-work>
   
-    <a-work class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
+    <a-work progress="1" class="s__scene__work s__scene__work--video js-work astro-meqjtcea">
       <div class="a__inner astro-meqjtcea">
         <a href="./subway-displayer.html" target="_blank" class="astro-meqjtcea" title="启动 Subway Displayer · 轨道闭塞调度看板">
           <img src="./cards/12-subway-displayer.svg" class="a__video js-video astro-meqjtcea" width="1082" height="636" alt="Subway Displayer · 轨道闭塞调度看板" style="aspect-ratio: 16/9.4; object-fit: contain; background: #071326; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">

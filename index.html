@@ -149,32 +149,33 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: clamp(4px, 0.6vw, 6px) !important;
-            height: clamp(30px, 4.2vw, 38px) !important;
+            gap: clamp(4px, 0.45vw, 6px) !important;
+            height: clamp(52px, 6.5vw, 62px) !important;
             width: max-content !important;
-            min-width: 238px !important;
-            max-width: 280px !important;
+            min-width: 200px !important;
+            max-width: 290px !important;
             margin: 0 auto !important;
             pointer-events: none !important;
             border-right: none !important;
             padding: 0 !important;
         }
+        /* 极致瘦长极简现代架构 (Condensation Ratio > 4:1) */
         .sb-char {
             position: relative;
-            width: clamp(14px, 2.0vw, 18px);
-            height: 100%;
+            width: clamp(13px, 1.6vw, 15px) !important;
+            height: 100% !important;
             flex-shrink: 0;
         }
         .sb-char--M {
-            width: clamp(18px, 2.5vw, 22px);
+            width: clamp(19px, 2.3vw, 22px) !important;
         }
         .site-intro .sb__path {
             position: absolute;
-            background: var(--color-secondary, #07152b);
+            background: #000000 !important; /* 纯黑深邃高对比线条，杜绝浅淡感 */
         }
-        /* Vertical lines: Single continuous 100% stroke with zero hairline gaps */
+        /* 粗立柱连续贯通竖线 (Thick 5.2px~6.2px Monolithic Pillars) */
         .sb__path--v {
-            width: clamp(2.8px, 0.38vw, 3.5px) !important;
+            width: clamp(5.2px, 0.52vw, 6.2px) !important;
             height: 100% !important;
             top: 0 !important;
             bottom: auto !important;
@@ -183,37 +184,94 @@
         }
         .sb__v--left { left: 0; }
         .sb__v--right { right: 0; }
-        .sb__v--center { left: calc(50% - clamp(1.4px, 0.19vw, 1.75px)); }
+        .sb__v--center { left: calc(50% - clamp(2.6px, 0.26vw, 3.1px)); }
 
-        /* The 4 States */
+        /* 4-态真圆弧缺口雕刻 (True Mathematical Circular Arc Notches via Radial Gradients) */
         .sb__v--full {
-            /* 100% solid unbroken vertical line */
+            /* 100% 完整实心贯通竖柱 */
         }
         .sb__v--notch-left {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 64%, 60% 64%, 60% 36%, 0% 36%);
+            -webkit-mask-image: radial-gradient(circle 5.0px at 0% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
+            mask-image: radial-gradient(circle 5.0px at 0% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
         }
         .sb__v--notch-right {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 36%, 40% 36%, 40% 64%, 100% 64%, 100% 100%, 0% 100%);
+            -webkit-mask-image: radial-gradient(circle 5.0px at 100% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
+            mask-image: radial-gradient(circle 5.0px at 100% 50%, transparent 0, transparent 5.0px, #000000 5.5px) !important;
         }
         .sb__v--notch-both {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 25%, 55% 25%, 55% 75%, 100% 75%, 100% 100%, 0% 100%, 0% 75%, 45% 75%, 45% 25%, 0% 25%);
+            -webkit-mask-image: radial-gradient(circle 4.8px at 0% 50%, transparent 0, transparent 4.8px, #000000 5.2px),
+                                radial-gradient(circle 4.8px at 100% 50%, transparent 0, transparent 4.8px, #000000 5.2px) !important;
+            -webkit-mask-composite: source-in !important;
+            mask-composite: intersect !important;
         }
         .sb__v--half-top {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 52%, 0% 52%) !important;
         }
 
-        /* Horizontals */
+        /* 横向纤细架构 */
         .sb__path--h {
-            height: clamp(1.8px, 0.22vw, 2px) !important;
+            height: clamp(2.4px, 0.28vw, 2.8px) !important;
+            background: #000000 !important;
             transform-origin: 0% 50% !important;
             will-change: transform;
         }
         .sb__h--h1 { top: 0 !important; }
-        .sb__h--h2 { top: calc(50% - 1px) !important; }
+        .sb__h--h2 { top: calc(50% - 1.3px) !important; }
         .sb__h--h3 { bottom: 0 !important; top: auto !important; }
         .sb__h--full { left: 0 !important; width: 100% !important; }
-        .sb__h--mid { left: 2px !important; width: calc(100% - 4px) !important; }
-        .sb__h--right { right: 0 !important; width: 60% !important; }
+        .sb__h--mid { left: 1px !important; width: calc(100% - 2px) !important; }
+        .sb-char--X .sb__h--mid { left: 0 !important; width: 100% !important; }
+        .sb__h--right { right: 0 !important; width: 65% !important; }
+
+        /* --- 页面各模块严整填满视口规范 (Full-Viewport Fit, Zero Gaps) --- */
+        html, body {
+            overflow: hidden !important;
+            height: 100vh !important;
+            height: 100svh !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .site-wrapper {
+            height: 100vh !important;
+            height: 100svh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+        }
+        .s-hero.astro-7dteeuzc {
+            min-height: 100vh !important;
+            min-height: 100svh !important;
+            height: 100vh !important;
+            height: 100svh !important;
+            max-height: 100vh !important;
+            max-height: 100svh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .s-hero.astro-7dteeuzc .s__waves.astro-7dteeuzc {
+            width: 100% !important;
+            flex: 1 1 auto !important;
+            min-height: 0 !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        .s-hero.astro-7dteeuzc .s__content.astro-7dteeuzc {
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative !important;
+            background: var(--color-primary, #fcfdfd) !important;
+        }
+        .s-hero.astro-7dteeuzc .s__border.astro-7dteeuzc {
+            display: none !important; /* 彻底移除多余的 40rem 巨幅黑框遮挡 */
+        }
 
         /* 顶部摩斯密码居中对齐 */
         .js-separator-top .a__binaries {
