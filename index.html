@@ -136,6 +136,9 @@
             height: 100vh !important;
             background: var(--color-primary, #fcfdfd) !important;
             opacity: 1;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         .site-intro.astro-j7pv25f6 .sb-logo.astro-j7pv25f6 {
             position: absolute !important;
@@ -146,10 +149,11 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: clamp(8px, 1.4vw, 18px) !important;
-            width: auto !important;
-            height: clamp(46px, 7vw, 76px) !important;
-            max-width: 92vw !important;
+            gap: clamp(4px, 0.6vw, 6px) !important;
+            height: clamp(30px, 4.2vw, 38px) !important;
+            width: max-content !important;
+            min-width: 238px !important;
+            max-width: 280px !important;
             margin: 0 auto !important;
             pointer-events: none !important;
             border-right: none !important;
@@ -157,41 +161,59 @@
         }
         .sb-char {
             position: relative;
-            width: clamp(22px, 3.6vw, 44px);
+            width: clamp(14px, 2.0vw, 18px);
             height: 100%;
             flex-shrink: 0;
+        }
+        .sb-char--M {
+            width: clamp(18px, 2.5vw, 22px);
         }
         .site-intro .sb__path {
             position: absolute;
             background: var(--color-secondary, #07152b);
-            border-radius: 1px;
         }
-        /* 3-段码竖条: 中间段(t2) 24%高度，两端(t1/t3) 38%高度，38+24+38=100% 连续无缝闭合 */
+        /* Vertical lines: Single continuous 100% stroke with zero hairline gaps */
         .sb__path--v {
-            width: clamp(4.5px, 0.68vw, 7.5px) !important;
-            transform-origin: 50% 100% !important; /* 自下而上生长 */
+            width: clamp(2.8px, 0.38vw, 3.5px) !important;
+            height: 100% !important;
+            top: 0 !important;
+            bottom: auto !important;
+            transform-origin: 50% 100% !important;
+            will-change: transform;
         }
         .sb__v--left { left: 0; }
         .sb__v--right { right: 0; }
-        .sb__v--center { left: calc(50% - clamp(2.25px, 0.34vw, 3.75px)); }
-        
-        .sb__v--t1 { top: 0 !important; height: 38% !important; bottom: auto !important; }
-        .sb__v--t2 { top: 38% !important; height: 24% !important; bottom: auto !important; }
-        .sb__v--t3 { top: 62% !important; height: 38% !important; bottom: auto !important; }
+        .sb__v--center { left: calc(50% - clamp(1.4px, 0.19vw, 1.75px)); }
 
-        /* 横向贯通细条: 细线与粗柱形成显著粗细对比 */
-        .sb__path--h {
-            height: clamp(2.5px, 0.38vw, 4px) !important;
-            transform-origin: 0% 50% !important; /* 自左向右展开 */
+        /* The 4 States */
+        .sb__v--full {
+            /* 100% solid unbroken vertical line */
         }
-        .sb__h--h1 { top: 0 !important; bottom: auto !important; }
-        .sb__h--h2 { top: calc(50% - clamp(1.25px, 0.19vw, 2px)) !important; bottom: auto !important; }
-        .sb__h--h3 { top: auto !important; bottom: 0 !important; }
-        
-        .sb__h--full { left: 0; right: 0; width: 100% !important; }
-        .sb__h--left { left: 0; width: 55% !important; }
-        .sb__h--right { right: 0; width: 55% !important; }
-        .sb__h--mid { left: 10%; right: 10%; width: 80% !important; }
+        .sb__v--notch-left {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 64%, 60% 64%, 60% 36%, 0% 36%);
+        }
+        .sb__v--notch-right {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 36%, 40% 36%, 40% 64%, 100% 64%, 100% 100%, 0% 100%);
+        }
+        .sb__v--notch-both {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 25%, 55% 25%, 55% 75%, 100% 75%, 100% 100%, 0% 100%, 0% 75%, 45% 75%, 45% 25%, 0% 25%);
+        }
+        .sb__v--half-top {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
+        }
+
+        /* Horizontals */
+        .sb__path--h {
+            height: clamp(1.8px, 0.22vw, 2px) !important;
+            transform-origin: 0% 50% !important;
+            will-change: transform;
+        }
+        .sb__h--h1 { top: 0 !important; }
+        .sb__h--h2 { top: calc(50% - 1px) !important; }
+        .sb__h--h3 { bottom: 0 !important; top: auto !important; }
+        .sb__h--full { left: 0 !important; width: 100% !important; }
+        .sb__h--mid { left: 2px !important; width: calc(100% - 4px) !important; }
+        .sb__h--right { right: 0 !important; width: 60% !important; }
 
         /* 顶部摩斯密码居中对齐 */
         .js-separator-top .a__binaries {
@@ -351,108 +373,76 @@
 
     <!-- 开场动画遮罩层 -->
     <div class="site-intro js-intro astro-j7pv25f6" style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 9999; width: 100%; height: 100%; background: var(--color-primary, #fcfdfd);">
-        <div class="sb-logo js-logo astro-j7pv25f6" aria-label="XRJPROGRAM">
-        <!-- Letter X (#1) -->
-        <div class="sb-char sb-char--X astro-j7pv25f6" data-char="X">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--mid js-logo-line-h astro-j7pv25f6"></div>
+        <div class="sb-logo js-logo astro-j7pv25f6" aria-label="XRJPROGRAM" style="width: max-content !important; min-width: 238px !important; display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: center !important;">
+            <!-- 1. X -->
+            <div class="sb-char sb-char--X astro-j7pv25f6" data-char="X">
+                <div class="sb__path sb__path--v sb__v--left sb__v--notch-both js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--notch-both js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--mid js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 2. R -->
+            <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--notch-left js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 3. J -->
+            <div class="sb-char sb-char--J astro-j7pv25f6" data-char="J">
+                <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 4. P -->
+            <div class="sb-char sb-char--P astro-j7pv25f6" data-char="P">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--half-top js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 5. R -->
+            <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--notch-left js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 6. O -->
+            <div class="sb-char sb-char--O astro-j7pv25f6" data-char="O">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 7. G -->
+            <div class="sb-char sb-char--G astro-j7pv25f6" data-char="G">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--notch-left js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--right js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 8. R -->
+            <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--notch-left js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 9. A -->
+            <div class="sb-char sb-char--A astro-j7pv25f6" data-char="A">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
+            <!-- 10. M -->
+            <div class="sb-char sb-char--M astro-j7pv25f6" data-char="M">
+                <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--center sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
+            </div>
         </div>
-        <!-- Letter R (#2) -->
-        <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter J (#3) -->
-        <div class="sb-char sb-char--J astro-j7pv25f6" data-char="J">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter P (#4) -->
-        <div class="sb-char sb-char--P astro-j7pv25f6" data-char="P">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter R (#5) -->
-        <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter O (#6) -->
-        <div class="sb-char sb-char--O astro-j7pv25f6" data-char="O">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter G (#7) -->
-        <div class="sb-char sb-char--G astro-j7pv25f6" data-char="G">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--right js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter R (#8) -->
-        <div class="sb-char sb-char--R astro-j7pv25f6" data-char="R">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter A (#9) -->
-        <div class="sb-char sb-char--A astro-j7pv25f6" data-char="A">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h2 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-        <!-- Letter M (#10) -->
-        <div class="sb-char sb-char--M astro-j7pv25f6" data-char="M">
-            <div class="sb__path sb__path--v sb__v--left sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--left sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--right sb__v--t3 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--center sb__v--t1 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--v sb__v--center sb__v--t2 js-logo-line-v astro-j7pv25f6"></div>
-            <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
-        </div>
-    </div>
         <div class="site-intro__border site-intro__border--top js-border-top astro-j7pv25f6"></div>
         <div class="site-intro__border site-intro__border--left js-border-left astro-j7pv25f6"></div>
         <div class="site-intro__border site-intro__border--right js-border-right astro-j7pv25f6"></div>
