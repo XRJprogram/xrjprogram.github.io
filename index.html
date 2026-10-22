@@ -126,7 +126,7 @@
         }
 
          /* 开场动画 XRJPROGRAM 架构分段 LOGO 样式 */
-        /* XRJPROGRAM 架构分段 LOGO 样式 (精细 3-段码骨架) */
+        /* XRJPROGRAM 架构分段 LOGO 样式 (精细 3-段码骨架 & 连续竖线 & 无蓝底) */
         .site-intro.astro-j7pv25f6 {
             position: fixed !important;
             top: 0 !important;
@@ -134,7 +134,7 @@
             z-index: 9999 !important;
             width: 100vw !important;
             height: 100vh !important;
-            background: #0052ff !important;
+            background: var(--color-primary, #fcfdfd) !important;
             opacity: 1;
         }
         .site-intro.astro-j7pv25f6 .sb-logo.astro-j7pv25f6 {
@@ -146,10 +146,10 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: clamp(6px, 1.1vw, 16px) !important;
+            gap: clamp(8px, 1.4vw, 18px) !important;
             width: auto !important;
-            height: clamp(38px, 6vw, 68px) !important;
-            max-width: 90vw !important;
+            height: clamp(46px, 7vw, 76px) !important;
+            max-width: 92vw !important;
             margin: 0 auto !important;
             pointer-events: none !important;
             border-right: none !important;
@@ -157,7 +157,7 @@
         }
         .sb-char {
             position: relative;
-            width: clamp(20px, 3.2vw, 40px);
+            width: clamp(22px, 3.6vw, 44px);
             height: 100%;
             flex-shrink: 0;
         }
@@ -166,31 +166,32 @@
             background: var(--color-secondary, #07152b);
             border-radius: 1px;
         }
-        /* 3-段码竖条 */
+        /* 3-段码竖条: 中间段(t2) 24%高度，两端(t1/t3) 38%高度，38+24+38=100% 连续无缝闭合 */
         .sb__path--v {
-            width: clamp(3.2px, 0.52vw, 6px) !important;
-            height: 30% !important;
-            transform-origin: 50% 100%;
+            width: clamp(4.5px, 0.68vw, 7.5px) !important;
+            transform-origin: 50% 100% !important; /* 自下而上生长 */
         }
         .sb__v--left { left: 0; }
         .sb__v--right { right: 0; }
-        .sb__v--center { left: calc(50% - clamp(1.6px, 0.26vw, 3px)); }
-        .sb__v--t1 { top: 0 !important; }
-        .sb__v--t2 { top: 35% !important; }
-        .sb__v--t3 { top: 70% !important; bottom: auto !important; }
+        .sb__v--center { left: calc(50% - clamp(2.25px, 0.34vw, 3.75px)); }
+        
+        .sb__v--t1 { top: 0 !important; height: 38% !important; bottom: auto !important; }
+        .sb__v--t2 { top: 38% !important; height: 24% !important; bottom: auto !important; }
+        .sb__v--t3 { top: 62% !important; height: 38% !important; bottom: auto !important; }
 
-        /* 横向贯通细条 */
+        /* 横向贯通细条: 细线与粗柱形成显著粗细对比 */
         .sb__path--h {
-            height: clamp(3px, 0.48vw, 5.5px) !important;
-            transform-origin: 0% 50%;
+            height: clamp(2.5px, 0.38vw, 4px) !important;
+            transform-origin: 0% 50% !important; /* 自左向右展开 */
         }
         .sb__h--h1 { top: 0 !important; bottom: auto !important; }
-        .sb__h--h2 { top: calc(50% - clamp(1.5px, 0.24vw, 2.75px)) !important; bottom: auto !important; }
+        .sb__h--h2 { top: calc(50% - clamp(1.25px, 0.19vw, 2px)) !important; bottom: auto !important; }
         .sb__h--h3 { top: auto !important; bottom: 0 !important; }
+        
         .sb__h--full { left: 0; right: 0; width: 100% !important; }
         .sb__h--left { left: 0; width: 55% !important; }
         .sb__h--right { right: 0; width: 55% !important; }
-        .sb__h--mid { left: 15%; right: 15%; width: 70% !important; }
+        .sb__h--mid { left: 10%; right: 10%; width: 80% !important; }
 
         /* 顶部摩斯密码居中对齐 */
         .js-separator-top .a__binaries {
@@ -349,7 +350,7 @@
     </div><!-- .site-wrapper -->
 
     <!-- 开场动画遮罩层 -->
-    <div class="site-intro js-intro astro-j7pv25f6" style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #0052ff;">
+    <div class="site-intro js-intro astro-j7pv25f6" style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 9999; width: 100%; height: 100%; background: var(--color-primary, #fcfdfd);">
         <div class="sb-logo js-logo astro-j7pv25f6" aria-label="XRJPROGRAM">
         <!-- Letter X (#1) -->
         <div class="sb-char sb-char--X astro-j7pv25f6" data-char="X">
