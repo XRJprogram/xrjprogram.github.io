@@ -106,8 +106,16 @@
             font-size: clamp(9px, 0.85vw, 12px) !important;
             font-family: 'JetBrains Mono', monospace !important;
             white-space: nowrap !important;
-            color: var(--color-secondary, #07152b) !important;
-            opacity: 0.95;
+            position: relative;
+            background: linear-gradient(90deg, #07152b 0%, #07152b 35%, #2563eb 50%, #07152b 65%, #07152b 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: morse-travel 3.6s ease-in-out infinite;
+        }
+        @keyframes morse-travel {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
         }
 
         /* 下方摩斯密码专属容器 */
@@ -149,11 +157,13 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: clamp(4px, 0.45vw, 6px) !important;
+            --stem-w: clamp(5.0px, 0.52vw, 6.0px);
+            --stem-gap: clamp(5.0px, 0.52vw, 6.0px);
+            --char-w: calc(var(--stem-w) * 2 + var(--stem-gap));
+            --m-w: calc(var(--stem-w) * 3 + var(--stem-gap) * 2);
+            gap: var(--stem-gap) !important;
             height: clamp(52px, 6.5vw, 62px) !important;
             width: max-content !important;
-            min-width: 200px !important;
-            max-width: 290px !important;
             margin: 0 auto !important;
             pointer-events: none !important;
             border-right: none !important;
@@ -162,31 +172,33 @@
         /* 极致瘦长极简现代架构 (Condensation Ratio > 4:1) */
         .sb-char {
             position: relative;
-            width: clamp(13px, 1.6vw, 15px) !important;
+            overflow: hidden !important; /* 彻底封死右侧/边缘溢出出头可能 */
+            width: var(--char-w) !important;
             height: 100% !important;
             flex-shrink: 0;
+            box-sizing: border-box;
         }
         .sb-char--M {
-            width: clamp(19px, 2.3vw, 22px) !important;
+            width: var(--m-w) !important;
         }
         .site-intro .sb__path {
             position: absolute;
             background: #000000 !important; /* 纯黑深邃高对比线条，杜绝浅淡感 */
         }
-        /* 粗立柱连续贯通竖线 (Thick 5.2px~6.2px Monolithic Pillars) */
+        /* 粗立柱连续贯通竖线 (5.0px~6.0px Monolithic Pillars) */
         .sb__path--v {
-            width: clamp(5.2px, 0.52vw, 6.2px) !important;
+            width: var(--stem-w) !important;
             height: 100% !important;
             top: 0 !important;
             bottom: auto !important;
             transform-origin: 50% 100% !important;
             will-change: transform;
         }
-        .sb__v--left { left: 0; }
-        .sb__v--right { right: 0; }
-        .sb__v--center { left: calc(50% - clamp(2.6px, 0.26vw, 3.1px)); }
+        .sb__v--left { left: 0 !important; }
+        .sb__v--right { right: 0 !important; }
+        .sb__v--center { left: calc(var(--stem-w) + var(--stem-gap)) !important; }
 
-        /* 4-态真圆弧缺口雕刻 (True Mathematical Circular Arc Notches via Radial Gradients) */
+        /* 4-态真圆弧缺口雕刻 */
         .sb__v--full {
             /* 100% 完整实心贯通竖柱 */
         }
@@ -207,21 +219,42 @@
         .sb__v--half-top {
             clip-path: polygon(0% 0%, 100% 0%, 100% 52%, 0% 52%) !important;
         }
+        .sb__v--half-bottom {
+            clip-path: polygon(0% 48%, 100% 48%, 100% 100%, 0% 100%) !important;
+        }
 
-        /* 横向纤细架构 */
+        /* 横向纤细架构 (降低粗细到 1.5px~1.8px，右侧严丝合缝不出头) */
         .sb__path--h {
-            height: clamp(2.4px, 0.28vw, 2.8px) !important;
+            height: clamp(1.4px, 0.16vw, 1.8px) !important;
             background: #000000 !important;
             transform-origin: 0% 50% !important;
             will-change: transform;
         }
         .sb__h--h1 { top: 0 !important; }
-        .sb__h--h2 { top: calc(50% - 1.3px) !important; }
+        .sb__h--h2 { top: calc(50% - clamp(0.7px, 0.08vw, 0.9px)) !important; }
         .sb__h--h3 { bottom: 0 !important; top: auto !important; }
-        .sb__h--full { left: 0 !important; width: 100% !important; }
-        .sb__h--mid { left: 1px !important; width: calc(100% - 2px) !important; }
-        .sb-char--X .sb__h--mid { left: 0 !important; width: 100% !important; }
-        .sb__h--right { right: 0 !important; width: 65% !important; }
+        .sb__h--full { left: 0 !important; right: 0 !important; width: auto !important; }
+        .sb__h--mid { left: 0 !important; right: 0 !important; width: auto !important; }
+        .sb__h--right { right: 0 !important; width: 60% !important; }
+
+        /* 四周边框补齐：底边框 */
+        .site-intro__border.astro-j7pv25f6 {
+            --width: 1rem;
+            position: absolute;
+            background: var(--color-secondary, #07152b);
+        }
+        @media only screen and (max-width: 767px) and (orientation: landscape), only screen and (max-width: 576px) {
+            .site-intro__border.astro-j7pv25f6 {
+                --width: 0.5rem;
+            }
+        }
+        .site-intro__border--bottom.astro-j7pv25f6 {
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: var(--width) !important;
+            transform-origin: 50% 100% !important;
+        }
 
         /* --- 页面各模块严整填满视口规范 (Full-Viewport Fit, Zero Gaps) --- */
         html, body {
@@ -447,6 +480,7 @@
             </div>
             <!-- 3. J -->
             <div class="sb-char sb-char--J astro-j7pv25f6" data-char="J">
+                <div class="sb__path sb__path--v sb__v--left sb__v--half-bottom js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--h sb__h--h3 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
             </div>
@@ -496,14 +530,15 @@
             <!-- 10. M -->
             <div class="sb-char sb-char--M astro-j7pv25f6" data-char="M">
                 <div class="sb__path sb__path--v sb__v--left sb__v--full js-logo-line-v astro-j7pv25f6"></div>
-                <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--v sb__v--center sb__v--full js-logo-line-v astro-j7pv25f6"></div>
+                <div class="sb__path sb__path--v sb__v--right sb__v--full js-logo-line-v astro-j7pv25f6"></div>
                 <div class="sb__path sb__path--h sb__h--h1 sb__h--full js-logo-line-h astro-j7pv25f6"></div>
             </div>
         </div>
         <div class="site-intro__border site-intro__border--top js-border-top astro-j7pv25f6"></div>
         <div class="site-intro__border site-intro__border--left js-border-left astro-j7pv25f6"></div>
         <div class="site-intro__border site-intro__border--right js-border-right astro-j7pv25f6"></div>
+        <div class="site-intro__border site-intro__border--bottom js-border-bottom astro-j7pv25f6"></div>
     </div>
     <div class="site-mount js-mount astro-j7pv25f6"></div>
 
