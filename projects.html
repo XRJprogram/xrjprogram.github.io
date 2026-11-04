@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XRJprogram · 个人项目矩阵与作品展</title>
-    <meta name="description" content="XRJprogram 个人主页与技术作品展：AnyChem Pro 分子动力学模拟、BitPulse 8-Bit 音乐发生器、Chemiation 化学反应演示、PixelMe 像素角色捏脸、littlesc Scratch 积木代码生成、Gif Editor QQ 表情衍生工坊、Lambda Diagrams 极简图示工作台，以及 FantasyCity 幻想城。">
+    <meta name="description" content="XRJprogram 个人主页与技术作品展：Proton 现代函数式编程语言、AnyChem Pro 分子动力学模拟、BitPulse 8-Bit 音乐发生器、Chemiation 化学反应演示、PixelMe 像素角色捏脸、littlesc Scratch 积木代码生成、Gif Editor QQ 表情衍生工坊、Lambda Diagrams 极简图示工作台，以及 FantasyCity 幻想城。">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/fumo-icon.png">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="assets/images/fumo-icon.png">
@@ -64,6 +64,13 @@
             --lambda-muted: #888888;
             --lambda-border: rgba(255, 255, 255, 0.4);
             --lambda-glow: rgba(255, 255, 255, 0.18);
+
+            /* Proton 真实色相：高能离子紫、粒子束激光青、守卫电弧金、深空虚空黑 */
+            --proton-purple: #a855f7;
+            --proton-cyan: #38bdf8;
+            --proton-amber: #f59e0b;
+            --proton-glow: rgba(168, 85, 247, 0.45);
+            --proton-dark: #080718;
 
             /* 东方宣纸淡黄色底蕴与朱砂印泥 */
             --paper-pale-yellow: #faf6e9;
@@ -782,6 +789,100 @@
             fill: #ffffff;
         }
 
+        /* 08. PROTON: 现代纯编译型函数式语言、高能粒子物理与流水线拓扑 (#a855f7 / #38bdf8 / #f59e0b) */
+        .card-proton {
+            background: radial-gradient(circle at 75% 25%, #180d2e 0%, #0c071d 55%, #05030e 100%);
+            border: 1px solid rgba(168, 85, 247, 0.45);
+            box-shadow: 0 0 45px rgba(168, 85, 247, 0.18);
+        }
+        .card-proton:hover {
+            border-color: rgba(168, 85, 247, 0.85);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.32), 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+        .card-proton .proton-grid-mesh {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: 26px 26px;
+            background-image: 
+                radial-gradient(circle, rgba(168, 85, 247, 0.14) 1px, transparent 1px);
+            pointer-events: none;
+        }
+        .card-proton .proton-tracks-svg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.85;
+            transition: opacity 0.3s ease;
+        }
+        .card-proton:hover .proton-tracks-svg {
+            opacity: 1;
+        }
+        .card-proton .proton-beam-pulse {
+            stroke-dasharray: 6 4;
+            animation: protonBeamDash 1.4s linear infinite;
+        }
+        @keyframes protonBeamDash {
+            to { stroke-dashoffset: -20; }
+        }
+        .card-proton .proton-orbit-ring {
+            animation: protonOrbitSpin 20s linear infinite;
+            transform-origin: 530px 186px;
+        }
+        @keyframes protonOrbitSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .card-proton .poster-center-body {
+            max-width: 520px;
+        }
+        .sub-proton {
+            font-family: var(--font-sans-cn);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #c084fc;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .desc-proton {
+            font-family: var(--font-sans-cn);
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            max-width: 520px;
+            color: #f3e8ff;
+        }
+        .proton-repo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: #e0f2fe;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        .card-proton:hover .proton-repo-badge {
+            background: rgba(56, 189, 248, 0.22);
+            border-color: rgba(56, 189, 248, 0.7);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+        }
+        .proton-sparkle-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--proton-cyan);
+            box-shadow: 0 0 8px var(--proton-cyan);
+            animation: protonSparkle 1.6s ease-in-out infinite alternate;
+        }
+        @keyframes protonSparkle {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
         /* ============================================================
            定制化个性字体与 SVG Wordmark 艺术字排版系统
            ============================================================ */
@@ -791,7 +892,8 @@
         .title-pix-wrap,
         .title-sc-wrap,
         .title-gif-wrap,
-        .title-lambda-wrap {
+        .title-lambda-wrap,
+        .title-proton-wrap {
             margin-bottom: 8px;
             display: flex;
             align-items: center;
@@ -803,7 +905,8 @@
         .title-pix-svg,
         .title-sc-svg,
         .title-gif-svg,
-        .title-lambda-svg {
+        .title-lambda-svg,
+        .title-proton-svg {
             display: block;
             max-width: 100%;
             height: auto;
@@ -945,6 +1048,23 @@
             fill: #a3a3a3;
         }
 
+        /* 08. Proton SVG */
+        .proton-svg-title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 0.1em;
+            fill: #ffffff;
+            filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.6));
+        }
+        .proton-badge-lang {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            fill: var(--proton-cyan);
+        }
+
         /* 空间滑轨极简指示器 (极简长圆柱胶囊) */
         .stage-indicator-bar {
             display: flex;
@@ -1064,7 +1184,7 @@
             <a href="works/index.html" class="deck-nav-link">SCRATCH WORKS</a>
         </div>
         <div class="deck-nav-right">
-            <span>7 ARTIFACTS · 3D INTERACTIVE DECK</span>
+            <span>8 ARTIFACTS · 3D INTERACTIVE DECK</span>
         </div>
     </footer>
 
@@ -1371,6 +1491,71 @@
                         <div class="lambda-metric">
                             <span class="lambda-badge-tag">S = \\x y z.(xz)(yz)</span>
                             <span class="lambda-beacon-dot"></span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'proton',
+                customClass: 'card-proton',
+                launchUrl: 'https://github.com/XRJprogram/Proton',
+                innerMarkup: `
+                    <div class="proton-grid-mesh"></div>
+                    <svg class="proton-tracks-svg" viewBox="0 0 660 372" preserveAspectRatio="none">
+                        <!-- 粒子对撞与对易环轨道 -->
+                        <defs>
+                            <linearGradient id="protonBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#a855f7" stop-opacity="0.1" />
+                                <stop offset="60%" stop-color="#a855f7" stop-opacity="0.7" />
+                                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.95" />
+                            </linearGradient>
+                        </defs>
+                        <g class="proton-orbit-ring">
+                            <ellipse cx="530" cy="186" rx="96" ry="38" stroke="rgba(168, 85, 247, 0.28)" stroke-width="1.2" fill="none" transform="rotate(-25 530 186)" />
+                            <ellipse cx="530" cy="186" rx="96" ry="38" stroke="rgba(56, 189, 248, 0.24)" stroke-width="1.2" fill="none" transform="rotate(35 530 186)" />
+                            <circle cx="612" cy="148" r="3.5" fill="#38bdf8" opacity="0.9" />
+                            <circle cx="448" cy="224" r="3" fill="#a855f7" opacity="0.9" />
+                        </g>
+                        <!-- 高能粒子束与函数管道轨迹 -->
+                        <path d="M 405,75 L 478,138 L 530,186" stroke="rgba(168, 85, 247, 0.35)" stroke-width="1.5" fill="none" />
+                        <path d="M 385,295 L 468,234 L 530,186" stroke="rgba(56, 189, 248, 0.35)" stroke-width="1.5" fill="none" />
+                        <path d="M 530,186 L 646,186" stroke="url(#protonBeamGrad)" stroke-width="2.5" fill="none" class="proton-beam-pulse" />
+                        <circle cx="530" cy="186" r="7" fill="#a855f7" opacity="0.4" />
+                        <circle cx="530" cy="186" r="3.5" fill="#ffffff" />
+                        <!-- 背景数学守卫与函数式符号拓扑 -->
+                        <g opacity="0.65" font-family="var(--font-mono)" font-size="11" fill="#c084fc">
+                            <text x="430" y="60">| x &gt; 0 =&gt; expr</text>
+                            <text x="555" y="95">xs |&gt; map(f)</text>
+                            <text x="390" y="268">\\x =&gt; x + 1</text>
+                            <text x="525" y="268">TCO: O(1) STACK</text>
+                        </g>
+                    </svg>
+                    <div class="poster-top-row">
+                        <span style="color:var(--proton-purple); font-family:var(--font-mono); font-weight:700;">AOT COMPILED · ANSI C99</span>
+                        <span style="color:var(--proton-cyan); font-family:var(--font-mono);">[ GUARDS · PIPELINE · TCO ]</span>
+                    </div>
+                    <div class="poster-center-body">
+                        <div class="title-proton-wrap">
+                            <svg class="title-proton-svg" viewBox="0 0 350 44" fill="none">
+                                <g transform="translate(4, 8)">
+                                    <circle cx="14" cy="14" r="13" stroke="var(--proton-purple)" stroke-width="2" fill="rgba(168, 85, 247, 0.15)" />
+                                    <text x="14" y="19" font-family="var(--font-mono)" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle">p⁺</text>
+                                </g>
+                                <text x="44" y="32" class="proton-svg-title">PROTON</text>
+                                <g transform="translate(198, 12)">
+                                    <rect x="0" y="0" width="56" height="21" rx="4" fill="rgba(56, 189, 248, 0.15)" stroke="var(--proton-cyan)" stroke-width="1.5" />
+                                    <text x="28" y="15" class="proton-badge-lang" text-anchor="middle">LANG</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="sub-proton">现代纯编译型函数式编程语言</div>
+                        <p class="desc-proton">基于 Rust 打造的现代 AOT 编译型函数式语言：消灭 if/else 拥抱数学分段守卫、数据流水线、泛型单态化、首类词法闭包与无堆分配柯里化，直译生成 ANSI C99 与极致优化的原生机器码。</p>
+                    </div>
+                    <div class="poster-bottom-row">
+                        <span style="color:#a855f7; font-family:var(--font-mono);">RUST COMPILER · ARENA BUMP</span>
+                        <div class="proton-repo-badge">
+                            <span class="proton-sparkle-dot"></span>
+                            <span>GITHUB REPO -&gt;</span>
                         </div>
                     </div>
                 `
